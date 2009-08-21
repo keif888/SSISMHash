@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2005", "MultipleHash2005\MultipleHash2005.csproj", "{A743A0A8-198F-4371-B194-642B98FEB081}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MultipleHash2005Install", "MultipleHash2005Install\MultipleHash2005Install.vdproj", "{945535EE-B5D3-461D-BCAA-942BC0C920EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008", "MultipleHash2008\MultipleHash2008.csproj", "{91357D4A-5718-44B2-B558-5EB7BA1209D0}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MultipleHash2008Install", "MultipleHash2008Install\MultipleHash2008Install.vdproj", "{0D6D0797-0213-4601-AC99-0373CCE77F34}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Debug|Any CPU.ActiveCfg = Debug
+		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Release|Any CPU.ActiveCfg = Release
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Debug|Any CPU.ActiveCfg = Debug
+		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
