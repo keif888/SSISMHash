@@ -193,14 +193,14 @@ namespace Martin.SQLServer.Dts
                         case 1:
                             if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name == Utility.InputColumnLineagePropName))
                             {
-                                InternalFireError(Properties.Resources.PropertyHashTypeMissing);
+                                InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
                                 return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                             }
                             else
                             {
                                 if ((outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName))
                                 {
-                                    InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
+                                    InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                 }
                                 else
@@ -214,8 +214,8 @@ namespace Martin.SQLServer.Dts
                             if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName)
                              && (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName))
                             {
-                                InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
-                                InternalFireError(Properties.Resources.PropertyHashTypeMissing);
+                                InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
+                                InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
                                 return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                             }
                             // Check first property
@@ -225,11 +225,11 @@ namespace Martin.SQLServer.Dts
                                 {
                                     if (outputColumn.CustomPropertyCollection[1].Name == Utility.HashTypePropName)
                                     {
-                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
+                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
                                     }
                                     else
                                     {
-                                        InternalFireError(Properties.Resources.PropertyHashTypeMissing);
+                                        InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
                                     }
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                 }
@@ -237,7 +237,7 @@ namespace Martin.SQLServer.Dts
                                 {
                                     if (!ValidateColumnList(outputColumn.CustomPropertyCollection[0].Value.ToString(), input.InputColumnCollection))
                                     {
-                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
+                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsInvalid.Replace("%s", outputColumn.Name));
                                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                     }
                                 }
@@ -257,11 +257,11 @@ namespace Martin.SQLServer.Dts
                                 {
                                     if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
                                     {
-                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
+                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
                                     }
                                     else
                                     {
-                                        InternalFireError(Properties.Resources.PropertyHashTypeMissing);
+                                        InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
                                     }
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                 }
@@ -269,7 +269,7 @@ namespace Martin.SQLServer.Dts
                                 {
                                     if (!ValidateColumnList(outputColumn.CustomPropertyCollection[1].Value.ToString(), input.InputColumnCollection))
                                     {
-                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing);
+                                        InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsInvalid.Replace("%s", outputColumn.Name));
                                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                     }
                                 }
@@ -807,25 +807,34 @@ namespace Martin.SQLServer.Dts
             string[] inputLineageArray;
             bool inputsOk = true;
 
-            inputLineageArray = InputLineageIDs.Split(',');
-            foreach (string LineageID in inputLineageArray)
+            // Bug Fix: 4238 - Index and Counter error...
+            // Remove "Validation error. Data Flow Task: Multiple Hash: Error Input string was not in a correct format. thrown when checking LineageID"
+            if (InputLineageIDs.Trim().Length > 0)
             {
-
-                try
+                inputLineageArray = InputLineageIDs.Split(',');
+                foreach (string LineageID in inputLineageArray)
                 {
-                    if (inputColumns.GetInputColumnByLineageID(System.Convert.ToInt32(LineageID)) == null)
+
+                    try
                     {
+                        if (inputColumns.GetInputColumnByLineageID(System.Convert.ToInt32(LineageID)) == null)
+                        {
+                            inputsOk = false;
+                            break;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        InternalFireError(Properties.Resources.ColumnLineageIDInvalid.Replace("%s", ex.Message));
                         inputsOk = false;
                         break;
                     }
-
                 }
-                catch (Exception ex)
-                {
-                    InternalFireError(Properties.Resources.ColumnLineageIDInvalid.Replace("%s", ex.Message));
-                    inputsOk = false;
-                    break;
-                }
+            }
+            else
+            {
+                inputsOk = false;
             }
             return inputsOk;
         } 

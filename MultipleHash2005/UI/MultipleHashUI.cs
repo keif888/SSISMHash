@@ -290,18 +290,22 @@ namespace Martin.SQLServer.Dts
                         }
                         j++;
                     }
-                    // go through the list and remove any that don't exist.
-                    for (int k = 0; k < inputLineageIDs.Length; k++)
+                    // Bug Fix: 4238 - Index and Counter error...
+                    if (inputLineageList.Length > 0)
                     {
-                        if (inputLineageIDs[k] != "found")
+                        // go through the list and remove any that don't exist.
+                        for (int k = 0; k < inputLineageIDs.Length; k++)
                         {
-                            if (inputLineageList.IndexOf(inputLineageIDs[k]) > 0)
+                            if (inputLineageIDs[k] != "found")
                             {
-                                inputLineageList = inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]) - 1, inputLineageIDs[k].Length + 1);
-                            }
-                            else
-                            {
-                                inputLineageList= inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]), inputLineageIDs[k].Length + 1);
+                                if (inputLineageList.IndexOf(inputLineageIDs[k]) > 0)
+                                {
+                                    inputLineageList = inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]) - 1, inputLineageIDs[k].Length + 1);
+                                }
+                                else
+                                {
+                                    inputLineageList = inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]), inputLineageIDs[k].Length + 1);
+                                }
                             }
                         }
                     }

@@ -806,6 +806,11 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
+        private void llCodeplex_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://ssismhash.codeplex.com/");
+        }
+
         #endregion
 
         #region Hash Value Helper Functions

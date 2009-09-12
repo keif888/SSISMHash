@@ -157,19 +157,19 @@
     <value>The output property that you selected, can not be changed.</value>
   </data>
   <data name="PropertyHashTypeInvalid" xml:space="preserve">
-    <value>The output property HashType is set to an invalid value.</value>
+    <value>The output property HashType is set to an invalid value for column %s.</value>
   </data>
   <data name="PropertyHashTypeMissing" xml:space="preserve">
-    <value>The output property HashType is missing.</value>
+    <value>The output property HashType is missing from column %s.</value>
   </data>
   <data name="PropertyInputColumnLineageIDsInvalid" xml:space="preserve">
-    <value>The output property InputColumnLineageIDs has invalid lineage id's.</value>
+    <value>The output property InputColumnLineageIDs has invalid lineage id's for column %s.</value>
   </data>
   <data name="PropertyInputColumnLineageIDsMissing" xml:space="preserve">
-    <value>The output property InputColumnLineageIDs is missing.</value>
+    <value>The output property InputColumnLineageIDs is missing from column %s.</value>
   </data>
   <data name="PropertyRemoved" xml:space="preserve">
-    <value>The output properties HashType and InputColumnLineageIDs are missing.</value>
+    <value>The output properties HashType and InputColumnLineageIDs are missing from column %s.</value>
   </data>
   <data name="ReadWriteNotSupported" xml:space="preserve">
     <value>Read write not supported.</value>

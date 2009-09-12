@@ -178,7 +178,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output property HashType is set to an invalid value..
+        ///   Looks up a localized string similar to The output property HashType is set to an invalid value for column %s..
         /// </summary>
         internal static string PropertyHashTypeInvalid {
             get {
@@ -187,7 +187,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output property HashType is missing..
+        ///   Looks up a localized string similar to The output property HashType is missing from column %s..
         /// </summary>
         internal static string PropertyHashTypeMissing {
             get {
@@ -196,7 +196,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output property InputColumnLineageIDs has invalid lineage id&apos;s..
+        ///   Looks up a localized string similar to The output property InputColumnLineageIDs has invalid lineage id&apos;s for column %s..
         /// </summary>
         internal static string PropertyInputColumnLineageIDsInvalid {
             get {
@@ -205,7 +205,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output property InputColumnLineageIDs is missing..
+        ///   Looks up a localized string similar to The output property InputColumnLineageIDs is missing from column %s..
         /// </summary>
         internal static string PropertyInputColumnLineageIDsMissing {
             get {
@@ -214,7 +214,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing..
+        ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing from column %s..
         /// </summary>
         internal static string PropertyRemoved {
             get {

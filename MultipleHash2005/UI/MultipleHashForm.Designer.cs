@@ -48,6 +48,8 @@
             this.dgvOutputColumnsHashType = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.tpAbout = new System.Windows.Forms.TabPage();
+            this.llCodeplex = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
@@ -257,6 +259,8 @@
             // 
             // tpAbout
             // 
+            this.tpAbout.Controls.Add(this.llCodeplex);
+            this.tpAbout.Controls.Add(this.label1);
             this.tpAbout.Controls.Add(this.label8);
             this.tpAbout.Location = new System.Drawing.Point(4, 22);
             this.tpAbout.Name = "tpAbout";
@@ -266,14 +270,35 @@
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
             // 
+            // llCodeplex
+            // 
+            this.llCodeplex.AutoSize = true;
+            this.llCodeplex.Location = new System.Drawing.Point(6, 47);
+            this.llCodeplex.Name = "llCodeplex";
+            this.llCodeplex.Size = new System.Drawing.Size(160, 13);
+            this.llCodeplex.TabIndex = 8;
+            this.llCodeplex.TabStop = true;
+            this.llCodeplex.Text = "http://ssismhash.codeplex.com/";
+            this.llCodeplex.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCodeplex_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 74);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(546, 221);
+            this.label1.TabIndex = 7;
+            this.label1.Text = resources.GetString("label1.Text");
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(546, 247);
+            this.label8.Size = new System.Drawing.Size(380, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = resources.GetString("label8.Text");
+            this.label8.Text = "This component was written by Keith Martin in August 2009.  This is version 1.1\r\n" +
+                "Download the latest version or get help from:";
             // 
             // MultipleHashForm
             // 
@@ -324,5 +349,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsSortPosition;
         private System.Windows.Forms.TabPage tpAbout;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.LinkLabel llCodeplex;
+        private System.Windows.Forms.Label label1;
     }
 }

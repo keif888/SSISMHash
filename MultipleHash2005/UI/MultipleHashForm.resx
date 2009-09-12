@@ -138,12 +138,10 @@
   <metadata name="dgvOutputColumnsHashType.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="label8.Text" xml:space="preserve">
-    <value>This component was written by Keith Martin in August 2009.
-It is protected by the Microsoft Reciprocal License...
+  <data name="label1.Text" xml:space="preserve">
+    <value>It is protected by the Microsoft Reciprocal License...
 
 It's purpose is to allow the generation of many types of Hash against selected input columns.
-
 To Use:
 
 1.  Select the columns that will participate in any Hash generation from the Input tab;
@@ -157,7 +155,8 @@ To Use:
 7.  Add any other desired Hash Columns, by repeating 3 through 6;
 8.  Click OK when completed.
 
-The component will set the output columns' data type appropriately to the Hash function selected.</value>
+The component will set the output columns' data type appropriately to the Hash function selected.
+</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
