@@ -138,6 +138,9 @@
   <data name="Exactly1Output" xml:space="preserve">
     <value>There should be exactly one output. The metadata of this component is corrupt.</value>
   </data>
+  <data name="MultiThreadPropertyMissing" xml:space="preserve">
+    <value>The MultiThread Property is missing.</value>
+  </data>
   <data name="NotAllEditingServicesAvailable" xml:space="preserve">
     <value>Not all editing services available.</value>
   </data>
@@ -168,11 +171,17 @@
   <data name="PropertyInputColumnLineageIDsMissing" xml:space="preserve">
     <value>The output property InputColumnLineageIDs is missing from column %s.</value>
   </data>
+  <data name="PropertyMultiThreadInvalid" xml:space="preserve">
+    <value>The property MultiThread is set to an invalid value.</value>
+  </data>
   <data name="PropertyRemoved" xml:space="preserve">
     <value>The output properties HashType and InputColumnLineageIDs are missing from column %s.</value>
   </data>
   <data name="ReadWriteNotSupported" xml:space="preserve">
     <value>Read write not supported.</value>
+  </data>
+  <data name="ToManyMultiThreadProperties" xml:space="preserve">
+    <value>There are to many Multi Thread Properties Defined.</value>
   </data>
   <data name="UIisInconsistentState" xml:space="preserve">
     <value>The UI is in an inconsistent state: Passed argument is not valid.</value>
