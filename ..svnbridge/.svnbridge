@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?><ItemProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Properties><Property><Name>svn:ignore</Name><Value>CloudStorage.API.4.5.resharper.user
+CloudStorage.API.suo
+</Value></Property><Property><Name>svn:ignore</Name><Value>CloudStorage.API.4.5.resharper.user
+CloudStorage.API.suo
+TestResults
+Lib
+</Value></Property><Property><Name>svn:ignore</Name><Value>CloudStorage.API.4.5.resharper.user
+CloudStorage.API.suo
+TestResults
+Lib
+CloudStorage.API.5.0.ReSharper.user
+</Value></Property><Property><Name>svn:ignore</Name><Value>TestResults
+</Value></Property></Properties></ItemProperties>

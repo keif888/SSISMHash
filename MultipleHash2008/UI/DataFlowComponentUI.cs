@@ -317,8 +317,8 @@ namespace Martin.SQLServer.Dts
         /// Called to invoke the UI. 
         /// </summary>
         /// <param name="parentWindow">The calling window</param>
-        /// <param name="vars">The SSIS variables</param>
-        /// <param name="conns">The SSIS connections</param>
+        /// <param name="variables">The SSIS variables</param>
+        /// <param name="connections">The SSIS connections</param>
         /// <returns>True all works</returns>
         bool IDtsComponentUI.Edit(IWin32Window parentWindow, Microsoft.SqlServer.Dts.Runtime.Variables variables, Microsoft.SqlServer.Dts.Runtime.Connections connections)
         {

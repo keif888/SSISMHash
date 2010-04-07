@@ -34,6 +34,7 @@ namespace Martin.SQLServer.Dts
             this.btnOK = new System.Windows.Forms.Button();
             this.tcTabs = new System.Windows.Forms.TabControl();
             this.tbInput = new System.Windows.Forms.TabPage();
+            this.cbThreading = new System.Windows.Forms.ComboBox();
             this.dgvAvailableColumns = new System.Windows.Forms.DataGridView();
             this.gridColumnCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.gridColumnAvailableColumns = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,9 +50,10 @@ namespace Martin.SQLServer.Dts
             this.dgvOutputColumnsHashType = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.tpAbout = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
             this.llCodeplex = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -95,6 +97,8 @@ namespace Martin.SQLServer.Dts
             // 
             // tbInput
             // 
+            this.tbInput.Controls.Add(this.label2);
+            this.tbInput.Controls.Add(this.cbThreading);
             this.tbInput.Controls.Add(this.dgvAvailableColumns);
             this.tbInput.Location = new System.Drawing.Point(4, 22);
             this.tbInput.Name = "tbInput";
@@ -104,6 +108,21 @@ namespace Martin.SQLServer.Dts
             this.tbInput.Text = "Input Columns";
             this.tbInput.UseVisualStyleBackColor = true;
             // 
+            // cbThreading
+            // 
+            this.cbThreading.FormattingEnabled = true;
+            this.cbThreading.Items.AddRange(new object[] {
+            "None",
+            "Auto",
+            "On"});
+            this.cbThreading.Location = new System.Drawing.Point(413, 6);
+            this.cbThreading.MaxDropDownItems = 3;
+            this.cbThreading.Name = "cbThreading";
+            this.cbThreading.Size = new System.Drawing.Size(158, 21);
+            this.cbThreading.TabIndex = 1;
+            this.cbThreading.Text = "None";
+            this.cbThreading.TextChanged += new System.EventHandler(this.cbThreading_TextChanged);
+            // 
             // dgvAvailableColumns
             // 
             this.dgvAvailableColumns.AllowUserToAddRows = false;
@@ -112,11 +131,11 @@ namespace Martin.SQLServer.Dts
             this.dgvAvailableColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.gridColumnCheckbox,
             this.gridColumnAvailableColumns});
-            this.dgvAvailableColumns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAvailableColumns.Location = new System.Drawing.Point(3, 3);
+            this.dgvAvailableColumns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgvAvailableColumns.Location = new System.Drawing.Point(3, 34);
             this.dgvAvailableColumns.Name = "dgvAvailableColumns";
             this.dgvAvailableColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAvailableColumns.Size = new System.Drawing.Size(571, 305);
+            this.dgvAvailableColumns.Size = new System.Drawing.Size(571, 274);
             this.dgvAvailableColumns.TabIndex = 0;
             this.dgvAvailableColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAvailableColumns_CellValueChanged);
             this.dgvAvailableColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvAvailableColumns_CurrentCellDirtyStateChanged);
@@ -260,8 +279,8 @@ namespace Martin.SQLServer.Dts
             // 
             // tpAbout
             // 
-            this.tpAbout.Controls.Add(this.label1);
             this.tpAbout.Controls.Add(this.llCodeplex);
+            this.tpAbout.Controls.Add(this.label1);
             this.tpAbout.Controls.Add(this.label8);
             this.tpAbout.Location = new System.Drawing.Point(4, 22);
             this.tpAbout.Name = "tpAbout";
@@ -271,23 +290,13 @@ namespace Martin.SQLServer.Dts
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 15);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(380, 26);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "This component was written by Keith Martin in August 2009.  This is version 1.1\r\n" +
-                "Download the latest version or get help from:";
-            // 
             // llCodeplex
             // 
             this.llCodeplex.AutoSize = true;
-            this.llCodeplex.Location = new System.Drawing.Point(6, 50);
+            this.llCodeplex.Location = new System.Drawing.Point(6, 47);
             this.llCodeplex.Name = "llCodeplex";
             this.llCodeplex.Size = new System.Drawing.Size(160, 13);
-            this.llCodeplex.TabIndex = 7;
+            this.llCodeplex.TabIndex = 8;
             this.llCodeplex.TabStop = true;
             this.llCodeplex.Text = "http://ssismhash.codeplex.com/";
             this.llCodeplex.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCodeplex_LinkClicked);
@@ -295,11 +304,30 @@ namespace Martin.SQLServer.Dts
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 72);
+            this.label1.Location = new System.Drawing.Point(6, 74);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(546, 234);
-            this.label1.TabIndex = 8;
+            this.label1.Size = new System.Drawing.Size(546, 221);
+            this.label1.TabIndex = 7;
             this.label1.Text = resources.GetString("label1.Text");
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 15);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(380, 26);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "This component was written by Keith Martin in August 2009.  This is version 1.2\r\n" +
+                "Download the latest version or get help from:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(277, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Enable Multiple Threading";
             // 
             // MultipleHashForm
             // 
@@ -317,6 +345,7 @@ namespace Martin.SQLServer.Dts
             this.Text = "MultipleHashForm";
             this.tcTabs.ResumeLayout(false);
             this.tbInput.ResumeLayout(false);
+            this.tbInput.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).EndInit();
             this.tbOutput.ResumeLayout(false);
             this.tbOutput.PerformLayout();
@@ -350,7 +379,9 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsSortPosition;
         private System.Windows.Forms.TabPage tpAbout;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel llCodeplex;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbThreading;
+        private System.Windows.Forms.Label label2;
     }
 }

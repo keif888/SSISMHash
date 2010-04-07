@@ -1,20 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{91357D4A-5718-44B2-B558-5EB7BA1209D0}</ProjectGuid>
+    <ProjectGuid>{BA117407-08B1-494E-928D-15D4C826D44A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Martin.SQLServer.Dts</RootNamespace>
-    <AssemblyName>MultipleHash2008</AssemblyName>
+    <RootNamespace>MultipleHash2008Test</RootNamespace>
+    <AssemblyName>MultipleHash2008Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>key.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>MultipleHash.snk</AssemblyOriginatorKeyFile>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -47,60 +44,55 @@
     <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86" />
     <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MultipleHash.cs" />
-    <Compile Include="OutputColumn.cs" />
-    <Compile Include="PassThreadState.cs" />
-    <Compile Include="ProcessOutputColumn.cs" />
+    <Compile Include="MultipleHashTest.cs" />
+    <Compile Include="PassThreadStateTest.cs" />
+    <Compile Include="ProcessOutputColumnTest.cs" />
+    <Compile Include="SSISImplementations\BufferManagerTestImpl.cs" />
+    <Compile Include="SSISImplementations\ComponentMetaDataTestImpl.cs" />
+    <Compile Include="SSISImplementations\CustomPropertyCollectionTestImpl.cs" />
+    <Compile Include="SSISImplementations\CustomPropertyTestImpl.cs" />
+    <Compile Include="SSISImplementations\InputColumnCollectionTestImpl.cs" />
+    <Compile Include="SSISImplementations\InputColumnTestImpl.cs" />
+    <Compile Include="SSISImplementations\InputTestImpl.cs" />
+    <Compile Include="SSISImplementations\OutputColumnCollectionTestImpl.cs" />
+    <Compile Include="OutputColumnTest.cs" />
+    <Compile Include="SSISImplementations\OutputColumnTestImpl.cs" />
+    <Compile Include="SSISImplementations\OutputTestImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UI\DataFlowComponentUI.cs" />
-    <Compile Include="UI\DataFlowElement.cs" />
-    <Compile Include="UI\MultipleHashForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\MultipleHashForm.Designer.cs">
-      <DependentUpon>MultipleHashForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\MultipleHashUI.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="SSISImplementations\PipelineBufferTestImpl.cs" />
+    <Compile Include="UtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="key.ico" />
+    <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\MultipleHashForm.resx">
-      <DependentUpon>MultipleHashForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Shadow Include="Test References\MultipleHash2008.accessor" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MultipleHash.snk" />
+    <ProjectReference Include="..\MultipleHash2008\MultipleHash2008.csproj">
+      <Project>{91357D4A-5718-44B2-B558-5EB7BA1209D0}</Project>
+      <Name>MultipleHash2008</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -108,10 +100,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe" -u $(TargetName)
-COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\" /Y
-COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\" /Y
-"C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil" -i "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).DLL"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

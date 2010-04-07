@@ -124,6 +124,15 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The MultiThread Property is missing..
+        /// </summary>
+        internal static string MultiThreadPropertyMissing {
+            get {
+                return ResourceManager.GetString("MultiThreadPropertyMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not all editing services available..
         /// </summary>
         internal static string NotAllEditingServicesAvailable {
@@ -214,6 +223,15 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The property MultiThread is set to an invalid value..
+        /// </summary>
+        internal static string PropertyMultiThreadInvalid {
+            get {
+                return ResourceManager.GetString("PropertyMultiThreadInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing from column %s..
         /// </summary>
         internal static string PropertyRemoved {
@@ -228,6 +246,15 @@ namespace Martin.SQLServer.Dts.Properties {
         internal static string ReadWriteNotSupported {
             get {
                 return ResourceManager.GetString("ReadWriteNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are to many Multi Thread Properties Defined..
+        /// </summary>
+        internal static string ToManyMultiThreadProperties {
+            get {
+                return ResourceManager.GetString("ToManyMultiThreadProperties", resourceCulture);
             }
         }
         

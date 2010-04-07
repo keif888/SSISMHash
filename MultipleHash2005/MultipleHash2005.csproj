@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="MultipleHash.cs" />
     <Compile Include="OutputColumn.cs" />
+    <Compile Include="PassThreadState.cs" />
+    <Compile Include="ProcessOutputColumn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -64,6 +66,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UI\DataFlowComponentUI.cs" />
+    <Compile Include="UI\DataFlowElement.cs" />
     <Compile Include="UI\MultipleHashForm.cs">
       <SubType>Form</SubType>
     </Compile>

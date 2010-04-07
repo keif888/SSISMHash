@@ -65,6 +65,20 @@ namespace Martin.SQLServer.Dts
 
     internal delegate void GetInputColumnsEventHandler(object sender, InputColumnsArgs args);
 
+    /// <summary>
+    /// Retrieves the threading details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">The threading details</param>
+    internal delegate void GetThreadingDetailEventHandler(object sender, ThreadingArgs args);
+
+    /// <summary>
+    /// Updates the threading details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">The threading details</param>
+    internal delegate void SetThreadingDetailEventHandler(object sender, ThreadingArgs args);
+
     internal struct InputColumnElement
     {
         public bool Selected;
@@ -103,12 +117,16 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         public MultipleHashForm()
         {
-            InitializeComponent();
+            // Force W2K3R2 x64 environments to work as the events are firing when the grids are being created.
+            // This doesn't seem to happen on any other environment.
+            this.isLoading = true;
+            this.InitializeComponent();
+            this.isLoading = false;
         }
 
         #region Exposed events
 
-        // There are 7 required events:
+        // There are 9 required events:
         // GetInputColumns - Retrieves all the input columns from the SSIS data flow object
         // SetInputColumn - Passes alterations to input columns back to the SSIS data flow object
         // DeleteInputColumn - Removes an input column from the SSIS data flow object
@@ -116,6 +134,8 @@ namespace Martin.SQLServer.Dts
         // AddOutputColumn - Adds a new output column to the SSIS data flow object
         // AlterOutputColumn - Passes alterations to an output column back to the SSIS data flow object
         // DeleteOutputColumn - Removes an output column from the SSIS data flow object
+        // GetThreadingDetail - Returns the threading details
+        // SetThreadingDetail - Sets the threading details
 
         /// <summary>
         /// Fires when the Input Columns are required
@@ -153,6 +173,16 @@ namespace Martin.SQLServer.Dts
         internal event DeleteOutputColumnEventHandler DeleteOutputColumn;
 
         /// <summary>
+        /// Fires when the threading details are to be returned
+        /// </summary>
+        internal event GetThreadingDetailEventHandler GetThreadingDetail;
+
+        /// <summary>
+        /// Fires when the threading details are to be updated
+        /// </summary>
+        internal event SetThreadingDetailEventHandler SetThreadingDetail;
+
+        /// <summary>
         /// Fires when the Error Handler is needed
         /// </summary>
         internal event ErrorEventHandler CallErrorHandler;
@@ -174,6 +204,13 @@ namespace Martin.SQLServer.Dts
             {
                 // Loading available and previously selected columns.
                 this.LoadAvailableColumns();
+                ThreadingArgs args = new ThreadingArgs();
+                args.threadDetail = MultipleHash.MultipleThread.None;
+
+                // Call the SetThreading event...
+                IAsyncResult res = this.GetThreadingDetail.BeginInvoke(this, args, null, null);
+                this.GetThreadingDetail.EndInvoke(res);
+                cbThreading.Text = GetThreadingName(args.threadDetail);
             }
             catch (Exception ex)
             {
@@ -369,29 +406,29 @@ namespace Martin.SQLServer.Dts
             {
                 // Load the data into the dgvOutputColumns grid.
                 this.isLoading = true;
-                dgvHashColumns.SuspendLayout();
-                dgvHashColumns.Rows.Clear();
+                this.dgvHashColumns.SuspendLayout();
+                this.dgvHashColumns.Rows.Clear();
 
                 // Make sure that something is selected in the Output Columns. 
                 // Default to the first row if nothing is already selected.
-                if (dgvOutputColumns.SelectedRows.Count == 0)
+                if (this.dgvOutputColumns.SelectedRows.Count == 0)
                 {
-                    dgvOutputColumns.Rows[0].Selected = true;
+                    this.dgvOutputColumns.Rows[0].Selected = true;
                 }
 
                 // If we have a Tag (for when there are no output columns yet.
-                if (dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag != null)
+                if (this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag != null)
                 {
                     // If we have input columns...
-                    if (((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length > 0)
+                    if (((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length > 0)
                     {
                         // Add all the required output rows from the Tag, which holds an OutputColumnElement
-                        dgvHashColumns.Rows.Add(((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length);
+                        this.dgvHashColumns.Rows.Add(((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length);
 
                         // Now push all the rows into the grid
-                        for (int i = 0; i < ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length; i++)
+                        for (int i = 0; i < ((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length; i++)
                         {
-                            OutputColumnElement outputColumnRow = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+                            OutputColumnElement outputColumnRow = (OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
 
                             // Filling the cells.
                             SetGridCellData(this.dgvHashColumns.Rows[i].Cells[this.dgvHashColumnsColumnName.Index], outputColumnRow.InputColumns[i].InputColumn);
@@ -402,8 +439,8 @@ namespace Martin.SQLServer.Dts
                 }
 
                 // Sort by the sort column, and then resume layout...
-                dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
-                dgvHashColumns.ResumeLayout();
+                this.dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
+                this.dgvHashColumns.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -432,7 +469,7 @@ namespace Martin.SQLServer.Dts
         {
             try
             {
-                if (e.TabPage == tbOutput)
+                if (e.TabPage == this.tbOutput)
                 {
                     this.isLoading = true;
                     this.LoadOutputColumns();
@@ -541,7 +578,7 @@ namespace Martin.SQLServer.Dts
                 this.isLoading = true;
 
                 // If we have an Output Column...
-                if (dgvOutputColumns.Rows.Count > 0)
+                if (this.dgvOutputColumns.Rows.Count > 0)
                 {
                     this.RefreshdgvHashColumns();
                 }
@@ -577,28 +614,28 @@ namespace Martin.SQLServer.Dts
                 {
                     if (dgvHashColumns.SelectedRows[0].Index > 0 && (bool)dgvHashColumns.SelectedRows[0].Cells[this.dgvHashColumnsSelected.Index].Value)
                     {
-                        index = dgvHashColumns.SelectedRows[0].Index;
+                        index = this.dgvHashColumns.SelectedRows[0].Index;
 
                         // Push the change back to the OutputColumns Grid.
-                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+                        InputColumnElement[] inputColumns = ((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
                         for (int i = 0; i < inputColumns.Length; i++)
                         {
-                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            if (inputColumns[i].InputColumn.Tag == this.dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
                             {
                                 inputColumns[i].SortPosition--;
                             }
 
-                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index - 1].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            if (inputColumns[i].InputColumn.Tag == this.dgvHashColumns.Rows[index - 1].Cells[dgvHashColumnsColumnName.Index].Tag)
                             {
                                 inputColumns[i].SortPosition++;
                             }
                         }
 
                         // Update the data grid
-                        value = dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value.ToString();
-                        dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value = dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value;
-                        dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value = value;
-                        dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
+                        value = this.dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value.ToString();
+                        this.dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value = dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value;
+                        this.dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value = value;
+                        this.dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
 
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();
                         args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
@@ -693,6 +730,9 @@ namespace Martin.SQLServer.Dts
                 return;
             }
 
+            if (dgvHashColumns.CurrentCell != null)
+            {
+
             try
             {
                 if (e.ColumnIndex == dgvHashColumnsSelected.Index)
@@ -765,6 +805,7 @@ namespace Martin.SQLServer.Dts
                 this.isLoading = false;
             }
         }
+		}
 
         /// <summary>
         /// Commit the change immediately to improve UI interaction. 
@@ -941,6 +982,32 @@ namespace Martin.SQLServer.Dts
             System.Diagnostics.Process.Start("http://ssismhash.codeplex.com/");
         }
 
+        /// <summary>
+        /// Fires when the threading is changed.  This pushes the value back to the component
+        /// </summary>
+        /// <param name="sender">Who sent the message</param>
+        /// <param name="e">The arguments from the sender</param>
+        private void cbThreading_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbThreading.Text != string.Empty)
+                {
+                    ThreadingArgs args = new ThreadingArgs();
+                    args.threadDetail = GetThreadingEnum(cbThreading.Text);
+
+                    // Call the SetThreading event...
+                    IAsyncResult res = this.SetThreadingDetail.BeginInvoke(this, args, null, null);
+                    this.SetThreadingDetail.EndInvoke(res);
+                }
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
+        }
+
         #endregion
 
         #region Hash Value Helper Functions
@@ -998,6 +1065,47 @@ namespace Martin.SQLServer.Dts
                     return MultipleHash.HashTypeEnumerator.None;
             }
         } 
+        #endregion
+		
+        #region Threading Value Helper Functions
+        /// <summary>
+        /// Returns the string value from the MultipleThread enum.
+        /// </summary>
+        /// <param name="threadingValue">The MultipleThread value to return a string for</param>
+        /// <returns>The string value for the MultipleThread</returns>
+        private string GetThreadingName(MultipleHash.MultipleThread threadingValue)
+        {
+            switch (threadingValue)
+            {
+                case MultipleHash.MultipleThread.Auto:
+                    return "Auto";
+                case MultipleHash.MultipleThread.On:
+                    return "On";
+                case MultipleHash.MultipleThread.None:
+                default:
+                    return "None";
+            }
+        }
+
+        /// <summary>
+        /// Returns the MultipleThread value for the passed in string threadingValue
+        /// </summary>
+        /// <param name="hashValue">The string value for the MultipleThread</param>
+        /// <returns>The MultipleThread value for the passed in string.</returns>
+        private MultipleHash.MultipleThread GetThreadingEnum(string threadingValue)
+        {
+            switch (threadingValue)
+            {
+                case "Auto":
+                    return MultipleHash.MultipleThread.Auto;
+                case "On":
+                    return MultipleHash.MultipleThread.On;
+                case "None":
+                default:
+                    return MultipleHash.MultipleThread.None;
+
+            }
+        }
         #endregion
     }
 
@@ -1096,5 +1204,17 @@ namespace Martin.SQLServer.Dts
         /// Should we cancel the action?
         /// </summary>
         public bool CancelAction;
+    }
+	
+    /// <summary>
+    /// Class to pass the Thread Details
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
+    internal class ThreadingArgs
+    {
+        /// <summary>
+        /// The threading value to pass
+        /// </summary>
+        public MultipleHash.MultipleThread threadDetail;
     }
 }

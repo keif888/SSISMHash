@@ -9,7 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008", "Multipl
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MultipleHash2008Install", "MultipleHash2008Install\MultipleHash2008Install.vdproj", "{0D6D0797-0213-4601-AC99-0373CCE77F34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008Test", "MultipleHash2008Test\MultipleHash2008Test.csproj", "{BA117407-08B1-494E-928D-15D4C826D44A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{64EAAC81-91A2-499B-AAC2-2EAA170394A0}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		MultipleHash.vsmdi = MultipleHash.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MultipleHash.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

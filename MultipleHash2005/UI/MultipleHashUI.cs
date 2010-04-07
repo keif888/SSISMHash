@@ -1,5 +1,8 @@
 ﻿// Multiple Hash SSIS Data Flow Transformation Component
 //
+// <copyright file="MultipleHashUI.cs" company="NA">
+//     Copyright (c) Keith Martin. All rights reserved.
+// </copyright>
 // Created by Keith Martin
 //
 // This software is licensed under the Microsoft Reciprocal License (Ms-RL)
@@ -38,56 +41,29 @@
  * 
  */
 
-#region Usings
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.SqlServer.Dts.Pipeline.Wrapper; 
-#endregion
-
 namespace Martin.SQLServer.Dts
 {
-    class MultipleHashUI : DataFlowComponentUI
+    #region Usings
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Windows.Forms;
+    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+    #endregion
+
+    /// <summary>
+    /// This is the class which provides the interface to the data flow from the UI.
+    /// </summary>
+    public class MultipleHashUI : DataFlowComponentUI
     {
-
-        /// <summary>
-        /// Communication with UI form goes through these events. The UI will raise events when some data/action
-        /// is needed and this class is responsible to answer those requests. This way we create separation between UI 
-        /// specific logic and interactions with SSIS data flow object model.
-        /// 
-        /// There are 7 required events:
-        /// GetInputColumns - Retrieves all the input columns from the SSIS data flow object
-        /// SetInputColumn - Passes alterations to input columns back to the SSIS data flow object
-        /// DeleteInputColumn - Removes an input column from the SSIS data flow object
-        /// GetOutputColumns - Retreives all the output columns from the SSIS data flow object
-        /// AddOutputColumn - Adds a new output column to the SSIS data flow object
-        /// AlterOutputColumn - Passes alterations to an output column back to the SSIS data flow object
-        /// DeleteOutputColumn - Removes an output column from the SSIS data flow object
-        /// 
-        /// </summary>
-        /// <param name="form"></param>
-        private void HookupEvents(MultipleHashForm form)
-        {
-            form.GetInputColumns += new GetInputColumnsEventHandler(form_GetInputColumns);
-            form.SetInputColumn += new ChangeInputColumnEventHandler(form_SetInputColumn);
-            form.DeleteInputColumn += new ChangeInputColumnEventHandler(form_DeleteInputColumn);
-            form.GetOutputColumns += new GetOutputColumnsEventHandler(form_GetOutputColumns);
-            form.AddOutputColumn += new AddOutputColumnEventHandler(form_AddOutputColumn);
-            form.AlterOutputColumn += new AlterOutputColumnEventHandler(form_AlterOutputColumn);
-            form.DeleteOutputColumn += new DeleteOutputColumnEventHandler(form_DeleteOutputColumn);
-            form.CallErrorHandler += new ErrorEventHandler(form_CallErrorHandler);
-        }
-
         #region Virtual methods
 
         /// <summary>
         /// Implementation of the method resposible for displaying the form.
         /// This one is abstract in the base class.
         /// </summary>
-        /// <param name="parentControl"></param>
-        /// <returns></returns>
+        /// <param name="parentControl">The owner window</param>
+        /// <returns>true when the form is shown ok</returns>
         protected override bool EditImpl(IWin32Window parentControl)
         {
             using (MultipleHashForm form = new MultipleHashForm())
@@ -107,16 +83,44 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
-        # region Event handlers
+        /// <summary>
+        /// Communication with UI form goes through these events. The UI will raise events when some data/action
+        /// is needed and this class is responsible to answer those requests. This way we create separation between UI 
+        /// specific logic and interactions with SSIS data flow object model.
+        /// There are 7 required events:
+        /// GetInputColumns - Retrieves all the input columns from the SSIS data flow object
+        /// SetInputColumn - Passes alterations to input columns back to the SSIS data flow object
+        /// DeleteInputColumn - Removes an input column from the SSIS data flow object
+        /// GetOutputColumns - Retreives all the output columns from the SSIS data flow object
+        /// AddOutputColumn - Adds a new output column to the SSIS data flow object
+        /// AlterOutputColumn - Passes alterations to an output column back to the SSIS data flow object
+        /// DeleteOutputColumn - Removes an output column from the SSIS data flow object
+        /// </summary>
+        /// <param name="form">The form that called this</param>
+        private void HookupEvents(MultipleHashForm form)
+        {
+            form.GetInputColumns += new GetInputColumnsEventHandler(this.form_GetInputColumns);
+            form.SetInputColumn += new ChangeInputColumnEventHandler(this.form_SetInputColumn);
+            form.DeleteInputColumn += new ChangeInputColumnEventHandler(this.form_DeleteInputColumn);
+            form.GetOutputColumns += new GetOutputColumnsEventHandler(this.form_GetOutputColumns);
+            form.AddOutputColumn += new AddOutputColumnEventHandler(this.form_AddOutputColumn);
+            form.AlterOutputColumn += new AlterOutputColumnEventHandler(this.form_AlterOutputColumn);
+            form.DeleteOutputColumn += new DeleteOutputColumnEventHandler(this.form_DeleteOutputColumn);
+            form.CallErrorHandler += new ErrorEventHandler(this.form_CallErrorHandler);
+            form.GetThreadingDetail += new GetThreadingDetailEventHandler(this.form_GetThreadingDetail);
+            form.SetThreadingDetail += new SetThreadingDetailEventHandler(this.form_SetThreadingDetail);
+        }
+
+        #region Event handlers
 
         #region Input Event Handlers
         /// <summary>
         /// retrieves the list of available input columns into AvailableColumnsArgs
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">Who caused this to be fired</param>
         /// <param name="args">The list of available input columns</param>
-
-        void form_GetInputColumns(object sender, InputColumnsArgs args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_GetInputColumns(object sender, InputColumnsArgs args)
         {
             Debug.Assert(this.VirtualInput != null, "Virtual input is not valid.");
 
@@ -149,9 +153,10 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Pushes the selected input column back to the SSIS component.  (SetUsageType).
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void form_SetInputColumn(object sender, SetInputColumnArgs args)
+        /// <param name="sender">Who caused this to be fired</param>
+        /// <param name="args">The arguments to pass</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_SetInputColumn(object sender, SetInputColumnArgs args)
         {
             Debug.Assert(args.VirtualColumn != null, "Invalid arguments passed from the UI");
 
@@ -183,13 +188,13 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
         /// <summary>
         /// Removes a column from the SSIS Component via SetUsageType.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void form_DeleteInputColumn(object sender, SetInputColumnArgs args)
+        /// <param name="sender">Who caused this to be fired</param>
+        /// <param name="args">The arguments to be passed</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_DeleteInputColumn(object sender, SetInputColumnArgs args)
         {
             Debug.Assert(args.VirtualColumn != null, "Invalid arguments passed from the UI");
 
@@ -216,9 +221,8 @@ namespace Martin.SQLServer.Dts
                 this.ReportErrors(ex);
                 args.CancelAction = true;
             }
-        } 
+        }
         #endregion
-
 
         #region Output Event Handlers
 
@@ -226,9 +230,10 @@ namespace Martin.SQLServer.Dts
         /// Gets all the output columns from the data flow object.  Also extracts the Custom Properties,
         /// and populates the DataFlowElements with the required information.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">Who caused this to be fired</param>
         /// <param name="args">The OutputColumnsArgs class that will contain all the data about the output's</param>
-        void form_GetOutputColumns(object sender, OutputColumnsArgs args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_GetOutputColumns(object sender, OutputColumnsArgs args)
         {
             this.ClearErrors();
 
@@ -237,12 +242,14 @@ namespace Martin.SQLServer.Dts
                 // Get the output columns from the component, and store the number
                 IDTSOutputColumnCollection90 outputColumns = this.ComponentMetadata.OutputCollection[0].OutputColumnCollection;
                 int outputColumnsCount = outputColumns.Count;
+
                 // Get the input columns that have been ticked, and store the number
                 IDTSInputColumnCollection90 inputColumns = this.ComponentMetadata.InputCollection[0].InputColumnCollection;
                 int inputColumnsCount = inputColumns.Count;
 
                 // Assign the array to hold the output columns.
                 args.OutputColumns = new OutputColumnElement[outputColumnsCount];
+
                 // Loop through the output's, and get the Hash and selected input columns
                 for (int i = 0; i < outputColumnsCount; i++)
                 {
@@ -251,7 +258,7 @@ namespace Martin.SQLServer.Dts
                     IDTSOutputColumn90 outputColumn = outputColumns[i];
                     if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
                     {
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnum)outputColumn.CustomPropertyCollection[0].Value;
+                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
                         inputLineageList = outputColumn.CustomPropertyCollection[1].Value.ToString();
                         inputLineageIDs = inputLineageList.Split(',');
                     }
@@ -259,7 +266,7 @@ namespace Martin.SQLServer.Dts
                     {
                         inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
                         inputLineageIDs = inputLineageList.Split(',');
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnum)outputColumn.CustomPropertyCollection[1].Value;
+                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
                     }
 
                     // Assign the array to hold the input columns
@@ -273,6 +280,7 @@ namespace Martin.SQLServer.Dts
                         args.OutputColumns[i].InputColumns[j] = new InputColumnElement();
                         args.OutputColumns[i].InputColumns[j].InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
                         args.OutputColumns[i].InputColumns[j].LineageID = inputColumn.LineageID;
+
                         // Default to unselected and sort to bottom of grid
                         args.OutputColumns[i].InputColumns[j].Selected = false;
                         args.OutputColumns[i].InputColumns[j].SortPosition = 999999;
@@ -288,8 +296,10 @@ namespace Martin.SQLServer.Dts
                                 break;
                             }
                         }
+
                         j++;
                     }
+
                     // Bug Fix: 4238 - Index and Counter error...
                     if (inputLineageList.Length > 0)
                     {
@@ -309,6 +319,7 @@ namespace Martin.SQLServer.Dts
                             }
                         }
                     }
+
                     // Push the changed list back to the SSIS Component...
                     if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
                     {
@@ -318,6 +329,7 @@ namespace Martin.SQLServer.Dts
                     {
                         outputColumn.CustomPropertyCollection[0].Value = inputLineageList;
                     }
+
                     args.OutputColumns[i].OutputColumn = new DataFlowElement(outputColumn.Name, outputColumn);
                 }
             }
@@ -327,13 +339,13 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
         /// <summary>
         /// Adds an Output Column to the SSIS Component, and send's it back to the UI.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void form_AddOutputColumn(object sender, AddOutputColumnNameArgs args)
+        /// <param name="sender">Who caused this to fire</param>
+        /// <param name="args">The arguments that are needed</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_AddOutputColumn(object sender, AddOutputColumnNameArgs args)
         {
             Debug.Assert(args.OutputColumnDetail.OutputColumn != null, "Invalid arguments passed from the UI");
 
@@ -343,18 +355,21 @@ namespace Martin.SQLServer.Dts
                 // Grab the output collection, and the number of output columns
                 IDTSOutput90 output = this.ComponentMetadata.OutputCollection[0];
                 int locationID = output.OutputColumnCollection.Count;
+
                 // Create a new output column at the end of the set of output columns.
-                IDTSOutputColumn90 outputColumn = this.DesigntimeComponent.InsertOutputColumnAt(output.ID, locationID, args.OutputColumnDetail.OutputColumn.Name, "");
+                IDTSOutputColumn90 outputColumn = this.DesigntimeComponent.InsertOutputColumnAt(output.ID, locationID, args.OutputColumnDetail.OutputColumn.Name, string.Empty);
                 if (outputColumn == null)
                 {
                     throw new ApplicationException(Properties.Resources.UIisInconsistentState);
                 }
+
                 // assign the output column details into the args.
                 args.OutputColumnDetail.OutputColumn = new DataFlowElement(outputColumn.Name.ToString(), outputColumn);
                 int j = 0;
 
                 // assign the array to hold all the input columns
                 args.OutputColumnDetail.InputColumns = new InputColumnElement[this.ComponentMetadata.InputCollection[0].InputColumnCollection.Count];
+
                 // fill the array with unselected input columns.
                 foreach (IDTSInputColumn90 inputColumn in this.ComponentMetadata.InputCollection[0].InputColumnCollection)
                 {
@@ -365,7 +380,6 @@ namespace Martin.SQLServer.Dts
                     args.OutputColumnDetail.InputColumns[j].SortPosition = 999999;
                     j++;
                 }
-
             }
             catch (Exception ex)
             {
@@ -377,9 +391,10 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Alters an existing Output Column in the SSIS Component to match that in the UI.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void form_AlterOutputColumn(object sender, AlterOutputColumnArgs args)
+        /// <param name="sender">Where this got fired from</param>
+        /// <param name="args">The arguments to pass in</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_AlterOutputColumn(object sender, AlterOutputColumnArgs args)
         {
             Debug.Assert(args.OutputColumnDetail.OutputColumn != null, "Invalid arguments passed from the UI");
 
@@ -387,7 +402,7 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the output collection, and the output column to change
-                IDTSOutput90 output = this.ComponentMetadata.OutputCollection[0];
+                ////IDTSOutput90 output = this.ComponentMetadata.OutputCollection[0];
                 IDTSOutputColumn90 outputColumn = args.OutputColumnDetail.OutputColumn.Tag as IDTSOutputColumn90;
                 if (outputColumn == null)
                 {
@@ -396,16 +411,18 @@ namespace Martin.SQLServer.Dts
 
                 // Assign the column name from the args
                 outputColumn.Name = args.OutputColumnDetail.OutputColumn.Name;
+
                 // If the hash value has changed, assign the new value, and correct the output column data type.
-                if ((MultipleHash.HashTypeEnum)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value != args.OutputColumnDetail.Hash)
+                if ((MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value != args.OutputColumnDetail.Hash)
                 {
                     Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, outputColumn);
                     outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = args.OutputColumnDetail.Hash;
                 }
 
                 // define a sorted list to hold the input columns
-                SortedList<Int32, Int32> inputLineageIDs = new SortedList<int, int>(); //(args.OutputColumnDetail.InputColumns.Length);
-                string inputList = "";
+                SortedList<int, int> inputLineageIDs = new SortedList<int, int>(); ////(args.OutputColumnDetail.InputColumns.Length);
+                string inputList = string.Empty;
+
                 // Fill the sorted list with the input columns that have been selected.
                 // Use the sort order as the key
                 for (int i = 0; i < args.OutputColumnDetail.InputColumns.Length; i++)
@@ -419,13 +436,19 @@ namespace Martin.SQLServer.Dts
                 // Populate the inputList to have the lineageID's from the input columns in the sorted order.
                 foreach (KeyValuePair<int, int> kvp in inputLineageIDs)
                 {
-                    if (inputList == "")
+                    if (inputList == string.Empty)
+                    {
                         inputList = kvp.Value.ToString();
+                    }
                     else
+                    {
                         inputList += "," + kvp.Value.ToString();
+                    }
                 }
+
                 // Update the Custom Property with the updated selected columns.
                 outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = inputList;
+
                 // Ensure that the args passed back to the UI are up to date...
                 args.OutputColumnDetail.OutputColumn = new DataFlowElement(outputColumn.Name, outputColumn);
             }
@@ -436,7 +459,13 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-        void form_DeleteOutputColumn(object sender, DeleteOutputColumnArgs args)
+        /// <summary>
+        /// Fired when a column is selected for deletion
+        /// </summary>
+        /// <param name="sender">where the delete came from</param>
+        /// <param name="args">the arguments passed</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_DeleteOutputColumn(object sender, DeleteOutputColumnArgs args)
         {
             Debug.Assert(args.OutputColumnDetail.OutputColumn != null, "Invalid arguments passed from the UI");
 
@@ -445,6 +474,7 @@ namespace Martin.SQLServer.Dts
             {
                 // Grab the output collection
                 IDTSOutput90 output = this.ComponentMetadata.OutputCollection[0];
+
                 // Remove the column from the output collect.
                 output.OutputColumnCollection.RemoveObjectByID(((IDTSOutputColumn90)args.OutputColumnDetail.OutputColumn.Tag).ID);
             }
@@ -457,15 +487,65 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
-
-        void form_CallErrorHandler(object sender, Exception ex)
+        /// <summary>
+        /// Causes the form to call the error handler
+        /// </summary>
+        /// <param name="sender">Where the exception came from</param>
+        /// <param name="ex">the exception</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void form_CallErrorHandler(object sender, Exception ex)
         {
             this.ReportErrors(ex);
         }
 
+        /// <summary>
+        /// Sends the Threading Detail back to the Component.
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_SetThreadingDetail(object sender, ThreadingArgs args)
+        {
+            Debug.Assert(args == null, "Invalid arguments passed from the UI");
+            this.ClearErrors();
+            try
+            {
+                foreach (IDTSCustomProperty90 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.MultipleThreadPropName)
+                    {
+                        customProperty.Value = args.threadDetail;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
 
+        /// <summary>
+        /// Gets the Threading Detail from the Component.
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_GetThreadingDetail(object sender, ThreadingArgs args)
+        {
+            try
+            {
+                foreach (IDTSCustomProperty90 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.MultipleThreadPropName)
+                    {
+                        args.threadDetail = (MultipleHash.MultipleThread)customProperty.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
 
         #endregion
-
     }
 }

@@ -1,5 +1,8 @@
 ﻿// Multiple Hash SSIS Data Flow Transformation Component
 //
+// <copyright file="MultipleHashForm.cs" company="NA">
+//     Copyright (c) Keith Martin. All rights reserved.
+// </copyright>
 // Created by Keith Martin
 //
 // This software is licensed under the Microsoft Reciprocal License (Ms-RL)
@@ -38,50 +41,189 @@
  * 
  */
 
-#region Usings
-using System;
-using System.ComponentModel;
-using System.Windows.Forms; 
-#endregion
-
 namespace Martin.SQLServer.Dts
 {
+    #region Usings
+    using System;
+    using System.ComponentModel;
+    using System.Windows.Forms;
+    #endregion
+
+    #region Helper structures and delegates
+
+    internal delegate void DeleteOutputColumnEventHandler(object sender, DeleteOutputColumnArgs args);
+
+    internal delegate void ErrorEventHandler(object sender, Exception ex);
+
+    internal delegate void AlterOutputColumnEventHandler(object sender, AlterOutputColumnArgs args);
+
+    internal delegate void AddOutputColumnEventHandler(object sender, AddOutputColumnNameArgs args);
+
+    internal delegate void ChangeInputColumnEventHandler(object sender, SetInputColumnArgs args);
+
+    internal delegate void GetOutputColumnsEventHandler(object sender, OutputColumnsArgs args);
+
+    internal delegate void GetInputColumnsEventHandler(object sender, InputColumnsArgs args);
+
+    /// <summary>
+    /// Retrieves the threading details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">The threading details</param>
+    internal delegate void GetThreadingDetailEventHandler(object sender, ThreadingArgs args);
+
+    /// <summary>
+    /// Updates the threading details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">The threading details</param>
+    internal delegate void SetThreadingDetailEventHandler(object sender, ThreadingArgs args);
+
+    internal struct InputColumnElement
+    {
+        public bool Selected;
+        public int LineageID;
+        public int SortPosition;
+        public DataFlowElement InputColumn;
+    }
+
+    internal struct SelectedInputColumns
+    {
+        public DataFlowElement InputColumn;
+    }
+
+    internal struct OutputColumnElement
+    {
+        public MultipleHash.HashTypeEnumerator Hash;
+        public DataFlowElement OutputColumn;
+        public InputColumnElement[] InputColumns;
+    }
+    #endregion
+
+    /// <summary>
+    /// This is the form for the UI of this SSIS component
+    /// </summary>
     public partial class MultipleHashForm : Form
     {
+        /// <summary>
+        /// This flag is set to true while loading the state from the component, to disable
+        /// the grid events during that time.
+        /// it is also used when updating the grids, to prevent other grids firing events.
+        /// </summary>
+        private bool isLoading;
+
+        /// <summary>
+        /// Initializes a new instance of the MultipleHashForm class.
+        /// </summary>
+        public MultipleHashForm()
+        {
+            // Force W2K3R2 x64 environments to work as the events are firing when the grids are being created.
+            // This doesn't seem to happen on any other environment.
+            this.isLoading = true;
+            this.InitializeComponent();
+            this.isLoading = false;
+        }
 
         #region Exposed events
 
-        /// There are 7 required events:
-        /// GetInputColumns - Retrieves all the input columns from the SSIS data flow object
-        /// SetInputColumn - Passes alterations to input columns back to the SSIS data flow object
-        /// DeleteInputColumn - Removes an input column from the SSIS data flow object
-        /// GetOutputColumns - Retreives all the output columns from the SSIS data flow object
-        /// AddOutputColumn - Adds a new output column to the SSIS data flow object
-        /// AlterOutputColumn - Passes alterations to an output column back to the SSIS data flow object
-        /// DeleteOutputColumn - Removes an output column from the SSIS data flow object
+        // There are 9 required events:
+        // GetInputColumns - Retrieves all the input columns from the SSIS data flow object
+        // SetInputColumn - Passes alterations to input columns back to the SSIS data flow object
+        // DeleteInputColumn - Removes an input column from the SSIS data flow object
+        // GetOutputColumns - Retreives all the output columns from the SSIS data flow object
+        // AddOutputColumn - Adds a new output column to the SSIS data flow object
+        // AlterOutputColumn - Passes alterations to an output column back to the SSIS data flow object
+        // DeleteOutputColumn - Removes an output column from the SSIS data flow object
+        // GetThreadingDetail - Returns the threading details
+        // SetThreadingDetail - Sets the threading details
 
-
+        /// <summary>
+        /// Fires when the Input Columns are required
+        /// </summary>
         internal event GetInputColumnsEventHandler GetInputColumns;
+
+        /// <summary>
+        /// Fires when an Input Columns need to be set
+        /// </summary>
         internal event ChangeInputColumnEventHandler SetInputColumn;
+
+        /// <summary>
+        /// Fires when the Input Columns need to be deleted
+        /// </summary>
         internal event ChangeInputColumnEventHandler DeleteInputColumn;
+
+        /// <summary>
+        /// Fires when the Output Columns are need
+        /// </summary>
         internal event GetOutputColumnsEventHandler GetOutputColumns;
+
+        /// <summary>
+        /// Fires when a new Output column is required
+        /// </summary>
         internal event AddOutputColumnEventHandler AddOutputColumn;
+
+        /// <summary>
+        /// Fires when the Output Columns need to be changed
+        /// </summary>
         internal event AlterOutputColumnEventHandler AlterOutputColumn;
+
+        /// <summary>
+        /// Fires when the Output Columns needs to be deleted
+        /// </summary>
         internal event DeleteOutputColumnEventHandler DeleteOutputColumn;
+
+        /// <summary>
+        /// Fires when the threading details are to be returned
+        /// </summary>
+        internal event GetThreadingDetailEventHandler GetThreadingDetail;
+
+        /// <summary>
+        /// Fires when the threading details are to be updated
+        /// </summary>
+        internal event SetThreadingDetailEventHandler SetThreadingDetail;
+
+        /// <summary>
+        /// Fires when the Error Handler is needed
+        /// </summary>
         internal event ErrorEventHandler CallErrorHandler;
 
         #endregion
 
-        // This flag is set to true while loading the state from the component, to disable
-        // the grid events during that time.
-        // it is also used when updating the grids, to prevent other grids firing events.
+        #region Overridden methods
 
-        bool isLoading;
-
-        public MultipleHashForm()
+        /// <summary>
+        /// This get's fired as the OnLoad event.
+        /// </summary>
+        /// <param name="e">The event arguments</param>
+        protected override void OnLoad(EventArgs e)
         {
-            InitializeComponent();
+            base.OnLoad(e);
+
+            this.isLoading = true;
+            try
+            {
+                // Loading available and previously selected columns.
+                this.LoadAvailableColumns();
+                ThreadingArgs args = new ThreadingArgs();
+                args.threadDetail = MultipleHash.MultipleThread.None;
+
+                // Call the SetThreading event...
+                IAsyncResult res = this.GetThreadingDetail.BeginInvoke(this, args, null, null);
+                this.GetThreadingDetail.EndInvoke(res);
+                cbThreading.Text = GetThreadingName(args.threadDetail);
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
+            finally
+            {
+                this.isLoading = false;
+            }
         }
+
+        #endregion
 
         #region Helper functions
 
@@ -89,12 +231,12 @@ namespace Martin.SQLServer.Dts
         /// Hooking up a data flow element to a grid cell.
         /// </summary>
         /// <param name="cell">Where to put the DataFlowElement</param>
-        /// <param name="dataFlowElement"></param>
+        /// <param name="dataFlowElement">What to put in the cell</param>
         private static void SetGridCellData(DataGridViewCell cell, DataFlowElement dataFlowElement)
         {
-                cell.Value = dataFlowElement.ToString();
-                cell.Tag = dataFlowElement.Tag;
-                cell.ToolTipText = dataFlowElement.ToolTip;
+            cell.Value = dataFlowElement.ToString();
+            cell.Tag = dataFlowElement.Tag;
+            cell.ToolTipText = dataFlowElement.ToolTip;
         }
 
         /// <summary>
@@ -102,14 +244,13 @@ namespace Martin.SQLServer.Dts
         /// Used on the dgvOutputColumns
         /// </summary>
         /// <param name="cell">Where to put the OutputColumnElement</param>
-        /// <param name="outputColumnElement"></param>
+        /// <param name="outputColumnElement">What to put in the cell</param>
         private static void SetGridCellData(DataGridViewCell cell, OutputColumnElement outputColumnElement)
         {
             cell.Value = outputColumnElement.OutputColumn.ToString();
             cell.Tag = outputColumnElement;
             cell.ToolTipText = outputColumnElement.OutputColumn.ToolTip;
         }
-
 
         /// <summary>
         /// Loading available columns to the selection grid.
@@ -144,6 +285,7 @@ namespace Martin.SQLServer.Dts
                             SetGridCellData(this.dgvAvailableColumns.Rows[i].Cells[this.gridColumnAvailableColumns.Index], availableColumnRow.InputColumn);
                         }
                     }
+
                     this.dgvAvailableColumns.ResumeLayout();
                 }
             }
@@ -187,11 +329,12 @@ namespace Martin.SQLServer.Dts
 
                             // Filling the cells.
                             SetGridCellData(this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsColumnName.Index], outputColumnRow);
-                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = GetHashName(outputColumnRow.Hash);
+                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = this.GetHashName(outputColumnRow.Hash);
                         }
                     }
+
                     this.dgvOutputColumns.ResumeLayout();
-                    RefreshdgvHashColumns();
+                    this.RefreshdgvHashColumns();
                 }
             }
             catch (Exception ex)
@@ -205,12 +348,10 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
-
         /// <summary>
         /// Adding newly selected columns to the Data Flow.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">The arguments to pass to SetInputColumn</param>
         private void SetColumns(SetInputColumnArgs args)
         {
             try
@@ -226,13 +367,12 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
-
         }
 
         /// <summary>
         /// Deleting unselected columns from the Data Flow and the bottom grid.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">The arguments to pass to DeleteInputColumn</param>
         private void DeleteColumns(SetInputColumnArgs args)
         {
             try
@@ -254,9 +394,7 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
-
         }
-
 
         /// <summary>
         /// Refreshes the contents of the dgvHashColumns grid.
@@ -268,26 +406,29 @@ namespace Martin.SQLServer.Dts
             {
                 // Load the data into the dgvOutputColumns grid.
                 this.isLoading = true;
-                dgvHashColumns.SuspendLayout();
-                dgvHashColumns.Rows.Clear();
+                this.dgvHashColumns.SuspendLayout();
+                this.dgvHashColumns.Rows.Clear();
+
                 // Make sure that something is selected in the Output Columns. 
                 // Default to the first row if nothing is already selected.
-                if (dgvOutputColumns.SelectedRows.Count == 0)
+                if (this.dgvOutputColumns.SelectedRows.Count == 0)
                 {
-                    dgvOutputColumns.Rows[0].Selected = true;
+                    this.dgvOutputColumns.Rows[0].Selected = true;
                 }
+
                 // If we have a Tag (for when there are no output columns yet.
-                if (dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag != null)
+                if (this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag != null)
                 {
                     // If we have input columns...
-                    if (((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length > 0)
+                    if (((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length > 0)
                     {
                         // Add all the required output rows from the Tag, which holds an OutputColumnElement
-                        dgvHashColumns.Rows.Add(((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length);
+                        this.dgvHashColumns.Rows.Add(((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length);
+
                         // Now push all the rows into the grid
-                        for (int i = 0; i < ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length; i++)
+                        for (int i = 0; i < ((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns.Length; i++)
                         {
-                            OutputColumnElement outputColumnRow = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag);
+                            OutputColumnElement outputColumnRow = (OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
 
                             // Filling the cells.
                             SetGridCellData(this.dgvHashColumns.Rows[i].Cells[this.dgvHashColumnsColumnName.Index], outputColumnRow.InputColumns[i].InputColumn);
@@ -296,9 +437,10 @@ namespace Martin.SQLServer.Dts
                         }
                     }
                 }
+
                 // Sort by the sort column, and then resume layout...
-                dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
-                dgvHashColumns.ResumeLayout();
+                this.dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
+                this.dgvHashColumns.ResumeLayout();
             }
             catch (Exception ex)
             {
@@ -310,36 +452,6 @@ namespace Martin.SQLServer.Dts
                 this.isLoading = blnCurrentisLoading;
             }
         }
-        
-        #endregion
-
-        #region Overridden methods
-
-        /// <summary>
-        /// This get's fired as the OnLoad event.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-            this.isLoading = true;
-            try
-            {
-                // Loading available and previously selected columns.
-                this.LoadAvailableColumns();
-            }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
-            }
-            finally
-            {
-                this.isLoading = false;
-            }
-
-        }
 
         #endregion
 
@@ -350,13 +462,14 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Used to handle which tab we are on...
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void tcTabs_Selecting(object sender, TabControlCancelEventArgs e)
         {
             try
             {
-                if (e.TabPage == tbOutput)
+                if (e.TabPage == this.tbOutput)
                 {
                     this.isLoading = true;
                     this.LoadOutputColumns();
@@ -368,7 +481,6 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
-
         }
 
         #endregion
@@ -378,8 +490,9 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Commiting change in the checkbox columns so it will trigger CellValueChanged immediately.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvAvailableColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             try
@@ -397,12 +510,12 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
         /// <summary>
         /// Fired when a check box is selected on the Input tab.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvAvailableColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             // Ignoring this event while loading columns.
@@ -418,6 +531,7 @@ namespace Martin.SQLServer.Dts
                 {
                     // Get the check box
                     DataGridViewCheckBoxCell checkBoxCell = this.dgvAvailableColumns.CurrentCell as DataGridViewCheckBoxCell;
+
                     // Get the Cell which contains the columns name
                     DataGridViewCell columnCell = this.dgvAvailableColumns.Rows[e.RowIndex].Cells[this.gridColumnAvailableColumns.Index];
 
@@ -443,13 +557,13 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
         /// <summary>
         /// Fired when the selection changes.
         /// Call the function to refresh the hash columns...
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvOutputColumns_SelectionChanged(object sender, EventArgs e)
         {
             // Ignoring this event while loading columns.
@@ -457,14 +571,16 @@ namespace Martin.SQLServer.Dts
             {
                 return;
             }
+
             try
             {
                 // Set isLoading to ensure other events don't fire and cause issues.
                 this.isLoading = true;
+
                 // If we have an Output Column...
-                if (dgvOutputColumns.Rows.Count > 0)
+                if (this.dgvOutputColumns.Rows.Count > 0)
                 {
-                    RefreshdgvHashColumns();
+                    this.RefreshdgvHashColumns();
                 }
             }
             catch (Exception ex)
@@ -479,16 +595,15 @@ namespace Martin.SQLServer.Dts
             }
         }
 
-
-
         #endregion
 
         #region Change Order Events
         /// <summary>
         /// Change the order of the items in the Has Columns grid
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void btnUp_Click(object sender, EventArgs e)
         {
             int index;
@@ -499,24 +614,32 @@ namespace Martin.SQLServer.Dts
                 {
                     if (dgvHashColumns.SelectedRows[0].Index > 0 && (bool)dgvHashColumns.SelectedRows[0].Cells[this.dgvHashColumnsSelected.Index].Value)
                     {
-                        index = dgvHashColumns.SelectedRows[0].Index;
+                        index = this.dgvHashColumns.SelectedRows[0].Index;
+
                         // Push the change back to the OutputColumns Grid.
-                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+                        InputColumnElement[] inputColumns = ((OutputColumnElement)this.dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
                         for (int i = 0; i < inputColumns.Length; i++)
                         {
-                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            if (inputColumns[i].InputColumn.Tag == this.dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            {
                                 inputColumns[i].SortPosition--;
-                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index - 1].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            }
+
+                            if (inputColumns[i].InputColumn.Tag == this.dgvHashColumns.Rows[index - 1].Cells[dgvHashColumnsColumnName.Index].Tag)
+                            {
                                 inputColumns[i].SortPosition++;
+                            }
                         }
+
                         // Update the data grid
-                        value = dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value.ToString();
-                        dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value = dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value;
-                        dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value = value;
-                        dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
+                        value = this.dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value.ToString();
+                        this.dgvHashColumns.Rows[index - 1].Cells[this.dgvHashColumnsSortPosition.Index].Value = dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value;
+                        this.dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value = value;
+                        this.dgvHashColumns.Sort(dgvHashColumnsSortPosition, ListSortDirection.Ascending);
 
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();
                         args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
                         // Call the AddOutputColumn event...
                         IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
                         this.AlterOutputColumn.EndInvoke(res);
@@ -533,8 +656,9 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Change the order of the items in the Has Columns grid
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void btnDown_Click(object sender, EventArgs e)
         {
             int index;
@@ -543,20 +667,27 @@ namespace Martin.SQLServer.Dts
             {
                 if (dgvHashColumns.SelectedRows.Count > 0)
                 {
-                    if (dgvHashColumns.SelectedRows[0].Index < dgvHashColumns.Rows.Count-1 && (bool)dgvHashColumns.SelectedRows[0].Cells[this.dgvHashColumnsSelected.Index].Value)
+                    if (dgvHashColumns.SelectedRows[0].Index < dgvHashColumns.Rows.Count - 1 && (bool)dgvHashColumns.SelectedRows[0].Cells[this.dgvHashColumnsSelected.Index].Value)
                     {
                         if ((bool)dgvHashColumns.Rows[dgvHashColumns.SelectedRows[0].Index + 1].Cells[this.dgvHashColumnsSelected.Index].Value)
                         {
                             index = dgvHashColumns.SelectedRows[0].Index;
+
                             // Push the change back to the OutputColumns Grid.
                             InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
                             for (int i = 0; i < inputColumns.Length; i++)
                             {
                                 if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                                {
                                     inputColumns[i].SortPosition++;
+                                }
+
                                 if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index + 1].Cells[dgvHashColumnsColumnName.Index].Tag)
+                                {
                                     inputColumns[i].SortPosition--;
+                                }
                             }
+
                             // Update the data grid
                             value = dgvHashColumns.Rows[index + 1].Cells[this.dgvHashColumnsSortPosition.Index].Value.ToString();
                             dgvHashColumns.Rows[index + 1].Cells[this.dgvHashColumnsSortPosition.Index].Value = dgvHashColumns.Rows[index].Cells[this.dgvHashColumnsSortPosition.Index].Value;
@@ -565,6 +696,7 @@ namespace Martin.SQLServer.Dts
 
                             AlterOutputColumnArgs args = new AlterOutputColumnArgs();
                             args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
                             // Call the AddOutputColumn event...
                             IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
                             this.AlterOutputColumn.EndInvoke(res);
@@ -577,18 +709,19 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
-        }     
-        #endregion    
+        }
+        #endregion
 
         #region dgvHashColumns Handlers
-        
+
         /// <summary>
         /// This is fired when someone changes a tick on the Hash Columns.
         /// Resets the sort order, with new columns at the end of the already selected columns.
         /// Removal of a column, will decrement all columns after that ones sort order...
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvHashColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             // Ignoring this event while loading columns.
@@ -597,71 +730,89 @@ namespace Martin.SQLServer.Dts
                 return;
             }
 
-            try
+            if (dgvHashColumns.CurrentCell != null)
             {
-                if (e.ColumnIndex == dgvHashColumnsSelected.Index)
+
+                try
                 {
-                    // prevent subsequent fires from doing anything whilst we work here.
-                    this.isLoading = true;
-                    // Save the top of the grid that is displayed to reset later.
-                    int currentRow = dgvHashColumns.CurrentCell.RowIndex;
-
-                    int index = e.RowIndex;
-                    // Push the change back to the OutputColumns Tag.
-                    InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
-                    for (int i = 0; i < inputColumns.Length; i++)
+                    if (e.ColumnIndex == dgvHashColumnsSelected.Index)
                     {
-                        if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                        // prevent subsequent fires from doing anything whilst we work here.
+                        this.isLoading = true;
+
+                        // Save the top of the grid that is displayed to reset later.
+                        int currentRow = dgvHashColumns.CurrentCell.RowIndex;
+                        int index = e.RowIndex;
+
+                        // Push the change back to the OutputColumns Tag.
+                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+                        for (int i = 0; i < inputColumns.Length; i++)
                         {
-                            inputColumns[i].Selected = (bool)dgvHashColumns.Rows[index].Cells[dgvHashColumnsSelected.Index].Value;
-                            int sortPosition = 0;
-                            if (inputColumns[i].Selected)
+                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
                             {
-                                for (int j = 0; j < inputColumns.Length; j++)
+                                inputColumns[i].Selected = (bool)dgvHashColumns.Rows[index].Cells[dgvHashColumnsSelected.Index].Value;
+                                int sortPosition = 0;
+                                if (inputColumns[i].Selected)
                                 {
-                                    if (inputColumns[j].SortPosition < 999999 && inputColumns[j].SortPosition > sortPosition)
-                                        sortPosition = inputColumns[j].SortPosition;
+                                    for (int j = 0; j < inputColumns.Length; j++)
+                                    {
+                                        if (inputColumns[j].SortPosition < 999999 && inputColumns[j].SortPosition > sortPosition)
+                                        {
+                                            sortPosition = inputColumns[j].SortPosition;
+                                        }
+                                    }
+
+                                    inputColumns[i].SortPosition = sortPosition + 1;
                                 }
-                                inputColumns[i].SortPosition = sortPosition + 1;
-                            }
-                            else
-                            {
-                                sortPosition = inputColumns[i].SortPosition;
-                                for (int j = 0; j < inputColumns.Length; j++)
+                                else
                                 {
-                                    if (inputColumns[j].SortPosition > sortPosition && inputColumns[j].SortPosition < 999999)
-                                        inputColumns[j].SortPosition--;
+                                    sortPosition = inputColumns[i].SortPosition;
+                                    for (int j = 0; j < inputColumns.Length; j++)
+                                    {
+                                        if (inputColumns[j].SortPosition > sortPosition && inputColumns[j].SortPosition < 999999)
+                                        {
+                                            inputColumns[j].SortPosition--;
+                                        }
+                                    }
+
+                                    inputColumns[i].SortPosition = 999999;
                                 }
-                                inputColumns[i].SortPosition = 999999;
+
+                                break;
                             }
-                            break;
                         }
+
+                        this.RefreshdgvHashColumns();
+
+                        AlterOutputColumnArgs args = new AlterOutputColumnArgs();
+                        args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
+                        // Call the AddOutputColumn event...
+                        IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
+                        this.AlterOutputColumn.EndInvoke(res);
+                        dgvHashColumns.ClearSelection();
+                        dgvHashColumns.CurrentCell = dgvHashColumns.Rows[currentRow].Cells[0];
+                        dgvHashColumns.FirstDisplayedCell = dgvHashColumns.CurrentCell;
                     }
-
-                    RefreshdgvHashColumns();
-
-                    AlterOutputColumnArgs args = new AlterOutputColumnArgs();
-                    args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
-                    // Call the AddOutputColumn event...
-                    IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
-                    this.AlterOutputColumn.EndInvoke(res);
-                    dgvHashColumns.ClearSelection();
-                    dgvHashColumns.CurrentCell = dgvHashColumns.Rows[currentRow].Cells[0];
-                    dgvHashColumns.FirstDisplayedCell = dgvHashColumns.CurrentCell;
                 }
-            }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
-            }
-            finally
-            {
-                this.isLoading = false;
+                catch (Exception ex)
+                {
+                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                    this.CallErrorHandler.EndInvoke(res);
+                }
+                finally
+                {
+                    this.isLoading = false;
+                }
             }
         }
 
-        // Commit the change immediately to improve UI interaction.
+        /// <summary>
+        /// Commit the change immediately to improve UI interaction. 
+        /// </summary>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvHashColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             try
@@ -687,8 +838,9 @@ namespace Martin.SQLServer.Dts
         /// If there is no Tag, then this will create a new Output Column in the SSIS Component
         /// Otherwise, it will change the name or data type as required.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvOutputColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             // Ignoring this event while loading columns.
@@ -719,51 +871,62 @@ namespace Martin.SQLServer.Dts
                         // Build the argument to the event
                         AddOutputColumnNameArgs args = new AddOutputColumnNameArgs();
                         args.OutputColumnDetail.OutputColumn = new DataFlowElement(textBoxCell.Value.ToString());
+
                         // Call the AddOutputColumn event...
                         IAsyncResult res = this.AddOutputColumn.BeginInvoke(this, args, null, null);
                         this.AddOutputColumn.EndInvoke(res);
+
                         // At this point we have created the output column in the Data Flow, but it isn't hooked to the Tag...
                         OutputColumnElement outputColumnRow = new OutputColumnElement();
                         outputColumnRow = args.OutputColumnDetail;
                         if (comboCell.Value != null)
-                            outputColumnRow.Hash = GetHashEnum(comboCell.Value.ToString());
+                        {
+                            outputColumnRow.Hash = this.GetHashEnum(comboCell.Value.ToString());
+                        }
                         else
                         {
-                            outputColumnRow.Hash = MultipleHash.HashTypeEnum.None;
-                            comboCell.Value = GetHashName(MultipleHash.HashTypeEnum.None);
+                            outputColumnRow.Hash = MultipleHash.HashTypeEnumerator.None;
+                            comboCell.Value = this.GetHashName(MultipleHash.HashTypeEnumerator.None);
                         }
+
                         // Filling the cells.
-                        AlterOutputColumnArgs AOCargs = new AlterOutputColumnArgs();
-                        AOCargs.OutputColumnDetail = outputColumnRow;
+                        AlterOutputColumnArgs aocArgs = new AlterOutputColumnArgs();
+                        aocArgs.OutputColumnDetail = outputColumnRow;
+
                         // Call the AlterOutputColumn event...
-                        res = this.AlterOutputColumn.BeginInvoke(this, AOCargs, null, null);
+                        res = this.AlterOutputColumn.BeginInvoke(this, aocArgs, null, null);
                         this.AlterOutputColumn.EndInvoke(res);
+
                         // Push the altered column data to the grid...
-                        SetGridCellData(this.dgvOutputColumns.Rows[textBoxCell.RowIndex].Cells[this.dgvOutputColumnsColumnName.Index], AOCargs.OutputColumnDetail);
-                        RefreshdgvHashColumns();
+                        SetGridCellData(this.dgvOutputColumns.Rows[textBoxCell.RowIndex].Cells[this.dgvOutputColumnsColumnName.Index], aocArgs.OutputColumnDetail);
+                        this.RefreshdgvHashColumns();
                     }
                     else
                     {
                         OutputColumnElement outputColumnRow = (OutputColumnElement)textBoxCell.Tag;
+
                         // If the changed column is the Column Name column...
                         if (e.ColumnIndex == this.dgvOutputColumnsColumnName.Index)
                         {
                             // Push the change into the Tag...
                             outputColumnRow.OutputColumn.Name = textBoxCell.Value.ToString();
                         }
+
                         // If the changed column is the Hash column...
                         if (e.ColumnIndex == this.dgvOutputColumnsHashType.Index)
                         {
                             // Push the change into the Tag...
-                            outputColumnRow.Hash = GetHashEnum(comboCell.Value.ToString());
+                            outputColumnRow.Hash = this.GetHashEnum(comboCell.Value.ToString());
                         }
+
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();
                         args.OutputColumnDetail = outputColumnRow;
+
                         // Call the AlterOutputColumn event...
                         IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
                         this.AlterOutputColumn.EndInvoke(res);
                         SetGridCellData(this.dgvOutputColumns.Rows[textBoxCell.RowIndex].Cells[this.dgvOutputColumnsColumnName.Index], args.OutputColumnDetail);
-                        //textBoxCell.Tag = args.OutputColumnDetail;
+                        ////textBoxCell.Tag = args.OutputColumnDetail;
                     }
                 }
             }
@@ -782,8 +945,9 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// If an output column is deleted, then remove it from the SSIS Component.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvOutputColumns_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             try
@@ -792,6 +956,7 @@ namespace Martin.SQLServer.Dts
                 {
                     DeleteOutputColumnArgs args = new DeleteOutputColumnArgs();
                     args.OutputColumnDetail = (OutputColumnElement)e.Row.Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
                     // Call the DeleteOutputColumn event...
                     IAsyncResult res = this.DeleteOutputColumn.BeginInvoke(this, args, null, null);
                     this.DeleteOutputColumn.EndInvoke(res);
@@ -806,9 +971,41 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
+        /// <summary>
+        /// Calls the home page
+        /// </summary>
+        /// <param name="sender">Who called me?</param>
+        /// <param name="e">The event arguments</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void llCodeplex_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://ssismhash.codeplex.com/");
+        }
+
+        /// <summary>
+        /// Fires when the threading is changed.  This pushes the value back to the component
+        /// </summary>
+        /// <param name="sender">Who sent the message</param>
+        /// <param name="e">The arguments from the sender</param>
+        private void cbThreading_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbThreading.Text != string.Empty)
+                {
+                    ThreadingArgs args = new ThreadingArgs();
+                    args.threadDetail = GetThreadingEnum(cbThreading.Text);
+
+                    // Call the SetThreading event...
+                    IAsyncResult res = this.SetThreadingDetail.BeginInvoke(this, args, null, null);
+                    this.SetThreadingDetail.EndInvoke(res);
+                }
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
         }
 
         #endregion
@@ -820,130 +1017,204 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="hashValue">The HashTypeEnum value to return a string for</param>
         /// <returns>The string value for the HashTypeEnum</returns>
-        private string GetHashName(MultipleHash.HashTypeEnum hashValue)
+        private string GetHashName(MultipleHash.HashTypeEnumerator hashValue)
         {
             switch (hashValue)
             {
-                case MultipleHash.HashTypeEnum.MD5:
+                case MultipleHash.HashTypeEnumerator.MD5:
                     return "MD5";
-                case MultipleHash.HashTypeEnum.RipeMD160:
+                case MultipleHash.HashTypeEnumerator.RipeMD160:
                     return "RipeMD160";
-                case MultipleHash.HashTypeEnum.SHA1:
+                case MultipleHash.HashTypeEnumerator.SHA1:
                     return "SHA1";
-                case MultipleHash.HashTypeEnum.SHA256:
+                case MultipleHash.HashTypeEnumerator.SHA256:
                     return "SHA256";
-                case MultipleHash.HashTypeEnum.SHA384:
+                case MultipleHash.HashTypeEnumerator.SHA384:
                     return "SHA384";
-                case MultipleHash.HashTypeEnum.SHA512:
+                case MultipleHash.HashTypeEnumerator.SHA512:
                     return "SHA512";
-                case MultipleHash.HashTypeEnum.None:
+                case MultipleHash.HashTypeEnumerator.None:
                 default:
                     return "None";
             }
         }
-
 
         /// <summary>
         /// Returns the HashTypeEnum value for the passed in string hashValue
         /// </summary>
         /// <param name="hashValue">The string value for the HashTypeEnum</param>
         /// <returns>The HashTypeEnum value for the passed in string.</returns>
-        private MultipleHash.HashTypeEnum GetHashEnum(string hashValue)
+        private MultipleHash.HashTypeEnumerator GetHashEnum(string hashValue)
         {
             switch (hashValue)
             {
-
                 case "MD5":
-                    return MultipleHash.HashTypeEnum.MD5;
+                    return MultipleHash.HashTypeEnumerator.MD5;
                 case "RipeMD160":
-                    return MultipleHash.HashTypeEnum.RipeMD160;
+                    return MultipleHash.HashTypeEnumerator.RipeMD160;
                 case "SHA1":
-                    return MultipleHash.HashTypeEnum.SHA1;
+                    return MultipleHash.HashTypeEnumerator.SHA1;
                 case "SHA256":
-                    return MultipleHash.HashTypeEnum.SHA256;
+                    return MultipleHash.HashTypeEnumerator.SHA256;
                 case "SHA384":
-                    return MultipleHash.HashTypeEnum.SHA384;
+                    return MultipleHash.HashTypeEnumerator.SHA384;
                 case "SHA512":
-                    return MultipleHash.HashTypeEnum.SHA512;
+                    return MultipleHash.HashTypeEnumerator.SHA512;
                 case "None":
                 default:
-                    return MultipleHash.HashTypeEnum.None;
+                    return MultipleHash.HashTypeEnumerator.None;
             }
-        } 
+        }
         #endregion
 
+        #region Threading Value Helper Functions
+        /// <summary>
+        /// Returns the string value from the MultipleThread enum.
+        /// </summary>
+        /// <param name="threadingValue">The MultipleThread value to return a string for</param>
+        /// <returns>The string value for the MultipleThread</returns>
+        private string GetThreadingName(MultipleHash.MultipleThread threadingValue)
+        {
+            switch (threadingValue)
+            {
+                case MultipleHash.MultipleThread.Auto:
+                    return "Auto";
+                case MultipleHash.MultipleThread.On:
+                    return "On";
+                case MultipleHash.MultipleThread.None:
+                default:
+                    return "None";
+            }
+        }
+
+        /// <summary>
+        /// Returns the MultipleThread value for the passed in string threadingValue
+        /// </summary>
+        /// <param name="hashValue">The string value for the MultipleThread</param>
+        /// <returns>The MultipleThread value for the passed in string.</returns>
+        private MultipleHash.MultipleThread GetThreadingEnum(string threadingValue)
+        {
+            switch (threadingValue)
+            {
+                case "Auto":
+                    return MultipleHash.MultipleThread.Auto;
+                case "On":
+                    return MultipleHash.MultipleThread.On;
+                case "None":
+                default:
+                    return MultipleHash.MultipleThread.None;
+
+            }
+        }
+        #endregion
     }
-
-    # region Helper structures and delegates
-
-    internal struct InputColumnElement
-    {
-        public bool Selected;
-        public Int32 LineageID;
-        public Int32 SortPosition;
-        public DataFlowElement InputColumn;
-    }
-
-    internal struct SelectedInputColumns
-    {
-        public DataFlowElement InputColumn;
-    }
-
+    
+    /// <summary>
+    /// Class to pass the input column arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class InputColumnsArgs
     {
+        /// <summary>
+        /// The set of input columns
+        /// </summary>
         public InputColumnElement[] InputColumns;
     }
 
-    internal delegate void GetInputColumnsEventHandler(object sender, InputColumnsArgs args);
-
-    internal struct OutputColumnElement
-    {
-        public MultipleHash.HashTypeEnum Hash;
-        public DataFlowElement OutputColumn;
-        public InputColumnElement[] InputColumns;
-    }
-
+    /// <summary>
+    /// Class to pass the output column arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class OutputColumnsArgs
     {
+        /// <summary>
+        /// The set of output columns
+        /// </summary>
         public OutputColumnElement[] OutputColumns;
     }
 
-    internal delegate void GetOutputColumnsEventHandler(object sender, OutputColumnsArgs args);
-
+    /// <summary>
+    /// Class to pass the input column arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class SetInputColumnArgs
     {
+        /// <summary>
+        /// The set of virtual columns
+        /// </summary>
         public DataFlowElement VirtualColumn;
+
+        /// <summary>
+        /// The set of selected input columns
+        /// </summary>
         public SelectedInputColumns GeneratedColumns;
+
+        /// <summary>
+        /// Should we cancel the action?
+        /// </summary>
         public bool CancelAction;
     }
 
-    internal delegate void ChangeInputColumnEventHandler(object sender, SetInputColumnArgs args);
-
+    /// <summary>
+    /// Class to pass the Add arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class AddOutputColumnNameArgs
     {
+        /// <summary>
+        /// The detail for the Output to add
+        /// </summary>
         public OutputColumnElement OutputColumnDetail;
+
+        /// <summary>
+        /// Should we cancel the action?
+        /// </summary>
         public bool CancelAction;
     }
 
-    internal delegate void AddOutputColumnEventHandler(object sender, AddOutputColumnNameArgs args);
-
+    /// <summary>
+    /// Class to pass the Alter arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class AlterOutputColumnArgs
     {
+        /// <summary>
+        /// The detail for the column to alter
+        /// </summary>
         public OutputColumnElement OutputColumnDetail;
+
+        /// <summary>
+        /// Should we cancel the action?
+        /// </summary>
         public bool CancelAction;
     }
 
-    internal delegate void AlterOutputColumnEventHandler (object sender, AlterOutputColumnArgs args);
-
+    /// <summary>
+    /// Class to pass the Delete Arguments
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
     internal class DeleteOutputColumnArgs
     {
+        /// <summary>
+        /// The detail for the column to delete
+        /// </summary>
         public OutputColumnElement OutputColumnDetail;
+
+        /// <summary>
+        /// Should we cancel the action?
+        /// </summary>
         public bool CancelAction;
     }
-
-    internal delegate void DeleteOutputColumnEventHandler (object sender, DeleteOutputColumnArgs args);
-
-    internal delegate void ErrorEventHandler (object sender, Exception ex);
-
-    #endregion
+	
+    /// <summary>
+    /// Class to pass the Thread Details
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Fields are used for data transfer only")]
+    internal class ThreadingArgs
+    {
+        /// <summary>
+        /// The threading value to pass
+        /// </summary>
+        public MultipleHash.MultipleThread threadDetail;
+    }
 }

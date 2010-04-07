@@ -1,0 +1,195 @@
+﻿using Martin.SQLServer.Dts;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using System.Security.Cryptography;
+
+namespace MultipleHash2008Test
+{
+    
+    
+    /// <summary>
+    ///This is a test class for OutputColumnTest and is intended
+    ///to contain all OutputColumnTest Unit Tests
+    ///</summary>
+    [TestClass()]
+    public class OutputColumnTest
+    {
+
+
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
+
+        #region Additional test attributes
+        // 
+        //You can use the following additional attributes as you write your tests:
+        //
+        //Use ClassInitialize to run code before running the first test in the class
+        //[ClassInitialize()]
+        //public static void MyClassInitialize(TestContext testContext)
+        //{
+        //}
+        //
+        //Use ClassCleanup to run code after all tests in a class have run
+        //[ClassCleanup()]
+        //public static void MyClassCleanup()
+        //{
+        //}
+        //
+        //Use TestInitialize to run code before running each test
+        //[TestInitialize()]
+        //public void MyTestInitialize()
+        //{
+        //}
+        //
+        //Use TestCleanup to run code after each test has run
+        //[TestCleanup()]
+        //public void MyTestCleanup()
+        //{
+        //}
+        //
+        #endregion
+
+
+        /// <summary>
+        ///A test for OutputColumnId
+        ///</summary>
+        [TestMethod()]
+        public void OutputColumnIdTest()
+        {
+            OutputColumn target = new OutputColumn();
+            int actual;
+            actual = target.OutputColumnId;
+            Assert.AreEqual(0, actual);
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod()]
+        public void ItemTest()
+        {
+            OutputColumn target = new OutputColumn();
+            int index = 0;
+            int expected = 25;
+            int actual;
+            target.Add(0);
+            target[index] = expected;
+            actual = target[index];
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for HashType
+        ///</summary>
+        [TestMethod()]
+        public void HashTypeTest()
+        {
+            OutputColumn target = new OutputColumn();
+            MultipleHash.HashTypeEnumerator actual;
+            actual = target.HashType;
+            Assert.AreEqual(MultipleHash.HashTypeEnumerator.None, actual);
+        }
+
+        /// <summary>
+        ///A test for HashObject
+        ///</summary>
+        [TestMethod()]
+        public void HashObjectTest()
+        {
+            OutputColumn target = new OutputColumn();
+            HashAlgorithm actual;
+            actual = target.HashObject;
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
+        ///A test for Count
+        ///</summary>
+        [TestMethod()]
+        public void CountTest()
+        {
+            OutputColumn target = new OutputColumn();
+            int actual;
+            actual = target.Count;
+            Assert.AreEqual(0, actual);
+            target.Add(12);
+            actual = target.Count;
+            Assert.AreEqual(1, actual);
+        }
+
+        /// <summary>
+        ///A test for AddColumnInformation
+        ///</summary>
+        [TestMethod()]
+        public void AddColumnInformationTest()
+        {
+            OutputColumn target = new OutputColumn(); 
+            IDTSBufferManager100 bufferManager = new BufferManagerTestImpl(); 
+            IDTSOutput100 output = new OutputTestImpl(); 
+            IDTSInput100 input = new InputTestImpl(); 
+            IDTSOutputColumn100 outputColumn;
+            IDTSCustomProperty100 customProperty;
+            int outputColumnIndex = 0; 
+            outputColumn = output.OutputColumnCollection.New();
+            customProperty = outputColumn.CustomPropertyCollection.New();
+            customProperty.Name = Utility.HashTypePropName;
+            customProperty.Value = MultipleHash.HashTypeEnumerator.MD5;
+            customProperty = outputColumn.CustomPropertyCollection.New();
+            customProperty.Name = Utility.InputColumnLineagePropName;
+            customProperty.Value = "1,2,3,4,5,6";
+
+            target.AddColumnInformation(bufferManager, output, input, outputColumnIndex);
+            Assert.AreEqual(6, target.Count,"The number of items in the list");
+            Assert.AreEqual(1, target[0], "The first input");
+            Assert.AreEqual(2, target[1], "The second input");
+            Assert.AreEqual(3, target[2], "The third input");
+            Assert.AreEqual(4, target[3], "The forth input");
+            Assert.AreEqual(5, target[4], "The fifth input");
+            Assert.AreEqual(6, target[5], "The sixth input");
+            Assert.AreEqual(MultipleHash.HashTypeEnumerator.MD5, target.HashType, "Hash");
+        }
+
+        /// <summary>
+        ///A test for Add
+        ///</summary>
+        [TestMethod()]
+        public void AddTest()
+        {
+            OutputColumn target = new OutputColumn(); 
+            int inputColumnId = 10; 
+            int expected = 0; 
+            int actual;
+            actual = target.Add(inputColumnId);
+            Assert.AreEqual(expected, actual);
+            actual = target.Add(++inputColumnId);
+            Assert.AreEqual(++expected, actual);
+        }
+
+        /// <summary>
+        ///A test for OutputColumn Constructor
+        ///</summary>
+        [TestMethod()]
+        public void OutputColumnConstructorTest()
+        {
+            OutputColumn target = new OutputColumn();
+            Assert.AreEqual(MultipleHash.HashTypeEnumerator.None, target.HashType, "Hash");
+            Assert.AreEqual(0, target.OutputColumnId, "Target Column ID");
+            Assert.AreEqual(0, target.Count, "Count of inputs");
+        }
+    }
+}
