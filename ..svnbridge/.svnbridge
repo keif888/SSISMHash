@@ -9,5 +9,6 @@ CloudStorage.API.suo
 TestResults
 Lib
 CloudStorage.API.5.0.ReSharper.user
-</Value></Property><Property><Name>svn:ignore</Name><Value>TestResults
+</Value></Property><Property><Name>svn:ignore</Name><Value>*.Cache
+TestResults
 </Value></Property></Properties></ItemProperties>
