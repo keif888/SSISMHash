@@ -234,9 +234,9 @@ namespace Martin.SQLServer.Dts
         /// <param name="dataFlowElement">What to put in the cell</param>
         private static void SetGridCellData(DataGridViewCell cell, DataFlowElement dataFlowElement)
         {
-                cell.Value = dataFlowElement.ToString();
-                cell.Tag = dataFlowElement.Tag;
-                cell.ToolTipText = dataFlowElement.ToolTip;
+            cell.Value = dataFlowElement.ToString();
+            cell.Tag = dataFlowElement.Tag;
+            cell.ToolTipText = dataFlowElement.ToolTip;
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Martin.SQLServer.Dts
             cell.Tag = outputColumnElement;
             cell.ToolTipText = outputColumnElement.OutputColumn.ToolTip;
         }
-        
+
         /// <summary>
         /// Loading available columns to the selection grid.
         /// </summary>
@@ -347,7 +347,7 @@ namespace Martin.SQLServer.Dts
                 this.isLoading = blnCurrentisLoading;
             }
         }
-        
+
         /// <summary>
         /// Adding newly selected columns to the Data Flow.
         /// </summary>
@@ -395,7 +395,7 @@ namespace Martin.SQLServer.Dts
                 this.CallErrorHandler.EndInvoke(res);
             }
         }
-        
+
         /// <summary>
         /// Refreshes the contents of the dgvHashColumns grid.
         /// </summary>
@@ -452,9 +452,9 @@ namespace Martin.SQLServer.Dts
                 this.isLoading = blnCurrentisLoading;
             }
         }
-        
+
         #endregion
-        
+
         #region Event Handlers
 
         #region tcTabs Handlers
@@ -709,8 +709,8 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
-        }     
-        #endregion    
+        }
+        #endregion
 
         #region dgvHashColumns Handlers
 
@@ -732,80 +732,79 @@ namespace Martin.SQLServer.Dts
 
             if (dgvHashColumns.CurrentCell != null)
             {
-
-            try
-            {
-                if (e.ColumnIndex == dgvHashColumnsSelected.Index)
+                try
                 {
-                    // prevent subsequent fires from doing anything whilst we work here.
-                    this.isLoading = true;
-
-                    // Save the top of the grid that is displayed to reset later.
-                    int currentRow = dgvHashColumns.CurrentCell.RowIndex;
-                    int index = e.RowIndex;
-
-                    // Push the change back to the OutputColumns Tag.
-                    InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
-                    for (int i = 0; i < inputColumns.Length; i++)
+                    if (e.ColumnIndex == dgvHashColumnsSelected.Index)
                     {
-                        if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
+                        // prevent subsequent fires from doing anything whilst we work here.
+                        this.isLoading = true;
+
+                        // Save the top of the grid that is displayed to reset later.
+                        int currentRow = dgvHashColumns.CurrentCell.RowIndex;
+                        int index = e.RowIndex;
+
+                        // Push the change back to the OutputColumns Tag.
+                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+                        for (int i = 0; i < inputColumns.Length; i++)
                         {
-                            inputColumns[i].Selected = (bool)dgvHashColumns.Rows[index].Cells[dgvHashColumnsSelected.Index].Value;
-                            int sortPosition = 0;
-                            if (inputColumns[i].Selected)
+                            if (inputColumns[i].InputColumn.Tag == dgvHashColumns.Rows[index].Cells[dgvHashColumnsColumnName.Index].Tag)
                             {
-                                for (int j = 0; j < inputColumns.Length; j++)
+                                inputColumns[i].Selected = (bool)dgvHashColumns.Rows[index].Cells[dgvHashColumnsSelected.Index].Value;
+                                int sortPosition = 0;
+                                if (inputColumns[i].Selected)
                                 {
-                                    if (inputColumns[j].SortPosition < 999999 && inputColumns[j].SortPosition > sortPosition)
+                                    for (int j = 0; j < inputColumns.Length; j++)
                                     {
-                                        sortPosition = inputColumns[j].SortPosition;
+                                        if (inputColumns[j].SortPosition < 999999 && inputColumns[j].SortPosition > sortPosition)
+                                        {
+                                            sortPosition = inputColumns[j].SortPosition;
+                                        }
                                     }
+
+                                    inputColumns[i].SortPosition = sortPosition + 1;
+                                }
+                                else
+                                {
+                                    sortPosition = inputColumns[i].SortPosition;
+                                    for (int j = 0; j < inputColumns.Length; j++)
+                                    {
+                                        if (inputColumns[j].SortPosition > sortPosition && inputColumns[j].SortPosition < 999999)
+                                        {
+                                            inputColumns[j].SortPosition--;
+                                        }
+                                    }
+
+                                    inputColumns[i].SortPosition = 999999;
                                 }
 
-                                inputColumns[i].SortPosition = sortPosition + 1;
+                                break;
                             }
-                            else
-                            {
-                                sortPosition = inputColumns[i].SortPosition;
-                                for (int j = 0; j < inputColumns.Length; j++)
-                                {
-                                    if (inputColumns[j].SortPosition > sortPosition && inputColumns[j].SortPosition < 999999)
-                                    {
-                                        inputColumns[j].SortPosition--;
-                                    }
-                                }
-
-                                inputColumns[i].SortPosition = 999999;
-                            }
-
-                            break;
                         }
+
+                        this.RefreshdgvHashColumns();
+
+                        AlterOutputColumnArgs args = new AlterOutputColumnArgs();
+                        args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
+                        // Call the AddOutputColumn event...
+                        IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
+                        this.AlterOutputColumn.EndInvoke(res);
+                        dgvHashColumns.ClearSelection();
+                        dgvHashColumns.CurrentCell = dgvHashColumns.Rows[currentRow].Cells[0];
+                        dgvHashColumns.FirstDisplayedCell = dgvHashColumns.CurrentCell;
                     }
-
-                    this.RefreshdgvHashColumns();
-
-                    AlterOutputColumnArgs args = new AlterOutputColumnArgs();
-                    args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
-
-                    // Call the AddOutputColumn event...
-                    IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
-                    this.AlterOutputColumn.EndInvoke(res);
-                    dgvHashColumns.ClearSelection();
-                    dgvHashColumns.CurrentCell = dgvHashColumns.Rows[currentRow].Cells[0];
-                    dgvHashColumns.FirstDisplayedCell = dgvHashColumns.CurrentCell;
+                }
+                catch (Exception ex)
+                {
+                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                    this.CallErrorHandler.EndInvoke(res);
+                }
+                finally
+                {
+                    this.isLoading = false;
                 }
             }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
-            }
-            finally
-            {
-                this.isLoading = false;
-            }
         }
-		}
 
         /// <summary>
         /// Commit the change immediately to improve UI interaction. 
@@ -956,7 +955,7 @@ namespace Martin.SQLServer.Dts
                 {
                     DeleteOutputColumnArgs args = new DeleteOutputColumnArgs();
                     args.OutputColumnDetail = (OutputColumnElement)e.Row.Cells[this.dgvOutputColumnsColumnName.Index].Tag;
-                    
+
                     // Call the DeleteOutputColumn event...
                     IAsyncResult res = this.DeleteOutputColumn.BeginInvoke(this, args, null, null);
                     this.DeleteOutputColumn.EndInvoke(res);
@@ -1064,9 +1063,9 @@ namespace Martin.SQLServer.Dts
                 default:
                     return MultipleHash.HashTypeEnumerator.None;
             }
-        } 
+        }
         #endregion
-		
+
         #region Threading Value Helper Functions
         /// <summary>
         /// Returns the string value from the MultipleThread enum.

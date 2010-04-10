@@ -732,7 +732,6 @@ namespace Martin.SQLServer.Dts
 
             if (dgvHashColumns.CurrentCell != null)
             {
-
                 try
                 {
                     if (e.ColumnIndex == dgvHashColumnsSelected.Index)
@@ -1108,7 +1107,7 @@ namespace Martin.SQLServer.Dts
         }
         #endregion
     }
-    
+
     /// <summary>
     /// Class to pass the input column arguments
     /// </summary>

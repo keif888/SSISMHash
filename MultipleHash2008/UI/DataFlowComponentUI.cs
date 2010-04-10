@@ -188,7 +188,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSVirtualInputColumn100 column = dataFlowColumn as IDTSVirtualInputColumn100;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
@@ -200,7 +200,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSInputColumn100 column = dataFlowColumn as IDTSInputColumn100;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
@@ -211,8 +211,8 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSOutputColumn100 column = dataFlowColumn as IDTSOutputColumn100;
                 return FormatTooltipText(
-                    column.Name, 
-                    column.DataType.ToString(), 
+                    column.Name,
+                    column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
                     column.Precision.ToString(CultureInfo.CurrentUICulture),
@@ -222,7 +222,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSExternalMetadataColumn100 column = dataFlowColumn as IDTSExternalMetadataColumn100;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
@@ -412,7 +412,7 @@ namespace Martin.SQLServer.Dts
             else
             {
                 MessageBox.Show(
-                    ex.Message,
+                    ex.Message + "\r\nSource: " + ex.Source + "\r\n" + ex.TargetSite + "\r\n" + ex.StackTrace,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error,

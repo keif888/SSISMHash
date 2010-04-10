@@ -107,6 +107,8 @@ namespace Martin.SQLServer.Dts
             form.AlterOutputColumn += new AlterOutputColumnEventHandler(this.form_AlterOutputColumn);
             form.DeleteOutputColumn += new DeleteOutputColumnEventHandler(this.form_DeleteOutputColumn);
             form.CallErrorHandler += new ErrorEventHandler(this.form_CallErrorHandler);
+            form.GetThreadingDetail += new GetThreadingDetailEventHandler(this.form_GetThreadingDetail);
+            form.SetThreadingDetail += new SetThreadingDetailEventHandler(this.form_SetThreadingDetail);
         }
 
         #region Event handlers
@@ -219,7 +221,7 @@ namespace Martin.SQLServer.Dts
                 this.ReportErrors(ex);
                 args.CancelAction = true;
             }
-        } 
+        }
         #endregion
 
         #region Output Event Handlers
@@ -486,7 +488,7 @@ namespace Martin.SQLServer.Dts
         #endregion
 
         /// <summary>
-        /// Causes the farm to call the error handler
+        /// Causes the form to call the error handler
         /// </summary>
         /// <param name="sender">Where the exception came from</param>
         /// <param name="ex">the exception</param>
@@ -495,6 +497,55 @@ namespace Martin.SQLServer.Dts
         {
             this.ReportErrors(ex);
         }
+
+        /// <summary>
+        /// Sends the Threading Detail back to the Component.
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_SetThreadingDetail(object sender, ThreadingArgs args)
+        {
+            Debug.Assert(args != null, "Invalid arguments passed from the UI");
+            this.ClearErrors();
+            try
+            {
+                foreach (IDTSCustomProperty100 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.MultipleThreadPropName)
+                    {
+                        customProperty.Value = args.threadDetail;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets the Threading Detail from the Component.
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_GetThreadingDetail(object sender, ThreadingArgs args)
+        {
+            try
+            {
+                foreach (IDTSCustomProperty100 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.MultipleThreadPropName)
+                    {
+                        args.threadDetail = (MultipleHash.MultipleThread)customProperty.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+
         #endregion
     }
 }

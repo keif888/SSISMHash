@@ -794,7 +794,7 @@ namespace Martin.SQLServer.Dts
                     this.numOfThreads = Math.Max(1, Utility.GetNumberOfProcessorCores() - 1);
                     break;
                 case MultipleThread.On:
-                    this.numOfThreads = 2;
+                    this.numOfThreads = Math.Max(1, Utility.GetNumberOfProcessorCores());
                     break;
                 default:
                     break;
@@ -816,6 +816,15 @@ namespace Martin.SQLServer.Dts
             {
                 // Setup Thread Requirements
                 this.threadResets = new ManualResetEvent[this.numOfOutputColumns];
+#if DEBUG
+                int workerThreads;
+                int portThreads;
+
+                ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
+                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + "Maximum Threads.", string.Empty, 0, ref fireAgain);
+                ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
+                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + "Available Threads.", string.Empty, 0, ref fireAgain);
+#endif
             }
         }
         #endregion
@@ -856,12 +865,25 @@ namespace Martin.SQLServer.Dts
                     {
 #if DEBUG
                         this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: Running MultiThreaded", string.Empty, 0, ref FireAgain);
+                        int workerThreads;
+                        int portThreads;
+
+                        ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
+                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + " Maximum Threads.", string.Empty, 0, ref FireAgain);
+                        ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
+                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + " Available Threads.", string.Empty, 0, ref FireAgain);
 #endif
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
                             this.threadResets[i] = new ManualResetEvent(false);
                             passThreadState = new PassThreadState(this.outputColumnsArray[i], buffer, this.ComponentMetaData, this.threadResets[i]);
                             ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessOutputColumn.CalculateHash), passThreadState);
+#if DEBUG
+                            ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
+                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString() + " Maximum Threads.", string.Empty, 0, ref FireAgain);
+                            ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
+                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString() + " Available Threads.", string.Empty, 0, ref FireAgain);
+#endif
                         }
 
                         WaitHandle.WaitAll(this.threadResets);
@@ -905,15 +927,19 @@ namespace Martin.SQLServer.Dts
                                         case DataType.DT_DATE:
                                         case DataType.DT_DBDATE:
                                         case DataType.DT_DBTIMESTAMP:
-////                                        case DataType.DT_DBTIMESTAMP2:
-////                                        case DataType.DT_DBTIMESTAMPOFFSET:
+#if SQL2008
+                                        case DataType.DT_DBTIMESTAMP2:
+                                        case DataType.DT_DBTIMESTAMPOFFSET:
+#endif
                                         case DataType.DT_FILETIME:
                                             Utility.Append(ref inputByteBuffer, buffer.GetDateTime(this.outputColumnsArray[i][j]));
                                             break;
-////                                        case DataType.DT_DBTIME:
-////                                        case DataType.DT_DBTIME2:
-////                                            Utility.Append(ref inputByteBuffer, buffer.GetTime(this.outputColumnsArray[i][j]));
-////                                            break;
+#if SQL2008
+                                        case DataType.DT_DBTIME:
+                                        case DataType.DT_DBTIME2:
+                                            Utility.Append(ref inputByteBuffer, buffer.GetTime(this.outputColumnsArray[i][j]));
+                                            break;
+#endif
                                         case DataType.DT_GUID:
                                             Utility.Append(ref inputByteBuffer, buffer.GetGuid(this.outputColumnsArray[i][j]));
                                             break;

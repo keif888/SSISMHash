@@ -505,7 +505,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="args">the arguments passed</param>
         void form_SetThreadingDetail(object sender, ThreadingArgs args)
         {
-            Debug.Assert(args == null, "Invalid arguments passed from the UI");
+            Debug.Assert(args != null, "Invalid arguments passed from the UI");
             this.ClearErrors();
             try
             {

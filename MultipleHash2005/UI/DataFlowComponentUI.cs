@@ -188,7 +188,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSVirtualInputColumn90 column = dataFlowColumn as IDTSVirtualInputColumn90;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
@@ -200,7 +200,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSInputColumn90 column = dataFlowColumn as IDTSInputColumn90;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
@@ -211,8 +211,8 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSOutputColumn90 column = dataFlowColumn as IDTSOutputColumn90;
                 return FormatTooltipText(
-                    column.Name, 
-                    column.DataType.ToString(), 
+                    column.Name,
+                    column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),
                     column.Precision.ToString(CultureInfo.CurrentUICulture),
@@ -222,7 +222,7 @@ namespace Martin.SQLServer.Dts
             {
                 IDTSExternalMetadataColumn90 column = dataFlowColumn as IDTSExternalMetadataColumn90;
                 return FormatTooltipText(
-                    column.Name, 
+                    column.Name,
                     column.DataType.ToString(),
                     column.Length.ToString(CultureInfo.CurrentUICulture),
                     column.Scale.ToString(CultureInfo.CurrentUICulture),

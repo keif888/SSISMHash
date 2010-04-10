@@ -44,11 +44,7 @@
 namespace Martin.SQLServer.Dts
 {
     #region Usings
-    using System;
-    using System.Collections.Generic;
     using System.Text;
-    using Microsoft.SqlServer.Dts.Pipeline;
-    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
     #endregion
     /// <summary>
@@ -105,15 +101,19 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_DATE:
                         case DataType.DT_DBDATE:
                         case DataType.DT_DBTIMESTAMP:
-////                        case DataType.DT_DBTIMESTAMP2:
-////                        case DataType.DT_DBTIMESTAMPOFFSET:
+#if SQL2008
+                        case DataType.DT_DBTIMESTAMP2:
+                        case DataType.DT_DBTIMESTAMPOFFSET:
+#endif
                         case DataType.DT_FILETIME:
                             Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetDateTime(passThreadState.ColumnToProcess[j]));
                             break;
-////                        case DataType.DT_DBTIME:
-////                        case DataType.DT_DBTIME2:
-////                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetTime(passThreadState.ColumnToProcess[j]));
-////                            break;
+#if SQL2008
+                        case DataType.DT_DBTIME:
+                        case DataType.DT_DBTIME2:
+                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetTime(passThreadState.ColumnToProcess[j]));
+                            break;
+#endif
                         case DataType.DT_GUID:
                             Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetGuid(passThreadState.ColumnToProcess[j]));
                             break;
