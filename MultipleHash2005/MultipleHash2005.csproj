@@ -29,7 +29,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SQL2005</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -55,37 +55,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MultipleHash.cs" />
-    <Compile Include="OutputColumn.cs" />
-    <Compile Include="PassThreadState.cs" />
-    <Compile Include="ProcessOutputColumn.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\MultipleHash2008\MultipleHash.cs">
+      <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\OutputColumn.cs">
+      <Link>OutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\PassThreadState.cs">
+      <Link>PassThreadState.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\ProcessOutputColumn.cs">
+      <Link>ProcessOutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.cs">
+      <Link>UI\MultipleHashForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.designer.cs">
+      <Link>UI\MultipleHashForm.designer.cs</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\DataFlowComponentUI.cs" />
-    <Compile Include="UI\DataFlowElement.cs" />
-    <Compile Include="UI\MultipleHashForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="..\MultipleHash2008\UI\DataFlowComponentUI.cs">
+      <Link>UI\DataFlowComponentUI.cs</Link>
     </Compile>
-    <Compile Include="UI\MultipleHashForm.Designer.cs">
-      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    <Compile Include="..\MultipleHash2008\UI\DataFlowElement.cs">
+      <Link>UI\DataFlowElement.cs</Link>
     </Compile>
-    <Compile Include="UI\MultipleHashUI.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashUI.cs">
+      <Link>UI\MultipleHashUI.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Utility.cs">
+      <Link>Utility.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="key.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="..\MultipleHash2008\UI\MultipleHashForm.resx">
+      <Link>UI\MultipleHashForm.resx</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MultipleHash2008\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\MultipleHashForm.resx">
-      <DependentUpon>MultipleHashForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

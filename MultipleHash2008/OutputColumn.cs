@@ -47,7 +47,18 @@ namespace Martin.SQLServer.Dts
     using System;
     using System.Collections;
     using System.Security.Cryptography;
-    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+#if SQL2008
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
+    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
+#else
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
+    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager90;
+#endif
     #endregion
 
     #region OutputColumn
@@ -228,7 +239,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="output">The output to find the column in</param>
         /// <param name="input">The input where all the data comes from</param>
         /// <param name="outputColumnIndex">The Column Index of the output column.</param>
-        public void AddColumnInformation(IDTSBufferManager100 bufferManager, IDTSOutput100 output, IDTSInput100 input, int outputColumnIndex)
+        public void AddColumnInformation(IDTSBufferManager bufferManager, IDTSOutput output, IDTSInput input, int outputColumnIndex)
         {
             if (bufferManager == null)
             {
@@ -245,7 +256,7 @@ namespace Martin.SQLServer.Dts
                 throw new ArgumentNullException("output");
             }
 
-            IDTSOutputColumn100 outputColumn = output.OutputColumnCollection[outputColumnIndex];
+            IDTSOutputColumn outputColumn = output.OutputColumnCollection[outputColumnIndex];
             string[] inputLineageIDList;
             if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
             {

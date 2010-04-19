@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
+    <Content Include="ManualTestCases.txt" />
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\MultipleHash2008.accessor" />

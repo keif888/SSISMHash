@@ -351,7 +351,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "Version" = "8:3.5.30729"
+                "Version" = "8:2.0.50727"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -673,7 +673,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Multiple Hash 2005"
         "ProductCode" = "8:{D88C0F9A-209B-4B19-BAAC-744EB87258A6}"
-        "PackageCode" = "8:{B2C35737-429C-4F43-8F93-FEB5D34F5DB5}"
+        "PackageCode" = "8:{F7D48D1C-9D10-481B-9FAA-36A4A3D8880D}"
         "UpgradeCode" = "8:{4A31F2D0-C634-4494-8825-CFE0F003950F}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"

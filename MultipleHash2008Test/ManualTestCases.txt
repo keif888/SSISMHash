@@ -1,0 +1,43 @@
+﻿Multiple Hash Test Cases:
+Execute the following test cases on the following hardware/Software Combinations:
+Test Cases:
+Batch:
+C:\Windows\Setuplog.txt text file as Flat File Input -> Multiple Hash 1.1 = No Errors
+C:\Windows\Setuplog.txt text file as Flat File Input -> Multiple Hash 1.2 = No Errors
+
+GUI:
+Install V1.1
+Open BIDS
+Verify that Multiple Hash is available in Toolbox  (May not function due to known x64 issues)
+Close BIDS
+Uninstall V1.1
+Install V1.2
+Open BIDS
+Verify that Multiple Hash is available in Toolbox
+Create new package
+Add Flat File Source from C:\Windows\Setuplog.txt
+Add Multiple Hash
+Add all available Inputs
+Create 1 output per available Hash Type
+Add all columns
+Save
+Remove some columns
+Save
+Remove all columns
+Save
+Add 1 Column on all inputs
+Save
+Remove 2 inputs
+Save
+Change order of inputs
+Save
+Change Multiple Threading
+Save
+Ensure no errors have happened whilst in GUI...
+Ensure that the settings before and after Save are the same...
+
+Windows 2003 R2 SP2 x64; SQL 2005 SP2; Multiple Hash 1.1; x64 DTExec
+Windows 2003 R2 SP2 x64; SQL 2005 SP2; Multiple Hash 1.1; x32 DTExec
+Windows 2003 R2 SP2 x64; SQL 2005 SP2; Multiple Hash 1.2; x64 DTExec
+Windows 2003 R2 SP2 x64; SQL 2005 SP2; Multiple Hash 1.2; x32 DTExec
+Windows XP x32; SQL 2005 SP3; SQL 2008 SP1; Multiple Hash 1.2; x32 DTExec

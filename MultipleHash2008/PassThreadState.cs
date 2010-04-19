@@ -46,8 +46,13 @@ namespace Martin.SQLServer.Dts
     #region Usings
     using System.Threading;
     using Microsoft.SqlServer.Dts.Pipeline;
-    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
-    using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+#if SQL2008
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
+
+#else
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData90;
+#endif
     #endregion
     /// <summary>
     /// This is the class that is used to pass data to the threads
@@ -61,7 +66,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="buffer">the PipelineBuffer that is being read</param>
         /// <param name="metaData">the Component MetaData that is being processed</param>
         /// <param name="threadReset">the Event that is to be manually reset to indicate completion</param>
-        public PassThreadState(OutputColumn columnToProcess, PipelineBuffer buffer, IDTSComponentMetaData100 metaData, ManualResetEvent threadReset)
+        public PassThreadState(OutputColumn columnToProcess, PipelineBuffer buffer, IDTSComponentMetaData metaData, ManualResetEvent threadReset)
         {
             this.ColumnToProcess = columnToProcess;
             this.Buffer = buffer;
@@ -87,6 +92,6 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Gets or sets the components metaData
         /// </summary>
-        public IDTSComponentMetaData100 MetaData { get; set; }
+        public IDTSComponentMetaData MetaData { get; set; }
     }
 }

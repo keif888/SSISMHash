@@ -44,8 +44,7 @@
 namespace Martin.SQLServer.Dts
 {
     #region Usings
-    using System.Text;
-    using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
     #endregion
     /// <summary>
     /// Class to process the data to an Output Column
@@ -65,135 +64,8 @@ namespace Martin.SQLServer.Dts
         /// <param name="state">this is the thread state object that is passed</param>
         public static void CalculateHash(object state)
         {
-#if DEBUG
-            bool fireAgain = true;
-#endif
             PassThreadState passThreadState = (PassThreadState)state;
-            byte[] inputByteBuffer = new byte[0];
-            uint blobLength = 0;
-
-            // Step through each input column for that output column
-            for (int j = 0; j < passThreadState.ColumnToProcess.Count; j++)
-            {
-                // Skip NULL values, as they "don't" exist...
-                if (!passThreadState.Buffer.IsNull(passThreadState.ColumnToProcess[j]))
-                {
-#if DEBUG
-                    passThreadState.MetaData.FireInformation(0, passThreadState.MetaData.Name, "Inside ProcessInput: DataType is " + passThreadState.Buffer.GetColumnInfo(passThreadState.ColumnToProcess[j]).DataType.ToString(), string.Empty, 0, ref fireAgain);
-#endif
-                    switch (passThreadState.Buffer.GetColumnInfo(passThreadState.ColumnToProcess[j]).DataType)
-                    {
-                        case DataType.DT_BOOL:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetBoolean(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_IMAGE:
-                            blobLength = passThreadState.Buffer.GetBlobLength(passThreadState.ColumnToProcess[j]);
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetBlobData(passThreadState.ColumnToProcess[j], 0, (int)blobLength));
-                            break;
-                        case DataType.DT_BYTES:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetBytes(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_CY:
-                        case DataType.DT_DECIMAL:
-                        case DataType.DT_NUMERIC:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetDecimal(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_DATE:
-                        case DataType.DT_DBDATE:
-                        case DataType.DT_DBTIMESTAMP:
-#if SQL2008
-                        case DataType.DT_DBTIMESTAMP2:
-                        case DataType.DT_DBTIMESTAMPOFFSET:
-#endif
-                        case DataType.DT_FILETIME:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetDateTime(passThreadState.ColumnToProcess[j]));
-                            break;
-#if SQL2008
-                        case DataType.DT_DBTIME:
-                        case DataType.DT_DBTIME2:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetTime(passThreadState.ColumnToProcess[j]));
-                            break;
-#endif
-                        case DataType.DT_GUID:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetGuid(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_I1:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetSByte(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_I2:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetInt16(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_I4:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetInt32(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_I8:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetInt64(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_NTEXT:
-                        case DataType.DT_STR:
-                        case DataType.DT_TEXT:
-                        case DataType.DT_WSTR:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetString(passThreadState.ColumnToProcess[j]), Encoding.UTF8);
-                            break;
-                        case DataType.DT_R4:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetSingle(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_R8:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetDouble(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_UI1:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetByte(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_UI2:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetUInt16(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_UI4:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetUInt32(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_UI8:
-                            Utility.Append(ref inputByteBuffer, passThreadState.Buffer.GetUInt64(passThreadState.ColumnToProcess[j]));
-                            break;
-                        case DataType.DT_EMPTY:
-                        case DataType.DT_NULL:
-                        default:
-                            break;
-                    }
-                }
-#if DEBUG
-                else
-                {
-                    passThreadState.MetaData.FireInformation(0, passThreadState.MetaData.Name, "Inside ProcessInput: Null Value Encountered", string.Empty, 0, ref fireAgain);
-                }
-#endif
-            }
-
-            // Ok, we have all the data in a Byte Buffer
-            // So now generate the Hash
-#if DEBUG
-            passThreadState.MetaData.FireInformation(0, passThreadState.MetaData.Name, "Inside ProcessInput: Generate Hash from " + inputByteBuffer.ToString(), string.Empty, 0, ref fireAgain);
-#endif
-            byte[] hash;
-            switch (passThreadState.ColumnToProcess.HashType)
-            {
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.None:
-                    hash = new byte[1];
-                    break;
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.MD5:
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.RipeMD160:
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA1:
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA256:
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA384:
-                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA512:
-                    hash = passThreadState.ColumnToProcess.HashObject.ComputeHash(inputByteBuffer);
-                    break;
-                default:
-                    hash = new byte[1];
-                    break;
-            }
-#if DEBUG
-            passThreadState.MetaData.FireInformation(0, passThreadState.MetaData.Name, "Inside ProcessInput: Assign hash to Output", string.Empty, 0, ref fireAgain);
-#endif
-            passThreadState.Buffer.SetBytes(passThreadState.ColumnToProcess.OutputColumnId, hash);
+            Utility.CalculateHash(passThreadState.ColumnToProcess, passThreadState.Buffer);
             passThreadState.ThreadReset.Set();
         }
     }

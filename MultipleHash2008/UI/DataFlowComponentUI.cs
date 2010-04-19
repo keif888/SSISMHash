@@ -51,8 +51,28 @@ namespace Martin.SQLServer.Dts
     using System.Windows.Forms;
     using Microsoft.SqlServer.Dts.Design;
     using Microsoft.SqlServer.Dts.Pipeline.Design;
-    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime;
+#if SQL2008
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn100;
+    using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput100;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
+    using IDTSDesigntimeComponent = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSDesigntimeComponent100;
+    using IDTSExternalMetadataColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSExternalMetadataColumn100;
+    using IDTSInputCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputCollection100;
+#else
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
+    using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput90;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData90;
+    using IDTSDesigntimeComponent = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSDesigntimeComponent90;
+    using IDTSExternalMetadataColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSExternalMetadataColumn90;
+    using IDTSInputCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputCollection90;
+#endif
     #endregion
 
     /// <summary>
@@ -68,17 +88,17 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// The meta data related to the component
         /// </summary>
-        private IDTSComponentMetaData100 componentMetadata;
+        private IDTSComponentMetaData componentMetadata;
 
         /// <summary>
         /// The design time component
         /// </summary>
-        private IDTSDesigntimeComponent100 designtimeComponent;
+        private IDTSDesigntimeComponent designtimeComponent;
 
         /// <summary>
         /// The virtual input from SSIS
         /// </summary>
-        private IDTSVirtualInput100 virtualInput;
+        private IDTSVirtualInput virtualInput;
 
         // handy design-time services in case we need them
 
@@ -111,7 +131,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Gets the components metadata
         /// </summary>
-        protected IDTSComponentMetaData100 ComponentMetadata
+        protected IDTSComponentMetaData ComponentMetadata
         {
             get
             {
@@ -122,7 +142,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Gets the design time component
         /// </summary>
-        protected IDTSDesigntimeComponent100 DesigntimeComponent
+        protected IDTSDesigntimeComponent DesigntimeComponent
         {
             get
             {
@@ -133,7 +153,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Gets the virtual input
         /// </summary>
-        protected IDTSVirtualInput100 VirtualInput
+        protected IDTSVirtualInput VirtualInput
         {
             get
             {
@@ -184,9 +204,9 @@ namespace Martin.SQLServer.Dts
         /// <returns>The text to display on the hover window</returns>
         public static string GetTooltipString(object dataFlowColumn)
         {
-            if (dataFlowColumn is IDTSVirtualInputColumn100)
+            if (dataFlowColumn is IDTSVirtualInputColumn)
             {
-                IDTSVirtualInputColumn100 column = dataFlowColumn as IDTSVirtualInputColumn100;
+                IDTSVirtualInputColumn column = dataFlowColumn as IDTSVirtualInputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
@@ -196,9 +216,9 @@ namespace Martin.SQLServer.Dts
                     column.CodePage.ToString(CultureInfo.CurrentUICulture),
                     column.SourceComponent);
             }
-            else if (dataFlowColumn is IDTSInputColumn100)
+            else if (dataFlowColumn is IDTSInputColumn)
             {
-                IDTSInputColumn100 column = dataFlowColumn as IDTSInputColumn100;
+                IDTSInputColumn column = dataFlowColumn as IDTSInputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
@@ -207,9 +227,9 @@ namespace Martin.SQLServer.Dts
                     column.Precision.ToString(CultureInfo.CurrentUICulture),
                     column.CodePage.ToString(CultureInfo.CurrentUICulture));
             }
-            else if (dataFlowColumn is IDTSOutputColumn100)
+            else if (dataFlowColumn is IDTSOutputColumn)
             {
-                IDTSOutputColumn100 column = dataFlowColumn as IDTSOutputColumn100;
+                IDTSOutputColumn column = dataFlowColumn as IDTSOutputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
@@ -218,9 +238,9 @@ namespace Martin.SQLServer.Dts
                     column.Precision.ToString(CultureInfo.CurrentUICulture),
                     column.CodePage.ToString(CultureInfo.CurrentUICulture));
             }
-            else if (dataFlowColumn is IDTSExternalMetadataColumn100)
+            else if (dataFlowColumn is IDTSExternalMetadataColumn)
             {
-                IDTSExternalMetadataColumn100 column = dataFlowColumn as IDTSExternalMetadataColumn100;
+                IDTSExternalMetadataColumn column = dataFlowColumn as IDTSExternalMetadataColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
@@ -295,7 +315,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="dtsComponentMetadata">The components metadata</param>
         /// <param name="serviceProvider">The SSIS service provider</param>
-        void IDtsComponentUI.Initialize(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100 dtsComponentMetadata, IServiceProvider serviceProvider)
+        void IDtsComponentUI.Initialize(IDTSComponentMetaData dtsComponentMetadata, IServiceProvider serviceProvider)
         {
             this.componentMetadata = dtsComponentMetadata;
             this.serviceProvider = serviceProvider;
@@ -443,11 +463,11 @@ namespace Martin.SQLServer.Dts
         {
             Debug.Assert(this.componentMetadata != null, "The passed in component metadata was null!");
 
-            IDTSInputCollection100 inputCollection = this.componentMetadata.InputCollection;
+            IDTSInputCollection inputCollection = this.componentMetadata.InputCollection;
 
             if (inputCollection.Count > 0)
             {
-                IDTSInput100 input = inputCollection[0];
+                IDTSInput input = inputCollection[0];
                 this.virtualInput = input.GetVirtualInput();
             }
         }

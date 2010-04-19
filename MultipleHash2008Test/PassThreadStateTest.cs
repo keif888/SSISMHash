@@ -75,14 +75,13 @@ namespace MultipleHash2008Test
             OutputColumn columnToProcess = null; // TODO: Initialize to an appropriate value
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
-            ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
+            ManualResetEvent threadReset = new ManualResetEvent(true); // TODO: Initialize to an appropriate value
             PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
-            ManualResetEvent expected = null; // TODO: Initialize to an appropriate value
+            ManualResetEvent expected = new ManualResetEvent(true); // TODO: Initialize to an appropriate value
             ManualResetEvent actual;
             target.ThreadReset = expected;
             actual = target.ThreadReset;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -93,15 +92,14 @@ namespace MultipleHash2008Test
         {
             OutputColumn columnToProcess = null; // TODO: Initialize to an appropriate value
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
-            IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
+            IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl(); // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
             PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
-            IDTSComponentMetaData100 expected = null; // TODO: Initialize to an appropriate value
+            IDTSComponentMetaData100 expected = new ComponentMetaDataTestImpl(); // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 actual;
             target.MetaData = expected;
             actual = target.MetaData;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -110,17 +108,16 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void ColumnToProcessTest()
         {
-            OutputColumn columnToProcess = null; // TODO: Initialize to an appropriate value
+            OutputColumn columnToProcess = new OutputColumn(); // TODO: Initialize to an appropriate value
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
             PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
-            OutputColumn expected = null; // TODO: Initialize to an appropriate value
+            OutputColumn expected = new OutputColumn(); // TODO: Initialize to an appropriate value
             OutputColumn actual;
             target.ColumnToProcess = expected;
             actual = target.ColumnToProcess;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -139,7 +136,7 @@ namespace MultipleHash2008Test
             target.Buffer = expected;
             actual = target.Buffer;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.Inconclusive("Verify the correctness of this test method.  ie. How do you get a PipelineBuffer without being inside SSIS?");
         }
 
         /// <summary>
@@ -148,12 +145,15 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void PassThreadStateConstructorTest()
         {
-            OutputColumn columnToProcess = null; // TODO: Initialize to an appropriate value
+            OutputColumn columnToProcess = new OutputColumn();
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
-            IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
-            ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
+            IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl();
+            ManualResetEvent threadReset = new ManualResetEvent(true);
             PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsNotNull(target);
+            Assert.AreEqual(columnToProcess, target.ColumnToProcess);
+            Assert.AreEqual(metaData, target.MetaData);
+            Assert.AreEqual(threadReset, target.ThreadReset);
         }
     }
 }

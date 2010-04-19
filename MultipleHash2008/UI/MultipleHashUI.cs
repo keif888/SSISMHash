@@ -49,6 +49,27 @@ namespace Martin.SQLServer.Dts
     using System.Diagnostics;
     using System.Windows.Forms;
     using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+#if SQL2008
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
+    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty100;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn100;
+    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100;
+    using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection100;
+    using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection100;
+#else
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
+    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty90;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
+    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection90;
+    using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection90;
+    using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection90;
+#endif
     #endregion
 
     /// <summary>
@@ -129,7 +150,7 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the virtual input collection, which has all the columns that are available to be selected
-                IDTSVirtualInputColumnCollection100 virtualInputColumnCollection = this.VirtualInput.VirtualInputColumnCollection;
+                IDTSVirtualInputColumnCollection virtualInputColumnCollection = this.VirtualInput.VirtualInputColumnCollection;
                 int virtualInputColumnsCount = virtualInputColumnCollection.Count;
 
                 // Allocate the array of columns
@@ -138,7 +159,7 @@ namespace Martin.SQLServer.Dts
                 // populate the array with all the available input columns.
                 for (int i = 0; i < virtualInputColumnsCount; i++)
                 {
-                    IDTSVirtualInputColumn100 virtualInputColumn = virtualInputColumnCollection[i];
+                    IDTSVirtualInputColumn virtualInputColumn = virtualInputColumnCollection[i];
                     args.InputColumns[i].Selected = virtualInputColumn.UsageType != DTSUsageType.UT_IGNORED;
                     args.InputColumns[i].InputColumn = new DataFlowElement(virtualInputColumn.Name, virtualInputColumn);
                     args.InputColumns[i].LineageID = virtualInputColumn.LineageID;
@@ -164,10 +185,10 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the used input collection.  This component can only have one...
-                IDTSInput100 input = this.ComponentMetadata.InputCollection[0];
+                IDTSInput input = this.ComponentMetadata.InputCollection[0];
 
                 // Get the virtual column from the args...
-                IDTSVirtualInputColumn100 virtualInputColumn = args.VirtualColumn.Tag as IDTSVirtualInputColumn100;
+                IDTSVirtualInputColumn virtualInputColumn = args.VirtualColumn.Tag as IDTSVirtualInputColumn;
                 if (virtualInputColumn == null)
                 {
                     throw new ApplicationException(Properties.Resources.UIisInconsistentState);
@@ -176,7 +197,7 @@ namespace Martin.SQLServer.Dts
                 // Get the lineageId, so we can use it to enable this column as an input column...
                 int lineageId = virtualInputColumn.LineageID;
 
-                IDTSInputColumn100 inputColumn = this.DesigntimeComponent.SetUsageType(input.ID, this.VirtualInput, lineageId, DTSUsageType.UT_READONLY);
+                IDTSInputColumn inputColumn = this.DesigntimeComponent.SetUsageType(input.ID, this.VirtualInput, lineageId, DTSUsageType.UT_READONLY);
 
                 // return the new column back to the GUI to stick into a Tag...
                 args.GeneratedColumns.InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
@@ -202,10 +223,10 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the used input columns from the Component.
-                IDTSInput100 input = this.ComponentMetadata.InputCollection[0];
+                IDTSInput input = this.ComponentMetadata.InputCollection[0];
 
                 // Get the Virtual column from the args.
-                IDTSVirtualInputColumn100 virtualInputColumn = args.VirtualColumn.Tag as IDTSVirtualInputColumn100;
+                IDTSVirtualInputColumn virtualInputColumn = args.VirtualColumn.Tag as IDTSVirtualInputColumn;
                 if (virtualInputColumn == null)
                 {
                     throw new ApplicationException(Properties.Resources.UIisInconsistentState);
@@ -240,11 +261,11 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Get the output columns from the component, and store the number
-                IDTSOutputColumnCollection100 outputColumns = this.ComponentMetadata.OutputCollection[0].OutputColumnCollection;
+                IDTSOutputColumnCollection outputColumns = this.ComponentMetadata.OutputCollection[0].OutputColumnCollection;
                 int outputColumnsCount = outputColumns.Count;
 
                 // Get the input columns that have been ticked, and store the number
-                IDTSInputColumnCollection100 inputColumns = this.ComponentMetadata.InputCollection[0].InputColumnCollection;
+                IDTSInputColumnCollection inputColumns = this.ComponentMetadata.InputCollection[0].InputColumnCollection;
                 int inputColumnsCount = inputColumns.Count;
 
                 // Assign the array to hold the output columns.
@@ -255,7 +276,7 @@ namespace Martin.SQLServer.Dts
                 {
                     string[] inputLineageIDs;
                     string inputLineageList;
-                    IDTSOutputColumn100 outputColumn = outputColumns[i];
+                    IDTSOutputColumn outputColumn = outputColumns[i];
                     if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
                     {
                         args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
@@ -275,7 +296,7 @@ namespace Martin.SQLServer.Dts
                     // Get all the input columns, and then flag the selected ones, and assign
                     // the sort order...
                     int j = 0;
-                    foreach (IDTSInputColumn100 inputColumn in inputColumns)
+                    foreach (IDTSInputColumn inputColumn in inputColumns)
                     {
                         args.OutputColumns[i].InputColumns[j] = new InputColumnElement();
                         args.OutputColumns[i].InputColumns[j].InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
@@ -353,11 +374,11 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the output collection, and the number of output columns
-                IDTSOutput100 output = this.ComponentMetadata.OutputCollection[0];
+                IDTSOutput output = this.ComponentMetadata.OutputCollection[0];
                 int locationID = output.OutputColumnCollection.Count;
 
                 // Create a new output column at the end of the set of output columns.
-                IDTSOutputColumn100 outputColumn = this.DesigntimeComponent.InsertOutputColumnAt(output.ID, locationID, args.OutputColumnDetail.OutputColumn.Name, string.Empty);
+                IDTSOutputColumn outputColumn = this.DesigntimeComponent.InsertOutputColumnAt(output.ID, locationID, args.OutputColumnDetail.OutputColumn.Name, string.Empty);
                 if (outputColumn == null)
                 {
                     throw new ApplicationException(Properties.Resources.UIisInconsistentState);
@@ -371,7 +392,7 @@ namespace Martin.SQLServer.Dts
                 args.OutputColumnDetail.InputColumns = new InputColumnElement[this.ComponentMetadata.InputCollection[0].InputColumnCollection.Count];
 
                 // fill the array with unselected input columns.
-                foreach (IDTSInputColumn100 inputColumn in this.ComponentMetadata.InputCollection[0].InputColumnCollection)
+                foreach (IDTSInputColumn inputColumn in this.ComponentMetadata.InputCollection[0].InputColumnCollection)
                 {
                     args.OutputColumnDetail.InputColumns[j] = new InputColumnElement();
                     args.OutputColumnDetail.InputColumns[j].InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
@@ -402,8 +423,8 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the output collection, and the output column to change
-                ////IDTSOutput100 output = this.ComponentMetadata.OutputCollection[0];
-                IDTSOutputColumn100 outputColumn = args.OutputColumnDetail.OutputColumn.Tag as IDTSOutputColumn100;
+                ////IDTSOutput output = this.ComponentMetadata.OutputCollection[0];
+                IDTSOutputColumn outputColumn = args.OutputColumnDetail.OutputColumn.Tag as IDTSOutputColumn;
                 if (outputColumn == null)
                 {
                     throw new ApplicationException(Properties.Resources.UIisInconsistentState);
@@ -473,10 +494,10 @@ namespace Martin.SQLServer.Dts
             try
             {
                 // Grab the output collection
-                IDTSOutput100 output = this.ComponentMetadata.OutputCollection[0];
+                IDTSOutput output = this.ComponentMetadata.OutputCollection[0];
 
                 // Remove the column from the output collect.
-                output.OutputColumnCollection.RemoveObjectByID(((IDTSOutputColumn100)args.OutputColumnDetail.OutputColumn.Tag).ID);
+                output.OutputColumnCollection.RemoveObjectByID(((IDTSOutputColumn)args.OutputColumnDetail.OutputColumn.Tag).ID);
             }
             catch (Exception ex)
             {
@@ -509,7 +530,7 @@ namespace Martin.SQLServer.Dts
             this.ClearErrors();
             try
             {
-                foreach (IDTSCustomProperty100 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
                 {
                     if (customProperty.Name == Utility.MultipleThreadPropName)
                     {
@@ -532,7 +553,7 @@ namespace Martin.SQLServer.Dts
         {
             try
             {
-                foreach (IDTSCustomProperty100 customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
                 {
                     if (customProperty.Name == Utility.MultipleThreadPropName)
                     {

@@ -45,11 +45,15 @@ namespace Martin.SQLServer.Dts
 {
     #region Usings
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
-    using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+    using Microsoft.SqlServer.Dts.Pipeline;
+#if SQL2008
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+#else
+     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+#endif
     #endregion
     /// <summary>
     /// The purpose of the Utility class is to provide a single location for routines that are
@@ -635,7 +639,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="propertyValue">The type of output that is to be produced</param>
         /// <param name="outputColumn">The column to configure</param>
-        public static void SetOutputColumnDataType(MultipleHash.HashTypeEnumerator propertyValue, IDTSOutputColumn100 outputColumn)
+        public static void SetOutputColumnDataType(MultipleHash.HashTypeEnumerator propertyValue, IDTSOutputColumn outputColumn)
         {
             switch (propertyValue)
             {
@@ -672,6 +676,126 @@ namespace Martin.SQLServer.Dts
             int processorMask = System.Diagnostics.Process.GetCurrentProcess().ProcessorAffinity.ToInt32();
             int numProcessors = (int)Math.Log(processorMask, 2) + 1;
             return Math.Max(1, numProcessors);
+        }
+        #endregion
+
+        #region CalculateHash
+        /// <summary>
+        /// This creates the hash value from a thread
+        /// </summary>
+        /// <param name="state">this is the thread state object that is passed</param>
+        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer)
+        {
+            byte[] inputByteBuffer = new byte[0];
+            uint blobLength = 0;
+
+            // Step through each input column for that output column
+            for (int j = 0; j < columnToProcess.Count; j++)
+            {
+                // Skip NULL values, as they "don't" exist...
+                if (!buffer.IsNull(columnToProcess[j]))
+                {
+                    switch (buffer.GetColumnInfo(columnToProcess[j]).DataType)
+                    {
+                        case DataType.DT_BOOL:
+                            Utility.Append(ref inputByteBuffer, buffer.GetBoolean(columnToProcess[j]));
+                            break;
+                        case DataType.DT_IMAGE:
+                            blobLength = buffer.GetBlobLength(columnToProcess[j]);
+                            Utility.Append(ref inputByteBuffer, buffer.GetBlobData(columnToProcess[j], 0, (int)blobLength));
+                            break;
+                        case DataType.DT_BYTES:
+                            Utility.Append(ref inputByteBuffer, buffer.GetBytes(columnToProcess[j]));
+                            break;
+                        case DataType.DT_CY:
+                        case DataType.DT_DECIMAL:
+                        case DataType.DT_NUMERIC:
+                            Utility.Append(ref inputByteBuffer, buffer.GetDecimal(columnToProcess[j]));
+                            break;
+                        case DataType.DT_DATE:
+                        case DataType.DT_DBDATE:
+                        case DataType.DT_DBTIMESTAMP:
+#if SQL2008
+                        case DataType.DT_DBTIMESTAMP2:
+                        case DataType.DT_DBTIMESTAMPOFFSET:
+#endif
+                        case DataType.DT_FILETIME:
+                            Utility.Append(ref inputByteBuffer, buffer.GetDateTime(columnToProcess[j]));
+                            break;
+#if SQL2008
+                        case DataType.DT_DBTIME:
+                        case DataType.DT_DBTIME2:
+                            Utility.Append(ref inputByteBuffer, buffer.GetTime(columnToProcess[j]));
+                            break;
+#endif
+                        case DataType.DT_GUID:
+                            Utility.Append(ref inputByteBuffer, buffer.GetGuid(columnToProcess[j]));
+                            break;
+                        case DataType.DT_I1:
+                            Utility.Append(ref inputByteBuffer, buffer.GetSByte(columnToProcess[j]));
+                            break;
+                        case DataType.DT_I2:
+                            Utility.Append(ref inputByteBuffer, buffer.GetInt16(columnToProcess[j]));
+                            break;
+                        case DataType.DT_I4:
+                            Utility.Append(ref inputByteBuffer, buffer.GetInt32(columnToProcess[j]));
+                            break;
+                        case DataType.DT_I8:
+                            Utility.Append(ref inputByteBuffer, buffer.GetInt64(columnToProcess[j]));
+                            break;
+                        case DataType.DT_NTEXT:
+                        case DataType.DT_STR:
+                        case DataType.DT_TEXT:
+                        case DataType.DT_WSTR:
+                            Utility.Append(ref inputByteBuffer, buffer.GetString(columnToProcess[j]), Encoding.UTF8);
+                            break;
+                        case DataType.DT_R4:
+                            Utility.Append(ref inputByteBuffer, buffer.GetSingle(columnToProcess[j]));
+                            break;
+                        case DataType.DT_R8:
+                            Utility.Append(ref inputByteBuffer, buffer.GetDouble(columnToProcess[j]));
+                            break;
+                        case DataType.DT_UI1:
+                            Utility.Append(ref inputByteBuffer, buffer.GetByte(columnToProcess[j]));
+                            break;
+                        case DataType.DT_UI2:
+                            Utility.Append(ref inputByteBuffer, buffer.GetUInt16(columnToProcess[j]));
+                            break;
+                        case DataType.DT_UI4:
+                            Utility.Append(ref inputByteBuffer, buffer.GetUInt32(columnToProcess[j]));
+                            break;
+                        case DataType.DT_UI8:
+                            Utility.Append(ref inputByteBuffer, buffer.GetUInt64(columnToProcess[j]));
+                            break;
+                        case DataType.DT_EMPTY:
+                        case DataType.DT_NULL:
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            // Ok, we have all the data in a Byte Buffer
+            // So now generate the Hash
+            byte[] hash;
+            switch (columnToProcess.HashType)
+            {
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.None:
+                    hash = new byte[1];
+                    break;
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.MD5:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.RipeMD160:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA1:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA256:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA384:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA512:
+                    hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer);
+                    break;
+                default:
+                    hash = new byte[1];
+                    break;
+            }
+            buffer.SetBytes(columnToProcess.OutputColumnId, hash);
         }
         #endregion
     }

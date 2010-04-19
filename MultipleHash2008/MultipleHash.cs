@@ -45,11 +45,31 @@ namespace Martin.SQLServer.Dts
 {
     #region Usings
     using System;
-    using System.Text;
     using System.Threading;
     using Microsoft.SqlServer.Dts.Pipeline;
     using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+#if SQL2008
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
+    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty100;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn100;
+    using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput100;
+    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
+#else
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
+    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty90;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
+    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
+    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
+    using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput90;
+    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection90;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData90;
+#endif
     #endregion
 
     /// <summary>
@@ -63,8 +83,12 @@ namespace Martin.SQLServer.Dts
         DisplayName = "Multiple Hash",
         Description = "Creates Multiple Hash's from selected input columns.",
         IconResource = "Martin.SQLServer.Dts.key.ico",
+#if SQL2008
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
-        ComponentType = ComponentType.Transform,
+#else
+        UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
+#endif
+ ComponentType = ComponentType.Transform,
         CurrentVersion = 2)]
     public class MultipleHash : PipelineComponent
     {
@@ -184,7 +208,7 @@ namespace Martin.SQLServer.Dts
             //  the current version, perform the upgrade.
             if (ComponentMetaData.Version < currentVersion)
             {
-                if (ComponentMetaData.Version == 1)
+                if (ComponentMetaData.Version < 2)
                 {
                     // Add Properties for Version 2...
                     this.AddMultipleThreadProperty(this.ComponentMetaData);
@@ -217,7 +241,7 @@ namespace Martin.SQLServer.Dts
             // Name the input and output, and make the output asynchronous.
             ComponentMetaData.InputCollection[0].Name = "Input";
 
-            IDTSOutput100 output = ComponentMetaData.OutputCollection[0];
+            IDTSOutput output = ComponentMetaData.OutputCollection[0];
             output.Name = "HashedOutput";
             output.Description = "Hashed rows are directed to this output.";
             output.SynchronousInputID = ComponentMetaData.InputCollection[0].ID;
@@ -240,7 +264,7 @@ namespace Martin.SQLServer.Dts
             int testMultiThreadThere = 0;
 
             // Check that the MultiThread property is there.
-            foreach (IDTSCustomProperty100 customProperty in ComponentMetaData.CustomPropertyCollection)
+            foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
@@ -281,24 +305,27 @@ namespace Martin.SQLServer.Dts
                 return DTSValidationStatus.VS_ISCORRUPT;
             }
 
-            IDTSInput100 input = ComponentMetaData.InputCollection[0];
-            ////foreach (IDTSInputColumn100 inputColumn in input.InputColumnCollection)
-            ////{
-                ////// No support for DT_DBTIME image columns.
-                ////if (inputColumn.DataType == DataType.DT_DBTIME)
-                ////{
-                ////    throw new Exception(Properties.Resources.DBTimeDataTypeNotSupported);
-                ////}
+            IDTSInput input = ComponentMetaData.InputCollection[0];
+#if SQL2008
+#else
+            foreach (IDTSInputColumn inputColumn in input.InputColumnCollection)
+            {
+                // No support for DT_DBTIME image columns.
+                if (inputColumn.DataType == DataType.DT_DBTIME)
+                {
+                    throw new Exception(Properties.Resources.DBTimeDataTypeNotSupported);
+                }
 
-                ////if (inputColumn.DataType == DataType.DT_FILETIME)
-                ////{
-                ////    throw new Exception(Properties.Resources.DBFileTimeDataTypeNotSupported1);
-                ////}
-            ////}
+                if (inputColumn.DataType == DataType.DT_FILETIME)
+                {
+                    throw new Exception(Properties.Resources.DBFileTimeDataTypeNotSupported1);
+                }
+            }
+#endif
 
-            IDTSOutput100 output = ComponentMetaData.OutputCollection[0];
+            IDTSOutput output = ComponentMetaData.OutputCollection[0];
 
-            foreach (IDTSOutputColumn100 outputColumn in output.OutputColumnCollection)
+            foreach (IDTSOutputColumn outputColumn in output.OutputColumnCollection)
             {
                 if (outputColumn.DataType != DataType.DT_BYTES)
                 {
@@ -434,19 +461,19 @@ namespace Martin.SQLServer.Dts
         /// UsageType.UT_READWRITE - Since this component does not modify columns this usagetype is rejected.
         /// </summary>
         /// <param name="inputID">The ID of the input the column is mapped to.</param>
-        /// <param name="virtualInput">The IDTSVirtualInput100 for the input.</param>
+        /// <param name="virtualInput">The IDTSVirtualInput for the input.</param>
         /// <param name="lineageID">The lineageID of the virtual input column.</param>
         /// <param name="usageType">The usagetype of the column.</param>
         /// <returns>The newly created input column.</returns>
-        public override IDTSInputColumn100 SetUsageType(int inputID, IDTSVirtualInput100 virtualInput, int lineageID, DTSUsageType usageType)
+        public override IDTSInputColumn SetUsageType(int inputID, IDTSVirtualInput virtualInput, int lineageID, DTSUsageType usageType)
         {
             if (virtualInput == null)
             {
                 throw new ArgumentNullException("virtualInput");
             }
 
-            IDTSVirtualInputColumn100 virtualCol = virtualInput.VirtualInputColumnCollection.GetVirtualInputColumnByLineageID(lineageID);
-            IDTSInputColumn100 col = null;
+            IDTSVirtualInputColumn virtualCol = virtualInput.VirtualInputColumnCollection.GetVirtualInputColumnByLineageID(lineageID);
+            IDTSInputColumn col = null;
 
             // No support for DT_DBTIME image columns.
             ////if (vCol.DataType == DataType.DT_DBTIME)
@@ -489,12 +516,12 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         public override void ReinitializeMetaData()
         {
-            IDTSInput100 input = ComponentMetaData.InputCollection[0];
-            IDTSOutput100 output = ComponentMetaData.OutputCollection[0];
+            IDTSInput input = ComponentMetaData.InputCollection[0];
+            IDTSOutput output = ComponentMetaData.OutputCollection[0];
             int multiThreadCount = 0;
 
             // Make sure that ONLY the right property is here.
-            foreach (IDTSCustomProperty100 customProperty in ComponentMetaData.CustomPropertyCollection)
+            foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
@@ -520,7 +547,7 @@ namespace Martin.SQLServer.Dts
             }
 
             // Go through all the output columns now.
-            foreach (IDTSOutputColumn100 outputColumn in output.OutputColumnCollection)
+            foreach (IDTSOutputColumn outputColumn in output.OutputColumnCollection)
             {
                 if (outputColumn.DataType != DataType.DT_BYTES)
                 {
@@ -662,7 +689,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="insertPlacement">Where the column is to be placed</param>
         /// <param name="inputID">The input to place</param>
         /// <returns>An error as this is disabled</returns>
-        public override IDTSInput100 InsertInput(DTSInsertPlacement insertPlacement, int inputID)
+        public override IDTSInput InsertInput(DTSInsertPlacement insertPlacement, int inputID)
         {
             throw new Exception(Properties.Resources.Component
                 + ComponentMetaData.Name
@@ -678,7 +705,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="insertPlacement">The location where the output is to be placed</param>
         /// <param name="outputID">The ID of the output to place</param>
         /// <returns>the column that has been added</returns>
-        public override IDTSOutput100 InsertOutput(DTSInsertPlacement insertPlacement, int outputID)
+        public override IDTSOutput InsertOutput(DTSInsertPlacement insertPlacement, int outputID)
         {
             throw new Exception(Properties.Resources.Component
                 + ComponentMetaData.Name
@@ -695,10 +722,10 @@ namespace Martin.SQLServer.Dts
         /// <param name="name">The name of the column</param>
         /// <param name="description">The decription of the column</param>
         /// <returns>The column that has been created</returns>
-        public override IDTSOutputColumn100 InsertOutputColumnAt(int outputID, int outputColumnIndex, string name, string description)
+        public override IDTSOutputColumn InsertOutputColumnAt(int outputID, int outputColumnIndex, string name, string description)
         {
-            IDTSOutput100 output = ComponentMetaData.OutputCollection.FindObjectByID(outputID);
-            IDTSOutputColumn100 outputColumn = output.OutputColumnCollection.NewAt(outputColumnIndex);
+            IDTSOutput output = ComponentMetaData.OutputCollection.FindObjectByID(outputID);
+            IDTSOutputColumn outputColumn = output.OutputColumnCollection.NewAt(outputColumnIndex);
 
             // Add the HashType property.
             this.AddHashTypeProperty(outputColumn);
@@ -727,13 +754,13 @@ namespace Martin.SQLServer.Dts
         /// <param name="propertyName">The name of the property to set</param>
         /// <param name="propertyValue">The value to set the property to</param>
         /// <returns>The custom property which has been configured</returns>
-        public override IDTSCustomProperty100 SetOutputColumnProperty(int outputID, int outputColumnID, string propertyName, object propertyValue)
+        public override IDTSCustomProperty SetOutputColumnProperty(int outputID, int outputColumnID, string propertyName, object propertyValue)
         {
             if (propertyName == Utility.HashTypePropName)
             {
                 // Update the output type to match the HashType...
-                IDTSOutput100 output = ComponentMetaData.OutputCollection[0];
-                IDTSOutputColumn100 outputColumn = output.OutputColumnCollection.FindObjectByID(outputColumnID);
+                IDTSOutput output = ComponentMetaData.OutputCollection[0];
+                IDTSOutputColumn outputColumn = output.OutputColumnCollection.FindObjectByID(outputColumnID);
                 Utility.SetOutputColumnDataType((HashTypeEnumerator)propertyValue, outputColumn);
                 return base.SetOutputColumnProperty(outputID, outputColumnID, propertyName, propertyValue);
             }
@@ -755,7 +782,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="propertyValue">The value to assign to the property.</param>
         /// <returns>The custom property.</returns>
-        public override IDTSCustomProperty100 SetOutputProperty(int outputID, string propertyName, object propertyValue)
+        public override IDTSCustomProperty SetOutputProperty(int outputID, string propertyName, object propertyValue)
         {
             return base.SetOutputProperty(outputID, propertyName, propertyValue);
         }
@@ -777,7 +804,7 @@ namespace Martin.SQLServer.Dts
             this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Pre-Execute phase is beginning.", string.Empty, 0, ref fireAgain);
             this.numOfRowsProcessed = 0;
 
-            foreach (IDTSCustomProperty100 customProperty in ComponentMetaData.CustomPropertyCollection)
+            foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
@@ -841,7 +868,6 @@ namespace Martin.SQLServer.Dts
 #if DEBUG
             bool FireAgain = true;
 #endif
-            uint blobLength = 0;
             PassThreadState passThreadState;
             if (buffer == null)
             {
@@ -896,130 +922,7 @@ namespace Martin.SQLServer.Dts
                         // Step through each output column
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
-                            byte[] inputByteBuffer = new byte[0];
-
-                            // Step through each input column for that output column
-                            for (int j = 0; j < this.outputColumnsArray[i].Count; j++)
-                            {
-                                // Skip NULL values, as they "don't" exist...
-                                if (!buffer.IsNull(this.outputColumnsArray[i][j]))
-                                {
-#if DEBUG
-                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: DataType is " + buffer.GetColumnInfo(this.outputColumnsArray[i][j]).DataType.ToString(), string.Empty, 0, ref FireAgain);
-#endif
-                                    switch (buffer.GetColumnInfo(this.outputColumnsArray[i][j]).DataType)
-                                    {
-                                        case DataType.DT_BOOL:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetBoolean(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_IMAGE:
-                                            blobLength = buffer.GetBlobLength(this.outputColumnsArray[i][j]);
-                                            Utility.Append(ref inputByteBuffer, buffer.GetBlobData(this.outputColumnsArray[i][j], 0, (int)blobLength));
-                                            break;
-                                        case DataType.DT_BYTES:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetBytes(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_CY:
-                                        case DataType.DT_DECIMAL:
-                                        case DataType.DT_NUMERIC:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetDecimal(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_DATE:
-                                        case DataType.DT_DBDATE:
-                                        case DataType.DT_DBTIMESTAMP:
-#if SQL2008
-                                        case DataType.DT_DBTIMESTAMP2:
-                                        case DataType.DT_DBTIMESTAMPOFFSET:
-#endif
-                                        case DataType.DT_FILETIME:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetDateTime(this.outputColumnsArray[i][j]));
-                                            break;
-#if SQL2008
-                                        case DataType.DT_DBTIME:
-                                        case DataType.DT_DBTIME2:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetTime(this.outputColumnsArray[i][j]));
-                                            break;
-#endif
-                                        case DataType.DT_GUID:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetGuid(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_I1:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetSByte(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_I2:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetInt16(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_I4:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetInt32(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_I8:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetInt64(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_NTEXT:
-                                        case DataType.DT_STR:
-                                        case DataType.DT_TEXT:
-                                        case DataType.DT_WSTR:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetString(this.outputColumnsArray[i][j]), Encoding.UTF8);
-                                            break;
-                                        case DataType.DT_R4:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetSingle(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_R8:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetDouble(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_UI1:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetByte(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_UI2:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetUInt16(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_UI4:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetUInt32(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_UI8:
-                                            Utility.Append(ref inputByteBuffer, buffer.GetUInt64(this.outputColumnsArray[i][j]));
-                                            break;
-                                        case DataType.DT_EMPTY:
-                                        case DataType.DT_NULL:
-                                        default:
-                                            break;
-                                    }
-                                }
-#if DEBUG
-                                else
-                                {
-                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: Null Value Encountered", string.Empty, 0, ref FireAgain);
-                                }
-#endif
-                            }
-
-                            // Ok, we have all the data in a Byte Buffer
-                            // So now generate the Hash
-#if DEBUG
-                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: Generate Hash from " + inputByteBuffer.ToString(), string.Empty, 0, ref FireAgain);
-#endif
-                            byte[] hash;
-                            switch (this.outputColumnsArray[i].HashType)
-                            {
-                                case HashTypeEnumerator.None:
-                                    hash = new byte[1];
-                                    break;
-                                case HashTypeEnumerator.MD5:
-                                case HashTypeEnumerator.RipeMD160:
-                                case HashTypeEnumerator.SHA1:
-                                case HashTypeEnumerator.SHA256:
-                                case HashTypeEnumerator.SHA384:
-                                case HashTypeEnumerator.SHA512:
-                                    hash = this.outputColumnsArray[i].HashObject.ComputeHash(inputByteBuffer);
-                                    break;
-                                default:
-                                    hash = new byte[1];
-                                    break;
-                            }
-#if DEBUG
-                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: Assign hash to Output", string.Empty, 0, ref FireAgain);
-#endif
-                            buffer.SetBytes(this.outputColumnsArray[i].OutputColumnId, hash);
+                            Utility.CalculateHash(this.outputColumnsArray[i], buffer);
                         }
                     }
                 }
@@ -1052,7 +955,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="inputLineageIDs">The list of Lineage ID's that are to be hashed</param>
         /// <param name="inputColumns">The collection of input columns.</param>
         /// <returns>True when validation ok</returns>
-        private bool ValidateColumnList(string inputLineageIDs, IDTSInputColumnCollection100 inputColumns)
+        private bool ValidateColumnList(string inputLineageIDs, IDTSInputColumnCollection inputColumns)
         {
             string[] inputLineageArray;
             bool inputsOk = true;
@@ -1096,7 +999,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="inputLineageIDs">The list of lineage id's.</param>
         /// <param name="inputColumns">The columns in the input.</param>
         /// <returns>A valid list of LineageID's</returns>
-        private string FixColumnList(string inputLineageIDs, IDTSInputColumnCollection100 inputColumns)
+        private string FixColumnList(string inputLineageIDs, IDTSInputColumnCollection inputColumns)
         {
             string[] inputLineageArray;
             string inputValidatedList = string.Empty;
@@ -1135,7 +1038,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="outputColumn">The output column to validate.</param>
         /// <param name="customPropertyIndex">The output column's Custom Property to use for the HashTypeEnum to validate.</param>
         /// <returns>returns true when validated ok</returns>
-        private bool ValidateDataType(IDTSOutputColumn100 outputColumn, int customPropertyIndex)
+        private bool ValidateDataType(IDTSOutputColumn outputColumn, int customPropertyIndex)
         {
             switch ((HashTypeEnumerator)outputColumn.CustomPropertyCollection[customPropertyIndex].Value)
             {
@@ -1190,10 +1093,10 @@ namespace Martin.SQLServer.Dts
         /// Adds the Custom Property for the HashType.
         /// </summary>
         /// <param name="outputColumn">The column to add the HashType property to.</param>
-        private void AddHashTypeProperty(IDTSOutputColumn100 outputColumn)
+        private void AddHashTypeProperty(IDTSOutputColumn outputColumn)
         {
             // Add the HashType property.
-            IDTSCustomProperty100 hashProperty = outputColumn.CustomPropertyCollection.New();
+            IDTSCustomProperty hashProperty = outputColumn.CustomPropertyCollection.New();
             hashProperty.Name = Utility.HashTypePropName;
             hashProperty.Description = "Select the Hash Type that will be used for this output column.";
             hashProperty.ContainsID = false;
@@ -1210,10 +1113,10 @@ namespace Martin.SQLServer.Dts
         /// Creates a new custom property collection to hold the Multiple Thread property
         /// </summary>
         /// <param name="metaData">The component MetaData to add the new property to</param>
-        private void AddMultipleThreadProperty(IDTSComponentMetaData100 metaData)
+        private void AddMultipleThreadProperty(IDTSComponentMetaData metaData)
         {
             // Add the Multi Thread Property
-            IDTSCustomProperty100 multiThread = metaData.CustomPropertyCollection.New();
+            IDTSCustomProperty multiThread = metaData.CustomPropertyCollection.New();
             multiThread.Description = "Select the number of threads to use";
             multiThread.Name = Utility.MultipleThreadPropName;
             multiThread.ContainsID = false;
@@ -1230,10 +1133,10 @@ namespace Martin.SQLServer.Dts
         /// Adds the InputColumnLineageIDs custom property.
         /// </summary>
         /// <param name="outputColumn">The column to add the InputColumnLineageIDs property to.</param>
-        private void AddInputLineageIDsProperty(IDTSOutputColumn100 outputColumn)
+        private void AddInputLineageIDsProperty(IDTSOutputColumn outputColumn)
         {
             // Add the InputColumnLineageIDs property.
-            IDTSCustomProperty100 inputColumnLineageIDs = outputColumn.CustomPropertyCollection.New();
+            IDTSCustomProperty inputColumnLineageIDs = outputColumn.CustomPropertyCollection.New();
             inputColumnLineageIDs.Name = Utility.InputColumnLineagePropName;
             inputColumnLineageIDs.Description = "Enter the Lineage ID's that will be used to calculate the hash for this output column.";
             inputColumnLineageIDs.ContainsID = false;
