@@ -195,6 +195,26 @@ namespace Martin.SQLServer.Dts
         }
 
         /// <summary>
+        /// Converts from DateTimeOffset to a byte array.
+        /// </summary>
+        /// <param name="value">input value to convert to byte array</param>
+        /// <returns>byte array</returns>
+        private static byte[] ToArray(DateTimeOffset value)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                {
+                    writer.Write(value.ToString("u"));
+                    byte[] bytes = stream.ToArray();
+                    stream.Close();
+                    ////stream.Dispose();
+                    return bytes;
+                }
+            }
+        }
+
+        /// <summary>
         /// Converts from DateTime to a byte array.
         /// </summary>
         /// <param name="value">input value to convert to byte array</param>
@@ -459,6 +479,16 @@ namespace Martin.SQLServer.Dts
         }
 
         /// <summary>
+        /// Append DateTimeOffset To End Of Byte Array
+        /// </summary>
+        /// <param name="array">Original Value</param>
+        /// <param name="value">Value To Append</param>
+        private static void Append(ref byte[] array, DateTimeOffset value)
+        {
+            Utility.Append(ref array, Utility.ToArray(value));
+        }
+
+        /// <summary>
         /// Append DateTime To End Of Byte Array
         /// </summary>
         /// <param name="array">Original Value</param>
@@ -712,14 +742,20 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_NUMERIC:
                             Utility.Append(ref inputByteBuffer, buffer.GetDecimal(columnToProcess[j]));
                             break;
-                        case DataType.DT_DATE:
+#if SQL2008
+                        case DataType.DT_DBTIMESTAMPOFFSET:
+                            Utility.Append(ref inputByteBuffer, buffer.GetDateTimeOffset(columnToProcess[j]));
+                            break;
                         case DataType.DT_DBDATE:
+                            Utility.Append(ref inputByteBuffer, buffer.GetDate(columnToProcess[j]));
+                            break;
+#endif
+                        case DataType.DT_DATE:
                         case DataType.DT_DBTIMESTAMP:
 #if SQL2008
                         case DataType.DT_DBTIMESTAMP2:
-                        case DataType.DT_DBTIMESTAMPOFFSET:
-#endif
                         case DataType.DT_FILETIME:
+#endif
                             Utility.Append(ref inputByteBuffer, buffer.GetDateTime(columnToProcess[j]));
                             break;
 #if SQL2008
@@ -797,6 +833,7 @@ namespace Martin.SQLServer.Dts
             }
             buffer.SetBytes(columnToProcess.OutputColumnId, hash);
         }
+
         #endregion
     }
 }

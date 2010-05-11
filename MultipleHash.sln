@@ -17,27 +17,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MultipleHash.vsmdi = MultipleHash.vsmdi
 	EndProjectSection
 EndProject
+Project("{D183A3D8-5FD8-494B-B014-37F57B35E655}") = "SSIS2008TestMultipleHash", "SSIS2008TestMultipleHash\SSIS2008TestMultipleHash.dtproj", "{BDB7C112-FD72-4476-A38A-785EA561D39D}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MultipleHash.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.Build.0 = Release|Any CPU
 		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Debug|Any CPU.ActiveCfg = Debug
+		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Development|Any CPU.ActiveCfg = Debug
+		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Development|Any CPU.Build.0 = Debug
 		{945535EE-B5D3-461D-BCAA-942BC0C920EB}.Release|Any CPU.ActiveCfg = Release
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Debug|Any CPU.ActiveCfg = Debug
+		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Development|Any CPU.ActiveCfg = Debug
+		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Development|Any CPU.Build.0 = Debug
 		{0D6D0797-0213-4601-AC99-0373CCE77F34}.Release|Any CPU.ActiveCfg = Release
+		{BA117407-08B1-494E-928D-15D4C826D44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA117407-08B1-494E-928D-15D4C826D44A}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA117407-08B1-494E-928D-15D4C826D44A}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{BA117407-08B1-494E-928D-15D4C826D44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Debug|Any CPU.ActiveCfg = Development
+		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Debug|Any CPU.Build.0 = Development
+		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Development|Any CPU.ActiveCfg = Development
+		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Development|Any CPU.Build.0 = Development
+		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Release|Any CPU.ActiveCfg = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

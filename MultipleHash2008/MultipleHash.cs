@@ -89,7 +89,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 2)]
+        CurrentVersion = 1)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -195,28 +195,42 @@ namespace Martin.SQLServer.Dts
         #region PerformUpgrade
         /// <summary>
         /// Upgrades the component if required.
-        /// Adds the Multiple Thread Poroperty if we were Version 1
+        /// Adds the Multiple Thread Property if we were Version 1
         /// </summary>
         /// <param name="pipelineVersion">Not used at the moment</param>
         public override void PerformUpgrade(int pipelineVersion)
         {
-            // Obtain the current component version from the attribute.
-            DtsPipelineComponentAttribute componentAttribute = (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
-            int currentVersion = componentAttribute.CurrentVersion;
-
-            // If the component version saved in the package is less than
-            //  the current version, perform the upgrade.
-            if (ComponentMetaData.Version < currentVersion)
+            // Avoid a "failure" of version 1.1 if using a package from version 1.2...
+            // Just check for the property, rather than the version of the component.
+            bool blnFoundProperty = false;
+            foreach (IDTSCustomProperty multiThread in this.ComponentMetaData.CustomPropertyCollection)
             {
-                if (ComponentMetaData.Version < 2)
+                if (multiThread.Name == Utility.MultipleThreadPropName)
                 {
-                    // Add Properties for Version 2...
-                    this.AddMultipleThreadProperty(this.ComponentMetaData);
+                    blnFoundProperty = true;
+                    break;
                 }
-
-                // Update the saved component version metadata to the current version.
-                ComponentMetaData.Version = currentVersion;
             }
+            if (!blnFoundProperty)
+            {
+                this.AddMultipleThreadProperty(this.ComponentMetaData);
+            }
+            ////// Obtain the current component version from the attribute.
+            ////DtsPipelineComponentAttribute componentAttribute = (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
+            ////int currentVersion = componentAttribute.CurrentVersion;
+
+            ////// If the component version saved in the package is less than
+            //////  the current version, perform the upgrade.
+            ////if (ComponentMetaData.Version < currentVersion)
+            ////{
+            ////    if (ComponentMetaData.Version < 2)
+            ////    {
+            ////        // Add Properties for Version 2...
+            ////        this.AddMultipleThreadProperty(this.ComponentMetaData);
+            ////    }
+            ////    // Update the saved component version metadata to the current version.
+            ////    ComponentMetaData.Version = currentVersion;
+            ////}
         }
         #endregion
 
@@ -313,12 +327,18 @@ namespace Martin.SQLServer.Dts
                 // No support for DT_DBTIME image columns.
                 if (inputColumn.DataType == DataType.DT_DBTIME)
                 {
-                    throw new Exception(Properties.Resources.DBTimeDataTypeNotSupported);
+                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBTimeDataTypeNotSupported));
+                }
+
+                // No support for DT_DBDATE image columns.
+                if (inputColumn.DataType == DataType.DT_DBDATE)
+                {
+                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBDateDataTypeNotSupported));
                 }
 
                 if (inputColumn.DataType == DataType.DT_FILETIME)
                 {
-                    throw new Exception(Properties.Resources.DBFileTimeDataTypeNotSupported1);
+                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBFileTimeDataTypeNotSupported));
                 }
             }
 #endif

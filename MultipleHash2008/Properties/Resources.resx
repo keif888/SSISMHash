@@ -126,7 +126,10 @@
   <data name="Component" xml:space="preserve">
     <value>Component </value>
   </data>
-  <data name="DBFileTimeDataTypeNotSupported1" xml:space="preserve">
+  <data name="DBDateDataTypeNotSupported" xml:space="preserve">
+    <value>The DT_DBDATE data type is not supported.</value>
+  </data>
+  <data name="DBFileTimeDataTypeNotSupported" xml:space="preserve">
     <value>The DT_FILETIME data type is not supported.</value>
   </data>
   <data name="DBTimeDataTypeNotSupported" xml:space="preserve">
