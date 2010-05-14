@@ -32,7 +32,7 @@
       <FullPath>SimpleTextTest.dtsx</FullPath>
       <References />
     </DtsPackage>
-    <DtsPackage FormatVersion="0">
+    <DtsPackage FormatVersion="3">
       <Name>EveryDataType.dtsx</Name>
       <FullPath>EveryDataType.dtsx</FullPath>
       <References />

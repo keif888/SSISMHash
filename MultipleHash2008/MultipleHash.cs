@@ -89,7 +89,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 1)]
+        CurrentVersion = 2)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -848,6 +848,12 @@ namespace Martin.SQLServer.Dts
             }
 
             this.numOfOutputColumns = ComponentMetaData.OutputCollection[0].OutputColumnCollection.Count;
+            // Only enable Multiple Threads if more than 5 outputs.
+            if ((testThread == MultipleThread.Auto) && (this.numOfOutputColumns < 6))
+            {
+                this.numOfThreads = 1;
+            }
+
             this.outputColumnsArray = new OutputColumn[this.numOfOutputColumns];
             for (int i = 0; i < this.numOfOutputColumns; i++)
             {
