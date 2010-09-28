@@ -111,6 +111,11 @@ namespace Martin.SQLServer.Dts
         /// Stores the thread name
         /// </summary>
         private const string ConstMultipleThreadPropName = "MultipleThreads";
+
+        /// <summary>
+        /// This is the name of the SSIS Property that holds the Safe Null Handling details.
+        /// </summary>
+        private const string ConstSafeNullHandlingPropName = "SafeNullHandling";
         #endregion
 
         /// <summary>
@@ -151,6 +156,17 @@ namespace Martin.SQLServer.Dts
             { 
                 return ConstMultipleThreadPropName; 
             } 
+        }
+
+        /// <summary>
+        /// Gets the name of the Safe Null Handling Property.
+        /// </summary>
+        public static string SafeNullHandlingPropName
+        {
+            get
+            {
+                return ConstSafeNullHandlingPropName;
+            }
         }
 
         #region Types to Byte Arrays

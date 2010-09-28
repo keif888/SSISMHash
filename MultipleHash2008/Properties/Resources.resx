@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BadRuntimeVersion" xml:space="preserve">
+    <value>Runtime version of MultipleHash is out of date - please install the upgrade...</value>
+  </data>
   <data name="BinaryDataTypesNotSupported" xml:space="preserve">
     <value>Binary data types not supported.</value>
   </data>

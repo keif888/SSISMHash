@@ -89,7 +89,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 2)]
+        CurrentVersion = 3)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -188,6 +188,21 @@ namespace Martin.SQLServer.Dts
             On
         }
 
+        /// <summary>
+        /// Defines the valid values for Safe Null Handling
+        /// </summary>
+        public enum SafeNullHandling
+        {
+            /// <summary>
+            /// Version 1.2 and earlier compatability.  Nulls and Empty Strings are not detected.
+            /// </summary>
+            False,
+            /// <summary>
+            /// Force Nulls and Empty Strings to be detected.  (String Lengths, and Null Indicators added to Hash String).
+            /// </summary>
+            True
+        }
+
         #endregion
 
         #region Design Time
@@ -200,38 +215,51 @@ namespace Martin.SQLServer.Dts
         /// <param name="pipelineVersion">Not used at the moment</param>
         public override void PerformUpgrade(int pipelineVersion)
         {
-            // Avoid a "failure" of version 1.1 if using a package from version 1.2...
-            // Just check for the property, rather than the version of the component.
-            bool blnFoundProperty = false;
-            foreach (IDTSCustomProperty multiThread in this.ComponentMetaData.CustomPropertyCollection)
-            {
-                if (multiThread.Name == Utility.MultipleThreadPropName)
-                {
-                    blnFoundProperty = true;
-                    break;
-                }
-            }
-            if (!blnFoundProperty)
-            {
-                this.AddMultipleThreadProperty(this.ComponentMetaData);
-            }
-            ////// Obtain the current component version from the attribute.
-            ////DtsPipelineComponentAttribute componentAttribute = (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
-            ////int currentVersion = componentAttribute.CurrentVersion;
+            // Get the attributes for the executable
+            DtsPipelineComponentAttribute componentAttribute = (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
+            int binaryVersion = componentAttribute.CurrentVersion;
 
-            ////// If the component version saved in the package is less than
-            //////  the current version, perform the upgrade.
-            ////if (ComponentMetaData.Version < currentVersion)
-            ////{
-            ////    if (ComponentMetaData.Version < 2)
-            ////    {
-            ////        // Add Properties for Version 2...
-            ////        this.AddMultipleThreadProperty(this.ComponentMetaData);
-            ////    }
-            ////    // Update the saved component version metadata to the current version.
-            ////    ComponentMetaData.Version = currentVersion;
-            ////}
+            // Get the attributes for the SSIS Package
+            int metadataVersion = ComponentMetaData.Version;
+
+            if (binaryVersion <= metadataVersion)
+            {
+                throw new Exception(Properties.Resources.BadRuntimeVersion);
+            }
+            else if (binaryVersion > metadataVersion)
+            {
+                bool blnFoundThreadProperty = false;
+                bool blnFoundHandleNullsProperty = false;
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetaData.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.MultipleThreadPropName)
+                    {
+                        blnFoundThreadProperty = true;
+                    }
+                    if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                    {
+                        blnFoundHandleNullsProperty = true;
+                    }
+                    if (blnFoundHandleNullsProperty && blnFoundThreadProperty)
+                    {
+                        break;
+                    }
+                }
+                if (!blnFoundThreadProperty)
+                {
+                    this.AddMultipleThreadProperty(this.ComponentMetaData);
+                }
+
+                if (!blnFoundHandleNullsProperty)
+                {
+                    this.AddSafeNullHandlingProperty(this.ComponentMetaData);
+                }
+
+                // Set the SSIS Package's version ID for this component to the binary version...
+                ComponentMetaData.Version = binaryVersion;
+            }
         }
+
         #endregion
 
         #region ProvideComponentProperties
@@ -1154,7 +1182,28 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
-         #region AddInputLineageIDsProperty
+        #region AddSafeNullHandlingProperty
+
+        /// <summary>
+        /// Creates a new custom property collection to hold the Safe Null Handling property
+        /// </summary>
+        /// <param name="metaData">The component MetaData to add the new property to</param>
+        private void AddSafeNullHandlingProperty(IDTSComponentMetaData100 metaData)
+        {
+            // Add the Multi Thread Property
+            IDTSCustomProperty safeNullHandling = metaData.CustomPropertyCollection.New();
+            safeNullHandling.Description = "False is Default, select True to force Nulls and Empty Strings to be detected in Hash.";
+            safeNullHandling.Name = Utility.SafeNullHandlingPropName;
+            safeNullHandling.ContainsID = false;
+            safeNullHandling.EncryptionRequired = false;
+            safeNullHandling.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            safeNullHandling.TypeConverter = typeof(SafeNullHandling).AssemblyQualifiedName;
+            safeNullHandling.Value = SafeNullHandling.False;
+        }
+        #endregion
+
+
+        #region AddInputLineageIDsProperty
         /// <summary>
         /// Adds the InputColumnLineageIDs custom property.
         /// </summary>
