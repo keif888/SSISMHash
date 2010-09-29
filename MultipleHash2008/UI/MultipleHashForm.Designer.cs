@@ -54,6 +54,7 @@ namespace Martin.SQLServer.Dts
             this.llCodeplex = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.cbSafeNullHandling = new System.Windows.Forms.CheckBox();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -97,6 +98,7 @@ namespace Martin.SQLServer.Dts
             // 
             // tbInput
             // 
+            this.tbInput.Controls.Add(this.cbSafeNullHandling);
             this.tbInput.Controls.Add(this.label2);
             this.tbInput.Controls.Add(this.cbThreading);
             this.tbInput.Controls.Add(this.dgvAvailableColumns);
@@ -329,6 +331,17 @@ namespace Martin.SQLServer.Dts
             this.label8.Text = "This component was written by Keith Martin in August 2009.  This is version 1.2.1" +
                 "\r\nDownload the latest version or get help from:";
             // 
+            // cbSafeNullHandling
+            // 
+            this.cbSafeNullHandling.AutoSize = true;
+            this.cbSafeNullHandling.Location = new System.Drawing.Point(6, 10);
+            this.cbSafeNullHandling.Name = "cbSafeNullHandling";
+            this.cbSafeNullHandling.Size = new System.Drawing.Size(114, 17);
+            this.cbSafeNullHandling.TabIndex = 4;
+            this.cbSafeNullHandling.Text = "Safe Null Handling";
+            this.cbSafeNullHandling.UseVisualStyleBackColor = true;
+            this.cbSafeNullHandling.CheckedChanged += new System.EventHandler(this.cbSafeNullHandling_CheckedChanged);
+            // 
             // MultipleHashForm
             // 
             this.AcceptButton = this.btnOK;
@@ -383,5 +396,6 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbThreading;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cbSafeNullHandling;
     }
 }

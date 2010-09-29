@@ -15,13 +15,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		MultipleHash.vsmdi = MultipleHash.vsmdi
+		MultipleHash1.vsmdi = MultipleHash1.vsmdi
 	EndProjectSection
 EndProject
 Project("{D183A3D8-5FD8-494B-B014-37F57B35E655}") = "SSIS2008TestMultipleHash", "SSIS2008TestMultipleHash\SSIS2008TestMultipleHash.dtproj", "{BDB7C112-FD72-4476-A38A-785EA561D39D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = MultipleHash.vsmdi
+		CategoryFile = MultipleHash1.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

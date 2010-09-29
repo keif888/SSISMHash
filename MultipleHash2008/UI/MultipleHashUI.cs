@@ -131,6 +131,8 @@ namespace Martin.SQLServer.Dts
             form.CallErrorHandler += new ErrorEventHandler(this.form_CallErrorHandler);
             form.GetThreadingDetail += new GetThreadingDetailEventHandler(this.form_GetThreadingDetail);
             form.SetThreadingDetail += new SetThreadingDetailEventHandler(this.form_SetThreadingDetail);
+            form.GetSafeNullHandlingDetail += new GetSafeNullDetailsEventHandler(this.form_GetSafeNullDetail);
+            form.SetSafeNullHandlingDetail += new SetSafeNullDetailsEventHandler(this.form_SetSafeNullDetail);
         }
 
         #region Event handlers
@@ -538,6 +540,7 @@ namespace Martin.SQLServer.Dts
             this.ReportErrors(ex);
         }
 
+        #region Threading Detail Handlers
         /// <summary>
         /// Sends the Threading Detail back to the Component.
         /// </summary>
@@ -585,6 +588,58 @@ namespace Martin.SQLServer.Dts
                 this.ReportErrors(ex);
             }
         }
+        #endregion
+
+        #region Safe Null Handlers
+        /// <summary>
+        /// Sets the Safe Null details to the Component
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_SetSafeNullDetail(object sender, SafeNullArgs args)
+        {
+            Debug.Assert(args != null, "Invalid arguments passed from the UI");
+            this.ClearErrors();
+            try
+            {
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                    {
+                        customProperty.Value = args.safeNullHandlingDetail;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets the Safe Null details from the Component
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_GetSafeNullDetail(object sender, SafeNullArgs args)
+        {
+            try
+            {
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                    {
+                        args.safeNullHandlingDetail = (MultipleHash.SafeNullHandling)customProperty.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+        #endregion
+
 
         #endregion
     }

@@ -95,7 +95,7 @@ namespace MultipleHash2008Test
             buffer = (PipelineBuffer)bufferManagerClass.CreateBuffer(bufferID, metaData);
             ManualResetEvent threadReset = new ManualResetEvent(false);
 
-            PassThreadState state = new PassThreadState(columnToProcess, buffer, metaData, threadReset);
+            PassThreadState state = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false);
             ProcessOutputColumn.CalculateHash(state);
         }
 

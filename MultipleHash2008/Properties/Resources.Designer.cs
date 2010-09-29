@@ -250,6 +250,15 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The property SafeNullHandling is set to an invalid value..
+        /// </summary>
+        internal static string PropertyNullHandlingInvalid {
+            get {
+                return ResourceManager.GetString("PropertyNullHandlingInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing from column %s..
         /// </summary>
         internal static string PropertyRemoved {

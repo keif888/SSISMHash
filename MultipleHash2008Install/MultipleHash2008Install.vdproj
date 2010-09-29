@@ -342,6 +342,11 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5"
+                    {
+                    "Name" = "8:.NET Framework 3.5"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5"
+                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
                     {
                     "Name" = "8:Windows Installer 3.1"
@@ -487,7 +492,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -776,9 +781,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Multiple Hash 2008 V1.2.1"
+        "ProductName" = "8:Multiple Hash 2008 V1.3"
         "ProductCode" = "8:{8A28DD4F-D0DD-40B1-AF65-A6054A9ADF9D}"
-        "PackageCode" = "8:{EF1F89FE-F5A2-46CE-B6B2-5861E5F3923F}"
+        "PackageCode" = "8:{126E0C15-A4B1-4A74-B891-8C37FC15E255}"
         "UpgradeCode" = "8:{FB0A0521-8F3D-4955-AA5D-EC3DFC6169C8}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -788,7 +793,7 @@
         "Manufacturer" = "8:Keith Martin"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://ssismhash.codeplex.com/"
-        "Title" = "8:Multiple Hash 2008 V1.2.1"
+        "Title" = "8:Multiple Hash 2008 V1.3"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Keith Martin"
         "Keywords" = "8:"

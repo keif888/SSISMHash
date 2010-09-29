@@ -66,7 +66,8 @@ namespace Martin.SQLServer.Dts
         /// <param name="buffer">the PipelineBuffer that is being read</param>
         /// <param name="metaData">the Component MetaData that is being processed</param>
         /// <param name="threadReset">the Event that is to be manually reset to indicate completion</param>
-        public PassThreadState(OutputColumn columnToProcess, PipelineBuffer buffer, IDTSComponentMetaData metaData, ManualResetEvent threadReset)
+        /// <param name="safeNullHandling">the flag to indicate whether to have safe null handling</param>
+        public PassThreadState(OutputColumn columnToProcess, PipelineBuffer buffer, IDTSComponentMetaData metaData, ManualResetEvent threadReset, bool safeNullHandling)
         {
             this.ColumnToProcess = columnToProcess;
             this.Buffer = buffer;
@@ -93,5 +94,10 @@ namespace Martin.SQLServer.Dts
         /// Gets or sets the components metaData
         /// </summary>
         public IDTSComponentMetaData MetaData { get; set; }
+
+        /// <summary>
+        /// Indicates whether this is handling safe nulls.
+        /// </summary>
+        public bool SafeNullHandling { get; set; }
     }
 }

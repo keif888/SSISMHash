@@ -379,7 +379,7 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void GetNumberOfProcessorCoresTest()
         {
-            int expected = 1; // This has to be changed for every machine the test is run on!
+            int expected = 4; // This has to be changed for every machine the test is run on!
             int actual;
             actual = Utility.GetNumberOfProcessorCores();
             Assert.AreEqual(expected, actual);
@@ -703,7 +703,7 @@ namespace MultipleHash2008Test
             Assert.Inconclusive("Unable to test this as we can't initialise a PipelineBuffer...");
             OutputColumn columnToProcess = new OutputColumn(); // TODO: Initialize to an appropriate value
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
-            Utility.CalculateHash(columnToProcess, buffer);
+            Utility.CalculateHash(columnToProcess, buffer, false);
         }
     }
 }

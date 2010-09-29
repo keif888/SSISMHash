@@ -730,9 +730,10 @@ namespace Martin.SQLServer.Dts
         /// This creates the hash value from a thread
         /// </summary>
         /// <param name="state">this is the thread state object that is passed</param>
-        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer)
+        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling)
         {
             byte[] inputByteBuffer = new byte[0];
+            string nullHandling = String.Empty;
             uint blobLength = 0;
 
             // Step through each input column for that output column
@@ -741,6 +742,7 @@ namespace Martin.SQLServer.Dts
                 // Skip NULL values, as they "don't" exist...
                 if (!buffer.IsNull(columnToProcess[j]))
                 {
+                    nullHandling += "N";
                     switch (buffer.GetColumnInfo(columnToProcess[j]).DataType)
                     {
                         case DataType.DT_BOOL:
@@ -749,9 +751,11 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_IMAGE:
                             blobLength = buffer.GetBlobLength(columnToProcess[j]);
                             Utility.Append(ref inputByteBuffer, buffer.GetBlobData(columnToProcess[j], 0, (int)blobLength));
+                            nullHandling += blobLength.ToString();
                             break;
                         case DataType.DT_BYTES:
                             Utility.Append(ref inputByteBuffer, buffer.GetBytes(columnToProcess[j]));
+                            nullHandling += buffer.GetBytes(columnToProcess[j]).GetLength(0).ToString();
                             break;
                         case DataType.DT_CY:
                         case DataType.DT_DECIMAL:
@@ -800,6 +804,7 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_TEXT:
                         case DataType.DT_WSTR:
                             Utility.Append(ref inputByteBuffer, buffer.GetString(columnToProcess[j]), Encoding.UTF8);
+                            nullHandling += buffer.GetString(columnToProcess[j]).Length.ToString();
                             break;
                         case DataType.DT_R4:
                             Utility.Append(ref inputByteBuffer, buffer.GetSingle(columnToProcess[j]));
@@ -825,6 +830,15 @@ namespace Martin.SQLServer.Dts
                             break;
                     }
                 }
+                else
+                {
+                    nullHandling += "Y";
+                }
+            }
+
+            if (safeNullHandling)
+            {
+                Utility.Append(ref inputByteBuffer, nullHandling, Encoding.UTF8);
             }
 
             // Ok, we have all the data in a Byte Buffer

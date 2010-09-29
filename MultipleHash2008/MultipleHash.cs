@@ -120,6 +120,11 @@ namespace Martin.SQLServer.Dts
         private int numOfThreads;
 
         /// <summary>
+        /// Is Safe Null Handling enabled?
+        /// </summary>
+        private bool safeNullHandling;
+
+        /// <summary>
         /// An array of Events that are used to signal that all the
         /// child threads have finished.
         /// </summary>
@@ -253,6 +258,8 @@ namespace Martin.SQLServer.Dts
                 if (!blnFoundHandleNullsProperty)
                 {
                     this.AddSafeNullHandlingProperty(this.ComponentMetaData);
+                    // Change to False as this is an upgrade, and we should be compatible after upgrade.
+                    this.ComponentMetaData.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = SafeNullHandling.False;
                 }
 
                 // Set the SSIS Package's version ID for this component to the binary version...
@@ -279,6 +286,9 @@ namespace Martin.SQLServer.Dts
 
             // Add the Multiple Thread property (as None)...
             this.AddMultipleThreadProperty(this.ComponentMetaData);
+
+            // Add the Safe Null Handling property, as True...
+            this.AddSafeNullHandlingProperty(this.ComponentMetaData);
 
             // Name the input and output, and make the output asynchronous.
             ComponentMetaData.InputCollection[0].Name = "Input";
@@ -318,6 +328,18 @@ namespace Martin.SQLServer.Dts
                     catch (Exception)
                     {
                         this.InternalFireError(Properties.Resources.PropertyMultiThreadInvalid);
+                        return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                    }
+                }
+                if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                {
+                    try
+                    {
+                        SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
+                    }
+                    catch (Exception)
+                    {
+                        this.InternalFireError(Properties.Resources.PropertyNullHandlingInvalid);
                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                     }
                 }
@@ -568,7 +590,7 @@ namespace Martin.SQLServer.Dts
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
             int multiThreadCount = 0;
 
-            // Make sure that ONLY the right property is here.
+            // Make sure that ONLY the right properties are here.
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
                 if (customProperty.Name == Utility.MultipleThreadPropName)
@@ -590,6 +612,18 @@ namespace Martin.SQLServer.Dts
                             ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
                             this.AddMultipleThreadProperty(ComponentMetaData);
                         }
+                    }
+                }
+                if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                {
+                    try
+                    {
+                        SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
+                    }
+                    catch (Exception)
+                    {
+                        ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
+                        this.AddSafeNullHandlingProperty(ComponentMetaData);
                     }
                 }
             }
@@ -851,12 +885,25 @@ namespace Martin.SQLServer.Dts
             bool fireAgain = true;
             this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Pre-Execute phase is beginning.", string.Empty, 0, ref fireAgain);
             this.numOfRowsProcessed = 0;
+            this.safeNullHandling = false;
 
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
                     testThread = (MultipleThread)customProperty.Value;
+                }
+
+                if (customProperty.Name == Utility.SafeNullHandlingPropName)
+                {
+                    if ((SafeNullHandling)customProperty.Value == SafeNullHandling.True)
+                    {
+                        this.safeNullHandling = true;
+                    }
+                    else
+                    {
+                        this.safeNullHandling = false;
+                    }
                 }
             }
 
@@ -956,7 +1003,7 @@ namespace Martin.SQLServer.Dts
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
                             this.threadResets[i] = new ManualResetEvent(false);
-                            passThreadState = new PassThreadState(this.outputColumnsArray[i], buffer, this.ComponentMetaData, this.threadResets[i]);
+                            passThreadState = new PassThreadState(this.outputColumnsArray[i], buffer, this.ComponentMetaData, this.threadResets[i], this.safeNullHandling);
                             ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessOutputColumn.CalculateHash), passThreadState);
 #if DEBUG
                             ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
@@ -976,7 +1023,7 @@ namespace Martin.SQLServer.Dts
                         // Step through each output column
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
-                            Utility.CalculateHash(this.outputColumnsArray[i], buffer);
+                            Utility.CalculateHash(this.outputColumnsArray[i], buffer, this.safeNullHandling);
                         }
                     }
                 }
@@ -1188,20 +1235,19 @@ namespace Martin.SQLServer.Dts
         /// Creates a new custom property collection to hold the Safe Null Handling property
         /// </summary>
         /// <param name="metaData">The component MetaData to add the new property to</param>
-        private void AddSafeNullHandlingProperty(IDTSComponentMetaData100 metaData)
+        private void AddSafeNullHandlingProperty(IDTSComponentMetaData metaData)
         {
             // Add the Multi Thread Property
             IDTSCustomProperty safeNullHandling = metaData.CustomPropertyCollection.New();
-            safeNullHandling.Description = "False is Default, select True to force Nulls and Empty Strings to be detected in Hash.";
+            safeNullHandling.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
             safeNullHandling.Name = Utility.SafeNullHandlingPropName;
             safeNullHandling.ContainsID = false;
             safeNullHandling.EncryptionRequired = false;
             safeNullHandling.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
             safeNullHandling.TypeConverter = typeof(SafeNullHandling).AssemblyQualifiedName;
-            safeNullHandling.Value = SafeNullHandling.False;
+            safeNullHandling.Value = SafeNullHandling.True;
         }
         #endregion
-
 
         #region AddInputLineageIDsProperty
         /// <summary>

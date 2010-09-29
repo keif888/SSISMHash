@@ -76,7 +76,7 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = new ManualResetEvent(true); // TODO: Initialize to an appropriate value
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false); // TODO: Initialize to an appropriate value
             ManualResetEvent expected = new ManualResetEvent(true); // TODO: Initialize to an appropriate value
             ManualResetEvent actual;
             target.ThreadReset = expected;
@@ -94,7 +94,7 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl(); // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false); // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 expected = new ComponentMetaDataTestImpl(); // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 actual;
             target.MetaData = expected;
@@ -112,7 +112,7 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false); // TODO: Initialize to an appropriate value
             OutputColumn expected = new OutputColumn(); // TODO: Initialize to an appropriate value
             OutputColumn actual;
             target.ColumnToProcess = expected;
@@ -130,7 +130,7 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = null; // TODO: Initialize to an appropriate value
             ManualResetEvent threadReset = null; // TODO: Initialize to an appropriate value
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset); // TODO: Initialize to an appropriate value
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false); // TODO: Initialize to an appropriate value
             PipelineBuffer expected = null; // TODO: Initialize to an appropriate value
             PipelineBuffer actual;
             target.Buffer = expected;
@@ -149,7 +149,7 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl();
             ManualResetEvent threadReset = new ManualResetEvent(true);
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset);
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false);
             Assert.IsNotNull(target);
             Assert.AreEqual(columnToProcess, target.ColumnToProcess);
             Assert.AreEqual(metaData, target.MetaData);

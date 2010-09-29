@@ -79,6 +79,20 @@ namespace Martin.SQLServer.Dts
     /// <param name="args">The threading details</param>
     internal delegate void SetThreadingDetailEventHandler(object sender, ThreadingArgs args);
 
+    /// <summary>
+    /// Retrieves the safe null details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">the safe null details</param>
+    internal delegate void GetSafeNullDetailsEventHandler(object sender, SafeNullArgs args);
+
+    /// <summary>
+    /// Updates the safe null details
+    /// </summary>
+    /// <param name="sender">Who called me?</param>
+    /// <param name="args">the safe null details</param>
+    internal delegate void SetSafeNullDetailsEventHandler(object sender, SafeNullArgs args);
+
     internal struct InputColumnElement
     {
         public bool Selected;
@@ -183,6 +197,16 @@ namespace Martin.SQLServer.Dts
         internal event SetThreadingDetailEventHandler SetThreadingDetail;
 
         /// <summary>
+        /// Fires when the safe null handling details are to be returned.
+        /// </summary>
+        internal event GetSafeNullDetailsEventHandler GetSafeNullHandlingDetail;
+
+        /// <summary>
+        /// Fires when the safe null handling details are to be updated.
+        /// </summary>
+        internal event SetSafeNullDetailsEventHandler SetSafeNullHandlingDetail;
+
+        /// <summary>
         /// Fires when the Error Handler is needed
         /// </summary>
         internal event ErrorEventHandler CallErrorHandler;
@@ -205,12 +229,20 @@ namespace Martin.SQLServer.Dts
                 // Loading available and previously selected columns.
                 this.LoadAvailableColumns();
                 ThreadingArgs args = new ThreadingArgs();
-                args.threadDetail = MultipleHash.MultipleThread.None;
+                SafeNullArgs safeNullArgs = new SafeNullArgs();
 
-                // Call the SetThreading event...
+                args.threadDetail = MultipleHash.MultipleThread.None;
+                safeNullArgs.safeNullHandlingDetail = MultipleHash.SafeNullHandling.True;
+
+                // Call the GetThreading event...
                 IAsyncResult res = this.GetThreadingDetail.BeginInvoke(this, args, null, null);
                 this.GetThreadingDetail.EndInvoke(res);
                 cbThreading.Text = GetThreadingName(args.threadDetail);
+                    
+                // Call the GetSafeNull event...
+                res = this.GetSafeNullHandlingDetail.BeginInvoke(this, safeNullArgs, null, null);
+                this.GetSafeNullHandlingDetail.EndInvoke(res);
+                cbSafeNullHandling.Checked = GetSafeNullValue(safeNullArgs.safeNullHandlingDetail);
             }
             catch (Exception ex)
             {
@@ -1007,6 +1039,25 @@ namespace Martin.SQLServer.Dts
             }
         }
 
+        private void cbSafeNullHandling_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                SafeNullArgs args = new SafeNullArgs();
+                args.safeNullHandlingDetail = GetSafeNullEnum(cbSafeNullHandling.Checked);
+
+                // Call the SetThreading event...
+                IAsyncResult res = this.SetSafeNullHandlingDetail.BeginInvoke(this, args, null, null);
+                this.SetSafeNullHandlingDetail.EndInvoke(res);
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
+        }
+
+
         #endregion
 
         #region Hash Value Helper Functions
@@ -1105,6 +1156,44 @@ namespace Martin.SQLServer.Dts
 
             }
         }
+        #endregion
+
+        #region Safe Null Handling Helper Functions
+
+        /// <summary>
+        /// Returns a bool to indicate the value for the Safe Null Handling parameter
+        /// </summary>
+        /// <param name="safeNullValue">The enum value for safe null handling</param>
+        /// <returns>True or False based on the Safe Null Handling</returns>
+        private bool GetSafeNullValue(MultipleHash.SafeNullHandling safeNullValue)
+        {
+            switch (safeNullValue)
+            {
+                case MultipleHash.SafeNullHandling.False:
+                    return false;
+                case MultipleHash.SafeNullHandling.True:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="safeNullValue"></param>
+        /// <returns></returns>
+        private MultipleHash.SafeNullHandling GetSafeNullEnum(bool safeNullValue)
+        {
+            switch (safeNullValue)
+            {
+                case true:
+                    return MultipleHash.SafeNullHandling.True;
+                default:
+                    return MultipleHash.SafeNullHandling.False;
+            }
+        }
+
         #endregion
 
     }
@@ -1216,5 +1305,16 @@ namespace Martin.SQLServer.Dts
         /// The threading value to pass
         /// </summary>
         public MultipleHash.MultipleThread threadDetail;
+    }
+
+    /// <summary>
+    /// Class to pass the Safe Null Handling details.
+    /// </summary>
+    internal class SafeNullArgs
+    {
+        /// <summary>
+        /// The safe Null Handling value to pass
+        /// </summary>
+        public MultipleHash.SafeNullHandling safeNullHandlingDetail;
     }
 }
