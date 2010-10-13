@@ -34,6 +34,7 @@ namespace Martin.SQLServer.Dts
             this.btnOK = new System.Windows.Forms.Button();
             this.tcTabs = new System.Windows.Forms.TabControl();
             this.tbInput = new System.Windows.Forms.TabPage();
+            this.cbSafeNullHandling = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cbThreading = new System.Windows.Forms.ComboBox();
             this.dgvAvailableColumns = new System.Windows.Forms.DataGridView();
@@ -54,7 +55,6 @@ namespace Martin.SQLServer.Dts
             this.llCodeplex = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.cbSafeNullHandling = new System.Windows.Forms.CheckBox();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -109,6 +109,17 @@ namespace Martin.SQLServer.Dts
             this.tbInput.TabIndex = 0;
             this.tbInput.Text = "Input Columns";
             this.tbInput.UseVisualStyleBackColor = true;
+            // 
+            // cbSafeNullHandling
+            // 
+            this.cbSafeNullHandling.AutoSize = true;
+            this.cbSafeNullHandling.Location = new System.Drawing.Point(6, 10);
+            this.cbSafeNullHandling.Name = "cbSafeNullHandling";
+            this.cbSafeNullHandling.Size = new System.Drawing.Size(114, 17);
+            this.cbSafeNullHandling.TabIndex = 4;
+            this.cbSafeNullHandling.Text = "Safe Null Handling";
+            this.cbSafeNullHandling.UseVisualStyleBackColor = true;
+            this.cbSafeNullHandling.CheckedChanged += new System.EventHandler(this.cbSafeNullHandling_CheckedChanged);
             // 
             // label2
             // 
@@ -326,21 +337,10 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(389, 26);
+            this.label8.Size = new System.Drawing.Size(412, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was written by Keith Martin in August 2009.  This is version 1.2.1" +
-                "\r\nDownload the latest version or get help from:";
-            // 
-            // cbSafeNullHandling
-            // 
-            this.cbSafeNullHandling.AutoSize = true;
-            this.cbSafeNullHandling.Location = new System.Drawing.Point(6, 10);
-            this.cbSafeNullHandling.Name = "cbSafeNullHandling";
-            this.cbSafeNullHandling.Size = new System.Drawing.Size(114, 17);
-            this.cbSafeNullHandling.TabIndex = 4;
-            this.cbSafeNullHandling.Text = "Safe Null Handling";
-            this.cbSafeNullHandling.UseVisualStyleBackColor = true;
-            this.cbSafeNullHandling.CheckedChanged += new System.EventHandler(this.cbSafeNullHandling_CheckedChanged);
+            this.label8.Text = "This component was last updated by Keith Martin in October 2010.  This is version" +
+                " 1.3\r\nDownload the latest version or get help from:";
             // 
             // MultipleHashForm
             // 
