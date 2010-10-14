@@ -42,22 +42,21 @@ RequestExecutionLevel admin
 Section "MainSection" SEC01
   DetailPrint 'Do 32 Bit Install.'
   SetRegView 32
-  ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
-  IfFileExists "$0PipelineComponents\MultipleHash2008.dll" 0 +7
+  ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
+  IfFileExists "$0PipelineComponents\MultipleHash2008.dll" 0 +6
         DetailPrint 'Unregister existing MultipleHash2008.dll'
         SetOutPath '$TEMP'
         SetOverwrite ifnewer
         File 'C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
-        ExecWait '"$TEMP\gacutil.exe" /u MultipleHash2008' $3
-        DetailPrint '..MultipleHash2008 Assembly Cache exit code = $3'
+        nsExec::ExecToLog '"$TEMP\gacutil.exe" /u MultipleHash2008'
 
-  ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
+  ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
   SetOutPath "$0PipelineComponents"
   SetOverwrite ifnewer
   DetailPrint '..Installing MultipleHash2008.dll to $0PipelineComponents'
   File "bin\Release\MultipleHash2008.dll"
   SetRegView 64
-  ReadRegStr $1 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
+  ReadRegStr $1 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
   StrCmp $0 $1 +6 0
   DetailPrint 'Do 64 Bit Install.'
   SetOutPath "$1PipelineComponents"
@@ -70,13 +69,10 @@ Section "MainSection" SEC01
   SetOutPath '$TEMP'
   SetOverwrite ifnewer
   File 'C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
-  ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
-  ExecWait '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHash2008.dll"' $0
-  DetailPrint '..MultipleHash2008 Assembly Cache exit code = $0'
+  ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
+  nsExec::ExecToLog '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHash2008.dll"'
+  DetailPrint 'Please check the output from the Assembly Registration above for Errors.'
   Delete "$TEMP\gacutil.exe"
-  ; Make sure that the Registry worked, show a dialog error if it didnt.
-  StrCmp "$0" "0" +2 0
-  MessageBox MB_ICONEXCLAMATION|MB_OK "$(^Name) was not successfully added to the Assembly Cache on your computer."
   SetOutPath '$INSTDIR'
 SectionEnd
 
@@ -106,8 +102,7 @@ Section Uninstall
         DetailPrint 'Add GACUtil.exe to $TEMP'
         File 'c:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
         DetailPrint 'Unregister MultipleHash'
-        ExecWait '$TEMP\gacutil.exe /silent /u MultipleHash2008' $0
-        DetailPrint '..MultipleHash2008 exit code = $0'
+        nsExec::ExecToLog '$TEMP\gacutil.exe /u MultipleHash2008'
         DetailPrint 'Delete GACUtil.exe From $TEMP'
         Delete "$TEMP\gacutil.exe"
 
@@ -117,12 +112,12 @@ Section Uninstall
         RMDir "$INSTDIR"
         
         SetRegView 32
-        ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
+        ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
         DetailPrint 'Delete $0\PipelineComponents\MultipleHash2008.dll'
         Delete "$0\PipelineComponents\MultipleHash2008.dll"
 
         SetRegView 64
-        ReadRegStr $1 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
+        ReadRegStr $1 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" ""
         StrCmp $0 $1 +2 0
         DetailPrint 'Delete $1\PipelineComponents\MultipleHash2008.dll'
         Delete "$1\PipelineComponents\MultipleHash2008.dll"

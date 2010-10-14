@@ -43,13 +43,12 @@ Section "MainSection" SEC01
   DetailPrint 'Do 32 Bit Install.'
   SetRegView 32
   ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
-  IfFileExists "$0PipelineComponents\MultipleHash2005.dll" 0 +7
+  IfFileExists "$0PipelineComponents\MultipleHash2005.dll" 0 +6
         DetailPrint 'Unregister existing MultipleHash2005.dll'
         SetOutPath '$TEMP'
         SetOverwrite ifnewer
         File 'C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
-        ExecWait '"$TEMP\gacutil.exe" /u MultipleHash2005' $3
-        DetailPrint '..MultipleHash2005 Assembly Cache exit code = $3'
+        nsExec::ExecToLog '"$TEMP\gacutil.exe" /u MultipleHash2005'
 
   ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
   SetOutPath "$0PipelineComponents"
@@ -71,12 +70,9 @@ Section "MainSection" SEC01
   SetOverwrite ifnewer
   File 'C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
   ReadRegStr $0 HKLM SOFTWARE\Microsoft\MSDTS\Setup\DTSPath ""
-  ExecWait '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHash2005.dll"' $0
-  DetailPrint '..MultipleHash2005 Assembly Cache exit code = $0'
+  nsExec::ExecToLog '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHash2005.dll"'
+  DetailPrint 'Please check the output from the Assembly Registration above for Errors.'
   Delete "$TEMP\gacutil.exe"
-  ; Make sure that the Registry worked, show a dialog error if it didnt.
-  StrCmp "$0" "0" +2 0
-  MessageBox MB_ICONEXCLAMATION|MB_OK "$(^Name) was not successfully added to the Assembly Cache on your computer."
   SetOutPath '$INSTDIR'
 SectionEnd
 
@@ -106,8 +102,7 @@ Section Uninstall
         DetailPrint 'Add GACUtil.exe to $TEMP'
         File 'c:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\GACUtil.exe'
         DetailPrint 'Unregister MultipleHash'
-        ExecWait '$TEMP\gacutil.exe /silent /u MultipleHash2005' $0
-        DetailPrint '..MultipleHash2005 exit code = $0'
+        nsExec::ExecToLog '$TEMP\gacutil.exe /u MultipleHash2005'
         DetailPrint 'Delete GACUtil.exe From $TEMP'
         Delete "$TEMP\gacutil.exe"
 
