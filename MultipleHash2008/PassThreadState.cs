@@ -73,6 +73,7 @@ namespace Martin.SQLServer.Dts
             this.Buffer = buffer;
             this.MetaData = metaData;
             this.ThreadReset = threadReset;
+            this.SafeNullHandling = safeNullHandling;
         }
 
         /// <summary>

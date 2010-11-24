@@ -149,11 +149,12 @@ namespace MultipleHash2008Test
             PipelineBuffer buffer = null; // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl();
             ManualResetEvent threadReset = new ManualResetEvent(true);
-            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false);
+            PassThreadState target = new PassThreadState(columnToProcess, buffer, metaData, threadReset, true);
             Assert.IsNotNull(target);
             Assert.AreEqual(columnToProcess, target.ColumnToProcess);
             Assert.AreEqual(metaData, target.MetaData);
             Assert.AreEqual(threadReset, target.ThreadReset);
+            Assert.AreEqual(true, target.SafeNullHandling);
         }
     }
 }
