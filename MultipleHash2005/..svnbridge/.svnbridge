@@ -2,4 +2,9 @@
 *.snk
 bin
 obj
+</Value></Property><Property><Name>svn:ignore</Name><Value>*.Cache
+*.snk
+bin
+obj
+*.exe
 </Value></Property></Properties></ItemProperties>

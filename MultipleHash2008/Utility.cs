@@ -49,9 +49,13 @@ namespace Martin.SQLServer.Dts
     using System.Text;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
     using Microsoft.SqlServer.Dts.Pipeline;
+#if SQLDenali
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+#endif
 #if SQL2008
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-#else
+#endif
+#if SQL2005
      using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
 #endif
     #endregion

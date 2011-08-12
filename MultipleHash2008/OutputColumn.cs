@@ -48,12 +48,19 @@ namespace Martin.SQLServer.Dts
     using System.Collections;
     using System.Security.Cryptography;
 
+#if SQLDenali
+    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
+    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
+#endif
 #if SQL2008
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
     using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
-#else
+#endif
+#if SQL2005
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
