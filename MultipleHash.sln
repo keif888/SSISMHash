@@ -14,9 +14,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008", "Multipl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008Test", "MultipleHash2008Test\MultipleHash2008Test.csproj", "{BA117407-08B1-494E-928D-15D4C826D44A}"
 EndProject
-Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSIS2008TestMultipleHash", "SSIS2008TestMultipleHash\SSIS2008TestMultipleHash.dtproj", "{BDB7C112-FD72-4476-A38A-785EA561D39D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHashDenali", "MultipleHashDenali\MultipleHashDenali.csproj", "{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSISDenaliTestMultipleHash", "SSISDenaliTestMultipleHash\SSISDenaliTestMultipleHash.dtproj", "{B26EE44B-4528-43C3-9E40-407D94DB4EE5}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -44,17 +44,18 @@ Global
 		{BA117407-08B1-494E-928D-15D4C826D44A}.Development|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA117407-08B1-494E-928D-15D4C826D44A}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{BA117407-08B1-494E-928D-15D4C826D44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Debug|Any CPU.ActiveCfg = Development
-		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Debug|Any CPU.Build.0 = Development
-		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Development|Any CPU.ActiveCfg = Development
-		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Development|Any CPU.Build.0 = Development
-		{BDB7C112-FD72-4476-A38A-785EA561D39D}.Release|Any CPU.ActiveCfg = Development
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Development|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Debug|Any CPU.ActiveCfg = Development
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Debug|Any CPU.Build.0 = Development
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Development|Any CPU.ActiveCfg = Development
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Development|Any CPU.Build.0 = Development
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Release|Any CPU.ActiveCfg = Development
+		{B26EE44B-4528-43C3-9E40-407D94DB4EE5}.Release|Any CPU.Build.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

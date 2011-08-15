@@ -50,11 +50,14 @@ namespace Martin.SQLServer.Dts
             this.dgvOutputColumns = new System.Windows.Forms.DataGridView();
             this.dgvOutputColumnsColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvOutputColumnsHashType = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.label3 = new System.Windows.Forms.Label();
             this.tpAbout = new System.Windows.Forms.TabPage();
             this.llCodeplex = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -62,14 +65,21 @@ namespace Martin.SQLServer.Dts
             ((System.ComponentModel.ISupportInitialize)(this.dgvHashColumns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutputColumns)).BeginInit();
             this.tpAbout.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(523, 355);
+            this.btnCancel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnCancel.Location = new System.Drawing.Point(535, 0);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(75, 29);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -77,9 +87,10 @@ namespace Martin.SQLServer.Dts
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(442, 355);
+            this.btnOK.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOK.Location = new System.Drawing.Point(460, 0);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.Size = new System.Drawing.Size(75, 29);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -89,23 +100,22 @@ namespace Martin.SQLServer.Dts
             this.tcTabs.Controls.Add(this.tbInput);
             this.tcTabs.Controls.Add(this.tbOutput);
             this.tcTabs.Controls.Add(this.tpAbout);
-            this.tcTabs.Location = new System.Drawing.Point(13, 12);
+            this.tcTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcTabs.Location = new System.Drawing.Point(0, 0);
             this.tcTabs.Name = "tcTabs";
             this.tcTabs.SelectedIndex = 0;
-            this.tcTabs.Size = new System.Drawing.Size(585, 337);
+            this.tcTabs.Size = new System.Drawing.Size(610, 361);
             this.tcTabs.TabIndex = 0;
             this.tcTabs.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcTabs_Selecting);
             // 
             // tbInput
             // 
-            this.tbInput.Controls.Add(this.cbSafeNullHandling);
-            this.tbInput.Controls.Add(this.label2);
-            this.tbInput.Controls.Add(this.cbThreading);
             this.tbInput.Controls.Add(this.dgvAvailableColumns);
+            this.tbInput.Controls.Add(this.panel2);
             this.tbInput.Location = new System.Drawing.Point(4, 22);
             this.tbInput.Name = "tbInput";
             this.tbInput.Padding = new System.Windows.Forms.Padding(3);
-            this.tbInput.Size = new System.Drawing.Size(577, 311);
+            this.tbInput.Size = new System.Drawing.Size(602, 335);
             this.tbInput.TabIndex = 0;
             this.tbInput.Text = "Input Columns";
             this.tbInput.UseVisualStyleBackColor = true;
@@ -113,7 +123,7 @@ namespace Martin.SQLServer.Dts
             // cbSafeNullHandling
             // 
             this.cbSafeNullHandling.AutoSize = true;
-            this.cbSafeNullHandling.Location = new System.Drawing.Point(6, 10);
+            this.cbSafeNullHandling.Location = new System.Drawing.Point(5, 8);
             this.cbSafeNullHandling.Name = "cbSafeNullHandling";
             this.cbSafeNullHandling.Size = new System.Drawing.Size(114, 17);
             this.cbSafeNullHandling.TabIndex = 4;
@@ -124,7 +134,7 @@ namespace Martin.SQLServer.Dts
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(277, 9);
+            this.label2.Location = new System.Drawing.Point(125, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(130, 13);
             this.label2.TabIndex = 2;
@@ -137,7 +147,7 @@ namespace Martin.SQLServer.Dts
             "None",
             "Auto",
             "On"});
-            this.cbThreading.Location = new System.Drawing.Point(413, 6);
+            this.cbThreading.Location = new System.Drawing.Point(261, 6);
             this.cbThreading.MaxDropDownItems = 3;
             this.cbThreading.Name = "cbThreading";
             this.cbThreading.Size = new System.Drawing.Size(158, 21);
@@ -153,11 +163,11 @@ namespace Martin.SQLServer.Dts
             this.dgvAvailableColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.gridColumnCheckbox,
             this.gridColumnAvailableColumns});
-            this.dgvAvailableColumns.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvAvailableColumns.Location = new System.Drawing.Point(3, 34);
+            this.dgvAvailableColumns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAvailableColumns.Location = new System.Drawing.Point(3, 40);
             this.dgvAvailableColumns.Name = "dgvAvailableColumns";
             this.dgvAvailableColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAvailableColumns.Size = new System.Drawing.Size(571, 274);
+            this.dgvAvailableColumns.Size = new System.Drawing.Size(596, 292);
             this.dgvAvailableColumns.TabIndex = 0;
             this.dgvAvailableColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAvailableColumns_CellValueChanged);
             this.dgvAvailableColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvAvailableColumns_CurrentCellDirtyStateChanged);
@@ -179,22 +189,18 @@ namespace Martin.SQLServer.Dts
             // 
             // tbOutput
             // 
-            this.tbOutput.Controls.Add(this.btnDown);
-            this.tbOutput.Controls.Add(this.btnUp);
-            this.tbOutput.Controls.Add(this.dgvHashColumns);
-            this.tbOutput.Controls.Add(this.dgvOutputColumns);
-            this.tbOutput.Controls.Add(this.label3);
+            this.tbOutput.Controls.Add(this.splitContainer1);
             this.tbOutput.Location = new System.Drawing.Point(4, 22);
             this.tbOutput.Name = "tbOutput";
             this.tbOutput.Padding = new System.Windows.Forms.Padding(3);
-            this.tbOutput.Size = new System.Drawing.Size(577, 311);
+            this.tbOutput.Size = new System.Drawing.Size(602, 335);
             this.tbOutput.TabIndex = 1;
             this.tbOutput.Text = "Output Columns";
             this.tbOutput.UseVisualStyleBackColor = true;
             // 
             // btnDown
             // 
-            this.btnDown.Location = new System.Drawing.Point(495, 280);
+            this.btnDown.Location = new System.Drawing.Point(84, 3);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(75, 23);
             this.btnDown.TabIndex = 10;
@@ -204,7 +210,7 @@ namespace Martin.SQLServer.Dts
             // 
             // btnUp
             // 
-            this.btnUp.Location = new System.Drawing.Point(310, 281);
+            this.btnUp.Location = new System.Drawing.Point(3, 3);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(75, 23);
             this.btnUp.TabIndex = 9;
@@ -221,10 +227,11 @@ namespace Martin.SQLServer.Dts
             this.dgvHashColumnsSelected,
             this.dgvHashColumnsColumnName,
             this.dgvHashColumnsSortPosition});
-            this.dgvHashColumns.Location = new System.Drawing.Point(309, 24);
+            this.dgvHashColumns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvHashColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvHashColumns.Name = "dgvHashColumns";
             this.dgvHashColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHashColumns.Size = new System.Drawing.Size(262, 250);
+            this.dgvHashColumns.Size = new System.Drawing.Size(325, 299);
             this.dgvHashColumns.TabIndex = 8;
             this.dgvHashColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHashColumns_CellValueChanged);
             this.dgvHashColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvHashColumns_CurrentCellDirtyStateChanged);
@@ -257,15 +264,17 @@ namespace Martin.SQLServer.Dts
             this.dgvOutputColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgvOutputColumnsColumnName,
             this.dgvOutputColumnsHashType});
-            this.dgvOutputColumns.Location = new System.Drawing.Point(12, 24);
+            this.dgvOutputColumns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOutputColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvOutputColumns.MultiSelect = false;
             this.dgvOutputColumns.Name = "dgvOutputColumns";
+            this.dgvOutputColumns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvOutputColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOutputColumns.Size = new System.Drawing.Size(291, 281);
+            this.dgvOutputColumns.Size = new System.Drawing.Size(267, 329);
             this.dgvOutputColumns.TabIndex = 7;
             this.dgvOutputColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOutputColumns_CellValueChanged);
-            this.dgvOutputColumns.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvOutputColumns_UserDeletingRow);
             this.dgvOutputColumns.SelectionChanged += new System.EventHandler(this.dgvOutputColumns_SelectionChanged);
+            this.dgvOutputColumns.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvOutputColumns_UserDeletingRow);
             // 
             // dgvOutputColumnsColumnName
             // 
@@ -290,15 +299,6 @@ namespace Martin.SQLServer.Dts
             this.dgvOutputColumnsHashType.Name = "dgvOutputColumnsHashType";
             this.dgvOutputColumnsHashType.ToolTipText = "Select the hash value to be applied to this output column";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Output Columns";
-            // 
             // tpAbout
             // 
             this.tpAbout.Controls.Add(this.llCodeplex);
@@ -307,7 +307,7 @@ namespace Martin.SQLServer.Dts
             this.tpAbout.Location = new System.Drawing.Point(4, 22);
             this.tpAbout.Name = "tpAbout";
             this.tpAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAbout.Size = new System.Drawing.Size(577, 311);
+            this.tpAbout.Size = new System.Drawing.Size(602, 335);
             this.tpAbout.TabIndex = 2;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
@@ -337,10 +337,59 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(412, 26);
+            this.label8.Size = new System.Drawing.Size(407, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was last updated by Keith Martin in October 2010.  This is version" +
-                " 1.3\r\nDownload the latest version or get help from:";
+            this.label8.Text = "This component was last updated by Keith Martin in August 2011.  This is version " +
+    "1.4\r\nDownload the latest version or get help from:";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnOK);
+            this.panel1.Controls.Add(this.btnCancel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 361);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(610, 29);
+            this.panel1.TabIndex = 6;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cbSafeNullHandling);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.cbThreading);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(596, 37);
+            this.panel2.TabIndex = 5;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dgvOutputColumns);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dgvHashColumns);
+            this.splitContainer1.Panel2.Controls.Add(this.panel3);
+            this.splitContainer1.Size = new System.Drawing.Size(596, 329);
+            this.splitContainer1.SplitterDistance = 267;
+            this.splitContainer1.TabIndex = 11;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.btnUp);
+            this.panel3.Controls.Add(this.btnDown);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 299);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(325, 30);
+            this.panel3.TabIndex = 11;
             // 
             // MultipleHashForm
             // 
@@ -350,22 +399,26 @@ namespace Martin.SQLServer.Dts
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(610, 390);
             this.Controls.Add(this.tcTabs);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnCancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.Name = "MultipleHashForm";
             this.Text = "MultipleHashForm";
             this.tcTabs.ResumeLayout(false);
             this.tbInput.ResumeLayout(false);
-            this.tbInput.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).EndInit();
             this.tbOutput.ResumeLayout(false);
-            this.tbOutput.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHashColumns)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutputColumns)).EndInit();
             this.tpAbout.ResumeLayout(false);
             this.tpAbout.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -380,7 +433,6 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridViewCheckBoxColumn gridColumnCheckbox;
         private System.Windows.Forms.DataGridViewTextBoxColumn gridColumnAvailableColumns;
         private System.Windows.Forms.TabPage tbOutput;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgvOutputColumns;
         private System.Windows.Forms.DataGridView dgvHashColumns;
         private System.Windows.Forms.Button btnDown;
@@ -397,5 +449,9 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.ComboBox cbThreading;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox cbSafeNullHandling;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -339,9 +339,9 @@ namespace Martin.SQLServer.Dts
                         args.OutputColumns[i].InputColumns[j].SortPosition = 999999;
                         for (int k = 0; k < inputLineageIDs.Length; k++)
                         {
-                            if (inputColumn.LineageID.ToString() == inputLineageIDs[k])
+                            if ("#" + inputColumn.LineageID.ToString() == inputLineageIDs[k])
                             {
-                                // change to selected (bcause it's in the list
+                                // change to selected (because it's in the list)
                                 // and assign the correct sort order.
                                 args.OutputColumns[i].InputColumns[j].Selected = true;
                                 args.OutputColumns[i].InputColumns[j].SortPosition = k;
@@ -491,11 +491,11 @@ namespace Martin.SQLServer.Dts
                 {
                     if (inputList == string.Empty)
                     {
-                        inputList = kvp.Value.ToString();
+                        inputList = "#" + kvp.Value.ToString();
                     }
                     else
                     {
-                        inputList += "," + kvp.Value.ToString();
+                        inputList += ",#" + kvp.Value.ToString();
                     }
                 }
 

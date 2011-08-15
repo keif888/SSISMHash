@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ProductVersion>11.0.1440.19</ProductVersion>
+  <ProductVersion>10.0.2531.0</ProductVersion>
   <SchemaVersion>9.0.1.0</SchemaVersion>
   <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRkbDI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yIiB4bWxuczpkZGwyXzI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yLzIiIHhtbG5zOmRkbDEwMF8xMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDA4L2VuZ2luZS8xMDAvMTAwIiB4bWxuczpkd2Q9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vRGF0YVdhcmVob3VzZS9EZXNpZ25lci8xLjAiPg0KICA8RW5hYmxlZD5mYWxzZTwvRW5hYmxlZD4NCiAgPFByb2plY3ROYW1lPjwvUHJvamVjdE5hbWU+DQogIDxBdXhQYXRoPjwvQXV4UGF0aD4NCiAgPExvY2FsUGF0aD48L0xvY2FsUGF0aD4NCiAgPFByb3ZpZGVyPjwvUHJvdmlkZXI+DQo8L1NvdXJjZUNvbnRyb2xJbmZvPg==</State>
   <Database>
@@ -26,31 +26,26 @@
       </Options>
     </Configuration>
   </Configurations>
-  <DeploymentModel>Package</DeploymentModel>
-  <DeploymentModelSpecificContent>
-    <Manifest>
-      <DTSPackages>
-        <DtsPackage FormatVersion="3">
-          <Name>SimpleTextTest.dtsx</Name>
-          <FullPath>SimpleTextTest.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="3">
-          <Name>EveryDataType.dtsx</Name>
-          <FullPath>EveryDataType.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="3">
-          <Name>DemonstrateDuplicateHash.dtsx</Name>
-          <FullPath>DemonstrateDuplicateHash.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="3">
-          <Name>DemonstrateCorrectedHash.dtsx</Name>
-          <FullPath>DemonstrateCorrectedHash.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-      </DTSPackages>
-    </Manifest>
-  </DeploymentModelSpecificContent>
+  <DTSPackages>
+    <DtsPackage FormatVersion="3">
+      <Name>SimpleTextTest.dtsx</Name>
+      <FullPath>SimpleTextTest.dtsx</FullPath>
+      <References />
+    </DtsPackage>
+    <DtsPackage FormatVersion="3">
+      <Name>EveryDataType.dtsx</Name>
+      <FullPath>EveryDataType.dtsx</FullPath>
+      <References />
+    </DtsPackage>
+    <DtsPackage FormatVersion="3">
+      <Name>DemonstrateDuplicateHash.dtsx</Name>
+      <FullPath>DemonstrateDuplicateHash.dtsx</FullPath>
+      <References />
+    </DtsPackage>
+    <DtsPackage FormatVersion="3">
+      <Name>DemonstrateCorrectedHash.dtsx</Name>
+      <FullPath>DemonstrateCorrectedHash.dtsx</FullPath>
+      <References />
+    </DtsPackage>
+  </DTSPackages>
 </Project>

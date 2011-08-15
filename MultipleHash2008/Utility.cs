@@ -766,7 +766,8 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_NUMERIC:
                             Utility.Append(ref inputByteBuffer, buffer.GetDecimal(columnToProcess[j]));
                             break;
-#if SQL2008
+#if SQL2005
+#else
                         case DataType.DT_DBTIMESTAMPOFFSET:
                             Utility.Append(ref inputByteBuffer, buffer.GetDateTimeOffset(columnToProcess[j]));
                             break;
@@ -776,13 +777,15 @@ namespace Martin.SQLServer.Dts
 #endif
                         case DataType.DT_DATE:
                         case DataType.DT_DBTIMESTAMP:
-#if SQL2008
+#if SQL2005
+#else
                         case DataType.DT_DBTIMESTAMP2:
                         case DataType.DT_FILETIME:
 #endif
                             Utility.Append(ref inputByteBuffer, buffer.GetDateTime(columnToProcess[j]));
                             break;
-#if SQL2008
+#if SQL2005
+#else
                         case DataType.DT_DBTIME:
                         case DataType.DT_DBTIME2:
                             Utility.Append(ref inputByteBuffer, buffer.GetTime(columnToProcess[j]));

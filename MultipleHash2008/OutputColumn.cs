@@ -306,7 +306,7 @@ namespace Martin.SQLServer.Dts
             int inputColumnLineageID;
             foreach (string inputLineageID in inputLineageIDList)
             {
-                inputColumnLineageID = bufferManager.FindColumnByLineageID(input.Buffer, System.Convert.ToInt32(inputLineageID));
+                inputColumnLineageID = bufferManager.FindColumnByLineageID(input.Buffer, System.Convert.ToInt32(inputLineageID.Substring(1)));  // Strip the # from the ID
                 this.inputColumnIDs.Add(inputColumnLineageID);
             }
 

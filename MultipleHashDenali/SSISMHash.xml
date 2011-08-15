@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Mappings xmlns="http://www.microsoft.com/SqlServer/Dts/UpgradeMapping.xsd">
 
   <!--  
@@ -9,13 +9,13 @@
 	-->
 
   <ExtensionMapping
-		tag="SSIS Multiple Hash"
-		oldAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
-		newAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		tag="SSIS Multiple Hash 2005"
+		oldAssemblyStrongName="MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
 		/>
   <ExtensionMapping
-		tag="SSIS Multiple Hash"
-		oldAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
-		newAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		tag="SSIS Multiple Hash 2008"
+		oldAssemblyStrongName="MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
 		/>
 </Mappings>

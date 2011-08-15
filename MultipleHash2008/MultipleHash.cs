@@ -106,7 +106,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 3)]
+        CurrentVersion = 4)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -232,6 +232,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Upgrades the component if required.
         /// Adds the Multiple Thread Property if we were Version 1
+        /// Adds the # required before each LineageID so that Denali will work.  This happens in Version 4.
         /// </summary>
         /// <param name="pipelineVersion">Not used at the moment</param>
         public override void PerformUpgrade(int pipelineVersion)
@@ -276,6 +277,53 @@ namespace Martin.SQLServer.Dts
                     this.AddSafeNullHandlingProperty(this.ComponentMetaData);
                     // Change to False as this is an upgrade, and we should be compatible after upgrade.
                     this.ComponentMetaData.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = SafeNullHandling.False;
+                }
+
+                foreach (IDTSOutputColumn outputColumn in this.ComponentMetaData.OutputCollection[0].OutputColumnCollection)
+                {
+                    foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
+                    {
+                        if (customProperty.Name == Utility.InputColumnLineagePropName)
+                        {
+                            customProperty.ContainsID = true;
+                            string[] inputLineageIDs;
+                            string newValue = String.Empty;
+                            int lineageID;
+                            IDTSInputColumn selectedColumn;
+                            inputLineageIDs = customProperty.Value.ToString().Split(',');
+                            foreach (string inputID in inputLineageIDs)
+                            {
+                                if (int.TryParse(inputID, out lineageID))  // This is true if this is an old version of the package...
+                                {
+                                    // If you are lucky, and are doing an Upgrade to Denail from 2005/2008/2008 R2, at this point the LineageID's are still the same!
+                                    try
+                                    {
+                                        selectedColumn = this.ComponentMetaData.InputCollection[0].InputColumnCollection.GetInputColumnByLineageID(int.Parse(inputID));
+                                    }
+                                    catch
+                                    {
+                                        throw new Exception(Properties.Resources.ColumnLineageIDInvalid);
+                                    }
+                                    if (selectedColumn != null)
+                                    {
+                                        if (newValue == String.Empty)
+                                        {
+                                            newValue = "#" + selectedColumn.LineageID.ToString();
+                                        }
+                                        else
+                                        {
+                                            newValue += ",#" + selectedColumn.LineageID.ToString();
+                                        }
+                                    }
+                                }
+                            }
+                            if (newValue != String.Empty)
+                            {
+                                customProperty.Value = newValue;
+                            }
+                            break;
+                        }
+                    }
                 }
 
                 // Set the SSIS Package's version ID for this component to the binary version...
@@ -1085,7 +1133,7 @@ namespace Martin.SQLServer.Dts
                 {
                     try
                     {
-                        if (inputColumns.GetInputColumnByLineageID(System.Convert.ToInt32(lineageID)) == null)
+                        if (inputColumns.GetInputColumnByLineageID (int.Parse(GetColumnName(lineageID))) == null)
                         {
                             inputsOk = false;
                             break;
@@ -1105,7 +1153,16 @@ namespace Martin.SQLServer.Dts
             }
 
             return inputsOk;
-        } 
+        }
+
+
+        private string GetColumnName(string IdentificationString)
+        {
+            string[] nameParts = IdentificationString.Split('#');
+            return nameParts[nameParts.Length - 1];
+        }
+
+
         #endregion
 
         #region FixColumnList
@@ -1125,15 +1182,15 @@ namespace Martin.SQLServer.Dts
             {
                 try
                 {
-                    if (inputColumns.GetInputColumnByLineageID(System.Convert.ToInt32(lineageID)) != null)
+                    if (inputColumns.GetInputColumnByLineageID(int.Parse(GetColumnName(lineageID))) != null)
                     {
                         if (inputValidatedList == string.Empty)
                         {
-                            inputValidatedList = lineageID;
+                            inputValidatedList = "#" + lineageID;
                         }
                         else
                         {
-                            inputValidatedList += "," + lineageID;
+                            inputValidatedList += ",#" + lineageID;
                         }
                     }
                 }
@@ -1275,7 +1332,7 @@ namespace Martin.SQLServer.Dts
             IDTSCustomProperty inputColumnLineageIDs = outputColumn.CustomPropertyCollection.New();
             inputColumnLineageIDs.Name = Utility.InputColumnLineagePropName;
             inputColumnLineageIDs.Description = "Enter the Lineage ID's that will be used to calculate the hash for this output column.";
-            inputColumnLineageIDs.ContainsID = false;
+            inputColumnLineageIDs.ContainsID = true;  // This string contains a list of ID's, and should have been set to true on the creation of this component.
             inputColumnLineageIDs.EncryptionRequired = false;
             inputColumnLineageIDs.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
             inputColumnLineageIDs.Value = string.Empty;
