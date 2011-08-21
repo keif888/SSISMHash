@@ -136,7 +136,6 @@ namespace MultipleHash2008Test
             target.Buffer = expected;
             actual = target.Buffer;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.  ie. How do you get a PipelineBuffer without being inside SSIS?");
         }
 
         /// <summary>

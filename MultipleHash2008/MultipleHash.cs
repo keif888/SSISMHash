@@ -49,6 +49,7 @@ namespace Martin.SQLServer.Dts
     using Microsoft.SqlServer.Dts.Pipeline;
     using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+    using System.Globalization;
 
 #if SQLDenali
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
@@ -269,12 +270,12 @@ namespace Martin.SQLServer.Dts
                 }
                 if (!blnFoundThreadProperty)
                 {
-                    this.AddMultipleThreadProperty(this.ComponentMetaData);
+                    MultipleHash.AddMultipleThreadProperty(this.ComponentMetaData);
                 }
 
                 if (!blnFoundHandleNullsProperty)
                 {
-                    this.AddSafeNullHandlingProperty(this.ComponentMetaData);
+                    MultipleHash.AddSafeNullHandlingProperty(this.ComponentMetaData);
                     // Change to False as this is an upgrade, and we should be compatible after upgrade.
                     this.ComponentMetaData.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = SafeNullHandling.False;
                 }
@@ -298,7 +299,7 @@ namespace Martin.SQLServer.Dts
                                     // If you are lucky, and are doing an Upgrade to Denail from 2005/2008/2008 R2, at this point the LineageID's are still the same!
                                     try
                                     {
-                                        selectedColumn = this.ComponentMetaData.InputCollection[0].InputColumnCollection.GetInputColumnByLineageID(int.Parse(inputID));
+                                        selectedColumn = this.ComponentMetaData.InputCollection[0].InputColumnCollection.GetInputColumnByLineageID(int.Parse(inputID, CultureInfo.InvariantCulture));
                                     }
                                     catch
                                     {
@@ -306,18 +307,18 @@ namespace Martin.SQLServer.Dts
                                     }
                                     if (selectedColumn != null)
                                     {
-                                        if (newValue == String.Empty)
+                                        if (String.IsNullOrEmpty(newValue))
                                         {
-                                            newValue = "#" + selectedColumn.LineageID.ToString();
+                                            newValue = "#" + selectedColumn.LineageID.ToString(CultureInfo.InvariantCulture);
                                         }
                                         else
                                         {
-                                            newValue += ",#" + selectedColumn.LineageID.ToString();
+                                            newValue += ",#" + selectedColumn.LineageID.ToString(CultureInfo.InvariantCulture);
                                         }
                                     }
                                 }
                             }
-                            if (newValue != String.Empty)
+                            if (!String.IsNullOrEmpty(newValue))
                             {
                                 customProperty.Value = newValue;
                             }
@@ -349,10 +350,10 @@ namespace Martin.SQLServer.Dts
             base.ProvideComponentProperties();
 
             // Add the Multiple Thread property (as None)...
-            this.AddMultipleThreadProperty(this.ComponentMetaData);
+            MultipleHash.AddMultipleThreadProperty(this.ComponentMetaData);
 
             // Add the Safe Null Handling property, as True...
-            this.AddSafeNullHandlingProperty(this.ComponentMetaData);
+            MultipleHash.AddSafeNullHandlingProperty(this.ComponentMetaData);
 
             // Name the input and output, and make the output asynchronous.
             ComponentMetaData.InputCollection[0].Name = "Input";
@@ -527,7 +528,7 @@ namespace Martin.SQLServer.Dts
                             }
                             else
                             {
-                                if (!ValidateDataType(outputColumn, 0))
+                                if (!MultipleHash.ValidateDataType(outputColumn, 0))
                                 {
                                     InternalFireError(Properties.Resources.OutputDatatypeInvalid);
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
@@ -561,7 +562,7 @@ namespace Martin.SQLServer.Dts
                             }
                             else
                             {
-                                if (!ValidateDataType(outputColumn, 1))
+                                if (!MultipleHash.ValidateDataType(outputColumn, 1))
                                 {
                                     InternalFireError(Properties.Resources.OutputDatatypeInvalid);
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
@@ -673,7 +674,7 @@ namespace Martin.SQLServer.Dts
                         catch (Exception)
                         {
                             ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
-                            this.AddMultipleThreadProperty(ComponentMetaData);
+                            MultipleHash.AddMultipleThreadProperty(ComponentMetaData);
                         }
                     }
                 }
@@ -686,7 +687,7 @@ namespace Martin.SQLServer.Dts
                     catch (Exception)
                     {
                         ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
-                        this.AddSafeNullHandlingProperty(ComponentMetaData);
+                        MultipleHash.AddSafeNullHandlingProperty(ComponentMetaData);
                     }
                 }
             }
@@ -707,19 +708,19 @@ namespace Martin.SQLServer.Dts
                             // Check which one is missing, and add.  If neither are there, then remove what is, and add the correct ones.
                             if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name == Utility.InputColumnLineagePropName))
                             {
-                                this.AddHashTypeProperty(outputColumn);
+                                MultipleHash.AddHashTypeProperty(outputColumn);
                             }
                             else
                             {
                                 if ((outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName))
                                 {
-                                    AddInputLineageIDsProperty(outputColumn);
+                                    MultipleHash.AddInputLineageIDsProperty(outputColumn);
                                 }
                                 else
                                 {
                                     outputColumn.CustomPropertyCollection.RemoveAll();
                                     AddHashTypeProperty(outputColumn);
-                                    AddInputLineageIDsProperty(outputColumn);
+                                    MultipleHash.AddInputLineageIDsProperty(outputColumn);
                                 }
                             }
 
@@ -730,8 +731,8 @@ namespace Martin.SQLServer.Dts
                              && (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName))
                             {
                                 outputColumn.CustomPropertyCollection.RemoveAll();
-                                this.AddHashTypeProperty(outputColumn);
-                                this.AddInputLineageIDsProperty(outputColumn);
+                                MultipleHash.AddHashTypeProperty(outputColumn);
+                                MultipleHash.AddInputLineageIDsProperty(outputColumn);
                             }
 
                             // Check first property
@@ -742,11 +743,11 @@ namespace Martin.SQLServer.Dts
                                     int colID = outputColumn.CustomPropertyCollection[0].ID;
                                     if (outputColumn.CustomPropertyCollection[1].Name == Utility.HashTypePropName)
                                     {
-                                        this.AddInputLineageIDsProperty(outputColumn);
+                                        MultipleHash.AddInputLineageIDsProperty(outputColumn);
                                     }
                                     else
                                     {
-                                        this.AddHashTypeProperty(outputColumn);
+                                        MultipleHash.AddHashTypeProperty(outputColumn);
                                     }
 
                                     outputColumn.CustomPropertyCollection.RemoveObjectByID(colID);
@@ -761,7 +762,7 @@ namespace Martin.SQLServer.Dts
                             }
                             else
                             {
-                                if (!ValidateDataType(outputColumn, 0))
+                                if (!MultipleHash.ValidateDataType(outputColumn, 0))
                                 {
                                     Utility.SetOutputColumnDataType((HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value, outputColumn);
                                 }
@@ -775,11 +776,11 @@ namespace Martin.SQLServer.Dts
                                     int colID = outputColumn.CustomPropertyCollection[1].ID;
                                     if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
                                     {
-                                        this.AddInputLineageIDsProperty(outputColumn);
+                                        MultipleHash.AddInputLineageIDsProperty(outputColumn);
                                     }
                                     else
                                     {
-                                        this.AddHashTypeProperty(outputColumn);
+                                        MultipleHash.AddHashTypeProperty(outputColumn);
                                     }
 
                                     outputColumn.CustomPropertyCollection.RemoveObjectByID(colID);
@@ -794,7 +795,7 @@ namespace Martin.SQLServer.Dts
                             }
                             else
                             {
-                                if (!ValidateDataType(outputColumn, 1))
+                                if (!MultipleHash.ValidateDataType(outputColumn, 1))
                                 {
                                     Utility.SetOutputColumnDataType((HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value, outputColumn);
                                 }
@@ -803,8 +804,8 @@ namespace Martin.SQLServer.Dts
                             break;
                         default:
                             outputColumn.CustomPropertyCollection.RemoveAll();
-                            this.AddHashTypeProperty(outputColumn);
-                            this.AddInputLineageIDsProperty(outputColumn);
+                            MultipleHash.AddHashTypeProperty(outputColumn);
+                            MultipleHash.AddInputLineageIDsProperty(outputColumn);
                             break;
                     }
                 }
@@ -873,10 +874,10 @@ namespace Martin.SQLServer.Dts
             IDTSOutputColumn outputColumn = output.OutputColumnCollection.NewAt(outputColumnIndex);
 
             // Add the HashType property.
-            this.AddHashTypeProperty(outputColumn);
+            MultipleHash.AddHashTypeProperty(outputColumn);
 
             // Add the InputColumnLineageIDs property.
-            this.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash.AddInputLineageIDsProperty(outputColumn);
 
             // Set the data type based on the MD5 default.
             Utility.SetOutputColumnDataType(HashTypeEnumerator.MD5, outputColumn);
@@ -1012,9 +1013,9 @@ namespace Martin.SQLServer.Dts
                 int portThreads;
 
                 ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
-                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + "Maximum Threads.", string.Empty, 0, ref fireAgain);
+                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString(CultureInfo.CurrentCulture) + "Maximum Threads.", string.Empty, 0, ref fireAgain);
                 ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
-                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + "Available Threads.", string.Empty, 0, ref fireAgain);
+                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString(CultureInfo.CurrentCulture) + "Available Threads.", string.Empty, 0, ref fireAgain);
 #endif
             }
         }
@@ -1059,9 +1060,9 @@ namespace Martin.SQLServer.Dts
                         int portThreads;
 
                         ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
-                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + " Maximum Threads.", string.Empty, 0, ref FireAgain);
+                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString(CultureInfo.CurrentCulture) + " Maximum Threads.", string.Empty, 0, ref FireAgain);
                         ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
-                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString() + " Available Threads.", string.Empty, 0, ref FireAgain);
+                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "There are " + workerThreads.ToString(CultureInfo.CurrentCulture) + " Available Threads.", string.Empty, 0, ref FireAgain);
 #endif
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
@@ -1070,9 +1071,9 @@ namespace Martin.SQLServer.Dts
                             ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessOutputColumn.CalculateHash), passThreadState);
 #if DEBUG
                             ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
-                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString() + " Maximum Threads.", string.Empty, 0, ref FireAgain);
+                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString(CultureInfo.CurrentCulture) + " Maximum Threads.", string.Empty, 0, ref FireAgain);
                             ThreadPool.GetAvailableThreads(out workerThreads, out portThreads);
-                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString() + " Available Threads.", string.Empty, 0, ref FireAgain);
+                            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "After Queuing there are " + workerThreads.ToString(CultureInfo.CurrentCulture) + " Available Threads.", string.Empty, 0, ref FireAgain);
 #endif
                         }
 
@@ -1102,7 +1103,7 @@ namespace Martin.SQLServer.Dts
         public override void PostExecute()
         {
             bool fireAgain = true;
-            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Post-Execute phase is beginning, after processing " + this.numOfRowsProcessed.ToString() + " rows.", string.Empty, 0, ref fireAgain);
+            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Post-Execute phase is beginning, after processing " + this.numOfRowsProcessed.ToString(CultureInfo.CurrentCulture) + " rows.", string.Empty, 0, ref fireAgain);
             base.PostExecute();
         }
 
@@ -1133,7 +1134,7 @@ namespace Martin.SQLServer.Dts
                 {
                     try
                     {
-                        if (inputColumns.GetInputColumnByLineageID (int.Parse(GetColumnName(lineageID))) == null)
+                        if (inputColumns.GetInputColumnByLineageID(int.Parse(MultipleHash.GetColumnID(lineageID), CultureInfo.InvariantCulture)) == null)
                         {
                             inputsOk = false;
                             break;
@@ -1154,15 +1155,19 @@ namespace Martin.SQLServer.Dts
 
             return inputsOk;
         }
+        #endregion
 
-
-        private string GetColumnName(string IdentificationString)
+        #region GetColumnID
+        /// <summary>
+        /// Returns the LineageID from an input.
+        /// </summary>
+        /// <param name="LineageID">The LineageID to remove the # (if there) from.</param>
+        /// <returns></returns>
+        static private string GetColumnID(string LineageID)
         {
-            string[] nameParts = IdentificationString.Split('#');
+            string[] nameParts = LineageID.Split('#');
             return nameParts[nameParts.Length - 1];
         }
-
-
         #endregion
 
         #region FixColumnList
@@ -1182,15 +1187,15 @@ namespace Martin.SQLServer.Dts
             {
                 try
                 {
-                    if (inputColumns.GetInputColumnByLineageID(int.Parse(GetColumnName(lineageID))) != null)
+                    if (inputColumns.GetInputColumnByLineageID(int.Parse(MultipleHash.GetColumnID(lineageID), CultureInfo.InvariantCulture)) != null)
                     {
-                        if (inputValidatedList == string.Empty)
+                        if (String.IsNullOrEmpty(inputValidatedList))
                         {
-                            inputValidatedList = "#" + lineageID;
+                            inputValidatedList = "#" + MultipleHash.GetColumnID(lineageID);
                         }
                         else
                         {
-                            inputValidatedList += ",#" + lineageID;
+                            inputValidatedList += ",#" + MultipleHash.GetColumnID(lineageID);
                         }
                     }
                 }
@@ -1211,7 +1216,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="outputColumn">The output column to validate.</param>
         /// <param name="customPropertyIndex">The output column's Custom Property to use for the HashTypeEnum to validate.</param>
         /// <returns>returns true when validated ok</returns>
-        private bool ValidateDataType(IDTSOutputColumn outputColumn, int customPropertyIndex)
+        static private bool ValidateDataType(IDTSOutputColumn outputColumn, int customPropertyIndex)
         {
             switch ((HashTypeEnumerator)outputColumn.CustomPropertyCollection[customPropertyIndex].Value)
             {
@@ -1266,7 +1271,7 @@ namespace Martin.SQLServer.Dts
         /// Adds the Custom Property for the HashType.
         /// </summary>
         /// <param name="outputColumn">The column to add the HashType property to.</param>
-        private void AddHashTypeProperty(IDTSOutputColumn outputColumn)
+        static private void AddHashTypeProperty(IDTSOutputColumn outputColumn)
         {
             // Add the HashType property.
             IDTSCustomProperty hashProperty = outputColumn.CustomPropertyCollection.New();
@@ -1286,7 +1291,7 @@ namespace Martin.SQLServer.Dts
         /// Creates a new custom property collection to hold the Multiple Thread property
         /// </summary>
         /// <param name="metaData">The component MetaData to add the new property to</param>
-        private void AddMultipleThreadProperty(IDTSComponentMetaData metaData)
+        static private void AddMultipleThreadProperty(IDTSComponentMetaData metaData)
         {
             // Add the Multi Thread Property
             IDTSCustomProperty multiThread = metaData.CustomPropertyCollection.New();
@@ -1307,17 +1312,17 @@ namespace Martin.SQLServer.Dts
         /// Creates a new custom property collection to hold the Safe Null Handling property
         /// </summary>
         /// <param name="metaData">The component MetaData to add the new property to</param>
-        private void AddSafeNullHandlingProperty(IDTSComponentMetaData metaData)
+        static private void AddSafeNullHandlingProperty(IDTSComponentMetaData metaData)
         {
             // Add the Multi Thread Property
-            IDTSCustomProperty safeNullHandling = metaData.CustomPropertyCollection.New();
-            safeNullHandling.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
-            safeNullHandling.Name = Utility.SafeNullHandlingPropName;
-            safeNullHandling.ContainsID = false;
-            safeNullHandling.EncryptionRequired = false;
-            safeNullHandling.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
-            safeNullHandling.TypeConverter = typeof(SafeNullHandling).AssemblyQualifiedName;
-            safeNullHandling.Value = SafeNullHandling.True;
+            IDTSCustomProperty safeNullHandlingProperty = metaData.CustomPropertyCollection.New();
+            safeNullHandlingProperty.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
+            safeNullHandlingProperty.Name = Utility.SafeNullHandlingPropName;
+            safeNullHandlingProperty.ContainsID = false;
+            safeNullHandlingProperty.EncryptionRequired = false;
+            safeNullHandlingProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            safeNullHandlingProperty.TypeConverter = typeof(SafeNullHandling).AssemblyQualifiedName;
+            safeNullHandlingProperty.Value = SafeNullHandling.True;
         }
         #endregion
 
@@ -1326,7 +1331,7 @@ namespace Martin.SQLServer.Dts
         /// Adds the InputColumnLineageIDs custom property.
         /// </summary>
         /// <param name="outputColumn">The column to add the InputColumnLineageIDs property to.</param>
-        private void AddInputLineageIDsProperty(IDTSOutputColumn outputColumn)
+        static private void AddInputLineageIDsProperty(IDTSOutputColumn outputColumn)
         {
             // Add the InputColumnLineageIDs property.
             IDTSCustomProperty inputColumnLineageIDs = outputColumn.CustomPropertyCollection.New();

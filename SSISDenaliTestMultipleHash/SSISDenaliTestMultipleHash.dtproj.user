@@ -11,5 +11,15 @@
         <ParameterConfigurationSensitiveValues />
       </Options>
     </Configuration>
+    <Configuration>
+      <Name>UnitTest</Name>
+      <Options>
+        <UserIDs />
+        <UserPasswords />
+        <OfflineMode>false</OfflineMode>
+        <ProgressReporting>true</ProgressReporting>
+        <ParameterConfigurationSensitiveValues />
+      </Options>
+    </Configuration>
   </Configurations>
 </DataTransformationsUserConfiguration>

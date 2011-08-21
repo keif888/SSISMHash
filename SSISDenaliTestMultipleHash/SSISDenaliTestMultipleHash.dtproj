@@ -49,5 +49,16 @@
         <ParameterConfigurationValues />
       </Options>
     </Configuration>
+    <Configuration>
+      <Name>UnitTest</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings />
+        <ConnectionProviderMappings />
+        <ConnectionSecurityMappings />
+        <DatabaseStorageLocations />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
   </Configurations>
 </Project>

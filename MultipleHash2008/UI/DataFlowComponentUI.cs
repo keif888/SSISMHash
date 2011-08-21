@@ -91,6 +91,7 @@ namespace Martin.SQLServer.Dts
     /// Base class that implements IDTSComponentUI interface and some common Data Flow OM specific routines.
     /// The purpose of IDTSComponentUI interface is to enable the handshaking of our GUI with the SSIS Component.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DataFlow")]
     public abstract class DataFlowComponentUI : IDtsComponentUI
     {
         #region Data members
@@ -212,54 +213,55 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Getting tooltip text to be displayed for the given data flow column.
         /// </summary>
-        /// <param name="dataFlowColumn">The SSIS Virtual Column</param>
+        /// <param name="dataflowColumn">The SSIS Virtual Column</param>
         /// <returns>The text to display on the hover window</returns>
-        public static string GetTooltipString(object dataFlowColumn)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
+        public static string GetTooltipString(object dataflowColumn)
         {
-            if (dataFlowColumn is IDTSVirtualInputColumn)
+            if (dataflowColumn is IDTSVirtualInputColumn)
             {
-                IDTSVirtualInputColumn column = dataFlowColumn as IDTSVirtualInputColumn;
+                IDTSVirtualInputColumn column = dataflowColumn as IDTSVirtualInputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
-                    column.Length.ToString(CultureInfo.CurrentUICulture),
-                    column.Scale.ToString(CultureInfo.CurrentUICulture),
-                    column.Precision.ToString(CultureInfo.CurrentUICulture),
-                    column.CodePage.ToString(CultureInfo.CurrentUICulture),
+                    column.Length.ToString(CultureInfo.CurrentCulture),  // Changed from CurrentUICulture
+                    column.Scale.ToString(CultureInfo.CurrentCulture),
+                    column.Precision.ToString(CultureInfo.CurrentCulture),
+                    column.CodePage.ToString(CultureInfo.CurrentCulture),
                     column.SourceComponent);
             }
-            else if (dataFlowColumn is IDTSInputColumn)
+            else if (dataflowColumn is IDTSInputColumn)
             {
-                IDTSInputColumn column = dataFlowColumn as IDTSInputColumn;
+                IDTSInputColumn column = dataflowColumn as IDTSInputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
-                    column.Length.ToString(CultureInfo.CurrentUICulture),
-                    column.Scale.ToString(CultureInfo.CurrentUICulture),
-                    column.Precision.ToString(CultureInfo.CurrentUICulture),
-                    column.CodePage.ToString(CultureInfo.CurrentUICulture));
+                    column.Length.ToString(CultureInfo.CurrentCulture),
+                    column.Scale.ToString(CultureInfo.CurrentCulture),
+                    column.Precision.ToString(CultureInfo.CurrentCulture),
+                    column.CodePage.ToString(CultureInfo.CurrentCulture));
             }
-            else if (dataFlowColumn is IDTSOutputColumn)
+            else if (dataflowColumn is IDTSOutputColumn)
             {
-                IDTSOutputColumn column = dataFlowColumn as IDTSOutputColumn;
+                IDTSOutputColumn column = dataflowColumn as IDTSOutputColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
-                    column.Length.ToString(CultureInfo.CurrentUICulture),
-                    column.Scale.ToString(CultureInfo.CurrentUICulture),
-                    column.Precision.ToString(CultureInfo.CurrentUICulture),
-                    column.CodePage.ToString(CultureInfo.CurrentUICulture));
+                    column.Length.ToString(CultureInfo.CurrentCulture),
+                    column.Scale.ToString(CultureInfo.CurrentCulture),
+                    column.Precision.ToString(CultureInfo.CurrentCulture),
+                    column.CodePage.ToString(CultureInfo.CurrentCulture));
             }
-            else if (dataFlowColumn is IDTSExternalMetadataColumn)
+            else if (dataflowColumn is IDTSExternalMetadataColumn)
             {
-                IDTSExternalMetadataColumn column = dataFlowColumn as IDTSExternalMetadataColumn;
+                IDTSExternalMetadataColumn column = dataflowColumn as IDTSExternalMetadataColumn;
                 return FormatTooltipText(
                     column.Name,
                     column.DataType.ToString(),
-                    column.Length.ToString(CultureInfo.CurrentUICulture),
-                    column.Scale.ToString(CultureInfo.CurrentUICulture),
-                    column.Precision.ToString(CultureInfo.CurrentUICulture),
-                    column.CodePage.ToString(CultureInfo.CurrentUICulture));
+                    column.Length.ToString(CultureInfo.CurrentCulture),
+                    column.Scale.ToString(CultureInfo.CurrentCulture),
+                    column.Precision.ToString(CultureInfo.CurrentCulture),
+                    column.CodePage.ToString(CultureInfo.CurrentCulture));
             }
 
             return string.Empty;
@@ -274,12 +276,12 @@ namespace Martin.SQLServer.Dts
         /// <param name="scale">The column scale</param>
         /// <param name="precision">The column precision</param>
         /// <param name="codePage">The columns codepage</param>
-        /// <param name="sourceComponnet">The name of the source</param>
+        /// <param name="sourceComponent">The name of the source</param>
         /// <returns>The formatted tool tip</returns>
-        public static string FormatTooltipText(string name, string dataType, string length, string scale, string precision, string codePage, string sourceComponnet)
+        public static string FormatTooltipText(string name, string dataType, string length, string scale, string precision, string codePage, string sourceComponent)
         {
             string tooltip = FormatTooltipText(name, dataType, length, scale, precision, codePage);
-            tooltip += "\nSource: " + sourceComponnet;
+            tooltip += "\nSource: " + sourceComponent;
 
             return tooltip;
         }
@@ -404,6 +406,7 @@ namespace Martin.SQLServer.Dts
         void IDtsComponentUI.Help(IWin32Window parentWindow)
         {
         }
+  
         #endregion
 
         #region Handling errors
@@ -419,6 +422,7 @@ namespace Martin.SQLServer.Dts
         /// Get the text of error message that consist of all errors captured from pipeline events (OnError and OnWarning). 
         /// </summary>
         /// <returns>The error message</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         protected string GetErrorMessage()
         {
             return this.errorCollector.GetErrorMessage();
@@ -443,13 +447,27 @@ namespace Martin.SQLServer.Dts
             }
             else
             {
-                MessageBox.Show(
-                    ex.Message + "\r\nSource: " + ex.Source + "\r\n" + ex.TargetSite + "\r\n" + ex.StackTrace,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1,
-                    0);
+                if (ex != null)
+                {
+                    MessageBox.Show(
+                        ex.Message + "\r\nSource: " + ex.Source + "\r\n" + ex.TargetSite + "\r\n" + ex.StackTrace,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1,
+                        0);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Somehow we got an error without an exception",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1,
+                        0);
+
+                }
             }
         }
 
@@ -462,6 +480,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="parentControl">The caller's window id</param>
         /// <returns>True if all ok.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Impl")]
         protected abstract bool EditImpl(IWin32Window parentControl);
 
         #endregion

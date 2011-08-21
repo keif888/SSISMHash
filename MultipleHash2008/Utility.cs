@@ -268,7 +268,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value.ToString());
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -318,7 +317,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -338,7 +336,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -358,7 +355,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -378,7 +374,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -398,7 +393,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -417,8 +411,7 @@ namespace Martin.SQLServer.Dts
                 {
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    ////stream.Dispose();
+                    //stream.Close();
                     return bytes;
                 }
             }
@@ -438,7 +431,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -458,7 +450,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }
@@ -478,7 +469,6 @@ namespace Martin.SQLServer.Dts
                     writer.Write(value);
                     byte[] bytes = stream.ToArray();
                     stream.Close();
-                    ////stream.Dispose();
                     return bytes;
                 }
             }

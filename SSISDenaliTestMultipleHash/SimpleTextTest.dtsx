@@ -11,8 +11,8 @@
   DTS:LocaleID="3081"
   DTS:ObjectName="SimpleTextTest"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{E6EA64EE-75A1-4EF2-93CF-06BA189D6372}">
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{A53B9092-AF67-4978-BB99-E622633FA3C4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -180,7 +180,7 @@
               componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="3">
+              version="4">
               <properties>
                 <property
                   dataType="System.Int32"
@@ -232,9 +232,10 @@
                           name="HashType"
                           typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
                         <property
+                          containsID="true"
                           dataType="System.String"
                           description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
-                          name="InputColumnLineageIDs">15</property>
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[TextLine]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -311,11 +312,7 @@
     design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="135.773584905661,43.9245283018868"
-          Id="Package\Data Flow Task\Multiple Hash"
-          TopLeft="5.5,92.3679245283019" />
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="135.773584905661,43.9245283018868"
           Id="Package\Data Flow Task\Recordset Destination"
@@ -324,6 +321,10 @@
           Size="135.773584905661,43.9245283018868"
           Id="Package\Data Flow Task\Flat File Source"
           TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Data Flow Task\Multiple Hash"
+          TopLeft="5.5,92.3679245283019" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[HashedOutput]"
           TopLeft="73.3867924528302,136.292452830189">
@@ -347,7 +348,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-1.50943396226415,43.9433962264151,16,16"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout

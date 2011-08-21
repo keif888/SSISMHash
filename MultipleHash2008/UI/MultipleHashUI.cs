@@ -489,7 +489,7 @@ namespace Martin.SQLServer.Dts
                 // Populate the inputList to have the lineageID's from the input columns in the sorted order.
                 foreach (KeyValuePair<int, int> kvp in inputLineageIDs)
                 {
-                    if (inputList == string.Empty)
+                    if (String.IsNullOrEmpty(inputList))
                     {
                         inputList = "#" + kvp.Value.ToString();
                     }

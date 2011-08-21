@@ -67,36 +67,69 @@ namespace MultipleHash2008Test
         //
         #endregion
 
+#if UnitTest
+        // Exclude the following tests from Unit Test, as they Fail due to the GAC not having the DLL, so that Coverage works.
+        // Stupid Coverage doesn't handle GAC DLL's!
+#else
 
-        /*
-         * Still haven't worked out how to initialise the meta data (ComponentMetaData) without DTExec...
-         * 
-         */
         /// <summary>
         ///A test for PerformUpgrade
+        ///Ensure that the LineageID's are changed to #nn format.
+        ///This test will fail if run in UnitTest mode, because the assembly isn't in the GAC!
         ///</summary>
         [TestMethod()]
         public void PerformUpgradeTest()
         {
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-            // This test doesn't work so it's "invalidated" above.
             Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
             Executable exec = package.Executables.Add("STOCK:PipelineTask");
             Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
             MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
             IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
             metaDataMultipleHash.Name = "Multiple Hash Test";
-            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash.MultipleThread).AssemblyQualifiedName;
-            // CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
-            // instance.ProvideComponentProperties();
-            MultipleHash target = new MultipleHash();
-            // target.ComponentMetaData // Gets a NULL
-            target.ReinitializeMetaData();
-            target.ProvideComponentProperties();
-            int pipelineVersion = 1;
-            target.PerformUpgrade(pipelineVersion);
-            Assert.AreEqual(2, target.ComponentMetaData.PipelineVersion);
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+            instance.ReinitializeMetaData();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            // Set the LineageID value to Old format
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "1,2,3";
+            Assert.AreEqual(0, metaDataMultipleHash.Version, "Version failed to match on initial create");
+            // Don't ask why, but MS set the version to 0 on create...
+
+            string packageXML, package2XML;
+            package.SaveToXML(out packageXML, null);
+            package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            // Force the Upgrade to run the 1st time.
+            package.LoadFromXML(packageXML, null);
+            // We have to save it, so that the meta data will be shown as changed.  Don't ask, it's an SSIS thing.
+            package.SaveToXML(out package2XML, null);
+            package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            // Load again, so that we can check that the version number is now 4!
+            package.LoadFromXML(package2XML, null);
+
+            exec = package.Executables[0];
+            thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            dataFlowTask = thMainPipe.InnerObject as MainPipe;
+            metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection[0];
+            Assert.AreEqual(4, metaDataMultipleHash.Version, "Version failed to match on reload");
+            Assert.AreEqual("#1,#2,#3", metaDataMultipleHash.OutputCollection[0].OutputColumnCollection[0].CustomPropertyCollection[Utility.InputColumnLineagePropName].Value as String, "LineageID's not updated");
         }
+#endif
+
 
         /// <summary>
         ///A test for AddInputLineageIDsProperty
@@ -108,10 +141,10 @@ namespace MultipleHash2008Test
             MultipleHash_Accessor target = new MultipleHash_Accessor(); // TODO: Initialize to an appropriate value
             IDTSOutput100 output = new OutputTestImpl();
             IDTSOutputColumn100 outputColumn = output.OutputColumnCollection.New();
-            target.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
             Assert.AreEqual(Utility.InputColumnLineagePropName, outputColumn.CustomPropertyCollection[0].Name);
             Assert.AreEqual("Enter the Lineage ID's that will be used to calculate the hash for this output column.", outputColumn.CustomPropertyCollection[0].Description);
-            Assert.AreEqual(false, outputColumn.CustomPropertyCollection[0].ContainsID);
+            Assert.AreEqual(true, outputColumn.CustomPropertyCollection[0].ContainsID);
             Assert.AreEqual(false, outputColumn.CustomPropertyCollection[0].EncryptionRequired);
             Assert.AreEqual(DTSCustomPropertyExpressionType.CPET_NONE, outputColumn.CustomPropertyCollection[0].ExpressionType);
             Assert.AreEqual(string.Empty, outputColumn.CustomPropertyCollection[0].Value);
@@ -128,7 +161,7 @@ namespace MultipleHash2008Test
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor(); // TODO: Initialize to an appropriate value
             IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl();
-            target.AddMultipleThreadProperty(metaData);
+            MultipleHash_Accessor.AddMultipleThreadProperty(metaData);
             Assert.AreEqual(Utility.MultipleThreadPropName, metaData.CustomPropertyCollection[0].Name);
             Assert.AreEqual("Select the number of threads to use", metaData.CustomPropertyCollection[0].Description);
             Assert.AreEqual(false, metaData.CustomPropertyCollection[0].ContainsID );
@@ -147,7 +180,7 @@ namespace MultipleHash2008Test
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor();
             IDTSOutputColumn100 outputColumn = new OutputColumnTestImpl();
-            target.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
             Assert.AreEqual(Utility.HashTypePropName, outputColumn.CustomPropertyCollection[0].Name); 
             Assert.AreEqual("Select the Hash Type that will be used for this output column.", outputColumn.CustomPropertyCollection[0].Description);
             Assert.AreEqual(false, outputColumn.CustomPropertyCollection[0].ContainsID );
@@ -166,39 +199,39 @@ namespace MultipleHash2008Test
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor(); 
             IDTSOutputColumn100 outputColumn = new OutputColumnTestImpl();
-            target.AddHashTypeProperty(outputColumn);
-            target.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
             int customPropertyIndex = 0;
             bool expected = true;
             bool actual;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.RipeMD160, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.RipeMD160;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA1, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA1;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA256, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA256;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA384, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA384;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             expected = false;
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
-            actual = target.ValidateDataType(outputColumn, customPropertyIndex);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
         }
 
@@ -210,7 +243,7 @@ namespace MultipleHash2008Test
         public void FixColumnListTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor();
-            string inputLineageIDs = "1,2,3";
+            string inputLineageIDs = "#1,#2,#3";
             IDTSInputColumnCollection100 inputColumns = new InputColumnCollectionTestImpl(); 
             string expected = string.Empty;
             string actual;
@@ -221,21 +254,21 @@ namespace MultipleHash2008Test
             inputColumn.LineageID = 1;
             inputColumn = inputColumns.New();
             inputColumn.LineageID = 2;
-            expected = "1,2";
+            expected = "#1,#2";
             // Test with 2 input columns, and to many input linage ids
             actual = target.FixColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual);
             inputColumn = inputColumns.New();
             inputColumn.LineageID = 3;
-            expected = "1,2,3";
+            expected = "#1,#2,#3";
             // Test with 3 input columns, and correct number of linage ids
             actual = target.FixColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual);
             inputLineageIDs = string.Empty;
             inputColumn = inputColumns.New();
             inputColumn.LineageID = 3;
-            expected = "1";
-            inputLineageIDs = "4,1";
+            expected = "#1";
+            inputLineageIDs = "#4,#1";
             // Test with 3 input columns, and 1 correct and 1 incorrect input.
             actual = target.FixColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual);
@@ -260,7 +293,7 @@ namespace MultipleHash2008Test
             bool actual;
             actual = target.ValidateColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual, "No input columns or lineageid");
-            inputLineageIDs = "1";
+            inputLineageIDs = "#1";
             expected = false;
             actual = target.ValidateColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual, "0 input, 1 lineage incorrect");
@@ -273,10 +306,27 @@ namespace MultipleHash2008Test
             inputColumn.LineageID = 2;
             actual = target.ValidateColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual, "2 input, 1 lineage");
-            inputLineageIDs = "1,3";
+            inputLineageIDs = "#1,#3";
             expected = false;
             actual = target.ValidateColumnList(inputLineageIDs, inputColumns);
             Assert.AreEqual(expected, actual, "2 input, 2 lineage one incorrect");
+        }
+
+        /// <summary>
+        ///A test for AddSafeNullHandlingProperty
+        ///</summary>
+        [TestMethod()]
+        public void AddSafeNullHandlingPropertyTest()
+        {
+            IDTSComponentMetaData100 metaData = new ComponentMetaDataTestImpl();
+            MultipleHash_Accessor.AddSafeNullHandlingProperty(metaData);
+            Assert.AreEqual("Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.", metaData.CustomPropertyCollection[0].Description);
+            Assert.AreEqual(Utility.SafeNullHandlingPropName, metaData.CustomPropertyCollection[0].Name);
+            Assert.AreEqual(false, metaData.CustomPropertyCollection[0].ContainsID);
+            Assert.AreEqual(false, metaData.CustomPropertyCollection[0].EncryptionRequired);
+            Assert.AreEqual(DTSCustomPropertyExpressionType.CPET_NONE, metaData.CustomPropertyCollection[0].ExpressionType);
+            Assert.AreEqual(typeof(Martin.SQLServer.Dts.MultipleHash.SafeNullHandling).AssemblyQualifiedName, metaData.CustomPropertyCollection[0].TypeConverter);
+            Assert.AreEqual(Martin.SQLServer.Dts.MultipleHash.SafeNullHandling.True, metaData.CustomPropertyCollection[0].Value);
         }
     }
 }

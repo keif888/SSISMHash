@@ -237,12 +237,12 @@ namespace Martin.SQLServer.Dts
                 // Call the GetThreading event...
                 IAsyncResult res = this.GetThreadingDetail.BeginInvoke(this, args, null, null);
                 this.GetThreadingDetail.EndInvoke(res);
-                cbThreading.Text = GetThreadingName(args.threadDetail);
+                cbThreading.Text = MultipleHashForm.GetThreadingName(args.threadDetail);
                     
                 // Call the GetSafeNull event...
                 res = this.GetSafeNullHandlingDetail.BeginInvoke(this, safeNullArgs, null, null);
                 this.GetSafeNullHandlingDetail.EndInvoke(res);
-                cbSafeNullHandling.Checked = GetSafeNullValue(safeNullArgs.safeNullHandlingDetail);
+                cbSafeNullHandling.Checked = MultipleHashForm.GetSafeNullValue(safeNullArgs.safeNullHandlingDetail);
             }
             catch (Exception ex)
             {
@@ -361,7 +361,7 @@ namespace Martin.SQLServer.Dts
 
                             // Filling the cells.
                             SetGridCellData(this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsColumnName.Index], outputColumnRow);
-                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = this.GetHashName(outputColumnRow.Hash);
+                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = MultipleHashForm.GetHashName(outputColumnRow.Hash);
                         }
                     }
 
@@ -912,12 +912,12 @@ namespace Martin.SQLServer.Dts
                         outputColumnRow = args.OutputColumnDetail;
                         if (comboCell.Value != null)
                         {
-                            outputColumnRow.Hash = this.GetHashEnum(comboCell.Value.ToString());
+                            outputColumnRow.Hash = MultipleHashForm.GetHashEnum(comboCell.Value.ToString());
                         }
                         else
                         {
                             outputColumnRow.Hash = MultipleHash.HashTypeEnumerator.None;
-                            comboCell.Value = this.GetHashName(MultipleHash.HashTypeEnumerator.None);
+                            comboCell.Value = MultipleHashForm.GetHashName(MultipleHash.HashTypeEnumerator.None);
                         }
 
                         // Filling the cells.
@@ -947,7 +947,7 @@ namespace Martin.SQLServer.Dts
                         if (e.ColumnIndex == this.dgvOutputColumnsHashType.Index)
                         {
                             // Push the change into the Tag...
-                            outputColumnRow.Hash = this.GetHashEnum(comboCell.Value.ToString());
+                            outputColumnRow.Hash = MultipleHashForm.GetHashEnum(comboCell.Value.ToString());
                         }
 
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();
@@ -1022,10 +1022,10 @@ namespace Martin.SQLServer.Dts
         {
             try
             {
-                if (cbThreading.Text != string.Empty)
+                if (!String.IsNullOrEmpty(cbThreading.Text))
                 {
                     ThreadingArgs args = new ThreadingArgs();
-                    args.threadDetail = GetThreadingEnum(cbThreading.Text);
+                    args.threadDetail = MultipleHashForm.GetThreadingEnum(cbThreading.Text);
 
                     // Call the SetThreading event...
                     IAsyncResult res = this.SetThreadingDetail.BeginInvoke(this, args, null, null);
@@ -1044,7 +1044,7 @@ namespace Martin.SQLServer.Dts
             try
             {
                 SafeNullArgs args = new SafeNullArgs();
-                args.safeNullHandlingDetail = GetSafeNullEnum(cbSafeNullHandling.Checked);
+                args.safeNullHandlingDetail = MultipleHashForm.GetSafeNullEnum(cbSafeNullHandling.Checked);
 
                 // Call the SetThreading event...
                 IAsyncResult res = this.SetSafeNullHandlingDetail.BeginInvoke(this, args, null, null);
@@ -1067,7 +1067,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="hashValue">The HashTypeEnum value to return a string for</param>
         /// <returns>The string value for the HashTypeEnum</returns>
-        private string GetHashName(MultipleHash.HashTypeEnumerator hashValue)
+        static private string GetHashName(MultipleHash.HashTypeEnumerator hashValue)
         {
             switch (hashValue)
             {
@@ -1094,7 +1094,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="hashValue">The string value for the HashTypeEnum</param>
         /// <returns>The HashTypeEnum value for the passed in string.</returns>
-        private MultipleHash.HashTypeEnumerator GetHashEnum(string hashValue)
+        static private MultipleHash.HashTypeEnumerator GetHashEnum(string hashValue)
         {
             switch (hashValue)
             {
@@ -1123,7 +1123,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="threadingValue">The MultipleThread value to return a string for</param>
         /// <returns>The string value for the MultipleThread</returns>
-        private string GetThreadingName(MultipleHash.MultipleThread threadingValue)
+        static private string GetThreadingName(MultipleHash.MultipleThread threadingValue)
         {
             switch (threadingValue)
             {
@@ -1142,7 +1142,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="hashValue">The string value for the MultipleThread</param>
         /// <returns>The MultipleThread value for the passed in string.</returns>
-        private MultipleHash.MultipleThread GetThreadingEnum(string threadingValue)
+        static private MultipleHash.MultipleThread GetThreadingEnum(string threadingValue)
         {
             switch (threadingValue)
             {
@@ -1165,7 +1165,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="safeNullValue">The enum value for safe null handling</param>
         /// <returns>True or False based on the Safe Null Handling</returns>
-        private bool GetSafeNullValue(MultipleHash.SafeNullHandling safeNullValue)
+        static private bool GetSafeNullValue(MultipleHash.SafeNullHandling safeNullValue)
         {
             switch (safeNullValue)
             {
@@ -1183,7 +1183,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="safeNullValue"></param>
         /// <returns></returns>
-        private MultipleHash.SafeNullHandling GetSafeNullEnum(bool safeNullValue)
+        static private MultipleHash.SafeNullHandling GetSafeNullEnum(bool safeNullValue)
         {
             switch (safeNullValue)
             {
@@ -1258,6 +1258,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Should we cancel the action?
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public bool CancelAction;
     }
 
@@ -1275,6 +1276,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Should we cancel the action?
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public bool CancelAction;
     }
 
@@ -1292,6 +1294,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Should we cancel the action?
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public bool CancelAction;
     }
 	

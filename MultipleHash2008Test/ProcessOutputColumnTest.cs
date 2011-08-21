@@ -2,7 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
 using System.Threading;
+using System;
 namespace MultipleHash2008Test
 {
     
@@ -71,11 +74,26 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void CalculateHashTest()
         {
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.Inconclusive("It is not possible to generate the required PipelineBuffer, so this method can't be tested.");
+            PipelineBuffer buffer;
+            IDTSBuffer100 iBuffer;
+            
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+
+//            iBuffer = dataFlowTask.BufferManager.CreateFlatBuffer(10000, metaDataMultipleHash);
+
+
+            //Assert.Inconclusive("A method that does not return a value cannot be verified.");
             OutputColumn columnToProcess = new OutputColumn();
 
             DTSBufferManagerClass bufferManagerClass = new DTSBufferManagerClass();
-            PipelineBuffer buffer;
             MainPipeClass mainPipeClass = new MainPipeClass();
             DTP_BUFFCOL bufferColumns = new DTP_BUFFCOL();
             int bufferID;
@@ -92,7 +110,10 @@ namespace MultipleHash2008Test
             metaData.Name = "Input Buffer";
             metaData.ComponentClassID = typeof(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBuffer100).AssemblyQualifiedName;
 
-            buffer = (PipelineBuffer)bufferManagerClass.CreateBuffer(bufferID, metaData);
+
+            iBuffer = bufferManagerClass.CreateFlatBuffer(10000, metaDataMultipleHash);
+            //buffer = (PipelineBuffer)bufferManagerClass.CreateBuffer(bufferID, metaData);
+            buffer = bufferManagerClass.CreateFlatBuffer(10000, metaData) as PipelineBuffer;
             ManualResetEvent threadReset = new ManualResetEvent(false);
 
             PassThreadState state = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false);
@@ -107,7 +128,7 @@ namespace MultipleHash2008Test
         public void ProcessOutputColumnConstructorTest()
         {
             ProcessOutputColumn_Accessor target = new ProcessOutputColumn_Accessor();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsNotNull(target);
         }
     }
 }
