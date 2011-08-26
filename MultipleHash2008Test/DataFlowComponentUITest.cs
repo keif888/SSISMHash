@@ -161,8 +161,16 @@ namespace MultipleHash2008Test
             Assert.AreEqual(expected, actual);
         }
 
-
-        
-
+        /// <summary>
+        ///A test for GetTooltipString
+        ///</summary>
+        [TestMethod()]
+        public void GetTooltipStringTestString()
+        {
+            String ic = "";
+            string expected = String.Empty;
+            string actual = DataFlowComponentUI.GetTooltipString(ic);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

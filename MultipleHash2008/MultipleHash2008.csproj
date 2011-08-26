@@ -167,10 +167,14 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
+    <PostBuildEvent>"%25ProgramFiles%25\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
+DEL "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).*" /Y
+DEL "%25ProgramFiles%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\$(TargetName).*" /Y
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles%25\Microsoft Visual Studio 10.0\Team Tools\Performance Tools\vsinstr" -coverage "$(TargetDir)$(TargetName).dll"
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles%25\Microsoft SDKs\Windows\v7.0A\bin\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
 COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\" /Y
 COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\" /Y
-"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).DLL"
+"%25ProgramFiles%25\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).DLL"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -135,7 +135,7 @@ namespace MultipleHash2008Test
         ///A test for AddInputLineageIDsProperty
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void AddInputLineageIDsPropertyTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor(); // TODO: Initialize to an appropriate value
@@ -156,7 +156,7 @@ namespace MultipleHash2008Test
         ///A test for AddMultipleThreadProperty
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void AddMultipleThreadPropertyTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor(); // TODO: Initialize to an appropriate value
@@ -175,7 +175,7 @@ namespace MultipleHash2008Test
         ///A test for AddHashTypeProperty
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void AddHashTypePropertyTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor();
@@ -194,7 +194,7 @@ namespace MultipleHash2008Test
         ///A test for ValidateDataType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void ValidateDataTypeTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor(); 
@@ -239,7 +239,7 @@ namespace MultipleHash2008Test
         ///A test for FixColumnList
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void FixColumnListTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor();
@@ -283,7 +283,7 @@ namespace MultipleHash2008Test
         ///A test for ValidateColumnList
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void ValidateColumnListTest()
         {
             MultipleHash_Accessor target = new MultipleHash_Accessor();

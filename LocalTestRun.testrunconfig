@@ -21,17 +21,6 @@
       </WebTestRunConfiguration>
     </TestTypeSpecific>
     <AgentRule name="LocalMachineDefaultRole">
-      <DataCollectors>
-        <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Code Coverage">
-          <Configuration>
-            <CodeCoverage keyFile="MultipleHash2008\MultipleHash.snk" xmlns="">
-              <Regular>
-                <CodeCoverageItem binaryFile="MultipleHash2008\bin\UnitTest\MultipleHash2008.dll" pdbFile="MultipleHash2008\bin\UnitTest\MultipleHash2008.pdb" instrumentInPlace="true" />
-              </Regular>
-            </CodeCoverage>
-          </Configuration>
-        </DataCollector>
-      </DataCollectors>
     </AgentRule>
   </Execution>
 </TestSettings>

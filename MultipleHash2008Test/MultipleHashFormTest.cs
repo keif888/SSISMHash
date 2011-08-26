@@ -68,7 +68,7 @@ namespace MultipleHash2008Test
         ///A test for GetHashName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void GetHashNameTest()
         {
             Assert.AreEqual("MD5", MultipleHashForm_Accessor.GetHashName(MultipleHash.HashTypeEnumerator.MD5));
@@ -84,7 +84,7 @@ namespace MultipleHash2008Test
         ///A test for GetHashEnum
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
+        
         public void GetHashEnumTest()
         {
             Assert.AreEqual(MultipleHashForm_Accessor.GetHashEnum("MD5"), MultipleHash.HashTypeEnumerator.MD5);

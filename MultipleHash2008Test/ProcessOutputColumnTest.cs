@@ -124,7 +124,6 @@ namespace MultipleHash2008Test
         ///A test for ProcessOutputColumn Constructor
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("MultipleHash2008.dll")]
         public void ProcessOutputColumnConstructorTest()
         {
             ProcessOutputColumn_Accessor target = new ProcessOutputColumn_Accessor();

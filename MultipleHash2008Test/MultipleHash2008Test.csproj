@@ -158,13 +158,16 @@
       <Name>MultipleHash2008</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ExecuteTests.cmd" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>if [$(ConfigurationName)] == [UnitTest] "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u MultipleHash2008
+    <PreBuildEvent>rem if [$(ConfigurationName)] == [UnitTest] "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u MultipleHash2008
 </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>if [$(ConfigurationName)] == [UnitTest] "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u MultipleHash2008
+    <PostBuildEvent>rem if [$(ConfigurationName)] == [UnitTest] "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u MultipleHash2008
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
