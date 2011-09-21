@@ -1,0 +1,663 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/13/2010 8:41:08 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="VISUALSTUDIO"
+  DTS:CreatorName="VISUALSTUDIO\Installer"
+  DTS:DTSID="{7A700254-88BF-434A-8611-D9E5971ED744}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.1440.19"
+  DTS:LocaleID="3081"
+  DTS:ObjectName="DemonstrateCorrectedHash"
+  DTS:PackageType="5"
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{38175160-5980-452B-9BF6-8A80596830B4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Source Flat File]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{12287E7F-C0F6-45CB-80FF-6E04995B9408}"
+      DTS:ObjectName="Source Flat File">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="3081"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="65001"
+          DTS:ConnectionString="D:\2008Projects\CodePlexMultipleHash\MultipleHash2008\MultipleHash.cs">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="1024"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CSharpSource"
+              DTS:DTSID="{F0476AF5-F58C-490B-B7D8-B0B0806F7597}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7DF08310-B4AA-4448-9FCA-B96BEDCCA7FA}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="vObject">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Demonstrate Hash Detection Failure"
+      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{174C5861-9B1A-4D41-962C-71ABA5F8EEFC}"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Demonstrate Hash Detection Failure"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Demonstrate Hash Detection Failure\Create Test Data"
+              componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Updates column values using expressions"
+              name="Create Test Data"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Demonstrate Hash Detection Failure\Create Test Data.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]"
+                      name="LeftColumn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"I Am Text"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"I Am Text"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="14"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]"
+                      name="RightColumn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"I Am Also Text"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"I Am Also Text"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]"
+                      name="NullColumn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_WSTR,10)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_WSTR,10)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[BadHash]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="82"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[BadHash]"
+                      name="BadHash"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"0x58 0x0B 0x3F 0xD3  0x92 0xF4 0xE9 0x6F  0x16 0x26 0x77 0x5A  0x5F 0x96 0x8D 0x26"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"0x58 0x0B 0x3F 0xD3  0x92 0xF4 0xE9 0x6F  0x16 0x26 0x77 0x5A  0x5F 0x96 0x8D 0x26"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Demonstrate Hash Detection Failure\Create Test Data.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Demonstrate Hash Detection Failure\Flat File Source"
+              componentClassID="{D23FD76B-F51D-420F-BBCB-19CBF6AC1AB4}"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="3081"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Source Flat File]"
+                  connectionManagerRefId="Package.ConnectionManagers[Source Flat File]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output].Columns[CSharpSource]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[CSharpSource]"
+                      length="1024"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output].Columns[CSharpSource]"
+                      name="CSharpSource"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[CSharpSource]"
+                      codePage="65001"
+                      dataType="str"
+                      length="1024"
+                      name="CSharpSource" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="65001"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Demonstrate Hash Detection Failure\Multiple Hash"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              description="Creates Multiple Hash's from selected input columns."
+              name="Multiple Hash"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Select the number of threads to use"
+                  name="MultipleThreads"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
+                  name="SafeNullHandling"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input]"
+                  name="Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input].Columns[LeftColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="LeftColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]" />
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input].Columns[RightColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="14"
+                      cachedName="RightColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]" />
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input].Columns[NullColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="NullColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput]"
+                  description="Hashed rows are directed to this output."
+                  name="HashedOutput"
+                  synchronousInputId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example1]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example1]"
+                      name="Example1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example2]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example2]"
+                      name="Example2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example3]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example3]"
+                      name="Example3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example4]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput].Columns[Example4]"
+                      name="Example4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]},#{Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Demonstrate Hash Detection Failure\Recordset Destination"
+              componentClassID="{C457FD7E-CE98-4C4B-AEFE-F3AE0044F181}"
+              contactInfo="Recordset Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates and populates an in-memory ADO recordset that is available outside of the data flow. Scripts and other package elements can use the recordset. For example, use a recordset to store the names of files that will be loaded into the data warehouse."
+              name="Recordset Destination">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the recordset."
+                  name="VariableName">User::vObject</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Demonstrate Hash Detection Failure\Recordset Destination.Inputs[Recordset Destination Input]"
+                  hasSideEffects="true"
+                  name="Recordset Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Recordset Destination.Inputs[Recordset Destination Input].Columns[LeftColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="LeftColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[LeftColumn]" />
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Recordset Destination.Inputs[Recordset Destination Input].Columns[RightColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="14"
+                      cachedName="RightColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[RightColumn]" />
+                    <inputColumn
+                      refId="Package\Demonstrate Hash Detection Failure\Recordset Destination.Inputs[Recordset Destination Input].Columns[NullColumn]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="NullColumn"
+                      lineageId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output].Columns[NullColumn]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Demonstrate Hash Detection Failure.Paths[Derived Column Output]"
+              endId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Inputs[Input]"
+              name="Derived Column Output"
+              startId="Package\Demonstrate Hash Detection Failure\Create Test Data.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Demonstrate Hash Detection Failure.Paths[Flat File Source Output]"
+              endId="Package\Demonstrate Hash Detection Failure\Create Test Data.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Demonstrate Hash Detection Failure\Flat File Source.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
+              endId="Package\Demonstrate Hash Detection Failure\Recordset Destination.Inputs[Recordset Destination Input]"
+              name="HashedOutput"
+              startId="Package\Demonstrate Hash Detection Failure\Multiple Hash.Outputs[HashedOutput]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="209.660377358491,43.9245283018868"
+          Id="Package\Demonstrate Hash Detection Failure"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Demonstrate Hash Detection Failure">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
+          TopLeft="16.4811320754717,235.160377358491" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
+          TopLeft="16.4811320754717,113.311320754717" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Demonstrate Hash Detection Failure\Flat File Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Demonstrate Hash Detection Failure.Paths[Flat File Source Output]"
+          TopLeft="73.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="10.9811320754717,63.8867924528302"
+              Start="0,0"
+              End="10.9811320754717,56.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.9245283018868" />
+                  <mssgle:LineSegment
+                    End="10.9811320754717,31.9245283018868" />
+                  <mssgle:LineSegment
+                    End="10.9811320754717,56.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Demonstrate Hash Detection Failure.Paths[Derived Column Output]"
+          TopLeft="84.3679245283019,157.235849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,77.9245283018868"
+              Start="0,0"
+              End="0,70.4245283018868">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.4245283018868" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Four Hash Values.&#xD;&#xA;Left Null Right&#xD;&#xA;Left Right Null&#xD;&#xA;Null Left Right&#xD;&#xA;Right Left Null"
+          ParentId="Package\Demonstrate Hash Detection Failure"
+          Size="226.415094339623,75.7833333333334"
+          Id="988ed0b8-8237-41a3-99dd-8b760a1eddc8"
+          TopLeft="295.009433962264,224.141509433962">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="8.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <NodeLayout
+          Size="182.863333333334,42"
+          Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
+          TopLeft="14,344" />
+        <EdgeLayout
+          Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
+          TopLeft="84.3679245283019,279.084905660377">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="21.0637421383648,64.9150943396227"
+              Start="0,0"
+              End="21.0637421383648,57.4150943396227">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.4575471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.4575471698113"
+                    Point2="0,32.4575471698113"
+                    Point3="4,32.4575471698113" />
+                  <mssgle:LineSegment
+                    End="17.0637421383648,32.4575471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17.0637421383648,32.4575471698113"
+                    Point2="21.0637421383648,32.4575471698113"
+                    Point3="21.0637421383648,36.4575471698113" />
+                  <mssgle:LineSegment
+                    End="21.0637421383648,57.4150943396227" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

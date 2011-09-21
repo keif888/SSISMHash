@@ -381,7 +381,7 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void GetNumberOfProcessorCoresTest()
         {
-            int expected = 1; // This has to be changed for every machine the test is run on!
+            int expected = 2; // This has to be changed for every machine the test is run on!
             int actual;
             actual = Utility.GetNumberOfProcessorCores();
             Assert.AreEqual(expected, actual);
@@ -743,6 +743,10 @@ namespace MultipleHash2008Test
         }
 
 
+/*
+ * The following test is commented out as it can't work due to SSIS design.
+ * Use the ExecuteTests.cmd file to test the Hash Calculation, using SSIS packages.
+ * 
 
         /// <summary>
         ///A test for CalculateHash
@@ -751,7 +755,6 @@ namespace MultipleHash2008Test
         public void CalculateHashTest()
         {
             Assert.Inconclusive("Unable to test this as we can't initialise a PipelineBuffer...");
-/*
             MockRepository repository = new MockRepository();
             
 
@@ -845,8 +848,10 @@ namespace MultipleHash2008Test
             //buffer.AddRow();
             
             Utility.CalculateHash(columnToProcess, buffer, false);
-             * */
+             * 
         }
+
+             */
 
         /// <summary>
         ///A test for Utility Constructor

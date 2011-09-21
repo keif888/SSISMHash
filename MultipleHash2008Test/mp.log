@@ -1,0 +1,37 @@
+Microsoft (R) SQL Server Execute Package Utility
+Version 10.50.1600.1 for 32-bit
+Copyright (C) Microsoft Corporation 2010. All rights reserved.
+
+Started:  10:17:07 PM
+Progress: 2011-09-21 22:17:07.69
+   Source: Data Flow Task 
+   Validating: 0% complete
+End Progress
+Error: 2011-09-21 22:17:07.70
+   Code: 0x00000000
+   Source: Data Flow Task Multiple Hash Safe Not Thread
+   Description: The property SafeNullHandling is set to an invalid value.
+End Error
+Error: 2011-09-21 22:17:07.70
+   Code: 0xC004706B
+   Source: Data Flow Task SSIS.Pipeline
+   Description: "component "Multiple Hash Safe Not Thread" (18)" failed validation and returned validation status "VS_NEEDSNEWMETADATA".
+End Error
+Progress: 2011-09-21 22:17:07.70
+   Source: Data Flow Task 
+   Validating: 25% complete
+End Progress
+Error: 2011-09-21 22:17:07.70
+   Code: 0xC004700C
+   Source: Data Flow Task SSIS.Pipeline
+   Description: One or more component failed validation.
+End Error
+Error: 2011-09-21 22:17:07.70
+   Code: 0xC0024107
+   Source: Data Flow Task 
+   Description: There were errors during task validation.
+End Error
+DTExec: The package execution returned DTSER_FAILURE (1).
+Started:  10:17:07 PM
+Finished: 10:17:07 PM
+Elapsed:  0.203 seconds

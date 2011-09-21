@@ -23,12 +23,12 @@
           <FullPath>EveryDataType.dtsx</FullPath>
           <References />
         </DtsPackage>
-        <DtsPackage FormatVersion="3">
+        <DtsPackage FormatVersion="6">
           <Name>DemonstrateDuplicateHash.dtsx</Name>
           <FullPath>DemonstrateDuplicateHash.dtsx</FullPath>
           <References />
         </DtsPackage>
-        <DtsPackage FormatVersion="3">
+        <DtsPackage FormatVersion="6">
           <Name>DemonstrateCorrectedHash.dtsx</Name>
           <FullPath>DemonstrateCorrectedHash.dtsx</FullPath>
           <References />

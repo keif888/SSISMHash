@@ -68,6 +68,11 @@ namespace MultipleHash2008Test
         #endregion
 
 
+/*
+ * 
+ * The following test is commented out as it can't work due to SSIS design.
+ * Use the ExecuteTests.cmd file to test the Hash Calculation, using SSIS packages.
+ * 
         /// <summary>
         ///A test for CalculateHash
         ///</summary>
@@ -119,6 +124,7 @@ namespace MultipleHash2008Test
             PassThreadState state = new PassThreadState(columnToProcess, buffer, metaData, threadReset, false);
             ProcessOutputColumn.CalculateHash(state);
         }
+*/
 
         /// <summary>
         ///A test for ProcessOutputColumn Constructor

@@ -67,10 +67,32 @@ namespace MultipleHash2008Test
         //
         #endregion
 
-#if UnitTest
-        // Exclude the following tests from Unit Test, as they Fail due to the GAC not having the DLL, so that Coverage works.
-        // Stupid Coverage doesn't handle GAC DLL's!
-#else
+
+        [TestMethod()]
+        public void ProvideComponentPropertiesTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            metaDataMultipleHash.OutputCollection.New();
+            metaDataMultipleHash.OutputCollection.New();
+            instance.ProvideComponentProperties();
+            Assert.AreEqual(3, metaDataMultipleHash.CustomPropertyCollection.Count, "Custom Properites Not Added");
+            Assert.AreEqual(Utility.MultipleThreadPropName, metaDataMultipleHash.CustomPropertyCollection[0].Name, "MultipleThreadPropName is wrong");
+            Assert.AreEqual(Utility.SafeNullHandlingPropName, metaDataMultipleHash.CustomPropertyCollection[1].Name, "SafeNullHandlingPropName is wrong");
+            Assert.AreEqual("Input", metaDataMultipleHash.InputCollection[0].Name, "Input is not named correctly");
+            Assert.AreEqual(1, metaDataMultipleHash.OutputCollection.Count, "Extra Outputs were not removed");
+            Assert.AreEqual("HashedOutput", metaDataMultipleHash.OutputCollection[0].Name, "Output is not named correctly");
+            Assert.AreEqual("Hashed rows are directed to this output.", metaDataMultipleHash.OutputCollection[0].Description, "Description is incorrect");
+            Assert.AreEqual(metaDataMultipleHash.InputCollection[0].ID, metaDataMultipleHash.OutputCollection[0].SynchronousInputID, "SynchronousInputID is wrong");
+        }
+
 
         /// <summary>
         ///A test for PerformUpgrade
@@ -128,7 +150,6 @@ namespace MultipleHash2008Test
             Assert.AreEqual(4, metaDataMultipleHash.Version, "Version failed to match on reload");
             Assert.AreEqual("#1,#2,#3", metaDataMultipleHash.OutputCollection[0].OutputColumnCollection[0].CustomPropertyCollection[Utility.InputColumnLineagePropName].Value as String, "LineageID's not updated");
         }
-#endif
 
 
         /// <summary>

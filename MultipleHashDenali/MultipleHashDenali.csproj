@@ -149,6 +149,6 @@
 COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\110\DTS\PipelineComponents\" /Y
 REM COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\110\Tools\Binn\VSShell\Common7\IDE\" /Y
 "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\110\DTS\PipelineComponents\$(TargetName).DLL"
-</PostBuildEvent>
+COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles%25\Microsoft SQL Server\110\DTS\UpgradeMappings" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

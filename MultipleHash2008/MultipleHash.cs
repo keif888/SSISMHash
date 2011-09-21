@@ -72,6 +72,7 @@ namespace Martin.SQLServer.Dts
     using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput100;
     using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100;
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
+    using System.Collections.Generic;
 #endif
 #if SQL2005
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
@@ -349,6 +350,9 @@ namespace Martin.SQLServer.Dts
             // Let the base component add the input and output.
             base.ProvideComponentProperties();
 
+            // Add Contact information etc.
+            ComponentMetaData.ContactInfo = "http://ssismhash.codeplex.com/";
+
             // Add the Multiple Thread property (as None)...
             MultipleHash.AddMultipleThreadProperty(this.ComponentMetaData);
 
@@ -379,6 +383,7 @@ namespace Martin.SQLServer.Dts
         public override DTSValidationStatus Validate()
         {
             int testMultiThreadThere = 0;
+            int testSafeNullThere = 0;
 
             // Check that the MultiThread property is there.
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
@@ -398,6 +403,7 @@ namespace Martin.SQLServer.Dts
                 }
                 if (customProperty.Name == Utility.SafeNullHandlingPropName)
                 {
+                    testSafeNullThere++;
                     try
                     {
                         SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
@@ -410,6 +416,12 @@ namespace Martin.SQLServer.Dts
                 }
             }
 
+            if (testSafeNullThere != 1)
+            {
+                this.InternalFireError(Properties.Resources.PropertyNullHandlingIncorrectCount);
+                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+            }
+
             if (testMultiThreadThere == 0)
             {
                 this.InternalFireError(Properties.Resources.MultiThreadPropertyMissing);
@@ -419,7 +431,7 @@ namespace Martin.SQLServer.Dts
             if (testMultiThreadThere > 1)
             {
                 this.InternalFireError(Properties.Resources.ToManyMultiThreadProperties);
-                return DTSValidationStatus.VS_ISCORRUPT;
+                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
             }
 
             if (ComponentMetaData.OutputCollection.Count != 1)
@@ -653,6 +665,8 @@ namespace Martin.SQLServer.Dts
             IDTSInput input = ComponentMetaData.InputCollection[0];
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
             int multiThreadCount = 0;
+            int testSafeNullThere = 0;
+            List<int> itemsToRemove = new List<int>();
 
             // Make sure that ONLY the right properties are here.
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
@@ -662,7 +676,7 @@ namespace Martin.SQLServer.Dts
                     multiThreadCount++;
                     if (multiThreadCount > 1)
                     {
-                        ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
+                        itemsToRemove.Add(customProperty.ID);
                     }
                     else
                     {
@@ -673,23 +687,46 @@ namespace Martin.SQLServer.Dts
                         }
                         catch (Exception)
                         {
-                            ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
-                            MultipleHash.AddMultipleThreadProperty(ComponentMetaData);
+                            itemsToRemove.Add(customProperty.ID);
+                            multiThreadCount--;
                         }
                     }
                 }
                 if (customProperty.Name == Utility.SafeNullHandlingPropName)
                 {
-                    try
+                    testSafeNullThere++;
+                    if (testSafeNullThere > 1)
                     {
-                        SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
+                        itemsToRemove.Add(customProperty.ID);
                     }
-                    catch (Exception)
+                    else
                     {
-                        ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(customProperty.ID);
-                        MultipleHash.AddSafeNullHandlingProperty(ComponentMetaData);
+                        try
+                        {
+                            SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
+                        }
+                        catch (Exception)
+                        {
+                            itemsToRemove.Add(customProperty.ID);
+                            testSafeNullThere--;
+                        }
                     }
                 }
+            }
+
+            foreach (int removeItem in itemsToRemove)
+            {
+                ComponentMetaData.CustomPropertyCollection.RemoveObjectByID(removeItem);
+            }
+
+            if (multiThreadCount == 0)
+            {
+                MultipleHash.AddMultipleThreadProperty(ComponentMetaData);
+            }
+
+            if (testSafeNullThere == 0)
+            {
+                MultipleHash.AddSafeNullHandlingProperty(ComponentMetaData);
             }
 
             // Go through all the output columns now.

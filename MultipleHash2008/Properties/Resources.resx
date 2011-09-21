@@ -180,6 +180,9 @@
   <data name="PropertyMultiThreadInvalid" xml:space="preserve">
     <value>The property MultiThread is set to an invalid value.</value>
   </data>
+  <data name="PropertyNullHandlingIncorrectCount" xml:space="preserve">
+    <value>The count of SafeNullHandling properties is not valid.</value>
+  </data>
   <data name="PropertyNullHandlingInvalid" xml:space="preserve">
     <value>The property SafeNullHandling is set to an invalid value.</value>
   </data>
