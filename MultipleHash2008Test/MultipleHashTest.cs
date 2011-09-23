@@ -152,6 +152,843 @@ namespace MultipleHash2008Test
         }
 
 
+        [TestMethod()]
+        public void ValidateToManyMultiThreadTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            IDTSCustomProperty100 multiThread = metaDataMultipleHash.CustomPropertyCollection.New();
+            multiThread.Description = "Select the number of threads to use";
+            multiThread.Name = Utility.MultipleThreadPropName;
+            multiThread.ContainsID = false;
+            multiThread.EncryptionRequired = false;
+            multiThread.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            multiThread.TypeConverter = typeof(Martin.SQLServer.Dts.MultipleHash.MultipleThread).AssemblyQualifiedName;
+            multiThread.Value = Martin.SQLServer.Dts.MultipleHash.MultipleThread.None;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult =  package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "There are to many Multi Thread Properties Defined.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataToManyMultiThreadTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            IDTSCustomProperty100 multiThread = metaDataMultipleHash.CustomPropertyCollection.New();
+            multiThread.Description = "Select the number of threads to use";
+            multiThread.Name = Utility.MultipleThreadPropName;
+            multiThread.ContainsID = false;
+            multiThread.EncryptionRequired = false;
+            multiThread.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            multiThread.TypeConverter = typeof(Martin.SQLServer.Dts.MultipleHash.MultipleThread).AssemblyQualifiedName;
+            multiThread.Value = Martin.SQLServer.Dts.MultipleHash.MultipleThread.None;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateToManySafeNullHandlingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            IDTSCustomProperty100 safeNullHandlingProperty = metaDataMultipleHash.CustomPropertyCollection.New();
+            safeNullHandlingProperty.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
+            safeNullHandlingProperty.Name = Utility.SafeNullHandlingPropName;
+            safeNullHandlingProperty.ContainsID = false;
+            safeNullHandlingProperty.EncryptionRequired = false;
+            safeNullHandlingProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            safeNullHandlingProperty.TypeConverter = typeof(Martin.SQLServer.Dts.MultipleHash.SafeNullHandling).AssemblyQualifiedName;
+            safeNullHandlingProperty.Value = Martin.SQLServer.Dts.MultipleHash.SafeNullHandling.True;
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The count of SafeNullHandling properties is not valid.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataToManySafeNullHandlingTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            IDTSCustomProperty100 safeNullHandlingProperty = metaDataMultipleHash.CustomPropertyCollection.New();
+            safeNullHandlingProperty.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
+            safeNullHandlingProperty.Name = Utility.SafeNullHandlingPropName;
+            safeNullHandlingProperty.ContainsID = false;
+            safeNullHandlingProperty.EncryptionRequired = false;
+            safeNullHandlingProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            safeNullHandlingProperty.TypeConverter = typeof(Martin.SQLServer.Dts.MultipleHash.SafeNullHandling).AssemblyQualifiedName;
+            safeNullHandlingProperty.Value = Martin.SQLServer.Dts.MultipleHash.SafeNullHandling.True;
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateMissingSafeNullHandlingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection.RemoveObjectByID(metaDataMultipleHash.CustomPropertyCollection[Utility.SafeNullHandlingPropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The count of SafeNullHandling properties is not valid.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataMissingSafeNullHandlingTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection.RemoveObjectByID(metaDataMultipleHash.CustomPropertyCollection[Utility.SafeNullHandlingPropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateMissingMultiThreadTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection.RemoveObjectByID(metaDataMultipleHash.CustomPropertyCollection[Utility.MultipleThreadPropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The MultiThread Property is missing.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataMissingMultiThreadTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection.RemoveObjectByID(metaDataMultipleHash.CustomPropertyCollection[Utility.MultipleThreadPropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+
+        [TestMethod()]
+        public void ValidateMultiThreadInvalidTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection[Utility.MultipleThreadPropName].Value = 99;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The property MultiThread is set to an invalid value.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataMultiThreadInvalidTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection[Utility.MultipleThreadPropName].Value = 99;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateSafeNullInvalidTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = 99;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The property SafeNullHandling is set to an invalid value.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataSafeNullInvalidTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = 99;
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateMissingOutputTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.OutputCollection.RemoveObjectByIndex(0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "There should be exactly one output. The metadata of this component is corrupt.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataMissingOutputTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.OutputCollection.RemoveObjectByIndex(0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateToManyOutputsTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.OutputCollection.New();
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "There should be exactly one output. The metadata of this component is corrupt.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataToManyOutputsTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.OutputCollection.New();
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+
+        [TestMethod()]
+        public void ValidateWrongOutputColumnTypeTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            // Set an invalid data type...
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataWrongOutputColumnTypeTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            // Set an invalid data type...
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
+
+        [TestMethod()]
+        public void ValidateHashTypeMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.HashTypePropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataHashTypeMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.HashTypePropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
+        [TestMethod()]
+        public void ValidateInputColumnLineageIDsMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataInputColumnLineageIDsMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].ID);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
+        [TestMethod()]
+        public void ValidateBothPropertiesMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].ID);
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataBothPropertiesMissingTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].ID);
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
         /// <summary>
         ///A test for AddInputLineageIDsProperty
         ///</summary>

@@ -50,6 +50,7 @@ namespace Martin.SQLServer.Dts
     using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
     using System.Globalization;
+    using System.Collections.Generic;
 
 #if SQLDenali
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
@@ -72,7 +73,6 @@ namespace Martin.SQLServer.Dts
     using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput100;
     using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100;
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
-    using System.Collections.Generic;
 #endif
 #if SQL2005
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
@@ -391,11 +391,7 @@ namespace Martin.SQLServer.Dts
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
                     testMultiThreadThere++;
-                    try
-                    {
-                        MultipleThread testThread = (MultipleThread)customProperty.Value;
-                    }
-                    catch (Exception)
+                    if (!Enum.IsDefined(typeof(MultipleThread), customProperty.Value))
                     {
                         this.InternalFireError(Properties.Resources.PropertyMultiThreadInvalid);
                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
@@ -404,11 +400,7 @@ namespace Martin.SQLServer.Dts
                 if (customProperty.Name == Utility.SafeNullHandlingPropName)
                 {
                     testSafeNullThere++;
-                    try
-                    {
-                        SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
-                    }
-                    catch (Exception)
+                    if (!Enum.IsDefined(typeof(SafeNullHandling), customProperty.Value))
                     {
                         this.InternalFireError(Properties.Resources.PropertyNullHandlingInvalid);
                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
@@ -498,7 +490,7 @@ namespace Martin.SQLServer.Dts
                                 }
                                 else
                                 {
-                                    this.InternalFireError(Properties.Resources.PropertyRemoved);
+                                    this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                 }
                             }
@@ -662,6 +654,34 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         public override void ReinitializeMetaData()
         {
+            if (ComponentMetaData.InputCollection.Count == 0)
+            {
+                base.ProvideComponentProperties();
+                // ComponentMetaData.InputCollection.New();
+            }
+
+            if (ComponentMetaData.OutputCollection.Count == 0)
+            {
+                base.ProvideComponentProperties();
+                // ComponentMetaData.OutputCollection.New();
+            }
+
+            if (ComponentMetaData.InputCollection.Count > 1)
+            {
+                for (int i = ComponentMetaData.InputCollection.Count - 1; i > 0; i--)
+                {
+                    ComponentMetaData.InputCollection.RemoveObjectByIndex(i);
+                }
+            }
+
+            if (ComponentMetaData.OutputCollection.Count > 1)
+            {
+                for (int i = ComponentMetaData.OutputCollection.Count - 1; i > 0; i--)
+                {
+                    ComponentMetaData.OutputCollection.RemoveObjectByIndex(i);
+                }
+            }
+
             IDTSInput input = ComponentMetaData.InputCollection[0];
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
             int multiThreadCount = 0;
@@ -681,11 +701,7 @@ namespace Martin.SQLServer.Dts
                     else
                     {
                         // Attempt to get the value, and fire if it's not valid.
-                        try
-                        {
-                            MultipleThread testThread = (MultipleThread)customProperty.Value;
-                        }
-                        catch (Exception)
+                        if (!Enum.IsDefined(typeof(MultipleThread), customProperty.Value))
                         {
                             itemsToRemove.Add(customProperty.ID);
                             multiThreadCount--;
@@ -701,11 +717,7 @@ namespace Martin.SQLServer.Dts
                     }
                     else
                     {
-                        try
-                        {
-                            SafeNullHandling testNullHandling = (SafeNullHandling)customProperty.Value;
-                        }
-                        catch (Exception)
+                        if (!Enum.IsDefined(typeof(SafeNullHandling), customProperty.Value))
                         {
                             itemsToRemove.Add(customProperty.ID);
                             testSafeNullThere--;

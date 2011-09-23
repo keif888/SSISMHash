@@ -4,26 +4,23 @@ REM
 REM This should be executed from a VS2010 command prompt, on a machine with SSIS 2008 installed.
 REM
 Start vsperfmon -coverage -output:MultipleHash.coverage
-rem mstest /testcontainer:bin/UnitTest/MultipleHash2008Test.dll
+mstest /testcontainer:bin/UnitTest/MultipleHash2008Test.dll
 REM Test Normal Code
 "%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType.dtsx"
 IF ERRORLEVEL 1 GOTO Failed
-ECHO This should exit cleanly, without errors!
-REM Test Upgrade Code
 "%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_V1.3.1.dtsx"
 IF ERRORLEVEL 1 GOTO Failed
-ECHO This should exit cleanly, without errors!
-"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_MissingProperties.dtsx"
+"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_MissingProperties.dtsx" > Testing.log
+IF ERRORLEVEL EQU 0 GOTO Failed
+FINDSTR /I /L  /C:"The count of SafeNullHandling properties is not valid" Testing.log
 IF ERRORLEVEL 1 GOTO Failed
-ECHO This should exit with errors!
-"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_BadLineage.dtsx" > BadLineage.log
+"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_BadLineage.dtsx" > Testing.log
 IF %ERRORLEVEL% EQU 0 GOTO Failed
-FINDSTR /I /L  /C:"The output property InputColumnLineageIDs" BadLineage.log
+FINDSTR /I /L  /C:"The output property InputColumnLineageIDs" Testing.log
 IF ERRORLEVEL 1 GOTO Failed
-ECHO This should exit with errors!
-"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_BadRuntime.dtsx" > BadRuntime.log
+"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_BadRuntime.dtsx" > Testing.log
 IF %ERRORLEVEL% EQU 0 GOTO Failed
-FINDSTR /I /L  /C:"The version or pipeline version" BadRuntime.log
+FINDSTR /I /L  /C:"The version or pipeline version" Testing.log
 IF ERRORLEVEL 1 GOTO Failed
 
 ECHO DTExec Tests Passed!
