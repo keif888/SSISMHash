@@ -575,7 +575,7 @@ namespace Martin.SQLServer.Dts
 
                             break;
                         default:
-                            this.InternalFireError(Properties.Resources.PropertyRemoved);
+                            this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
                             return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                     }
                 }

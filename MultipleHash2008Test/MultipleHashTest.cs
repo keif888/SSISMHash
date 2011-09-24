@@ -611,6 +611,208 @@ namespace MultipleHash2008Test
             Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
         }
 
+        [TestMethod()]
+        public void ValidateMissingInputTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.InputCollection.RemoveObjectByIndex(0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "There should be exactly one input.  The metadata of this component is corrupt.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataMissingInputTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.InputCollection.RemoveObjectByIndex(0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+        [TestMethod()]
+        public void ValidateToManyInputsTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.InputCollection.New();
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "There should be exactly one input.  The metadata of this component is corrupt.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataToManyInputsTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            metaDataMultipleHash.InputCollection.New();
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, validateResult);
+        }
+
+
+        [TestMethod()]
+        public void ValidateToManyCustomPropertiesOnOutputTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 2;
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataToManyCustomPropertiesOnOutputTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 2;
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
 
         [TestMethod()]
         public void ValidateWrongOutputColumnTypeTest()
@@ -643,8 +845,44 @@ namespace MultipleHash2008Test
             // Set an invalid data type...
             outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
             outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 2;
 
             Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 2;
+            validateResult = package.Validate(null, null, null, null);
 
             Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
 
@@ -752,6 +990,46 @@ namespace MultipleHash2008Test
                 }
             }
             Assert.AreEqual(true, foundError);
+
+            foundError = false;
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+
+            foundError = false;
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
         }
 
         [TestMethod()]
@@ -786,6 +1064,46 @@ namespace MultipleHash2008Test
             outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.HashTypePropName].ID);
 
             Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
             instance.ReinitializeMetaData();
             validateResult = package.Validate(null, null, null, null);
             // This still fails as the LineageID's are bogus...
@@ -845,6 +1163,42 @@ namespace MultipleHash2008Test
                 }
             }
             Assert.AreEqual(true, foundError);
+            foundError = false;
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
         }
 
         [TestMethod()]
@@ -879,6 +1233,44 @@ namespace MultipleHash2008Test
             outputColumn.CustomPropertyCollection.RemoveObjectByID(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].ID);
 
             Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+            validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+            validateResult = package.Validate(null, null, null, null);
             instance.ReinitializeMetaData();
             validateResult = package.Validate(null, null, null, null);
             // This still fails as the LineageID's are bogus...
@@ -989,6 +1381,473 @@ namespace MultipleHash2008Test
             Assert.AreEqual(false, foundError);
         }
 
+
+        [TestMethod()]
+        public void ValidateBothPropertiesWrongNamesTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "More Garbage";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataBothPropertiesWrongNamesTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "More Garbage";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
+        [TestMethod()]
+        public void ValidatePropertyZeroNamedWrongTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            //outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "More Garbage";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = Utility.HashTypePropName;
+            //outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataPropertyZeroNamedWrongTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1,#2,#3";
+            //outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = "More Garbage";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+            // This still fails as the LineageID's are bogus...
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property HashType is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Name = "Garbage";
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Name = Utility.HashTypePropName;
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs is missing from column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
+        [TestMethod()]
+        public void ValidateBadLineageTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs has invalid lineage id's for column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The output property InputColumnLineageIDs has invalid lineage id's for column OutputCol1.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataBadLineageTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            Assert.AreEqual(string.Empty, outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value);
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#5";
+
+            validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            Assert.AreEqual(string.Empty, outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value);
+        }
+
+        [TestMethod()]
+        public void ValidateBadHashTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 10;
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+            foundError = false;
+
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 10;
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+
+            validateResult = package.Validate(null, null, null, null);
+
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, foundError);
+        }
+
+        [TestMethod()]
+        public void ReinitializeMetaDataBadHashTest()
+        {
+            Boolean foundError = false;
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+
+            IDTSComponentMetaData100 metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            metaDataMultipleHash.Name = "Multiple Hash Test";
+            metaDataMultipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper instance = metaDataMultipleHash.Instantiate();
+            instance.ProvideComponentProperties();
+
+            // Create the input columns and their LineageID's
+            IDTSInputColumn100 inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 1;
+            inputColumn.Name = "Column 1";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 2;
+            inputColumn.Name = "Column 2";
+            inputColumn = metaDataMultipleHash.InputCollection[0].InputColumnCollection.New();
+            inputColumn.LineageID = 3;
+            inputColumn.Name = "Column 3";
+
+            // Create a new output column
+            IDTSOutputColumn100 outputColumn = instance.InsertOutputColumnAt(metaDataMultipleHash.OutputCollection[0].ID, 0, "OutputCol1", "Output Column 1");
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 4;
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+            foundError = false;
+
+            outputColumn.CustomPropertyCollection.RemoveAll();
+            MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
+            MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
+            outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = "#1";
+            outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = 4;
+            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 3, 0, 0, 0);
+
+            validateResult = package.Validate(null, null, null, null);
+            instance.ReinitializeMetaData();
+            validateResult = package.Validate(null, null, null, null);
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
+            {
+                if (errorResult.Description == "The HashType and Column Data Types do not match.")
+                {
+                    foundError = true;
+                    break;
+                }
+            }
+            Assert.AreEqual(false, foundError);
+        }
+
         /// <summary>
         ///A test for AddInputLineageIDsProperty
         ///</summary>
@@ -1059,11 +1918,11 @@ namespace MultipleHash2008Test
             IDTSOutputColumn100 outputColumn = new OutputColumnTestImpl();
             MultipleHash_Accessor.AddHashTypeProperty(outputColumn);
             MultipleHash_Accessor.AddInputLineageIDsProperty(outputColumn);
-            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5, outputColumn);
-            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
             int customPropertyIndex = 0;
             bool expected = true;
             bool actual;
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
             actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.RipeMD160, outputColumn);
@@ -1089,6 +1948,44 @@ namespace MultipleHash2008Test
             expected = false;
             Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512, outputColumn);
             outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            expected = false;
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.RipeMD160, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.RipeMD160;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA1, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA1;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA256, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA256;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA384, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA384;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
+            actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
+            Assert.AreEqual(expected, actual);
+            expected = false;
+            Utility.SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.SHA512, outputColumn);
+            outputColumn.CustomPropertyCollection[0].Value = Martin.SQLServer.Dts.MultipleHash_Accessor.HashTypeEnumerator.MD5;
+            outputColumn.SetDataTypeProperties(DataType.DT_BOOL, 0, 0, 0, 0);
             actual = MultipleHash_Accessor.ValidateDataType(outputColumn, customPropertyIndex);
             Assert.AreEqual(expected, actual);
         }

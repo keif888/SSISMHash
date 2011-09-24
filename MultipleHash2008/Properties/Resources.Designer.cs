@@ -268,7 +268,7 @@ namespace Martin.SQLServer.Dts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing from column %s..
+        ///   Looks up a localized string similar to The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column %s..
         /// </summary>
         internal static string PropertyRemoved {
             get {
