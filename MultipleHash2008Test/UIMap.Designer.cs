@@ -30,6 +30,46 @@ namespace MultipleHash2008Test
     {
         
         /// <summary>
+        /// AddAnotherOutputHasColumnAsSHA1 - Use 'AddAnotherOutputHasColumnAsSHA1Params' to pass parameters into this method.
+        /// </summary>
+        public void AddAnotherOutputHasColumnAsSHA1()
+        {
+            #region Variable Declarations
+            WinCell uINullCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row.UINullCell;
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow1Row1.UINoneCell;
+            #endregion
+
+            // Type 'AnotherTestColumn' in '(null)' cell
+            uINullCell.Value = this.AddAnotherOutputHasColumnAsSHA1Params.UINullCellValue;
+
+            // Type '{Tab}' in '(null)' cell
+            Keyboard.SendKeys(uINullCell, this.AddAnotherOutputHasColumnAsSHA1Params.UINullCellSendKeys, ModifierKeys.None);
+
+            // Type 'S' in 'None' cell
+            Keyboard.SendKeys(uINoneCell, this.AddAnotherOutputHasColumnAsSHA1Params.UINoneCellSendKeys, ModifierKeys.None);
+        }
+        
+        /// <summary>
+        /// AddOutputHasColumnAsMD5 - Use 'AddOutputHasColumnAsMD5Params' to pass parameters into this method.
+        /// </summary>
+        public void AddOutputHasColumnAsMD5()
+        {
+            #region Variable Declarations
+            WinCell uINullCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row.UINullCell;
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'TestColumn' in '(null)' cell
+            uINullCell.Value = this.AddOutputHasColumnAsMD5Params.UINullCellValue;
+
+            // Type '{Tab}' in '(null)' cell
+            Keyboard.SendKeys(uINullCell, this.AddOutputHasColumnAsMD5Params.UINullCellSendKeys, ModifierKeys.None);
+
+            // Type 'm' in 'None' cell
+            Keyboard.SendKeys(uINoneCell, this.AddOutputHasColumnAsMD5Params.UINoneCellSendKeys, ModifierKeys.None);
+        }
+        
+        /// <summary>
         /// AddPath - Use 'AddPathParams' to pass parameters into this method.
         /// </summary>
         public void AddPath()
@@ -52,6 +92,58 @@ namespace MultipleHash2008Test
 
             // Click 'OK' button
             Mouse.Click(uIOKButton, new Point(19, 12));
+        }
+        
+        /// <summary>
+        /// Assert1stRowIsYetAnotherColumn - Use 'Assert1stRowIsYetAnotherColumnExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void Assert1stRowIsYetAnotherColumn()
+        {
+            #region Variable Declarations
+            WinCell uIYetAnotherColumnCell = this.UIMultipleHashFormWindow.UIDgvHashColumnsWindow.UIDataGridViewTable.UIRow0Row2.UIYetAnotherColumnCell;
+            #endregion
+
+            // Verify that 'YetAnotherColumn' cell's property 'Value' equals 'YetAnotherColumn'
+            Assert.AreEqual(this.Assert1stRowIsYetAnotherColumnExpectedValues.UIYetAnotherColumnCellValue, uIYetAnotherColumnCell.Value);
+        }
+        
+        /// <summary>
+        /// Assert2ndRowIsNotSelected - Use 'Assert2ndRowIsNotSelectedExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void Assert2ndRowIsNotSelected()
+        {
+            #region Variable Declarations
+            WinCell uIFalseCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow1Row.UIFalseCell;
+            #endregion
+
+            // Verify that 'False' cell's property 'Value' equals 'False'
+            Assert.AreEqual(this.Assert2ndRowIsNotSelectedExpectedValues.UIFalseCellValue, uIFalseCell.Value);
+        }
+        
+        /// <summary>
+        /// Assert2ndRowIsSelected - Use 'Assert2ndRowIsSelectedExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void Assert2ndRowIsSelected()
+        {
+            #region Variable Declarations
+            WinCell uITrueCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow1Row1.UITrueCell;
+            #endregion
+
+            // Verify that 'True' cell's property 'Value' equals 'True'
+            Assert.AreEqual(this.Assert2ndRowIsSelectedExpectedValues.UITrueCellValue, uITrueCell.Value);
+        }
+        
+        /// <summary>
+        /// Assert2ndRowIsYetAnotherColumn - Use 'Assert2ndRowIsYetAnotherColumnExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void Assert2ndRowIsYetAnotherColumn()
+        {
+            #region Variable Declarations
+            WinCell uIYetAnotherColumnCell = this.UIMultipleHashFormWindow.UIDgvHashColumnsWindow.UIDataGridViewTable.UIRow1Row.UIYetAnotherColumnCell;
+            #endregion
+
+            // Verify that 'YetAnotherColumn' cell's property 'Value' equals 'YetAnotherColumn'
+            Assert.AreEqual(this.Assert2ndRowIsYetAnotherColumnExpectedValues.UIYetAnotherColumnCellValue, uIYetAnotherColumnCell.Value);
         }
         
         /// <summary>
@@ -302,6 +394,19 @@ namespace MultipleHash2008Test
         }
         
         /// <summary>
+        /// AssertSortPositionIsZero - Use 'AssertSortPositionIsZeroExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void AssertSortPositionIsZero()
+        {
+            #region Variable Declarations
+            WinCell uIItem000000Cell = this.UIMultipleHashFormWindow.UIDgvHashColumnsWindow.UIDataGridViewTable.UIRow0Row1.UIItem000000Cell;
+            #endregion
+
+            // Verify that '000000' cell's property 'Value' equals '000000'
+            Assert.AreEqual(this.AssertSortPositionIsZeroExpectedValues.UIItem000000CellValue, uIItem000000Cell.Value);
+        }
+        
+        /// <summary>
         /// ClickOkOnMultipleHash
         /// </summary>
         public void ClickOkOnMultipleHash()
@@ -339,6 +444,23 @@ namespace MultipleHash2008Test
 
             // Click 'File' -> 'Exit' menu item
             Mouse.Click(uIExitMenuItem, new Point(101, 12));
+        }
+        
+        /// <summary>
+        /// Delete2ndOutputColumn - Use 'Delete2ndOutputColumnParams' to pass parameters into this method.
+        /// </summary>
+        public void Delete2ndOutputColumn()
+        {
+            #region Variable Declarations
+            WinRowHeader uIItemRowHeader = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow1Row.UIItemRowHeader;
+            WinCell uISHA1Cell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow1Row.UISHA1Cell;
+            #endregion
+
+            // Click 'Unknown Name' row header
+            Mouse.Click(uIItemRowHeader, new Point(25, 12));
+
+            // Type '{Delete}' in 'SHA1' cell
+            Keyboard.SendKeys(uISHA1Cell, this.Delete2ndOutputColumnParams.UISHA1CellSendKeys, ModifierKeys.None);
         }
         
         /// <summary>
@@ -412,6 +534,40 @@ namespace MultipleHash2008Test
             uIDataFlowDiagramClient.EnsureClickable(new Point(86, 212));
             Mouse.StartDragging(uIMultipleHashListItem, new Point(83, 7));
             Mouse.StopDragging(uIDataFlowDiagramClient, new Point(86, 212));
+        }
+        
+        /// <summary>
+        /// MoveColumnDown
+        /// </summary>
+        public void MoveColumnDown()
+        {
+            #region Variable Declarations
+            WinCell uIColumnCell = this.UIMultipleHashFormWindow.UIDgvHashColumnsWindow.UIDataGridViewTable.UIRow0Row1.UIColumnCell;
+            WinButton uIMoveDownButton = this.UIMultipleHashFormWindow.UIMoveDownWindow.UIMoveDownButton;
+            #endregion
+
+            // Click 'Column' cell
+            Mouse.Click(uIColumnCell, new Point(59, 13));
+
+            // Click 'Move Down' button
+            Mouse.Click(uIMoveDownButton, new Point(41, 9));
+        }
+        
+        /// <summary>
+        /// MoveYACUp
+        /// </summary>
+        public void MoveYACUp()
+        {
+            #region Variable Declarations
+            WinCell uIYetAnotherColumnCell = this.UIMultipleHashFormWindow.UIDgvHashColumnsWindow.UIDataGridViewTable.UIRow1Row.UIYetAnotherColumnCell;
+            WinButton uIMoveUpButton = this.UIMultipleHashFormWindow.UIMoveUpWindow.UIMoveUpButton;
+            #endregion
+
+            // Click 'YetAnotherColumn' cell
+            Mouse.Click(uIYetAnotherColumnCell, new Point(50, 13));
+
+            // Click 'Move Up' button
+            Mouse.Click(uIMoveUpButton, new Point(51, 8));
         }
         
         /// <summary>
@@ -813,6 +969,77 @@ namespace MultipleHash2008Test
         }
         
         /// <summary>
+        /// OutputColumnsTabInputColumnTick
+        /// </summary>
+        public void OutputColumnsTabInputColumnTick()
+        {
+            #region Variable Declarations
+            WinCell uIFalseCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow0Row.UIFalseCell;
+            #endregion
+
+            // Click 'False' cell
+            Mouse.Click(uIFalseCell, new Point(12, 10));
+        }
+        
+        /// <summary>
+        /// OutputColumnsTabInputColumnTickRow2
+        /// </summary>
+        public void OutputColumnsTabInputColumnTickRow2()
+        {
+            #region Variable Declarations
+            WinCell uIFalseCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow1Row.UIFalseCell;
+            #endregion
+
+            // Click 'False' cell
+            Mouse.Click(uIFalseCell, new Point(9, 13));
+        }
+        
+        /// <summary>
+        /// OutputColumnsTabInputColumnUnTick
+        /// </summary>
+        public void OutputColumnsTabInputColumnUnTick()
+        {
+            #region Variable Declarations
+            WinCell uITrueCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UITrueCell;
+            #endregion
+
+            // Click 'True' cell
+            Mouse.Click(uITrueCell, new Point(12, 9));
+        }
+        
+        /// <summary>
+        /// OutputColumnsTabInputColumnUnTickRow2
+        /// </summary>
+        public void OutputColumnsTabInputColumnUnTickRow2()
+        {
+            #region Variable Declarations
+            WinCell uITrueCell = this.UIMultipleHashFormWindow.UIDgvInputColumnsWindow.UIDataGridViewTable.UIRow1Row1.UITrueCell;
+            #endregion
+
+            // Click 'True' cell
+            Mouse.Click(uITrueCell, new Point(11, 9));
+        }
+        
+        /// <summary>
+        /// PressEscape - Use 'PressEscapeParams' to pass parameters into this method.
+        /// </summary>
+        public void PressEscape()
+        {
+            #region Variable Declarations
+            WinControl uIDataFlowDiagramDiagram = this.UIStartPageMicrosoftViWindow.UIPipelineTaskViewWindow.UIToeditaDataFlowtasksClient.UIDataFlowDiagramDiagram;
+            #endregion
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Type '{Escape}' in 'Data Flow Diagram' Diagram
+            Keyboard.SendKeys(uIDataFlowDiagramDiagram, this.PressEscapeParams.UIDataFlowDiagramDiagramSendKeys, ModifierKeys.None);
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+        }
+        
+        /// <summary>
         /// SafeNullHandlingClear - Use 'SafeNullHandlingClearParams' to pass parameters into this method.
         /// </summary>
         public void SafeNullHandlingClear()
@@ -859,7 +1086,135 @@ namespace MultipleHash2008Test
             Mouse.Click(uIFalseCell, new Point(25, 11));
         }
         
+        /// <summary>
+        /// SelectInputColumnsTab
+        /// </summary>
+        public void SelectInputColumnsTab()
+        {
+            #region Variable Declarations
+            WinTabPage uIInputColumnsTabPage = this.UIMultipleHashFormWindow.UITcTabsWindow.UIInputColumnsTabPage;
+            #endregion
+
+            // Click 'Input Columns' tab
+            Mouse.Click(uIInputColumnsTabPage, new Point(44, 10));
+        }
+        
+        /// <summary>
+        /// SelectInputYetAnotherColumn
+        /// </summary>
+        public void SelectInputYetAnotherColumn()
+        {
+            #region Variable Declarations
+            WinCell uIFalseCell = this.UIMultipleHashFormWindow.UIDgvAvailableColumnsWindow.UIDataGridViewTable.UIRow1Row.UIFalseCell;
+            #endregion
+
+            // Click 'False' cell
+            Mouse.Click(uIFalseCell, new Point(24, 8));
+        }
+        
+        /// <summary>
+        /// SelectOutputColumnsTab
+        /// </summary>
+        public void SelectOutputColumnsTab()
+        {
+            #region Variable Declarations
+            WinTabPage uIOutputColumnsTabPage = this.UIMultipleHashFormWindow.UITcTabsWindow.UIOutputColumnsTabPage;
+            #endregion
+
+            // Click 'Output Columns' tab
+            Mouse.Click(uIOutputColumnsTabPage, new Point(26, 8));
+        }
+        
+        /// <summary>
+        /// SetHashToRipeMD160 - Use 'SetHashToRipeMD160Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToRipeMD160()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'RipeMD160' in 'None' cell
+            uINoneCell.Value = this.SetHashToRipeMD160Params.UINoneCellValue;
+        }
+        
+        /// <summary>
+        /// SetHashToSHA1 - Use 'SetHashToSHA1Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToSHA1()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'SHA1' in 'None' cell
+            uINoneCell.Value = this.SetHashToSHA1Params.UINoneCellValue;
+        }
+        
+        /// <summary>
+        /// SetHashToSHA256 - Use 'SetHashToSHA256Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToSHA256()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'SHA256' in 'None' cell
+            uINoneCell.Value = this.SetHashToSHA256Params.UINoneCellValue;
+        }
+        
+        /// <summary>
+        /// UnSelectInputColumn
+        /// </summary>
+        public void UnSelectInputColumn()
+        {
+            #region Variable Declarations
+            WinCell uITrueCell = this.UIMultipleHashFormWindow.UIDgvAvailableColumnsWindow.UIDataGridViewTable.UIRow0Row1.UITrueCell;
+            #endregion
+
+            // Click 'True' cell
+            Mouse.Click(uITrueCell, new Point(23, 11));
+        }
+        
+        /// <summary>
+        /// UnSelectInputYetAnotherColumn
+        /// </summary>
+        public void UnSelectInputYetAnotherColumn()
+        {
+            #region Variable Declarations
+            WinCell uITrueCell = this.UIMultipleHashFormWindow.UIDgvAvailableColumnsWindow.UIDataGridViewTable.UIRow1Row1.UITrueCell;
+            #endregion
+
+            // Click 'True' cell
+            Mouse.Click(uITrueCell, new Point(24, 8));
+        }
+        
         #region Properties
+        public virtual AddAnotherOutputHasColumnAsSHA1Params AddAnotherOutputHasColumnAsSHA1Params
+        {
+            get
+            {
+                if ((this.mAddAnotherOutputHasColumnAsSHA1Params == null))
+                {
+                    this.mAddAnotherOutputHasColumnAsSHA1Params = new AddAnotherOutputHasColumnAsSHA1Params();
+                }
+                return this.mAddAnotherOutputHasColumnAsSHA1Params;
+            }
+        }
+        
+        public virtual AddOutputHasColumnAsMD5Params AddOutputHasColumnAsMD5Params
+        {
+            get
+            {
+                if ((this.mAddOutputHasColumnAsMD5Params == null))
+                {
+                    this.mAddOutputHasColumnAsMD5Params = new AddOutputHasColumnAsMD5Params();
+                }
+                return this.mAddOutputHasColumnAsMD5Params;
+            }
+        }
+        
         public virtual AddPathParams AddPathParams
         {
             get
@@ -869,6 +1224,54 @@ namespace MultipleHash2008Test
                     this.mAddPathParams = new AddPathParams();
                 }
                 return this.mAddPathParams;
+            }
+        }
+        
+        public virtual Assert1stRowIsYetAnotherColumnExpectedValues Assert1stRowIsYetAnotherColumnExpectedValues
+        {
+            get
+            {
+                if ((this.mAssert1stRowIsYetAnotherColumnExpectedValues == null))
+                {
+                    this.mAssert1stRowIsYetAnotherColumnExpectedValues = new Assert1stRowIsYetAnotherColumnExpectedValues();
+                }
+                return this.mAssert1stRowIsYetAnotherColumnExpectedValues;
+            }
+        }
+        
+        public virtual Assert2ndRowIsNotSelectedExpectedValues Assert2ndRowIsNotSelectedExpectedValues
+        {
+            get
+            {
+                if ((this.mAssert2ndRowIsNotSelectedExpectedValues == null))
+                {
+                    this.mAssert2ndRowIsNotSelectedExpectedValues = new Assert2ndRowIsNotSelectedExpectedValues();
+                }
+                return this.mAssert2ndRowIsNotSelectedExpectedValues;
+            }
+        }
+        
+        public virtual Assert2ndRowIsSelectedExpectedValues Assert2ndRowIsSelectedExpectedValues
+        {
+            get
+            {
+                if ((this.mAssert2ndRowIsSelectedExpectedValues == null))
+                {
+                    this.mAssert2ndRowIsSelectedExpectedValues = new Assert2ndRowIsSelectedExpectedValues();
+                }
+                return this.mAssert2ndRowIsSelectedExpectedValues;
+            }
+        }
+        
+        public virtual Assert2ndRowIsYetAnotherColumnExpectedValues Assert2ndRowIsYetAnotherColumnExpectedValues
+        {
+            get
+            {
+                if ((this.mAssert2ndRowIsYetAnotherColumnExpectedValues == null))
+                {
+                    this.mAssert2ndRowIsYetAnotherColumnExpectedValues = new Assert2ndRowIsYetAnotherColumnExpectedValues();
+                }
+                return this.mAssert2ndRowIsYetAnotherColumnExpectedValues;
             }
         }
         
@@ -1100,6 +1503,30 @@ namespace MultipleHash2008Test
             }
         }
         
+        public virtual AssertSortPositionIsZeroExpectedValues AssertSortPositionIsZeroExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertSortPositionIsZeroExpectedValues == null))
+                {
+                    this.mAssertSortPositionIsZeroExpectedValues = new AssertSortPositionIsZeroExpectedValues();
+                }
+                return this.mAssertSortPositionIsZeroExpectedValues;
+            }
+        }
+        
+        public virtual Delete2ndOutputColumnParams Delete2ndOutputColumnParams
+        {
+            get
+            {
+                if ((this.mDelete2ndOutputColumnParams == null))
+                {
+                    this.mDelete2ndOutputColumnParams = new Delete2ndOutputColumnParams();
+                }
+                return this.mDelete2ndOutputColumnParams;
+            }
+        }
+        
         public virtual DeletePathFromScriptToMultipleHashParams DeletePathFromScriptToMultipleHashParams
         {
             get
@@ -1292,6 +1719,18 @@ namespace MultipleHash2008Test
             }
         }
         
+        public virtual PressEscapeParams PressEscapeParams
+        {
+            get
+            {
+                if ((this.mPressEscapeParams == null))
+                {
+                    this.mPressEscapeParams = new PressEscapeParams();
+                }
+                return this.mPressEscapeParams;
+            }
+        }
+        
         public virtual SafeNullHandlingClearParams SafeNullHandlingClearParams
         {
             get
@@ -1313,6 +1752,42 @@ namespace MultipleHash2008Test
                     this.mSafeNullHandlingSelectParams = new SafeNullHandlingSelectParams();
                 }
                 return this.mSafeNullHandlingSelectParams;
+            }
+        }
+        
+        public virtual SetHashToRipeMD160Params SetHashToRipeMD160Params
+        {
+            get
+            {
+                if ((this.mSetHashToRipeMD160Params == null))
+                {
+                    this.mSetHashToRipeMD160Params = new SetHashToRipeMD160Params();
+                }
+                return this.mSetHashToRipeMD160Params;
+            }
+        }
+        
+        public virtual SetHashToSHA1Params SetHashToSHA1Params
+        {
+            get
+            {
+                if ((this.mSetHashToSHA1Params == null))
+                {
+                    this.mSetHashToSHA1Params = new SetHashToSHA1Params();
+                }
+                return this.mSetHashToSHA1Params;
+            }
+        }
+        
+        public virtual SetHashToSHA256Params SetHashToSHA256Params
+        {
+            get
+            {
+                if ((this.mSetHashToSHA256Params == null))
+                {
+                    this.mSetHashToSHA256Params = new SetHashToSHA256Params();
+                }
+                return this.mSetHashToSHA256Params;
             }
         }
         
@@ -1438,7 +1913,19 @@ namespace MultipleHash2008Test
         #endregion
         
         #region Fields
+        private AddAnotherOutputHasColumnAsSHA1Params mAddAnotherOutputHasColumnAsSHA1Params;
+        
+        private AddOutputHasColumnAsMD5Params mAddOutputHasColumnAsMD5Params;
+        
         private AddPathParams mAddPathParams;
+        
+        private Assert1stRowIsYetAnotherColumnExpectedValues mAssert1stRowIsYetAnotherColumnExpectedValues;
+        
+        private Assert2ndRowIsNotSelectedExpectedValues mAssert2ndRowIsNotSelectedExpectedValues;
+        
+        private Assert2ndRowIsSelectedExpectedValues mAssert2ndRowIsSelectedExpectedValues;
+        
+        private Assert2ndRowIsYetAnotherColumnExpectedValues mAssert2ndRowIsYetAnotherColumnExpectedValues;
         
         private AssertAddOutputNotAllowedExpectedValues mAssertAddOutputNotAllowedExpectedValues;
         
@@ -1478,6 +1965,10 @@ namespace MultipleHash2008Test
         
         private AssertSafeNullHandlingSelectAssertExpectedValues mAssertSafeNullHandlingSelectAssertExpectedValues;
         
+        private AssertSortPositionIsZeroExpectedValues mAssertSortPositionIsZeroExpectedValues;
+        
+        private Delete2ndOutputColumnParams mDelete2ndOutputColumnParams;
+        
         private DeletePathFromScriptToMultipleHashParams mDeletePathFromScriptToMultipleHashParams;
         
         private LoadVS2008AndAddMultipleHashParams mLoadVS2008AndAddMultipleHashParams;
@@ -1510,9 +2001,17 @@ namespace MultipleHash2008Test
         
         private MultipleThreadNoneToOnParams mMultipleThreadNoneToOnParams;
         
+        private PressEscapeParams mPressEscapeParams;
+        
         private SafeNullHandlingClearParams mSafeNullHandlingClearParams;
         
         private SafeNullHandlingSelectParams mSafeNullHandlingSelectParams;
+        
+        private SetHashToRipeMD160Params mSetHashToRipeMD160Params;
+        
+        private SetHashToSHA1Params mSetHashToSHA1Params;
+        
+        private SetHashToSHA256Params mSetHashToSHA256Params;
         
         private UIStartPageMicrosoftViWindow mUIStartPageMicrosoftViWindow;
         
@@ -1537,6 +2036,56 @@ namespace MultipleHash2008Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'AddAnotherOutputHasColumnAsSHA1'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class AddAnotherOutputHasColumnAsSHA1Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'AnotherTestColumn' in '(null)' cell
+        /// </summary>
+        public string UINullCellValue = "AnotherTestColumn";
+        
+        /// <summary>
+        /// Type '{Tab}' in '(null)' cell
+        /// </summary>
+        public string UINullCellSendKeys = "{Tab}";
+        
+        /// <summary>
+        /// Type 'S' in 'None' cell
+        /// </summary>
+        public string UINoneCellSendKeys = "S";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AddOutputHasColumnAsMD5'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class AddOutputHasColumnAsMD5Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'TestColumn' in '(null)' cell
+        /// </summary>
+        public string UINullCellValue = "TestColumn";
+        
+        /// <summary>
+        /// Type '{Tab}' in '(null)' cell
+        /// </summary>
+        public string UINullCellSendKeys = "{Tab}";
+        
+        /// <summary>
+        /// Type 'm' in 'None' cell
+        /// </summary>
+        public string UINoneCellSendKeys = "m";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'AddPath'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
@@ -1548,6 +2097,66 @@ namespace MultipleHash2008Test
         /// Select 'Multiple Hash' in 'To:' combo box
         /// </summary>
         public string UITOComboBoxSelectedItem = "Multiple Hash";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Assert1stRowIsYetAnotherColumn'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Assert1stRowIsYetAnotherColumnExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'YetAnotherColumn' cell's property 'Value' equals 'YetAnotherColumn'
+        /// </summary>
+        public string UIYetAnotherColumnCellValue = "YetAnotherColumn";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Assert2ndRowIsNotSelected'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Assert2ndRowIsNotSelectedExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'False' cell's property 'Value' equals 'False'
+        /// </summary>
+        public string UIFalseCellValue = "False";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Assert2ndRowIsSelected'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Assert2ndRowIsSelectedExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'True' cell's property 'Value' equals 'True'
+        /// </summary>
+        public string UITrueCellValue = "True";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Assert2ndRowIsYetAnotherColumn'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Assert2ndRowIsYetAnotherColumnExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'YetAnotherColumn' cell's property 'Value' equals 'YetAnotherColumn'
+        /// </summary>
+        public string UIYetAnotherColumnCellValue = "YetAnotherColumn";
         #endregion
     }
     
@@ -1838,6 +2447,36 @@ namespace MultipleHash2008Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'AssertSortPositionIsZero'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class AssertSortPositionIsZeroExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that '000000' cell's property 'Value' equals '000000'
+        /// </summary>
+        public string UIItem000000CellValue = "000000";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Delete2ndOutputColumn'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Delete2ndOutputColumnParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{Delete}' in 'SHA1' cell
+        /// </summary>
+        public string UISHA1CellSendKeys = "{Delete}";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'DeletePathFromScriptToMultipleHash'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
@@ -2088,6 +2727,21 @@ namespace MultipleHash2008Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'PressEscape'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class PressEscapeParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{Escape}' in 'Data Flow Diagram' Diagram
+        /// </summary>
+        public string UIDataFlowDiagramDiagramSendKeys = "{Escape}";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'SafeNullHandlingClear'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
@@ -2114,6 +2768,51 @@ namespace MultipleHash2008Test
         /// Select 'Safe Null Handling' check box
         /// </summary>
         public bool UISafeNullHandlingCheckBoxChecked = true;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToRipeMD160'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToRipeMD160Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'RipeMD160' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "RipeMD160";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToSHA1'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToSHA1Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'SHA1' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "SHA1";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToSHA256'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToSHA256Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'SHA256' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "SHA256";
         #endregion
     }
     
@@ -2204,114 +2903,6 @@ namespace MultipleHash2008Test
             }
         }
         
-        public UIItemWindow4 UIItemWindow4
-        {
-            get
-            {
-                if ((this.mUIItemWindow4 == null))
-                {
-                    this.mUIItemWindow4 = new UIItemWindow4(this);
-                }
-                return this.mUIItemWindow4;
-            }
-        }
-        
-        public UIItemWindow5 UIItemWindow5
-        {
-            get
-            {
-                if ((this.mUIItemWindow5 == null))
-                {
-                    this.mUIItemWindow5 = new UIItemWindow5(this);
-                }
-                return this.mUIItemWindow5;
-            }
-        }
-        
-        public UIItemWindow6 UIItemWindow6
-        {
-            get
-            {
-                if ((this.mUIItemWindow6 == null))
-                {
-                    this.mUIItemWindow6 = new UIItemWindow6(this);
-                }
-                return this.mUIItemWindow6;
-            }
-        }
-        
-        public UIItemWindow7 UIItemWindow7
-        {
-            get
-            {
-                if ((this.mUIItemWindow7 == null))
-                {
-                    this.mUIItemWindow7 = new UIItemWindow7(this);
-                }
-                return this.mUIItemWindow7;
-            }
-        }
-        
-        public UIItemWindow8 UIItemWindow8
-        {
-            get
-            {
-                if ((this.mUIItemWindow8 == null))
-                {
-                    this.mUIItemWindow8 = new UIItemWindow8(this);
-                }
-                return this.mUIItemWindow8;
-            }
-        }
-        
-        public UIItemWindow9 UIItemWindow9
-        {
-            get
-            {
-                if ((this.mUIItemWindow9 == null))
-                {
-                    this.mUIItemWindow9 = new UIItemWindow9(this);
-                }
-                return this.mUIItemWindow9;
-            }
-        }
-        
-        public UIItemWindow10 UIItemWindow10
-        {
-            get
-            {
-                if ((this.mUIItemWindow10 == null))
-                {
-                    this.mUIItemWindow10 = new UIItemWindow10(this);
-                }
-                return this.mUIItemWindow10;
-            }
-        }
-        
-        public UIItemWindow11 UIItemWindow11
-        {
-            get
-            {
-                if ((this.mUIItemWindow11 == null))
-                {
-                    this.mUIItemWindow11 = new UIItemWindow11(this);
-                }
-                return this.mUIItemWindow11;
-            }
-        }
-        
-        public UISSIS2008TestMultipleTitleBar UISSIS2008TestMultipleTitleBar
-        {
-            get
-            {
-                if ((this.mUISSIS2008TestMultipleTitleBar == null))
-                {
-                    this.mUISSIS2008TestMultipleTitleBar = new UISSIS2008TestMultipleTitleBar(this);
-                }
-                return this.mUISSIS2008TestMultipleTitleBar;
-            }
-        }
-        
         public UIItemWindow12 UIItemWindow12
         {
             get
@@ -2347,18 +2938,6 @@ namespace MultipleHash2008Test
                 return this.mUIPipelineTaskViewWindow;
             }
         }
-        
-        public UIItemWindow14 UIItemWindow14
-        {
-            get
-            {
-                if ((this.mUIItemWindow14 == null))
-                {
-                    this.mUIItemWindow14 = new UIItemWindow14(this);
-                }
-                return this.mUIItemWindow14;
-            }
-        }
         #endregion
         
         #region Fields
@@ -2374,31 +2953,11 @@ namespace MultipleHash2008Test
         
         private UIItemWindow1 mUIItemWindow1;
         
-        private UIItemWindow4 mUIItemWindow4;
-        
-        private UIItemWindow5 mUIItemWindow5;
-        
-        private UIItemWindow6 mUIItemWindow6;
-        
-        private UIItemWindow7 mUIItemWindow7;
-        
-        private UIItemWindow8 mUIItemWindow8;
-        
-        private UIItemWindow9 mUIItemWindow9;
-        
-        private UIItemWindow10 mUIItemWindow10;
-        
-        private UIItemWindow11 mUIItemWindow11;
-        
-        private UISSIS2008TestMultipleTitleBar mUISSIS2008TestMultipleTitleBar;
-        
         private UIItemWindow12 mUIItemWindow12;
         
         private UIItemWindow13 mUIItemWindow13;
         
         private UIPipelineTaskViewWindow mUIPipelineTaskViewWindow;
-        
-        private UIItemWindow14 mUIItemWindow14;
         #endregion
     }
     
@@ -2859,321 +3418,6 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow4 : WinWindow
-    {
-        
-        public UIItemWindow4(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow5 : WinWindow
-    {
-        
-        public UIItemWindow5(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow6 : WinWindow
-    {
-        
-        public UIItemWindow6(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow7 : WinWindow
-    {
-        
-        public UIItemWindow7(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow8 : WinWindow
-    {
-        
-        public UIItemWindow8(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow9 : WinWindow
-    {
-        
-        public UIItemWindow9(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow10 : WinWindow
-    {
-        
-        public UIItemWindow10(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties.Add(new PropertyExpression(WinWindow.PropertyNames.ClassName, "F3 Overlay", PropertyExpressionOperator.Contains));
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow11 : WinWindow
-    {
-        
-        public UIItemWindow11(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "EzMdiContainer";
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIWorkspaceClient
-        {
-            get
-            {
-                if ((this.mUIWorkspaceClient == null))
-                {
-                    this.mUIWorkspaceClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIWorkspaceClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIWorkspaceClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIWorkspaceClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UISSIS2008TestMultipleTitleBar : WinTitleBar
-    {
-        
-        public UISSIS2008TestMultipleTitleBar(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinButton UICloseButton
-        {
-            get
-            {
-                if ((this.mUICloseButton == null))
-                {
-                    this.mUICloseButton = new WinButton(this);
-                    #region Search Criteria
-                    this.mUICloseButton.SearchProperties[WinButton.PropertyNames.Name] = "Close";
-                    this.mUICloseButton.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUICloseButton;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinButton mUICloseButton;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
     public class UIItemWindow12 : WinWindow
     {
         
@@ -3313,41 +3557,6 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow14 : WinWindow
-    {
-        
-        public UIItemWindow14(UITestControl searchLimitContainer) : 
-                base(searchLimitContainer)
-        {
-            #region Search Criteria
-            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "F3 Overlay 0f130000";
-            this.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-            #endregion
-        }
-        
-        #region Properties
-        public WinClient UIDataFlowDiagramClient
-        {
-            get
-            {
-                if ((this.mUIDataFlowDiagramClient == null))
-                {
-                    this.mUIDataFlowDiagramClient = new WinClient(this);
-                    #region Search Criteria
-                    this.mUIDataFlowDiagramClient.WindowTitles.Add("SSIS2008TestMultipleHash - Microsoft Visual Studio (Administrator)");
-                    #endregion
-                }
-                return this.mUIDataFlowDiagramClient;
-            }
-        }
-        #endregion
-        
-        #region Fields
-        private WinClient mUIDataFlowDiagramClient;
-        #endregion
-    }
-    
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
     public class UIOpenProjectWindow : WinWindow
     {
         
@@ -3373,13 +3582,13 @@ namespace MultipleHash2008Test
             }
         }
         
-        public UIItemWindow15 UIItemWindow1
+        public UIItemWindow11 UIItemWindow1
         {
             get
             {
                 if ((this.mUIItemWindow1 == null))
                 {
-                    this.mUIItemWindow1 = new UIItemWindow15(this);
+                    this.mUIItemWindow1 = new UIItemWindow11(this);
                 }
                 return this.mUIItemWindow1;
             }
@@ -3389,7 +3598,7 @@ namespace MultipleHash2008Test
         #region Fields
         private UIItemWindow2 mUIItemWindow;
         
-        private UIItemWindow15 mUIItemWindow1;
+        private UIItemWindow11 mUIItemWindow1;
         #endregion
     }
     
@@ -3463,10 +3672,10 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow15 : WinWindow
+    public class UIItemWindow11 : WinWindow
     {
         
-        public UIItemWindow15(UITestControl searchLimitContainer) : 
+        public UIItemWindow11(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -3640,6 +3849,42 @@ namespace MultipleHash2008Test
                 return this.mUIItemWindow;
             }
         }
+        
+        public UIDgvInputColumnsWindow UIDgvInputColumnsWindow
+        {
+            get
+            {
+                if ((this.mUIDgvInputColumnsWindow == null))
+                {
+                    this.mUIDgvInputColumnsWindow = new UIDgvInputColumnsWindow(this);
+                }
+                return this.mUIDgvInputColumnsWindow;
+            }
+        }
+        
+        public UIMoveUpWindow UIMoveUpWindow
+        {
+            get
+            {
+                if ((this.mUIMoveUpWindow == null))
+                {
+                    this.mUIMoveUpWindow = new UIMoveUpWindow(this);
+                }
+                return this.mUIMoveUpWindow;
+            }
+        }
+        
+        public UIMoveDownWindow UIMoveDownWindow
+        {
+            get
+            {
+                if ((this.mUIMoveDownWindow == null))
+                {
+                    this.mUIMoveDownWindow = new UIMoveDownWindow(this);
+                }
+                return this.mUIMoveDownWindow;
+            }
+        }
         #endregion
         
         #region Fields
@@ -3658,6 +3903,12 @@ namespace MultipleHash2008Test
         private UIDgvHashColumnsWindow mUIDgvHashColumnsWindow;
         
         private UIItemWindow3 mUIItemWindow;
+        
+        private UIDgvInputColumnsWindow mUIDgvInputColumnsWindow;
+        
+        private UIMoveUpWindow mUIMoveUpWindow;
+        
+        private UIMoveDownWindow mUIMoveDownWindow;
         #endregion
     }
     
@@ -3718,10 +3969,52 @@ namespace MultipleHash2008Test
                 return this.mUIRow0Row;
             }
         }
+        
+        public UIRow1Row UIRow1Row
+        {
+            get
+            {
+                if ((this.mUIRow1Row == null))
+                {
+                    this.mUIRow1Row = new UIRow1Row(this);
+                }
+                return this.mUIRow1Row;
+            }
+        }
+        
+        public UIRow1Row1 UIRow1Row1
+        {
+            get
+            {
+                if ((this.mUIRow1Row1 == null))
+                {
+                    this.mUIRow1Row1 = new UIRow1Row1(this);
+                }
+                return this.mUIRow1Row1;
+            }
+        }
+        
+        public UIRow0Row1 UIRow0Row1
+        {
+            get
+            {
+                if ((this.mUIRow0Row1 == null))
+                {
+                    this.mUIRow0Row1 = new UIRow0Row1(this);
+                }
+                return this.mUIRow0Row1;
+            }
+        }
         #endregion
         
         #region Fields
         private UIRow0Row mUIRow0Row;
+        
+        private UIRow1Row mUIRow1Row;
+        
+        private UIRow1Row1 mUIRow1Row1;
+        
+        private UIRow0Row1 mUIRow0Row1;
         #endregion
     }
     
@@ -3759,6 +4052,117 @@ namespace MultipleHash2008Test
         
         #region Fields
         private WinCell mUIFalseCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row : WinRow
+    {
+        
+        public UIRow1Row(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "False;YetAnotherColumn";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIFalseCell
+        {
+            get
+            {
+                if ((this.mUIFalseCell == null))
+                {
+                    this.mUIFalseCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIFalseCell.SearchProperties[WinCell.PropertyNames.Value] = "False";
+                    this.mUIFalseCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIFalseCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIFalseCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row1 : WinRow
+    {
+        
+        public UIRow1Row1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "True;YetAnotherColumn";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UITrueCell
+        {
+            get
+            {
+                if ((this.mUITrueCell == null))
+                {
+                    this.mUITrueCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUITrueCell.SearchProperties[WinCell.PropertyNames.Value] = "True";
+                    this.mUITrueCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUITrueCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUITrueCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow0Row1 : WinRow
+    {
+        
+        public UIRow0Row1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "True;Column";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UITrueCell
+        {
+            get
+            {
+                if ((this.mUITrueCell == null))
+                {
+                    this.mUITrueCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUITrueCell.SearchProperties[WinCell.PropertyNames.Value] = "True";
+                    this.mUITrueCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUITrueCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUITrueCell;
         #endregion
     }
     
@@ -3914,12 +4318,30 @@ namespace MultipleHash2008Test
                 return this.mUIAboutTabPage;
             }
         }
+        
+        public WinTabPage UIInputColumnsTabPage
+        {
+            get
+            {
+                if ((this.mUIInputColumnsTabPage == null))
+                {
+                    this.mUIInputColumnsTabPage = new WinTabPage(this);
+                    #region Search Criteria
+                    this.mUIInputColumnsTabPage.SearchProperties[WinTabPage.PropertyNames.Name] = "Input Columns";
+                    this.mUIInputColumnsTabPage.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIInputColumnsTabPage;
+            }
+        }
         #endregion
         
         #region Fields
         private WinTabPage mUIOutputColumnsTabPage;
         
         private WinTabPage mUIAboutTabPage;
+        
+        private WinTabPage mUIInputColumnsTabPage;
         #endregion
     }
     
@@ -3969,13 +4391,13 @@ namespace MultipleHash2008Test
         }
         
         #region Properties
-        public UIRow0Row1 UIRow0Row
+        public UIRow0Row2 UIRow0Row
         {
             get
             {
                 if ((this.mUIRow0Row == null))
                 {
-                    this.mUIRow0Row = new UIRow0Row1(this);
+                    this.mUIRow0Row = new UIRow0Row2(this);
                 }
                 return this.mUIRow0Row;
             }
@@ -3993,33 +4415,47 @@ namespace MultipleHash2008Test
             }
         }
         
-        public UIRow0Row2 UIRow0Row2
+        public UIRow1Row11 UIRow1Row1
         {
             get
             {
-                if ((this.mUIRow0Row2 == null))
+                if ((this.mUIRow1Row1 == null))
                 {
-                    this.mUIRow0Row2 = new UIRow0Row2(this);
+                    this.mUIRow1Row1 = new UIRow1Row11(this);
                 }
-                return this.mUIRow0Row2;
+                return this.mUIRow1Row1;
+            }
+        }
+        
+        public UIRow1Row2 UIRow1Row
+        {
+            get
+            {
+                if ((this.mUIRow1Row == null))
+                {
+                    this.mUIRow1Row = new UIRow1Row2(this);
+                }
+                return this.mUIRow1Row;
             }
         }
         #endregion
         
         #region Fields
-        private UIRow0Row1 mUIRow0Row;
+        private UIRow0Row2 mUIRow0Row;
         
         private UIRow0Row11 mUIRow0Row1;
         
-        private UIRow0Row2 mUIRow0Row2;
+        private UIRow1Row11 mUIRow1Row1;
+        
+        private UIRow1Row2 mUIRow1Row;
         #endregion
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIRow0Row1 : WinRow
+    public class UIRow0Row2 : WinRow
     {
         
-        public UIRow0Row1(UITestControl searchLimitContainer) : 
+        public UIRow0Row2(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -4060,7 +4496,7 @@ namespace MultipleHash2008Test
                 base(searchLimitContainer)
         {
             #region Search Criteria
-            this.SearchProperties[WinRow.PropertyNames.Value] = "Column1;None";
+            this.SearchProperties.Add(new PropertyExpression(WinRow.PropertyNames.Value, "TestColumn", PropertyExpressionOperator.Contains));
             this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
             this.WindowTitles.Add("MultipleHashForm");
             #endregion
@@ -4090,39 +4526,93 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIRow0Row2 : WinRow
+    public class UIRow1Row11 : WinRow
     {
         
-        public UIRow0Row2(UITestControl searchLimitContainer) : 
+        public UIRow1Row11(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
-            this.SearchProperties[WinRow.PropertyNames.Value] = "Column1;MD5";
+            this.SearchProperties[WinRow.PropertyNames.Value] = "AnotherTestColumn;None";
             this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
             this.WindowTitles.Add("MultipleHashForm");
             #endregion
         }
         
         #region Properties
-        public WinCell UIColumn1Cell
+        public WinCell UINoneCell
         {
             get
             {
-                if ((this.mUIColumn1Cell == null))
+                if ((this.mUINoneCell == null))
                 {
-                    this.mUIColumn1Cell = new WinCell(this);
+                    this.mUINoneCell = new WinCell(this);
                     #region Search Criteria
-                    this.mUIColumn1Cell.SearchProperties[WinCell.PropertyNames.Value] = "Column1";
-                    this.mUIColumn1Cell.WindowTitles.Add("MultipleHashForm");
+                    this.mUINoneCell.SearchProperties[WinCell.PropertyNames.Value] = "None";
+                    this.mUINoneCell.WindowTitles.Add("MultipleHashForm");
                     #endregion
                 }
-                return this.mUIColumn1Cell;
+                return this.mUINoneCell;
             }
         }
         #endregion
         
         #region Fields
-        private WinCell mUIColumn1Cell;
+        private WinCell mUINoneCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row2 : WinRow
+    {
+        
+        public UIRow1Row2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "AnotherTestColumn;SHA1";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinRowHeader UIItemRowHeader
+        {
+            get
+            {
+                if ((this.mUIItemRowHeader == null))
+                {
+                    this.mUIItemRowHeader = new WinRowHeader(this);
+                    #region Search Criteria
+                    this.mUIItemRowHeader.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIItemRowHeader;
+            }
+        }
+        
+        public WinCell UISHA1Cell
+        {
+            get
+            {
+                if ((this.mUISHA1Cell == null))
+                {
+                    this.mUISHA1Cell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUISHA1Cell.SearchProperties[WinCell.PropertyNames.Value] = "SHA1";
+                    this.mUISHA1Cell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUISHA1Cell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinRowHeader mUIItemRowHeader;
+        
+        private WinCell mUISHA1Cell;
         #endregion
     }
     
@@ -4183,10 +4673,52 @@ namespace MultipleHash2008Test
                 return this.mUIRow0Row;
             }
         }
+        
+        public UIRow0Row12 UIRow0Row1
+        {
+            get
+            {
+                if ((this.mUIRow0Row1 == null))
+                {
+                    this.mUIRow0Row1 = new UIRow0Row12(this);
+                }
+                return this.mUIRow0Row1;
+            }
+        }
+        
+        public UIRow1Row3 UIRow1Row
+        {
+            get
+            {
+                if ((this.mUIRow1Row == null))
+                {
+                    this.mUIRow1Row = new UIRow1Row3(this);
+                }
+                return this.mUIRow1Row;
+            }
+        }
+        
+        public UIRow0Row21 UIRow0Row2
+        {
+            get
+            {
+                if ((this.mUIRow0Row2 == null))
+                {
+                    this.mUIRow0Row2 = new UIRow0Row21(this);
+                }
+                return this.mUIRow0Row2;
+            }
+        }
         #endregion
         
         #region Fields
         private UIRow0Row3 mUIRow0Row;
+        
+        private UIRow0Row12 mUIRow0Row1;
+        
+        private UIRow1Row3 mUIRow1Row;
+        
+        private UIRow0Row21 mUIRow0Row2;
         #endregion
     }
     
@@ -4228,6 +4760,135 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow0Row12 : WinRow
+    {
+        
+        public UIRow0Row12(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "Column;000000";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIItem000000Cell
+        {
+            get
+            {
+                if ((this.mUIItem000000Cell == null))
+                {
+                    this.mUIItem000000Cell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIItem000000Cell.SearchProperties[WinCell.PropertyNames.Value] = "000000";
+                    this.mUIItem000000Cell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIItem000000Cell;
+            }
+        }
+        
+        public WinCell UIColumnCell
+        {
+            get
+            {
+                if ((this.mUIColumnCell == null))
+                {
+                    this.mUIColumnCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIColumnCell.SearchProperties[WinCell.PropertyNames.Value] = "Column";
+                    this.mUIColumnCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIColumnCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIItem000000Cell;
+        
+        private WinCell mUIColumnCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row3 : WinRow
+    {
+        
+        public UIRow1Row3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "YetAnotherColumn;000001";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIYetAnotherColumnCell
+        {
+            get
+            {
+                if ((this.mUIYetAnotherColumnCell == null))
+                {
+                    this.mUIYetAnotherColumnCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIYetAnotherColumnCell.SearchProperties[WinCell.PropertyNames.Value] = "YetAnotherColumn";
+                    this.mUIYetAnotherColumnCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIYetAnotherColumnCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIYetAnotherColumnCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow0Row21 : WinRow
+    {
+        
+        public UIRow0Row21(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "YetAnotherColumn;000000";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIYetAnotherColumnCell
+        {
+            get
+            {
+                if ((this.mUIYetAnotherColumnCell == null))
+                {
+                    this.mUIYetAnotherColumnCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIYetAnotherColumnCell.SearchProperties[WinCell.PropertyNames.Value] = "YetAnotherColumn";
+                    this.mUIYetAnotherColumnCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIYetAnotherColumnCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIYetAnotherColumnCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
     public class UIItemWindow3 : WinWindow
     {
         
@@ -4259,6 +4920,332 @@ namespace MultipleHash2008Test
         
         #region Fields
         private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIDgvInputColumnsWindow : WinWindow
+    {
+        
+        public UIDgvInputColumnsWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlName] = "dgvInputColumns";
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public UIDataGridViewTable3 UIDataGridViewTable
+        {
+            get
+            {
+                if ((this.mUIDataGridViewTable == null))
+                {
+                    this.mUIDataGridViewTable = new UIDataGridViewTable3(this);
+                }
+                return this.mUIDataGridViewTable;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIDataGridViewTable3 mUIDataGridViewTable;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIDataGridViewTable3 : WinTable
+    {
+        
+        public UIDataGridViewTable3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinTable.PropertyNames.Name] = "DataGridView";
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public UIRow0Row4 UIRow0Row
+        {
+            get
+            {
+                if ((this.mUIRow0Row == null))
+                {
+                    this.mUIRow0Row = new UIRow0Row4(this);
+                }
+                return this.mUIRow0Row;
+            }
+        }
+        
+        public UIRow0Row13 UIRow0Row1
+        {
+            get
+            {
+                if ((this.mUIRow0Row1 == null))
+                {
+                    this.mUIRow0Row1 = new UIRow0Row13(this);
+                }
+                return this.mUIRow0Row1;
+            }
+        }
+        
+        public UIRow1Row4 UIRow1Row
+        {
+            get
+            {
+                if ((this.mUIRow1Row == null))
+                {
+                    this.mUIRow1Row = new UIRow1Row4(this);
+                }
+                return this.mUIRow1Row;
+            }
+        }
+        
+        public UIRow1Row12 UIRow1Row1
+        {
+            get
+            {
+                if ((this.mUIRow1Row1 == null))
+                {
+                    this.mUIRow1Row1 = new UIRow1Row12(this);
+                }
+                return this.mUIRow1Row1;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIRow0Row4 mUIRow0Row;
+        
+        private UIRow0Row13 mUIRow0Row1;
+        
+        private UIRow1Row4 mUIRow1Row;
+        
+        private UIRow1Row12 mUIRow1Row1;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow0Row4 : WinRow
+    {
+        
+        public UIRow0Row4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "False;Column";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIFalseCell
+        {
+            get
+            {
+                if ((this.mUIFalseCell == null))
+                {
+                    this.mUIFalseCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIFalseCell.SearchProperties[WinCell.PropertyNames.Value] = "False";
+                    this.mUIFalseCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIFalseCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIFalseCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow0Row13 : WinRow
+    {
+        
+        public UIRow0Row13(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "True;Column";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UITrueCell
+        {
+            get
+            {
+                if ((this.mUITrueCell == null))
+                {
+                    this.mUITrueCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUITrueCell.SearchProperties[WinCell.PropertyNames.Value] = "True";
+                    this.mUITrueCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUITrueCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUITrueCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row4 : WinRow
+    {
+        
+        public UIRow1Row4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "False;YetAnotherColumn";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UIFalseCell
+        {
+            get
+            {
+                if ((this.mUIFalseCell == null))
+                {
+                    this.mUIFalseCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUIFalseCell.SearchProperties[WinCell.PropertyNames.Value] = "False";
+                    this.mUIFalseCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIFalseCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUIFalseCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIRow1Row12 : WinRow
+    {
+        
+        public UIRow1Row12(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinRow.PropertyNames.Value] = "True;YetAnotherColumn";
+            this.SearchConfigurations.Add(SearchConfiguration.AlwaysSearch);
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCell UITrueCell
+        {
+            get
+            {
+                if ((this.mUITrueCell == null))
+                {
+                    this.mUITrueCell = new WinCell(this);
+                    #region Search Criteria
+                    this.mUITrueCell.SearchProperties[WinCell.PropertyNames.Value] = "True";
+                    this.mUITrueCell.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUITrueCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCell mUITrueCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIMoveUpWindow : WinWindow
+    {
+        
+        public UIMoveUpWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlName] = "btnUp";
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIMoveUpButton
+        {
+            get
+            {
+                if ((this.mUIMoveUpButton == null))
+                {
+                    this.mUIMoveUpButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIMoveUpButton.SearchProperties[WinButton.PropertyNames.Name] = "Move Up";
+                    this.mUIMoveUpButton.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIMoveUpButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIMoveUpButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UIMoveDownWindow : WinWindow
+    {
+        
+        public UIMoveDownWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlName] = "btnDown";
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIMoveDownButton
+        {
+            get
+            {
+                if ((this.mUIMoveDownButton == null))
+                {
+                    this.mUIMoveDownButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIMoveDownButton.SearchProperties[WinButton.PropertyNames.Name] = "Move Down";
+                    this.mUIMoveDownButton.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIMoveDownButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIMoveDownButton;
         #endregion
     }
     
@@ -4458,13 +5445,13 @@ namespace MultipleHash2008Test
             }
         }
         
-        public UIItemWindow16 UIItemWindow
+        public UIItemWindow4 UIItemWindow
         {
             get
             {
                 if ((this.mUIItemWindow == null))
                 {
-                    this.mUIItemWindow = new UIItemWindow16(this);
+                    this.mUIItemWindow = new UIItemWindow4(this);
                 }
                 return this.mUIItemWindow;
             }
@@ -4536,7 +5523,7 @@ namespace MultipleHash2008Test
         
         private UIGridControlWindow mUIGridControlWindow;
         
-        private UIItemWindow16 mUIItemWindow;
+        private UIItemWindow4 mUIItemWindow;
         
         private UIErroratDataFlowTaskMWindow mUIErroratDataFlowTaskMWindow;
         
@@ -5471,10 +6458,10 @@ namespace MultipleHash2008Test
     }
     
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class UIItemWindow16 : WinWindow
+    public class UIItemWindow4 : WinWindow
     {
         
-        public UIItemWindow16(UITestControl searchLimitContainer) : 
+        public UIItemWindow4(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria

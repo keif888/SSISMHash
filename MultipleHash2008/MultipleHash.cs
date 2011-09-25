@@ -631,6 +631,15 @@ namespace Martin.SQLServer.Dts
             {
                 // If the usageType is UT_IGNORED, the base class removes the column
                 // and the returned column is null. 
+                foreach (IDTSOutputColumn outputColumn in this.ComponentMetaData.OutputCollection[0].OutputColumnCollection)
+                {
+                    List<String> lineageIDs = new List<string>(outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value.ToString().Split(','));
+                    if (lineageIDs.Contains("#" + lineageID.ToString()))
+                    {
+                        lineageIDs.Remove("#" + lineageID.ToString());
+                    }
+                    outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = String.Join(",", lineageIDs.ToArray());
+                }
                 col = base.SetUsageType(inputID, virtualInput, lineageID, usageType);
             }
             else if (usageType == DTSUsageType.UT_READWRITE)

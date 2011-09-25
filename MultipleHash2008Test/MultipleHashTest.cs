@@ -1324,7 +1324,7 @@ namespace MultipleHash2008Test
 
             foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
             {
-                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing from column OutputCol1.")
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column OutputCol1.")
                 {
                     foundError = true;
                     break;
@@ -1372,7 +1372,7 @@ namespace MultipleHash2008Test
             Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure, validateResult);
             foreach (Microsoft.SqlServer.Dts.Runtime.DtsError errorResult in package.Errors)
             {
-                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing from column OutputCol1.")
+                if (errorResult.Description == "The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column OutputCol1.")
                 {
                     foundError = true;
                     break;

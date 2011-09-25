@@ -22,11 +22,12 @@ namespace MultipleHash2008Test
         {
         }
 
+        /// <summary>
+        /// Makes sure that the safe null handling tick box will clear, and is clear on reopen.
+        /// </summary>
         [TestMethod]
         public void ClearSafeNullHandlingViaGUI()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            // For more information on generated code, see http://go.microsoft.com/fwlink/?LinkId=179463
             this.UIMap.OpenMultipleHash();
             this.UIMap.SafeNullHandlingClear();
             this.UIMap.OpenMultipleHash();
@@ -34,7 +35,9 @@ namespace MultipleHash2008Test
             this.UIMap.ClickOkOnMultipleHash();
         }
 
-
+        /// <summary>
+        /// Makes sure that the safe null handling tick will clear, and set, and stays set on reopen.
+        /// </summary>
         [TestMethod]
         public void ClearAndSetSafeNullHandlingViaGUI()
         {
@@ -47,6 +50,9 @@ namespace MultipleHash2008Test
             this.UIMap.ClickOkOnMultipleHash();
         }
 
+        /// <summary>
+        /// Makes sure that the Advanced Editor shows appropriate messages for a detached input, and there are no extraneous columns left behind
+        /// </summary>
         [TestMethod]
         public void OnInputPathDetachedTest()
         {
@@ -58,6 +64,9 @@ namespace MultipleHash2008Test
             this.UIMap.MultipleHashAdvancedEditorCancel();
         }
 
+        /// <summary>
+        /// Makes sure that the error message is shown if attempting to add an output.
+        /// </summary>
         [TestMethod]
         public void InsertOutputTest()
         {
@@ -69,9 +78,11 @@ namespace MultipleHash2008Test
             this.UIMap.MultipleHashAdvancedEditorCancel();
         }
 
-
+        /// <summary>
+        /// Makes sure that you can add an input column via the standard GUI.
+        /// </summary>
         [TestMethod]
-        public void AddOutputColumn()
+        public void AddInputColumn()
         {
             this.UIMap.OpenMultipleHash();
             this.UIMap.SelectInputColumn();
@@ -81,6 +92,106 @@ namespace MultipleHash2008Test
             this.UIMap.AssertAdvancedEditorInputColumnChecked();
             this.UIMap.MultipleHashAdvancedEditorOk();
         }
+
+        [TestMethod]
+        public void AddOutputColumn()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.SelectInputColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AddOutputHasColumnAsMD5();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.OutputColumnsTabInputColumnUnTick();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.AssertSortPositionIsZero();
+            this.UIMap.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell.SearchProperties[Microsoft.VisualStudio.TestTools.UITesting.WinControls.WinCell.PropertyNames.Value] = "MD5";
+            this.UIMap.SetHashToRipeMD160();
+            this.UIMap.AssertSortPositionIsZero();
+            this.UIMap.OutputColumnsTabInputColumnUnTick();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell.SearchProperties[Microsoft.VisualStudio.TestTools.UITesting.WinControls.WinCell.PropertyNames.Value] = "RipeMD160";
+            this.UIMap.SetHashToSHA1();
+            this.UIMap.AssertSortPositionIsZero();
+            this.UIMap.OutputColumnsTabInputColumnUnTick();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell.SearchProperties[Microsoft.VisualStudio.TestTools.UITesting.WinControls.WinCell.PropertyNames.Value] = "SHA1";
+            this.UIMap.SetHashToSHA256();
+            this.UIMap.AssertSortPositionIsZero();
+            this.UIMap.ClickOkOnMultipleHash();
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AssertSortPositionIsZero();
+        }
+
+        [TestMethod]
+        public void TwoOutputColumns()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.SelectInputColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AddOutputHasColumnAsMD5();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.SelectInputColumnsTab();
+            this.UIMap.SelectInputYetAnotherColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.OutputColumnsTabInputColumnTickRow2();
+            this.UIMap.Assert2ndRowIsSelected();
+            this.UIMap.Assert2ndRowIsYetAnotherColumn();
+            this.UIMap.MoveYACUp();
+            this.UIMap.SelectInputColumnsTab();
+            this.UIMap.UnSelectInputYetAnotherColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AssertSortPositionIsZero();
+        }
+
+        [TestMethod]
+        public void DeleteOutputColumn()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.SelectInputColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AddOutputHasColumnAsMD5();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.AddAnotherOutputHasColumnAsSHA1();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.Delete2ndOutputColumn();
+        }
+        
+
+        [TestMethod]
+        public void TestThreadingUI()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.MultipleThreadNoneToAuto();
+            this.UIMap.ClickOkOnMultipleHash();
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.AssertMultipleThreadAuto();
+            this.UIMap.MultipleThreadAutoToNone();
+            this.UIMap.ClickOkOnMultipleHash();
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.AssertMultipleThreadNone();
+            this.UIMap.MultipleThreadNoneToOn();
+            this.UIMap.ClickOkOnMultipleHash();
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.AssertMultipleThreadOn();
+        }
+
+        [TestMethod]
+        public void TestSortButtonDown()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.SelectInputColumn();
+            this.UIMap.SelectInputYetAnotherColumn();
+            this.UIMap.SelectOutputColumnsTab();
+            this.UIMap.AddOutputHasColumnAsMD5();
+            this.UIMap.OutputColumnsTabInputColumnTick();
+            this.UIMap.OutputColumnsTabInputColumnTickRow2();
+            this.UIMap.Assert2ndRowIsSelected();
+            this.UIMap.Assert2ndRowIsYetAnotherColumn();
+            this.UIMap.MoveColumnDown();
+            this.UIMap.Assert1stRowIsYetAnotherColumn();
+        }
+
 
         // Coded UI can't get at the advanced editor, reliably...
         //[TestMethod]
@@ -142,8 +253,6 @@ namespace MultipleHash2008Test
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            // For more information on generated code, see http://go.microsoft.com/fwlink/?LinkId=179463
             this.UIMap.LoadVS2008AndAddMultipleHash();
             this.UIMap.AddPath();
         }
@@ -152,10 +261,9 @@ namespace MultipleHash2008Test
         [TestCleanup()]
         public void MyTestCleanup()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            // For more information on generated code, see http://go.microsoft.com/fwlink/?LinkId=179463
-            this.UIMap.MultipleHashAdvancedEditorCancel();
-            this.UIMap.ClickOkOnMultipleHash();
+            // Cancel any open dialog boxes with an Escape.  Assumption is that they are the active window!
+            Keyboard.SendKeys("{Escape}");
+            Keyboard.SendKeys("{Escape}");
             this.UIMap.CloseAndExit();
         }
 

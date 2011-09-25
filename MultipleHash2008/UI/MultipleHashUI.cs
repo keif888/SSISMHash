@@ -317,9 +317,9 @@ namespace Martin.SQLServer.Dts
                     }
                     else
                     {
+                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
                         inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
                         inputLineageIDs = inputLineageList.Split(',');
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
                     }
 
                     // Assign the array to hold the input columns
@@ -356,21 +356,19 @@ namespace Martin.SQLServer.Dts
                     // Bug Fix: 4238 - Index and Counter error...
                     if (inputLineageList.Length > 0)
                     {
+                        List<String> inputList = new List<string>(inputLineageList.Split(','));
                         // go through the list and remove any that don't exist.
                         for (int k = 0; k < inputLineageIDs.Length; k++)
                         {
                             if (inputLineageIDs[k] != "found")
                             {
-                                if (inputLineageList.IndexOf(inputLineageIDs[k]) > 0)
+                                if (inputList.Contains(inputLineageIDs[k]))
                                 {
-                                    inputLineageList = inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]) - 1, inputLineageIDs[k].Length + 1);
-                                }
-                                else
-                                {
-                                    inputLineageList = inputLineageList.Remove(inputLineageList.IndexOf(inputLineageIDs[k]), inputLineageIDs[k].Length + 1);
+                                    inputList.Remove(inputLineageIDs[k]);
                                 }
                             }
                         }
+                        inputLineageList = String.Join(",", inputList.ToArray());
                     }
 
                     // Push the changed list back to the SSIS Component...

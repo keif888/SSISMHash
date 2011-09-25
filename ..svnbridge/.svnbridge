@@ -22,4 +22,11 @@ UpgradeLog.XML
 UpgradeLog2.XML
 UpgradeLog3.XML
 _UpgradeReport_Files
+</Value></Property><Property><Name>svn:ignore</Name><Value>*.Cache
+*.suo
+TestResults
+UpgradeLog.XML
+UpgradeLog2.XML
+UpgradeLog3.XML
+_UpgradeReport_Files
 </Value></Property></Properties></ItemProperties>
