@@ -46,39 +46,45 @@ Section "MainSection" SEC01
   IfFileExists "$0PipelineComponents\MultipleHashDenali.dll" 0 +6
         DetailPrint 'Unregister existing MultipleHashDenali.dll'
         SetOutPath '$TEMP'
-        SetOverwrite ifnewer
+        SetOverwrite on
         File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
         nsExec::ExecToLog '"$TEMP\gacutil.exe" /u MultipleHashDenali'
 
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" ""
   SetOutPath "$0PipelineComponents"
-  SetOverwrite ifnewer
+  SetOverwrite on
   DetailPrint '..Installing MultipleHashDenali.dll to $0PipelineComponents'
   File "bin\Release\MultipleHashDenali.dll"
   SetOutPath "$0UpgradeMappings"
-  SetOverwrite ifnewer
+  SetOverwrite on
   File ".\SSISMHash.xml"
   SetRegView 64
   ReadRegStr $1 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" ""
   StrCmp $0 $1 +9 0
   DetailPrint 'Do 64 Bit Install.'
   SetOutPath "$1PipelineComponents"
-  SetOverwrite ifnewer
+  SetOverwrite on
   DetailPrint '..Installing MultipleHashDenali.dll to $1PipelineComponents'
   File "bin\Release\MultipleHashDenali.dll"
   SetOutPath "$1UpgradeMappings"
-  SetOverwrite ifnewer
+  SetOverwrite on
   File ".\SSISMHash.xml"
   SetRegView 32
   DetailPrint 'Finished installing MultipleHashDenali.dll onto Computer.'
   DetailPrint 'Install MultipleHashDenali.dll to Assembly Cache'
   SetOutPath '$TEMP'
-  SetOverwrite ifnewer
+  SetOverwrite on
   File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+  File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+  File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" ""
   nsExec::ExecToLog '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHashDenali.dll"'
   DetailPrint 'Please check the output from the Assembly Registration above for Errors.'
   Delete "$TEMP\gacutil.exe"
+  Delete "$TEMP\gacutil.exe.config"
+  Delete "$TEMP\gacutlrc.dll"
   SetOutPath '$INSTDIR'
 SectionEnd
 
@@ -107,10 +113,14 @@ Section Uninstall
         SetOverwrite on
         DetailPrint 'Add GACUtil.exe to $TEMP'
         File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
         DetailPrint 'Unregister MultipleHash'
         nsExec::ExecToLog '$TEMP\gacutil.exe /u MultipleHashDenali'
         DetailPrint 'Delete GACUtil.exe From $TEMP'
         Delete "$TEMP\gacutil.exe"
+		Delete "$TEMP\gacutil.exe.config"
+		Delete "$TEMP\gacutlrc.dll"
 
         DetailPrint 'Delete $INSTDIR\Uninst.exe'
         Delete "$INSTDIR\uninst.exe"
