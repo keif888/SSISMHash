@@ -18,6 +18,27 @@ EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSIS2012TestMultipleHash", "SSIS2012TestMultipleHash\SSIS2012TestMultipleHash.dtproj", "{B26EE44B-4528-43C3-9E40-407D94DB4EE5}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs07
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MultipleHash2005\\MultipleHash2005.csproj
+		SccProjectName1 = MultipleHash2005
+		SccLocalPath1 = MultipleHash2005
+		SccProjectUniqueName2 = MultipleHash2008\\MultipleHash2008.csproj
+		SccProjectName2 = MultipleHash2008
+		SccLocalPath2 = MultipleHash2008
+		SccProjectUniqueName3 = MultipleHash2008Test\\MultipleHash2008Test.csproj
+		SccProjectName3 = MultipleHash2008Test
+		SccLocalPath3 = MultipleHash2008Test
+		SccProjectUniqueName4 = MultipleHash2012\\MultipleHash2012.csproj
+		SccProjectName4 = MultipleHash2012
+		SccLocalPath4 = MultipleHash2012
+		SccProjectUniqueName5 = SSIS2012TestMultipleHash\\SSIS2012TestMultipleHash.dtproj
+		SccProjectName5 = SSIS2012TestMultipleHash
+		SccLocalPath5 = SSIS2012TestMultipleHash
+	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MultipleHash.vsmdi
 	EndGlobalSection
