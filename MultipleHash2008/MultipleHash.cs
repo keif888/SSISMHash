@@ -52,7 +52,7 @@ namespace Martin.SQLServer.Dts
     using System.Globalization;
     using System.Collections.Generic;
 
-#if SQLDenali
+#if SQL2012
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
     using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty100;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
@@ -98,7 +98,7 @@ namespace Martin.SQLServer.Dts
         DisplayName = "Multiple Hash",
         Description = "Creates Multiple Hash's from selected input columns.",
         IconResource = "Martin.SQLServer.Dts.key.ico",
-#if SQLDenali
+#if SQL2012
          UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
 #if SQL2008

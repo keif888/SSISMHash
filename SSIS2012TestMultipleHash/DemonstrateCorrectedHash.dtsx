@@ -329,15 +329,15 @@
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
               </properties>
               <inputs>
                 <input

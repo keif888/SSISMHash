@@ -48,7 +48,7 @@ namespace Martin.SQLServer.Dts
     using System.Collections;
     using System.Security.Cryptography;
 
-#if SQLDenali
+#if SQL2012
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;

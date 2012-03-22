@@ -5,14 +5,14 @@
   DTS:CreationName="SSIS.Package.3"
   DTS:CreatorComputerName="VISUALSTUDIO"
   DTS:CreatorName="VISUALSTUDIO\Installer"
-  DTS:DTSID="{F9F83F7A-94F3-4507-8B78-9BCA497C0F90}"
+  DTS:DTSID="{7A700254-88BF-434A-8611-D9E5971ED744}"
   DTS:ExecutableType="SSIS.Package.3"
   DTS:LastModifiedProductVersion="11.0.1440.19"
   DTS:LocaleID="3081"
-  DTS:ObjectName="DemonstrateDuplicateHash"
+  DTS:ObjectName="DemonstrateCorrectedHash"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{AA50BB64-9B2E-484E-8232-75C27E9EB7D5}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{38175160-5980-452B-9BF6-8A80596830B4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="CSharpSource"
-              DTS:DTSID="{7C4C574D-D24C-4AD6-B109-A6DE5738663C}"
+              DTS:DTSID="{F0476AF5-F58C-490B-B7D8-B0B0806F7597}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -48,7 +48,7 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{F0DA3DB7-6E4D-469F-B98E-74E5528DA87A}"
+      DTS:DTSID="{7DF08310-B4AA-4448-9FCA-B96BEDCCA7FA}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
       DTS:ObjectName="vObject">
@@ -329,15 +329,15 @@
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
               </properties>
               <inputs>
                 <input
@@ -540,7 +540,7 @@
     design-time-name="Package\Demonstrate Hash Detection Failure">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <NodeLayout
           Size="135.773584905661,43.9245283018868"
           Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
@@ -558,7 +558,7 @@
           TopLeft="73.3867924528302,49.4245283018868">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="10.9811320754717,63.8867924528302"
               Start="0,0"
               End="10.9811320754717,56.3867924528302">
@@ -584,7 +584,7 @@
           TopLeft="84.3679245283019,157.235849056604">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,77.9245283018868"
               Start="0,0"
               End="0,70.4245283018868">
@@ -605,7 +605,7 @@
           Text="Four Hash Values.&#xD;&#xA;Left Null Right&#xD;&#xA;Left Right Null&#xD;&#xA;Null Left Right&#xD;&#xA;Right Left Null"
           ParentId="Package\Demonstrate Hash Detection Failure"
           Size="226.415094339623,75.7833333333334"
-          Id="239c91c0-117b-422f-a841-ff46e9dd1d0b"
+          Id="988ed0b8-8237-41a3-99dd-8b760a1eddc8"
           TopLeft="295.009433962264,224.141509433962">
           <AnnotationLayout.FontInfo>
             <mssge:FontInfo
@@ -621,33 +621,33 @@
         <NodeLayout
           Size="182.863333333334,42"
           Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
-          TopLeft="23,334" />
+          TopLeft="14,344" />
         <EdgeLayout
           Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
           TopLeft="84.3679245283019,279.084905660377">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="30.0637421383648,54.9150943396227"
+              StartConnector="{x:Null}"
+              EndConnector="21.0637421383648,64.9150943396227"
               Start="0,0"
-              End="30.0637421383648,47.4150943396227">
+              End="21.0637421383648,57.4150943396227">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.4575471698113" />
+                    End="0,28.4575471698113" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.4575471698113"
-                    Point2="0,27.4575471698113"
-                    Point3="4,27.4575471698113" />
+                    Point1="0,28.4575471698113"
+                    Point2="0,32.4575471698113"
+                    Point3="4,32.4575471698113" />
                   <mssgle:LineSegment
-                    End="26.0637421383648,27.4575471698113" />
+                    End="17.0637421383648,32.4575471698113" />
                   <mssgle:CubicBezierSegment
-                    Point1="26.0637421383648,27.4575471698113"
-                    Point2="30.0637421383648,27.4575471698113"
-                    Point3="30.0637421383648,31.4575471698113" />
+                    Point1="17.0637421383648,32.4575471698113"
+                    Point2="21.0637421383648,32.4575471698113"
+                    Point3="21.0637421383648,36.4575471698113" />
                   <mssgle:LineSegment
-                    End="30.0637421383648,47.4150943396227" />
+                    End="21.0637421383648,57.4150943396227" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

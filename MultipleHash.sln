@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008", "Multipl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008Test", "MultipleHash2008Test\MultipleHash2008Test.csproj", "{BA117407-08B1-494E-928D-15D4C826D44A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHashDenali", "MultipleHashDenali\MultipleHashDenali.csproj", "{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2012", "MultipleHash2012\MultipleHash2012.csproj", "{F6B36D24-DB6D-4B97-A626-FD8FB30D8C29}"
 EndProject
-Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSISDenaliTestMultipleHash", "SSISDenaliTestMultipleHash\SSISDenaliTestMultipleHash.dtproj", "{B26EE44B-4528-43C3-9E40-407D94DB4EE5}"
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSIS2012TestMultipleHash", "SSIS2012TestMultipleHash\SSIS2012TestMultipleHash.dtproj", "{B26EE44B-4528-43C3-9E40-407D94DB4EE5}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

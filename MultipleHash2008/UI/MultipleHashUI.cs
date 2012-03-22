@@ -49,7 +49,7 @@ namespace Martin.SQLServer.Dts
     using System.Diagnostics;
     using System.Windows.Forms;
     using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
-#if SQLDenali
+#if SQL2012
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
     using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty100;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;

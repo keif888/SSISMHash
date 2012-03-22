@@ -47,7 +47,7 @@ namespace Martin.SQLServer.Dts
     using System.Threading;
     using Microsoft.SqlServer.Dts.Pipeline;
 
-#if SQLDenali
+#if SQL2012
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
 #if SQL2008

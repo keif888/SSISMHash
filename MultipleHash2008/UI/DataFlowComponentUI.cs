@@ -52,7 +52,7 @@ namespace Martin.SQLServer.Dts
     using Microsoft.SqlServer.Dts.Design;
     using Microsoft.SqlServer.Dts.Pipeline.Design;
     using Microsoft.SqlServer.Dts.Runtime;
-#if SQLDenali
+#if SQL2012
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
     using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100;

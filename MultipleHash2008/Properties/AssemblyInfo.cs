@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-#if SQLDenali
+#if SQL2012
 [assembly: AssemblyTitle("MultipleHashDenali")]
 [assembly: AssemblyProduct("MultipleHashDenali")]
 #endif
