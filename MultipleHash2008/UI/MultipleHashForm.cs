@@ -582,6 +582,30 @@ namespace Martin.SQLServer.Dts
         #region dgvAvailableColumns Handlers
 
         /// <summary>
+        /// Check/Uncheck all tick boxes that have been selected
+        /// </summary>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void dgvAvailableColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0)
+            {
+                if (dgvAvailableColumns.SelectedCells.Count > 1)
+                {
+                    Boolean clickedCellValue = (Boolean)dgvAvailableColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
+                    foreach (DataGridViewCell dgvCell in dgvAvailableColumns.SelectedCells)
+                    {
+                        if (dgvCell.ColumnIndex == 0)
+                        {
+                            dgvCell.Value = clickedCellValue;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Commiting change in the checkbox columns so it will trigger CellValueChanged immediately.
         /// </summary>
         /// <param name="sender">Where the message came from</param>
@@ -809,6 +833,30 @@ namespace Martin.SQLServer.Dts
 
 
         #region dgvInputColumns Handlers
+
+        /// <summary>
+        /// Check/Uncheck all tick boxes that have been selected
+        /// </summary>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void dgvInputColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0)
+            {
+                if (dgvInputColumns.SelectedCells.Count > 1)
+                {
+                    Boolean clickedCellValue = (Boolean)dgvInputColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
+                    foreach (DataGridViewCell dgvCell in dgvInputColumns.SelectedCells)
+                    {
+                        if (dgvCell.ColumnIndex == 0)
+                        {
+                            dgvCell.Value = clickedCellValue;
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// This is fired when a column to be included in the hash is ticked/unticked

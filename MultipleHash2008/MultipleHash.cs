@@ -99,7 +99,7 @@ namespace Martin.SQLServer.Dts
         Description = "Creates Multiple Hash's from selected input columns.",
         IconResource = "Martin.SQLServer.Dts.key.ico",
 #if SQL2012
-         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
+         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
 #if SQL2008
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",

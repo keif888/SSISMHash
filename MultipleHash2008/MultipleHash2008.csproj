@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MultipleHash.snk" />
+    <None Include="NullsoftInstallerScript.nsi" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SSISMHash.xml" />
