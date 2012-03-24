@@ -1,7 +1,6 @@
 ﻿using Martin.SQLServer.Dts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.IO;
 using System.Text;
 
 namespace MultipleHash2008Test
@@ -9,11 +8,11 @@ namespace MultipleHash2008Test
     
     
     /// <summary>
-    ///This is a test class for CRC32Test and is intended
-    ///to contain all CRC32Test Unit Tests
+    ///This is a test class for CRC32CTest and is intended
+    ///to contain all CRC32CTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class CRC32Test
+    public class CRC32CTest
     {
 
 
@@ -67,12 +66,12 @@ namespace MultipleHash2008Test
 
 
         /// <summary>
-        ///A test for CRC32 Constructor
+        ///A test for CRC32C Constructor
         ///</summary>
         [TestMethod()]
-        public void CRC32ConstructorTest()
+        public void CRC32CConstructorTest()
         {
-            CRC32 target = new CRC32();
+            CRC32C target = new CRC32C();
             Assert.IsNotNull(target);
         }
 
@@ -83,8 +82,8 @@ namespace MultipleHash2008Test
         [DeploymentItem("MultipleHash2008.dll")]
         public void Polynomial32definitionTest()
         {
-            CRC32_Accessor target = new CRC32_Accessor(); // TODO: Initialize to an appropriate value
-            uint[] expected = { 26, 23, 22, 16, 12, 11, 10, 8, 7, 5, 4, 2, 1, 0 };
+            CRC32C_Accessor target = new CRC32C_Accessor(); // TODO: Initialize to an appropriate value
+            uint[] expected = { 28, 27, 26, 25, 23, 22, 20, 19, 18, 14, 13, 11, 10, 9, 8, 6, 0 };
             uint[] actual;
             actual = target.Polynomial32definition;
             Assert.AreEqual(expected.Length, actual.Length);
@@ -92,16 +91,26 @@ namespace MultipleHash2008Test
                 Assert.AreEqual(expected[i], actual[i]);
         }
 
-
         /// <summary>
         ///A test for ComputeHash
         ///</summary>
         [TestMethod()]
-        public void ComputeHashTestJustBuffer()
+        public void ComputeHashTestBuffer()
         {
-            CRC32 target = new CRC32();
-            byte[] buffer = ASCIIEncoding.ASCII.GetBytes("abcdefghijklmnopqrstuvwxyz");
-            byte[] expected = {0xbd, 0x50, 0x27, 0x4c};
+            CRC32C target = new CRC32C();
+            byte[] buffer = {0x01, 0xC0, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x01, 0xFE, 0x60, 0xAC,
+                            0x00, 0x00, 0x00, 0x08,
+                            0x00, 0x00, 0x00, 0x04,
+                            0x00, 0x00, 0x00, 0x09,
+                            0x25, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00};
+            byte[] expected = { 0xeb, 0x75, 0x4f, 0x66 };
             byte[] actual;
             actual = target.ComputeHash(buffer);
             Assert.AreEqual(expected.Length, actual.Length);
@@ -113,13 +122,24 @@ namespace MultipleHash2008Test
         ///A test for ComputeHash
         ///</summary>
         [TestMethod()]
-        public void ComputeHashTestBufferIndexAndLength()
+        public void ComputeHashTestBufferOffsetLength()
         {
-            CRC32 target = new CRC32();
-            byte[] buffer = ASCIIEncoding.ASCII.GetBytes("abcdefghijklmnopqrstuvwxyz");
+            CRC32C target = new CRC32C();
+            byte[] buffer = {0x01, 0xC0, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x01, 0xFE, 0x60, 0xAC,
+                            0x00, 0x00, 0x00, 0x08,
+                            0x00, 0x00, 0x00, 0x04,
+                            0x00, 0x00, 0x00, 0x09,
+                            0x25, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00};
             int ibStart = 0; 
             int cbSize = buffer.Length;
-            byte[] expected = { 0xbd, 0x50, 0x27, 0x4c };
+            byte[] expected = { 0xeb, 0x75, 0x4f, 0x66};
             byte[] actual;
             actual = target.ComputeHash(buffer, ibStart, cbSize);
             Assert.AreEqual(expected.Length, actual.Length);
@@ -133,10 +153,11 @@ namespace MultipleHash2008Test
         [TestMethod()]
         public void CreateTest()
         {
-            CRC32 expected = new CRC32();
-            CRC32 actual;
-            actual = CRC32.Create();
+            CRC32C expected = new CRC32C();
+            CRC32C actual;
+            actual = CRC32C.Create();
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
+
     }
 }

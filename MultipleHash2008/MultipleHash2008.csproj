@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="CRC32.cs" />
     <Compile Include="CRC32C.cs" />
+    <Compile Include="CRCSliceBy8.cs" />
     <Compile Include="FNV1a32.cs" />
     <Compile Include="FNV1a64.cs" />
     <Compile Include="GlobalSuppressions.cs" />
