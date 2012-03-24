@@ -118,7 +118,28 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Stores the generated SHA512 hash
         /// </summary>
-        private SHA512 hashSHA512; 
+        private SHA512 hashSHA512;
+
+        /// <summary>
+        /// Stores the generated CRC32 hash
+        /// </summary>
+        private CRC32 hashCRC32;
+
+        /// <summary>
+        /// Stores the generated CRC32C hash
+        /// </summary>
+        private CRC32C hashCRC32C;
+
+        /// <summary>
+        /// Stores the generated FNV1a 32 bit hash
+        /// </summary>
+        private FNV1a32 hashFNV1a32;
+
+        /// <summary>
+        /// Stores the generated FNV1a 64 bit hash
+        /// </summary>
+        private FNV1a64 hashFNV1a64;
+
         #endregion
 
         #region Creator
@@ -184,6 +205,14 @@ namespace Martin.SQLServer.Dts
                         return this.hashSHA384;
                     case MultipleHash.HashTypeEnumerator.SHA512:
                         return this.hashSHA512;
+                    case MultipleHash.HashTypeEnumerator.CRC32:
+                        return this.hashCRC32;
+                    case MultipleHash.HashTypeEnumerator.CRC32C:
+                        return this.hashCRC32C;
+                    case MultipleHash.HashTypeEnumerator.FNV1a32:
+                        return this.hashFNV1a32;
+                    case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        return this.hashFNV1a64;
                     default:
                         return null;
                 }
@@ -297,6 +326,9 @@ namespace Martin.SQLServer.Dts
                     break;
                 case MultipleHash.HashTypeEnumerator.SHA512:
                     this.hashSHA512 = SHA512.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.CRC32:
+                    this.hashCRC32 = CRC32.Create();
                     break;
                 default:
                     break;

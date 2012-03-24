@@ -108,7 +108,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 4)]
+        CurrentVersion = 5)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -188,7 +188,27 @@ namespace Martin.SQLServer.Dts
             /// <summary>
             /// Creates a SHA512 Hash
             /// </summary>
-            SHA512
+            SHA512,
+
+            /// <summary>
+            /// Creates a CRC32 hash using 0xEDB88320
+            /// </summary>
+            CRC32,
+
+            /// <summary>
+            /// Creates a CRC32C hash using 0x82F63B78
+            /// </summary>
+            CRC32C,
+
+            /// <summary>
+            /// Creates a 32 bit FNV1a hash
+            /// </summary>
+            FNV1a32,
+            
+            /// <summary>
+            /// Creates a 64 bit FNV1a hash
+            /// </summary>
+            FNV1a64
         }
 
         /// <summary>
@@ -1279,6 +1299,20 @@ namespace Martin.SQLServer.Dts
             switch ((HashTypeEnumerator)outputColumn.CustomPropertyCollection[customPropertyIndex].Value)
             {
                 case HashTypeEnumerator.None:
+                    break;
+                case HashTypeEnumerator.CRC32:
+                case HashTypeEnumerator.CRC32C:
+                case HashTypeEnumerator.FNV1a32:
+                    if (outputColumn.Length != 4)
+                    {
+                        return false;
+                    }
+                    break;
+                case HashTypeEnumerator.FNV1a64:
+                    if (outputColumn.Length != 8)
+                    {
+                        return false;
+                    }
                     break;
                 case HashTypeEnumerator.MD5:
                     if (outputColumn.Length != 16)

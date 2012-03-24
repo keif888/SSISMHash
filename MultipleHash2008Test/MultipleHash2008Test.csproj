@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodedUITest1.cs" />
+    <Compile Include="CRC32Test.cs" />
     <Compile Include="DataFlowComponentUITest.cs" />
     <Compile Include="DataFlowElementTest.cs" />
     <Compile Include="MultipleHashFormTest.cs" />
