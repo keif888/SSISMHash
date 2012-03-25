@@ -589,131 +589,57 @@ namespace Martin.SQLServer.Dts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvAvailableColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
+            try
             {
-                if (dgvAvailableColumns.SelectedCells.Count > 1)
+                if (e.ColumnIndex == 0)
                 {
-                    Boolean clickedCellValue = (Boolean)dgvAvailableColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
-                    foreach (DataGridViewCell dgvCell in dgvAvailableColumns.SelectedCells)
+                    Boolean clickedCellValue = !(Boolean)dgvAvailableColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
+
+                    for (int i = 0; i < dgvAvailableColumns.RowCount; i++)
                     {
-                        if (dgvCell.ColumnIndex == 0)
+                        foreach (DataGridViewCell dgvCell in dgvAvailableColumns.Rows[i].Cells)
                         {
-                            dgvCell.Value = clickedCellValue;
+                            if ((dgvCell.ColumnIndex == 0) && dgvCell.Selected)
+                            {
+                                dgvCell.Value = clickedCellValue;
+                                try
+                                {
+                                    // Get the check box
+                                    DataGridViewCheckBoxCell checkBoxCell = dgvCell as DataGridViewCheckBoxCell;
+
+                                    // Get the Cell which contains the columns name
+                                    DataGridViewCell columnCell = this.dgvAvailableColumns.Rows[i].Cells[this.gridColumnAvailableColumns.Index];
+
+                                    SetInputColumnArgs args = new SetInputColumnArgs();
+                                    args.VirtualColumn = new DataFlowElement(columnCell.Value.ToString(), columnCell.Tag);
+
+                                    if ((bool)checkBoxCell.Value)
+                                    {
+                                        // Set used columns if the checkbox is selected.
+                                        this.SetColumns(args);
+                                    }
+                                    else
+                                    {
+                                        // Delete columns if the checkbox is unselected.
+                                        this.DeleteColumns(args);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                                    this.CallErrorHandler.EndInvoke(res);
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Commiting change in the checkbox columns so it will trigger CellValueChanged immediately.
-        /// </summary>
-        /// <param name="sender">Where the message came from</param>
-        /// <param name="e">The arguments from the caller</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvAvailableColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                // If this is a check box, then commit now.
-                if (this.dgvAvailableColumns.CurrentCell != null && this.dgvAvailableColumns.CurrentCell is DataGridViewCheckBoxCell)
-                {
-                    this.dgvAvailableColumns.CommitEdit(DataGridViewDataErrorContexts.Commit);
-                }
-            }
             catch (Exception ex)
             {
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
         }
-
-        /// <summary>
-        /// Fired when a check box is selected on the Input tab.
-        /// </summary>
-        /// <param name="sender">Where the message came from</param>
-        /// <param name="e">The arguments from the caller</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvAvailableColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            // Ignoring this event while loading columns.
-            if (this.isLoading)
-            {
-                return;
-            }
-
-            try
-            {
-                // If the changed column is the Check Box column...
-                if (e.ColumnIndex == this.gridColumnCheckbox.Index && e.RowIndex >= 0)
-                {
-                    // Get the check box
-                    DataGridViewCheckBoxCell checkBoxCell = this.dgvAvailableColumns.CurrentCell as DataGridViewCheckBoxCell;
-
-                    // Get the Cell which contains the columns name
-                    DataGridViewCell columnCell = this.dgvAvailableColumns.Rows[e.RowIndex].Cells[this.gridColumnAvailableColumns.Index];
-
-                    SetInputColumnArgs args = new SetInputColumnArgs();
-                    args.VirtualColumn = new DataFlowElement(columnCell.Value.ToString(), columnCell.Tag);
-
-                    if ((bool)checkBoxCell.Value)
-                    {
-                        // Set used columns if the checkbox is selected.
-                        this.SetColumns(args);
-                    }
-                    else
-                    {
-                        // Delete columns if the checkbox is unselected.
-                        this.DeleteColumns(args);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
-            }
-        }
-
-        /// <summary>
-        /// Fired when the selection changes.
-        /// Call the function to refresh the hash columns...
-        /// </summary>
-        /// <param name="sender">Where the message came from</param>
-        /// <param name="e">The arguments from the caller</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvOutputColumns_SelectionChanged(object sender, EventArgs e)
-        {
-            // Ignoring this event while loading columns.
-            if (this.isLoading)
-            {
-                return;
-            }
-
-            try
-            {
-                // Set isLoading to ensure other events don't fire and cause issues.
-                this.isLoading = true;
-
-                // If we have an Output Column...
-                if (this.dgvOutputColumns.Rows.Count > 0)
-                {
-                    this.RefreshdgvInputColumns();
-                    this.RefreshdgvHashColumns();
-                }
-            }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
-            }
-            finally
-            {
-                // Clear isLoading...
-                this.isLoading = false;
-            }
-        }
-
         #endregion
 
         #region Change Order Events
@@ -831,7 +757,6 @@ namespace Martin.SQLServer.Dts
         }
         #endregion
 
-
         #region dgvInputColumns Handlers
 
         /// <summary>
@@ -842,81 +767,67 @@ namespace Martin.SQLServer.Dts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void dgvInputColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
-            {
-                if (dgvInputColumns.SelectedCells.Count > 1)
-                {
-                    Boolean clickedCellValue = (Boolean)dgvInputColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
-                    foreach (DataGridViewCell dgvCell in dgvInputColumns.SelectedCells)
-                    {
-                        if (dgvCell.ColumnIndex == 0)
-                        {
-                            dgvCell.Value = clickedCellValue;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// This is fired when a column to be included in the hash is ticked/unticked
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dgvInputColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
             int sortPosition = 0;
-            // Ignoring this event while loading columns.
-            if (this.isLoading)
+            try
             {
-                return;
-            }
-
-            // Make sure that a cell is selected...
-            if (dgvInputColumns.CurrentCell != null)
-            {
-                try 
+                if (e.ColumnIndex == 0)
                 {
-                    if (e.ColumnIndex == dgvInputColumnsSelected.Index)
-                    {
-                        // Grab the tag that holds the list of selected columns.
-                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
-                        // Iterate through that list, to apply the change
-                        for (int i = 0; i < inputColumns.Length; i++)
-                        {
-                            // Find the column that has been changed
-                            if (inputColumns[i].LineageID == (int)dgvInputColumns.Rows[e.RowIndex].Cells[dgvInputColumnsColumnName.Index].Tag)
-                            {
-                                sortPosition = inputColumns[i].SortPosition;
-                                if (inputColumns[i].Selected)
-                                {
-                                    // I have unselected this one!
-                                    for (int j = 0; j < inputColumns.Length; j++)
-                                    {
-                                        if (inputColumns[j].SortPosition < 999999 && inputColumns[j].SortPosition > sortPosition)
-                                        {
-                                            inputColumns[j].SortPosition--;
-                                        }
-                                    }
+                    Boolean clickedCellValue = !(Boolean)dgvInputColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
 
-                                    inputColumns[i].SortPosition = 999999;
-                                }
-                                else
+                    // Set IsLoading to force order of execution and addition of columns to other lists.
+                    //this.isLoading = true;
+
+                    // Grab the tag that holds the list of selected columns.
+                    InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+
+                    for (int i = 0; i < dgvInputColumns.RowCount; i++)
+                    {
+                        foreach (DataGridViewCell dgvCell in dgvInputColumns.Rows[i].Cells)
+                        {
+                            if ((dgvCell.ColumnIndex == 0) && dgvCell.Selected)
+                            {
+                                dgvCell.Value = clickedCellValue;
+                                if (e.ColumnIndex == dgvInputColumnsSelected.Index)
                                 {
-                                    sortPosition = -1;
-                                    Boolean noneFound = true;
+                                    // Iterate through that list, to apply the change
                                     for (int j = 0; j < inputColumns.Length; j++)
                                     {
-                                        if (inputColumns[j].SortPosition > sortPosition && inputColumns[j].SortPosition < 999999)
+                                        // Find the column that has been changed
+                                        if (inputColumns[j].LineageID == (int)dgvInputColumns.Rows[i].Cells[dgvInputColumnsColumnName.Index].Tag)
                                         {
                                             sortPosition = inputColumns[j].SortPosition;
-                                            noneFound = false;
+                                            if (inputColumns[j].Selected)
+                                            {
+                                                // I have unselected this one!
+                                                for (int k = 0; k < inputColumns.Length; k++)
+                                                {
+                                                    if (inputColumns[k].SortPosition < 999999 && inputColumns[k].SortPosition > sortPosition)
+                                                    {
+                                                        inputColumns[k].SortPosition--;
+                                                    }
+                                                }
+
+                                                inputColumns[j].SortPosition = 999999;
+                                            }
+                                            else
+                                            {
+                                                sortPosition = -1;
+                                                Boolean noneFound = true;
+                                                for (int k = 0; k < inputColumns.Length; k++)
+                                                {
+                                                    if (inputColumns[k].SortPosition > sortPosition && inputColumns[k].SortPosition < 999999)
+                                                    {
+                                                        sortPosition = inputColumns[k].SortPosition;
+                                                        noneFound = false;
+                                                    }
+                                                }
+                                                inputColumns[j].SortPosition = (noneFound ? 0 : sortPosition + 1);
+                                            }
+                                            inputColumns[j].Selected = (bool)dgvInputColumns.Rows[i].Cells[dgvInputColumnsSelected.Index].Value;
+                                            break;
                                         }
                                     }
-                                    inputColumns[i].SortPosition = (noneFound ? 0 : sortPosition + 1);
                                 }
-                                inputColumns[i].Selected = (bool)dgvInputColumns.Rows[e.RowIndex].Cells[dgvInputColumnsSelected.Index].Value;
-                                break;
                             }
                         }
                     }
@@ -928,32 +839,8 @@ namespace Martin.SQLServer.Dts
                     // Call the AddOutputColumn event...
                     IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
                     this.AlterOutputColumn.EndInvoke(res);
-                }
-                catch (Exception ex)
-                {
-                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                    this.CallErrorHandler.EndInvoke(res);
-                }
-                finally
-                {
-                    this.isLoading = false;
-                }
-            }
-        }
 
-        /// <summary>
-        /// Commit the change immediately to improve UI interaction. 
-        /// </summary>
-        /// <param name="sender">Who called me?</param>
-        /// <param name="e">The event arguments</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvInputColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (this.dgvInputColumns.CurrentCell != null && this.dgvInputColumns.CurrentCell is DataGridViewCheckBoxCell)
-                {
-                    this.dgvInputColumns.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                    //this.isLoading = false;
                 }
             }
             catch (Exception ex)
@@ -961,7 +848,12 @@ namespace Martin.SQLServer.Dts
                 IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
                 this.CallErrorHandler.EndInvoke(res);
             }
+            finally
+            {
+                //this.isLoading = false;
+            }
         }
+
         #endregion
 
         #region dgvHashColumns Handlers
@@ -991,6 +883,45 @@ namespace Martin.SQLServer.Dts
         #endregion
 
         #region dgvOutputColumns Handlers
+        /// <summary>
+        /// Fired when the selection changes.
+        /// Call the function to refresh the hash columns...
+        /// </summary>
+        /// <param name="sender">Where the message came from</param>
+        /// <param name="e">The arguments from the caller</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
+        private void dgvOutputColumns_SelectionChanged(object sender, EventArgs e)
+        {
+            // Ignoring this event while loading columns.
+            if (this.isLoading)
+            {
+                return;
+            }
+
+            try
+            {
+                // Set isLoading to ensure other events don't fire and cause issues.
+                this.isLoading = true;
+
+                // If we have an Output Column...
+                if (this.dgvOutputColumns.Rows.Count > 0)
+                {
+                    this.RefreshdgvInputColumns();
+                    this.RefreshdgvHashColumns();
+                }
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
+            finally
+            {
+                // Clear isLoading...
+                this.isLoading = false;
+            }
+        }
+        
         /// <summary>
         /// Fired when someone has changed a cell in the Output grid
         /// Handles the defaulting of cells if no data has been provided

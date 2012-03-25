@@ -143,8 +143,6 @@ namespace Martin.SQLServer.Dts
             this.dgvAvailableColumns.Size = new System.Drawing.Size(828, 392);
             this.dgvAvailableColumns.TabIndex = 0;
             this.dgvAvailableColumns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAvailableColumns_CellContentClick);
-            this.dgvAvailableColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAvailableColumns_CellValueChanged);
-            this.dgvAvailableColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvAvailableColumns_CurrentCellDirtyStateChanged);
             // 
             // gridColumnCheckbox
             // 
@@ -305,11 +303,10 @@ namespace Martin.SQLServer.Dts
             this.dgvInputColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInputColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvInputColumns.Name = "dgvInputColumns";
+            this.dgvInputColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvInputColumns.Size = new System.Drawing.Size(247, 429);
             this.dgvInputColumns.TabIndex = 0;
             this.dgvInputColumns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputColumns_CellContentClick);
-            this.dgvInputColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputColumns_CellValueChanged);
-            this.dgvInputColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvInputColumns_CurrentCellDirtyStateChanged);
             // 
             // dgvInputColumnsSelected
             // 
