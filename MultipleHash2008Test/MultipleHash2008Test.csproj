@@ -119,6 +119,8 @@
     <Compile Include="CRC32Test.cs" />
     <Compile Include="DataFlowComponentUITest.cs" />
     <Compile Include="DataFlowElementTest.cs" />
+    <Compile Include="FNV1a32Test.cs" />
+    <Compile Include="FNV1a64Test.cs" />
     <Compile Include="MultipleHashFormTest.cs" />
     <Compile Include="SSISImplementations\ExternalMetadataColumnTestImpl.cs" />
     <Compile Include="MultipleHashTest.cs" />

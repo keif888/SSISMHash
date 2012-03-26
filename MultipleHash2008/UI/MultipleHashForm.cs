@@ -1143,6 +1143,14 @@ namespace Martin.SQLServer.Dts
                     return "SHA384";
                 case MultipleHash.HashTypeEnumerator.SHA512:
                     return "SHA512";
+                case MultipleHash.HashTypeEnumerator.CRC32:
+                    return "CRC32";
+                case MultipleHash.HashTypeEnumerator.CRC32C:
+                    return "CRC32C";
+                case MultipleHash.HashTypeEnumerator.FNV1a32:
+                    return "FNV1a32";
+                case MultipleHash.HashTypeEnumerator.FNV1a64:
+                    return "FNV1a64";
                 case MultipleHash.HashTypeEnumerator.None:
                 default:
                     return "None";
@@ -1170,6 +1178,14 @@ namespace Martin.SQLServer.Dts
                     return MultipleHash.HashTypeEnumerator.SHA384;
                 case "SHA512":
                     return MultipleHash.HashTypeEnumerator.SHA512;
+                case "CRC32":
+                    return MultipleHash.HashTypeEnumerator.CRC32;
+                case "CRC32C":
+                    return MultipleHash.HashTypeEnumerator.CRC32C;
+                case "FNV1a32":
+                    return MultipleHash.HashTypeEnumerator.FNV1a32;
+                case "FNV1a64":
+                    return MultipleHash.HashTypeEnumerator.FNV1a64;
                 case "None":
                 default:
                     return MultipleHash.HashTypeEnumerator.None;
@@ -1255,6 +1271,7 @@ namespace Martin.SQLServer.Dts
         }
 
         #endregion
+
 
     }
 

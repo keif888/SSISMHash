@@ -700,6 +700,15 @@ namespace Martin.SQLServer.Dts
                 case MultipleHash.HashTypeEnumerator.SHA512:
                     outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 64, 0, 0, 0);
                     break;
+                case MultipleHash.HashTypeEnumerator.CRC32:
+                case MultipleHash.HashTypeEnumerator.CRC32C:
+                case MultipleHash.HashTypeEnumerator.FNV1a32:
+                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 4, 0, 0, 0);
+                    break;
+                case MultipleHash.HashTypeEnumerator.FNV1a64:
+                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 8, 0, 0, 0);
+                    break;
+
                 default:
                     break;
             }
@@ -852,6 +861,10 @@ namespace Martin.SQLServer.Dts
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA256:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA384:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.SHA512:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.CRC32:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.CRC32C:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a32:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a64:
                     hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer);
                     break;
                 default:

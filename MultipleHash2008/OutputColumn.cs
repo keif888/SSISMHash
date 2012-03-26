@@ -330,6 +330,15 @@ namespace Martin.SQLServer.Dts
                 case MultipleHash.HashTypeEnumerator.CRC32:
                     this.hashCRC32 = CRC32.Create();
                     break;
+                case MultipleHash.HashTypeEnumerator.CRC32C:
+                    this.hashCRC32C = CRC32C.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.FNV1a32:
+                    this.hashFNV1a32 = FNV1a32.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.FNV1a64:
+                    this.hashFNV1a64 = FNV1a64.Create();
+                    break;
                 default:
                     break;
             }

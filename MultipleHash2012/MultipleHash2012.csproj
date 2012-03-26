@@ -132,6 +132,21 @@
     <Compile Include="..\MultipleHash2008\Utility.cs">
       <Link>Utility.cs</Link>
     </Compile>
+    <Compile Include="..\MultipleHash2008\CRC32.cs">
+      <Link>CRC32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\CRC32C.cs">
+      <Link>CRC32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\CRCSliceBy8.cs">
+      <Link>CRCSliceBy8.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\FNV1a32.cs">
+      <Link>FNV1a32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\FNV1a64.cs">
+      <Link>FNV1a64.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\MultipleHash2008\UI\MultipleHashForm.resx">

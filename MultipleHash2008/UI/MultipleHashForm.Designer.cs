@@ -269,7 +269,11 @@ namespace Martin.SQLServer.Dts
             "SHA1",
             "SHA256",
             "SHA384",
-            "SHA512"});
+            "SHA512",
+            "CRC32",
+            "CRC32C",
+            "FNV1a32",
+            "FNV1a64"});
             this.dgvOutputColumnsHashType.MinimumWidth = 30;
             this.dgvOutputColumnsHashType.Name = "dgvOutputColumnsHashType";
             this.dgvOutputColumnsHashType.ToolTipText = "Select the hash value to be applied to this output column";
@@ -422,10 +426,10 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(407, 26);
+            this.label8.Size = new System.Drawing.Size(404, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was last updated by Keith Martin in August 2011.  This is version " +
-    "1.4\r\nDownload the latest version or get help from:";
+            this.label8.Text = "This component was last updated by Keith Martin in March 2012.  This is version 1" +
+    ".5\r\nDownload the latest version or get help from:";
             // 
             // panel1
             // 
@@ -487,8 +491,6 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridView dgvHashColumns;
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvOutputColumnsColumnName;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsHashType;
         private System.Windows.Forms.TabPage tpAbout;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.LinkLabel llCodeplex;
@@ -506,5 +508,7 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvInputColumnsColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsSortPosition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvOutputColumnsColumnName;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsHashType;
     }
 }
