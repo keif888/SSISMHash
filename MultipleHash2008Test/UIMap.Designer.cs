@@ -504,9 +504,8 @@ namespace MultipleHash2008Test
             WinEdit uINameEdit1 = this.UIOpenProjectWindow.UIItemWindow1.UISSIS2008TestMultipleListItem.UINameEdit;
             WinTreeItem uIEmptyUnitTestPackageTreeItem = this.UIStartPageMicrosoftViWindow.UISolutionExplorerWindow.UISolutionExplorerTree.UISSIS2008TestMultipleTreeItem.UISSISPackagesTreeItem.UIEmptyUnitTestPackageTreeItem;
             WinButton uIDataFlowButton = this.UIStartPageMicrosoftViWindow.UIToolBarWindow.UIToolBarToolBar.UIDataFlowButton;
-            WinClient uISSIS2008TestMultipleClient = this.UIStartPageMicrosoftViWindow.UIItemWindow.UISSIS2008TestMultipleClient;
-            WinListItem uIMultipleHashListItem = this.UIStartPageMicrosoftViWindow.UIToolboxTree.UIMultipleHashListItem;
             WinClient uIDataFlowDiagramClient = this.UIStartPageMicrosoftViWindow.UIItemWindow1.UIDataFlowDiagramClient;
+            WinListItem uIMultipleHashListItem = this.UIStartPageMicrosoftViWindow.UIToolboxTree.UIMultipleHashListItem;
             #endregion
 
             // Launch '%ProgramFiles%\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe'
@@ -527,8 +526,8 @@ namespace MultipleHash2008Test
             // Click 'Data Flow' button
             Mouse.Click(uIDataFlowButton, new Point(50, 10));
 
-            // Click 'SSIS2008TestMultipleHash - Microsoft Visual Studio...' client
-            Mouse.Click(uISSIS2008TestMultipleClient, new Point(6, 39));
+            // Click 'Data Flow Diagram' client
+            Mouse.Click(uIDataFlowDiagramClient, new Point(6, 39));
 
             // Move 'Multiple Hash' list item from (83, 7) to 'Data Flow Diagram' client (86, 212)
             uIDataFlowDiagramClient.EnsureClickable(new Point(86, 212));
@@ -1163,7 +1162,33 @@ namespace MultipleHash2008Test
             // Type 'SHA256' in 'None' cell
             uINoneCell.Value = this.SetHashToSHA256Params.UINoneCellValue;
         }
-        
+
+        /// <summary>
+        /// SetHashToCRC32 - Use 'SetHashToCRC32Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToCRC32()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'CRC32' in 'None' cell
+            uINoneCell.Value = this.SetHashToCRC32Params.UINoneCellValue;
+        }
+
+        /// <summary>
+        /// SetHashToFNV1a64 - Use 'SetHashToFNV1a64Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToFNV1a64()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'FNV1a64' in 'None' cell
+            uINoneCell.Value = this.SetHashToFNV1a64Params.UINoneCellValue;
+        }        
+
         /// <summary>
         /// UnSelectInputColumn
         /// </summary>
@@ -1790,6 +1815,30 @@ namespace MultipleHash2008Test
                 return this.mSetHashToSHA256Params;
             }
         }
+
+        public virtual SetHashToCRC32Params SetHashToCRC32Params
+        {
+            get
+            {
+                if ((this.mSetHashToCRC32Params == null))
+                {
+                    this.mSetHashToCRC32Params = new SetHashToCRC32Params();
+                }
+                return this.mSetHashToCRC32Params;
+            }
+        }
+
+        public virtual SetHashToFNV1a64Params SetHashToFNV1a64Params
+        {
+            get
+            {
+                if ((this.mSetHashToFNV1a64Params == null))
+                {
+                    this.mSetHashToFNV1a64Params = new SetHashToFNV1a64Params();
+                }
+                return this.mSetHashToFNV1a64Params;
+            }
+        }
         
         public UIStartPageMicrosoftViWindow UIStartPageMicrosoftViWindow
         {
@@ -2012,6 +2061,10 @@ namespace MultipleHash2008Test
         private SetHashToSHA1Params mSetHashToSHA1Params;
         
         private SetHashToSHA256Params mSetHashToSHA256Params;
+
+        private SetHashToCRC32Params mSetHashToCRC32Params;
+
+        private SetHashToFNV1a64Params mSetHashToFNV1a64Params;
         
         private UIStartPageMicrosoftViWindow mUIStartPageMicrosoftViWindow;
         
@@ -2815,7 +2868,37 @@ namespace MultipleHash2008Test
         public string UINoneCellValue = "SHA256";
         #endregion
     }
-    
+
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToCRC32'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToCRC32Params
+    {
+
+        #region Fields
+        /// <summary>
+        /// Type 'CRC32' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "CRC32";
+        #endregion
+    }
+
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToFNV1a64'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToFNV1a64Params
+    {
+
+        #region Fields
+        /// <summary>
+        /// Type 'FNV1a64' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "FNV1a64";
+        #endregion
+    }
+
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
     public class UIStartPageMicrosoftViWindow : WinWindow
     {

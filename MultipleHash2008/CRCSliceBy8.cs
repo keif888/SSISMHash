@@ -115,23 +115,7 @@ namespace Martin.SQLServer.Dts
                     crc32 = Table32_32[(crc32 ^ (UInt32)array[offset++]) & 0xFF] ^ (crc32 >> 8);
         }
 
-        /// <summary>
-        /// This is the CRC32 not CRC32C HashFinal.  Be Warned!
-        /// </summary>
-        /// <returns></returns>
-        protected override byte[] HashFinal()
-        {
-            byte[] resultHash = new byte[4];
 
-            UInt64 resultCRC = ~crc32;
-
-            resultHash[0] = (byte)((resultCRC >> 0) & 0xff);
-            resultHash[1] = (byte)((resultCRC >> 8) & 0xff);
-            resultHash[2] = (byte)((resultCRC >> 16) & 0xff);
-            resultHash[3] = (byte)((resultCRC >> 24) & 0xff);
-
-            return resultHash;
-        }
 
         public override void Initialize()
         {

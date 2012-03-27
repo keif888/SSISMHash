@@ -691,7 +691,7 @@
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <MouseAction UIObjectName="UIMap.UIStartPageMicrosoftViWindow.UIItemWindow.UISSIS2008TestMultipleClient">
+    <MouseAction UIObjectName="UIMap.UIStartPageMicrosoftViWindow.UIItemWindow1.UIDataFlowDiagramClient">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
@@ -1576,6 +1576,34 @@
       <Type>String</Type>
     </SetValueAction>
     <TestStepMarkerAction MarkerInformation="SetHashToSHA256">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <SetValueAction UIObjectName="UIMap.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell">
+      <ParameterName />
+      <Value Encoded="false">CRC32</Value>
+      <Type>String</Type>
+    </SetValueAction>
+    <TestStepMarkerAction MarkerInformation="SetHashToCRC32">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <SetValueAction UIObjectName="UIMap.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell">
+      <ParameterName />
+      <Value Encoded="false">FNV1a64</Value>
+      <Type>String</Type>
+    </SetValueAction>
+    <TestStepMarkerAction MarkerInformation="SetHashToFNV1a64">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>

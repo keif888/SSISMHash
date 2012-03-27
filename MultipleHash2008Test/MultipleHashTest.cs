@@ -147,7 +147,7 @@ namespace MultipleHash2008Test
             thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
             dataFlowTask = thMainPipe.InnerObject as MainPipe;
             metaDataMultipleHash = dataFlowTask.ComponentMetaDataCollection[0];
-            Assert.AreEqual(4, metaDataMultipleHash.Version, "Version failed to match on reload");
+            Assert.AreEqual(5, metaDataMultipleHash.Version, "Version failed to match on reload");
             Assert.AreEqual("#1,#2,#3", metaDataMultipleHash.OutputCollection[0].OutputColumnCollection[0].CustomPropertyCollection[Utility.InputColumnLineagePropName].Value as String, "LineageID's not updated");
         }
 

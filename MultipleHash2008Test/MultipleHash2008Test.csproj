@@ -196,7 +196,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>rem if [$(ConfigurationName)] == [UnitTest] "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u MultipleHash2008
-</PostBuildEvent>
+COPY "C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents\MultipleHash2008.dll" $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
