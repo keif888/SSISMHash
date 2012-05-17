@@ -46,6 +46,7 @@ namespace Martin.SQLServer.Dts
     #region Usings
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Security.Cryptography;
 
 #if SQL2012
@@ -78,7 +79,7 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Stores the list of input columns from SSIS.
         /// </summary>
-        private ArrayList inputColumnIDs;
+        private List<int> inputColumnIDs;  // Change from ArrayList to Generic List in the hope that it performs better.  (It should as there is no need to box/unbox)...
 
         /// <summary>
         /// Stores which hash value to generate
@@ -148,7 +149,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         public OutputColumn()
         {
-            this.inputColumnIDs = new ArrayList();
+            this.inputColumnIDs = new List<int>();
             this.outputHashType = MultipleHash.HashTypeEnumerator.None;
             this.outputColumnID = 0;
         } 
@@ -244,7 +245,7 @@ namespace Martin.SQLServer.Dts
     {
         get
         {
-            return (int)this.inputColumnIDs[index];
+            return this.inputColumnIDs[index];
         }
 
         set
@@ -263,7 +264,8 @@ namespace Martin.SQLServer.Dts
     /// <returns>The index that the value was added at</returns>
     public int Add(int inputColumnId)
     {
-        return this.inputColumnIDs.Add(inputColumnId);
+        this.inputColumnIDs.Add(inputColumnId);
+        return this.inputColumnIDs.LastIndexOf(inputColumnId);  // Return the position in the list.  Get the last time it's in the list, just in case of duplicates.
     }
     #endregion
 
