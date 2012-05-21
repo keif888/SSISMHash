@@ -186,10 +186,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-////                    stream.Dispose();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -206,10 +203,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    ////stream.Dispose();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -226,10 +220,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value.ToString("u"));
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    ////stream.Dispose();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -246,10 +237,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value.ToString("u"));
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    ////stream.Dispose();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -266,9 +254,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value.ToString());
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -285,10 +271,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    ////stream.Dispose();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -315,9 +298,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -334,9 +315,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -353,9 +332,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -372,9 +349,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -391,9 +366,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -410,9 +383,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    //stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -429,9 +400,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -448,9 +417,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -467,9 +434,7 @@ namespace Martin.SQLServer.Dts
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     writer.Write(value);
-                    byte[] bytes = stream.ToArray();
-                    stream.Close();
-                    return bytes;
+                    return stream.ToArray();
                 }
             }
         }
@@ -483,9 +448,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, bool value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, bool value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -493,9 +458,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        private static void Append(ref byte[] array, DateTimeOffset value)
+        private static void Append(ref byte[] array, ref Int32 bufferUsed, DateTimeOffset value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -503,9 +468,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, DateTime value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, DateTime value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -513,9 +478,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, TimeSpan value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, TimeSpan value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -523,9 +488,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, Guid value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, Guid value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -533,9 +498,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, ulong value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, ulong value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -543,9 +508,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, float value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, float value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -553,10 +518,14 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, byte value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, byte value)
         {
-            System.Array.Resize<byte>(ref array, array.Length + 1);
-            array[array.Length - 1] = value;
+            if (bufferUsed + 1 >= array.Length)
+            {
+                System.Array.Resize<byte>(ref array, array.Length + 1000);
+            }
+
+            array[bufferUsed++] = value;
         }
 
         /// <summary>
@@ -564,10 +533,15 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, byte[] value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, byte[] value)
         {
-            System.Array.Resize<byte>(ref array, array.Length + value.Length);
-            System.Array.Copy(value, 0, array, array.Length - value.Length, value.Length);
+            if (bufferUsed + value.Length >= array.Length)
+            {
+                System.Array.Resize<byte>(ref array, array.Length + 1000);
+            }
+
+            System.Array.Copy(value, 0, array, bufferUsed, value.Length);
+            bufferUsed += value.Length;
         }
 
         /// <summary>
@@ -575,9 +549,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, sbyte value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, sbyte value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -585,9 +559,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, short value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, short value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -595,9 +569,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, ushort value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, ushort value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -605,9 +579,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, int value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, int value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -615,9 +589,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, long value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, long value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -625,9 +599,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, uint value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, uint value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -635,9 +609,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, double value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, double value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -645,9 +619,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, decimal value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, decimal value)
         {
-            Utility.Append(ref array, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
         }
 
         /// <summary>
@@ -656,9 +630,9 @@ namespace Martin.SQLServer.Dts
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
         /// <param name="encoding">The encoding of the data</param>
-        public static void Append(ref byte[] array, char value, Encoding encoding)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, char value, Encoding encoding)
         {
-            Utility.Append(ref array, encoding.GetBytes(new char[] { value }));
+            Utility.Append(ref array, ref bufferUsed, encoding.GetBytes(new char[] { value }));
         }
 
         /// <summary>
@@ -667,9 +641,9 @@ namespace Martin.SQLServer.Dts
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
         /// <param name="encoding">Encoding To Use</param>
-        public static void Append(ref byte[] array, string value, System.Text.Encoding encoding)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, string value, System.Text.Encoding encoding)
         {
-            Utility.Append(ref array, encoding.GetBytes(value));
+            Utility.Append(ref array, ref bufferUsed, encoding.GetBytes(value));
         }
         #endregion
 
@@ -735,43 +709,47 @@ namespace Martin.SQLServer.Dts
         /// <param name="state">this is the thread state object that is passed</param>
         public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling)
         {
-            byte[] inputByteBuffer = new byte[0];
+            byte[] inputByteBuffer = new byte[1000];
+            Int32 bufferUsed = 0;
             string nullHandling = String.Empty;
             uint blobLength = 0;
+            Int32 columnToProcessID = 0;
 
             // Step through each input column for that output column
             for (int j = 0; j < columnToProcess.Count; j++)
             {
+                columnToProcessID = columnToProcess[j];  // Only call this once, as it appears to be "slow".
                 // Skip NULL values, as they "don't" exist...
-                if (!buffer.IsNull(columnToProcess[j]))
+                if (!buffer.IsNull(columnToProcessID))
                 {
                     nullHandling += "N";
-                    switch (buffer.GetColumnInfo(columnToProcess[j]).DataType)
+                    switch (buffer.GetColumnInfo(columnToProcessID).DataType)
                     {
                         case DataType.DT_BOOL:
-                            Utility.Append(ref inputByteBuffer, buffer.GetBoolean(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetBoolean(columnToProcessID));
                             break;
                         case DataType.DT_IMAGE:
-                            blobLength = buffer.GetBlobLength(columnToProcess[j]);
-                            Utility.Append(ref inputByteBuffer, buffer.GetBlobData(columnToProcess[j], 0, (int)blobLength));
+                            blobLength = buffer.GetBlobLength(columnToProcessID);
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetBlobData(columnToProcessID, 0, (int)blobLength));
                             nullHandling += blobLength.ToString();
                             break;
                         case DataType.DT_BYTES:
-                            Utility.Append(ref inputByteBuffer, buffer.GetBytes(columnToProcess[j]));
-                            nullHandling += buffer.GetBytes(columnToProcess[j]).GetLength(0).ToString();
+                            byte[] bytesFromBuffer = buffer.GetBytes(columnToProcessID);
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, bytesFromBuffer);
+                            nullHandling += bytesFromBuffer.GetLength(0).ToString();
                             break;
                         case DataType.DT_CY:
                         case DataType.DT_DECIMAL:
                         case DataType.DT_NUMERIC:
-                            Utility.Append(ref inputByteBuffer, buffer.GetDecimal(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDecimal(columnToProcessID));
                             break;
 #if SQL2005
 #else
                         case DataType.DT_DBTIMESTAMPOFFSET:
-                            Utility.Append(ref inputByteBuffer, buffer.GetDateTimeOffset(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTimeOffset(columnToProcessID));
                             break;
                         case DataType.DT_DBDATE:
-                            Utility.Append(ref inputByteBuffer, buffer.GetDate(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID));
                             break;
 #endif
                         case DataType.DT_DATE:
@@ -781,54 +759,55 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_DBTIMESTAMP2:
                         case DataType.DT_FILETIME:
 #endif
-                            Utility.Append(ref inputByteBuffer, buffer.GetDateTime(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID));
                             break;
 #if SQL2005
 #else
                         case DataType.DT_DBTIME:
                         case DataType.DT_DBTIME2:
-                            Utility.Append(ref inputByteBuffer, buffer.GetTime(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetTime(columnToProcessID));
                             break;
 #endif
                         case DataType.DT_GUID:
-                            Utility.Append(ref inputByteBuffer, buffer.GetGuid(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetGuid(columnToProcessID));
                             break;
                         case DataType.DT_I1:
-                            Utility.Append(ref inputByteBuffer, buffer.GetSByte(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetSByte(columnToProcessID));
                             break;
                         case DataType.DT_I2:
-                            Utility.Append(ref inputByteBuffer, buffer.GetInt16(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetInt16(columnToProcessID));
                             break;
                         case DataType.DT_I4:
-                            Utility.Append(ref inputByteBuffer, buffer.GetInt32(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetInt32(columnToProcessID));
                             break;
                         case DataType.DT_I8:
-                            Utility.Append(ref inputByteBuffer, buffer.GetInt64(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetInt64(columnToProcessID));
                             break;
                         case DataType.DT_NTEXT:
                         case DataType.DT_STR:
                         case DataType.DT_TEXT:
                         case DataType.DT_WSTR:
-                            Utility.Append(ref inputByteBuffer, buffer.GetString(columnToProcess[j]), Encoding.UTF8);
-                            nullHandling += buffer.GetString(columnToProcess[j]).Length.ToString();
+                            String stringFromBuffer = buffer.GetString(columnToProcessID);
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, stringFromBuffer, Encoding.UTF8);
+                            nullHandling += stringFromBuffer.Length.ToString();
                             break;
                         case DataType.DT_R4:
-                            Utility.Append(ref inputByteBuffer, buffer.GetSingle(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetSingle(columnToProcessID));
                             break;
                         case DataType.DT_R8:
-                            Utility.Append(ref inputByteBuffer, buffer.GetDouble(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDouble(columnToProcessID));
                             break;
                         case DataType.DT_UI1:
-                            Utility.Append(ref inputByteBuffer, buffer.GetByte(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetByte(columnToProcessID));
                             break;
                         case DataType.DT_UI2:
-                            Utility.Append(ref inputByteBuffer, buffer.GetUInt16(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetUInt16(columnToProcessID));
                             break;
                         case DataType.DT_UI4:
-                            Utility.Append(ref inputByteBuffer, buffer.GetUInt32(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetUInt32(columnToProcessID));
                             break;
                         case DataType.DT_UI8:
-                            Utility.Append(ref inputByteBuffer, buffer.GetUInt64(columnToProcess[j]));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetUInt64(columnToProcessID));
                             break;
                         case DataType.DT_EMPTY:
                         case DataType.DT_NULL:
@@ -844,7 +823,7 @@ namespace Martin.SQLServer.Dts
 
             if (safeNullHandling)
             {
-                Utility.Append(ref inputByteBuffer, nullHandling, Encoding.UTF8);
+                Utility.Append(ref inputByteBuffer, ref bufferUsed, nullHandling, Encoding.UTF8);
             }
 
             // Ok, we have all the data in a Byte Buffer
@@ -865,7 +844,7 @@ namespace Martin.SQLServer.Dts
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.CRC32C:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a32:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a64:
-                    hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer);
+                    hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer, 0, bufferUsed);
                     break;
                 default:
                     hash = new byte[1];
