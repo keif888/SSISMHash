@@ -8,6 +8,8 @@ mstest /testcontainer:bin/UnitTest/MultipleHash2008Test.dll
 REM Test Normal Code
 "%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType.dtsx"
 IF ERRORLEVEL 1 GOTO Failed
+"%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\TestStringGT1000Bytes.dtsx"
+IF ERRORLEVEL 1 GOTO Failed
 "%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_V1.3.1.dtsx"
 IF ERRORLEVEL 1 GOTO Failed
 "%programfiles%\Microsoft SQL Server\100\DTS\binn\dtexec" /File "..\SSIS2008TestMultipleHash\EveryDataType_MissingProperties.dtsx" > Testing.log

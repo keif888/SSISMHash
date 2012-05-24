@@ -266,6 +266,8 @@ namespace MultipleHash2008Test
         [TestInitialize()]
         public void MyTestInitialize()
         {
+            // Kill this test off if VS2008 is still open!
+            this.UIMap.Assert_VS2008StillOpen();
             this.UIMap.LoadVS2008AndAddMultipleHash();
             this.UIMap.AddPath();
         }
@@ -278,6 +280,7 @@ namespace MultipleHash2008Test
             Keyboard.SendKeys("{Escape}");
             Keyboard.SendKeys("{Escape}");
             this.UIMap.CloseAndExit();
+            Playback.Wait(2000); // Delay for 2 seconds after closing, to maybe allow for the files to be closed correctly.
         }
 
         #endregion

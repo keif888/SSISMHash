@@ -92,7 +92,7 @@ namespace Martin.SQLServer.Dts
 
      * That code has been modified to include other data types.
      * 
-     * The relevant code is in the Types to Byte Arrays and Byte Arrat Appending regions.
+     * The relevant code is in the Types to Byte Arrays and Byte Array Appending regions.
      * 
     */
 
@@ -535,13 +535,23 @@ namespace Martin.SQLServer.Dts
         /// <param name="value">Value To Append</param>
         public static void Append(ref byte[] array, ref Int32 bufferUsed, byte[] value)
         {
-            if (bufferUsed + value.Length >= array.Length)
+            int valueLength = value.Length;
+            int arrayLength = array.Length;
+
+            if (bufferUsed + valueLength >= arrayLength)
             {
-                System.Array.Resize<byte>(ref array, array.Length + 1000);
+                if (valueLength > 1000)
+                {
+                    System.Array.Resize<byte>(ref array, arrayLength + valueLength + 1000); 
+                }
+                else
+                {
+                    System.Array.Resize<byte>(ref array, arrayLength + 1000);
+                }
             }
 
-            System.Array.Copy(value, 0, array, bufferUsed, value.Length);
-            bufferUsed += value.Length;
+            System.Array.Copy(value, 0, array, bufferUsed, valueLength);
+            bufferUsed += valueLength;
         }
 
         /// <summary>

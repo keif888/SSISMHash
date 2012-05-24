@@ -397,8 +397,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[2] { 0, 1 };
             bool value = true;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -414,8 +415,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[22] { 0, 20, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 90 };
             DateTime value = new DateTime(1234567890);
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -431,8 +433,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[9] { 0, 21, 129, 233, 125, 244, 16, 34, 17 };
             long value = 1234567890123456789;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -448,8 +451,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[5] { 0, 210, 2, 150, 73 };
             uint value = 1234567890;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -465,8 +469,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[3] { 0, 210, 4 };
             ushort value = 1234;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -482,8 +487,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[5] { 0, 210, 2, 150, 73 };
             int value = 1234567890;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -500,8 +506,9 @@ namespace MultipleHash2008Test
             byte[] arrayExpected = new byte[2] { 0, 84 };
             char value = 'T';
             Encoding encoding = Encoding.UTF8;
-            Utility.Append(ref array, value, encoding);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value, encoding);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -518,8 +525,9 @@ namespace MultipleHash2008Test
             byte[] arrayExpected = new byte[22] { 0, 84, 104, 105, 115, 32, 105, 115, 32, 97, 32, 116, 101, 115, 116, 32, 115, 116, 114, 105, 110, 103 };
             string value = "This is a test string";
             Encoding encoding = Encoding.UTF8;
-            Utility.Append(ref array, value, encoding);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value, encoding);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -535,8 +543,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[9] { 0, 0, 0, 0, 192, 128, 101, 210, 65 };
             double value = 1234567890.1234567890F;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -553,8 +562,9 @@ namespace MultipleHash2008Test
             byte[] arrayExpected = new byte[17] { 0, 210, 10, 31, 235, 140, 169, 84, 171, 0, 0, 0, 0, 0, 0, 10, 0 };
             Decimal value = new Decimal();
             value = 1234567890.1234567890M;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -570,8 +580,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[9] { 0, 210, 10, 31, 235, 140, 169, 84, 171 };
             ulong value = 12345678901234567890;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -587,8 +598,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[5] { 0, 6, 44, 147, 78 };
             float value = 1234567890.1234567890F;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -604,8 +616,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[18] { 0, 16, 48, 48, 58, 48, 50, 58, 48, 51, 46, 52, 53, 54, 55, 56, 57, 48 };
             TimeSpan value = new TimeSpan(1234567890);
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -621,8 +634,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[17] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             Guid value = new Guid();
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -638,8 +652,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[2] { 0, 123 };
             sbyte value = 123;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -655,8 +670,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[3] { 0, 57, 48 };
             short value = 12345;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -672,8 +688,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[2] { 0, 123 };
             byte value = 123;
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -689,8 +706,9 @@ namespace MultipleHash2008Test
             byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[2] { 0, 123 };
             byte[] value = new byte[1] { 123 };
-            Utility.Append(ref array, value);
-            Assert.AreEqual(arrayExpected.Length, array.Length, "Values are not same length");
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
@@ -707,7 +725,9 @@ namespace MultipleHash2008Test
             byte[] arrayExpected = new byte[22] { 0, 20, 50, 48, 49, 49, 45, 48, 56, 45, 50, 49, 32, 49, 52, 58, 51, 55, 58, 48, 48, 90 };
             TimeSpan offset = new TimeSpan(1, 0, 0);
             DateTimeOffset value = new DateTimeOffset(2011, 08, 21, 15, 37, 00, offset);
-            Utility_Accessor.Append(ref array, value);
+            int usedBuffer = 1;
+            Utility_Accessor.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);

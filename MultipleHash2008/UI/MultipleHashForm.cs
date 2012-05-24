@@ -786,6 +786,10 @@ namespace Martin.SQLServer.Dts
                         {
                             if ((dgvCell.ColumnIndex == 0) && dgvCell.Selected)
                             {
+                                if ((bool)dgvCell.Value == clickedCellValue)  // Bug Fix: If multi selected, and this is already set to the target value, then skip.
+                                {
+                                    break;
+                                }
                                 dgvCell.Value = clickedCellValue;
                                 if (e.ColumnIndex == dgvInputColumnsSelected.Index)
                                 {

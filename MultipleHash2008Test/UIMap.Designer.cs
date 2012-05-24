@@ -95,6 +95,19 @@ namespace MultipleHash2008Test
         }
         
         /// <summary>
+        /// Assert_VS2008StillOpen - Use 'Assert_VS2008StillOpenExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void Assert_VS2008StillOpen()
+        {
+            #region Variable Declarations
+            WinMenuItem uISystemMenuItem = this.UIStartPageMicrosoftViWindow.UISystemMenuBar.UISystemMenuItem;
+            #endregion
+
+            // Verify that 'System' menu item's property 'Exists' equals 'False'
+            Assert.AreEqual(this.Assert_VS2008StillOpenExpectedValues.UISystemMenuItemExists, uISystemMenuItem.Exists);
+        }
+        
+        /// <summary>
         /// Assert1stRowIsYetAnotherColumn - Use 'Assert1stRowIsYetAnotherColumnExpectedValues' to pass parameters into this method.
         /// </summary>
         public void Assert1stRowIsYetAnotherColumn()
@@ -1125,6 +1138,32 @@ namespace MultipleHash2008Test
         }
         
         /// <summary>
+        /// SetHashToCRC32 - Use 'SetHashToCRC32Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToCRC32()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'CRC32' in 'None' cell
+            uINoneCell.Value = this.SetHashToCRC32Params.UINoneCellValue;
+        }
+        
+        /// <summary>
+        /// SetHashToFNV1a64 - Use 'SetHashToFNV1a64Params' to pass parameters into this method.
+        /// </summary>
+        public void SetHashToFNV1a64()
+        {
+            #region Variable Declarations
+            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
+            #endregion
+
+            // Type 'FNV1a64' in 'None' cell
+            uINoneCell.Value = this.SetHashToFNV1a64Params.UINoneCellValue;
+        }
+        
+        /// <summary>
         /// SetHashToRipeMD160 - Use 'SetHashToRipeMD160Params' to pass parameters into this method.
         /// </summary>
         public void SetHashToRipeMD160()
@@ -1162,33 +1201,7 @@ namespace MultipleHash2008Test
             // Type 'SHA256' in 'None' cell
             uINoneCell.Value = this.SetHashToSHA256Params.UINoneCellValue;
         }
-
-        /// <summary>
-        /// SetHashToCRC32 - Use 'SetHashToCRC32Params' to pass parameters into this method.
-        /// </summary>
-        public void SetHashToCRC32()
-        {
-            #region Variable Declarations
-            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
-            #endregion
-
-            // Type 'CRC32' in 'None' cell
-            uINoneCell.Value = this.SetHashToCRC32Params.UINoneCellValue;
-        }
-
-        /// <summary>
-        /// SetHashToFNV1a64 - Use 'SetHashToFNV1a64Params' to pass parameters into this method.
-        /// </summary>
-        public void SetHashToFNV1a64()
-        {
-            #region Variable Declarations
-            WinCell uINoneCell = this.UIMultipleHashFormWindow.UIDgvOutputColumnsWindow.UIDataGridViewTable.UIRow0Row1.UINoneCell;
-            #endregion
-
-            // Type 'FNV1a64' in 'None' cell
-            uINoneCell.Value = this.SetHashToFNV1a64Params.UINoneCellValue;
-        }        
-
+        
         /// <summary>
         /// UnSelectInputColumn
         /// </summary>
@@ -1249,6 +1262,18 @@ namespace MultipleHash2008Test
                     this.mAddPathParams = new AddPathParams();
                 }
                 return this.mAddPathParams;
+            }
+        }
+        
+        public virtual Assert_VS2008StillOpenExpectedValues Assert_VS2008StillOpenExpectedValues
+        {
+            get
+            {
+                if ((this.mAssert_VS2008StillOpenExpectedValues == null))
+                {
+                    this.mAssert_VS2008StillOpenExpectedValues = new Assert_VS2008StillOpenExpectedValues();
+                }
+                return this.mAssert_VS2008StillOpenExpectedValues;
             }
         }
         
@@ -1780,6 +1805,30 @@ namespace MultipleHash2008Test
             }
         }
         
+        public virtual SetHashToCRC32Params SetHashToCRC32Params
+        {
+            get
+            {
+                if ((this.mSetHashToCRC32Params == null))
+                {
+                    this.mSetHashToCRC32Params = new SetHashToCRC32Params();
+                }
+                return this.mSetHashToCRC32Params;
+            }
+        }
+        
+        public virtual SetHashToFNV1a64Params SetHashToFNV1a64Params
+        {
+            get
+            {
+                if ((this.mSetHashToFNV1a64Params == null))
+                {
+                    this.mSetHashToFNV1a64Params = new SetHashToFNV1a64Params();
+                }
+                return this.mSetHashToFNV1a64Params;
+            }
+        }
+        
         public virtual SetHashToRipeMD160Params SetHashToRipeMD160Params
         {
             get
@@ -1813,30 +1862,6 @@ namespace MultipleHash2008Test
                     this.mSetHashToSHA256Params = new SetHashToSHA256Params();
                 }
                 return this.mSetHashToSHA256Params;
-            }
-        }
-
-        public virtual SetHashToCRC32Params SetHashToCRC32Params
-        {
-            get
-            {
-                if ((this.mSetHashToCRC32Params == null))
-                {
-                    this.mSetHashToCRC32Params = new SetHashToCRC32Params();
-                }
-                return this.mSetHashToCRC32Params;
-            }
-        }
-
-        public virtual SetHashToFNV1a64Params SetHashToFNV1a64Params
-        {
-            get
-            {
-                if ((this.mSetHashToFNV1a64Params == null))
-                {
-                    this.mSetHashToFNV1a64Params = new SetHashToFNV1a64Params();
-                }
-                return this.mSetHashToFNV1a64Params;
             }
         }
         
@@ -1968,6 +1993,8 @@ namespace MultipleHash2008Test
         
         private AddPathParams mAddPathParams;
         
+        private Assert_VS2008StillOpenExpectedValues mAssert_VS2008StillOpenExpectedValues;
+        
         private Assert1stRowIsYetAnotherColumnExpectedValues mAssert1stRowIsYetAnotherColumnExpectedValues;
         
         private Assert2ndRowIsNotSelectedExpectedValues mAssert2ndRowIsNotSelectedExpectedValues;
@@ -2056,15 +2083,15 @@ namespace MultipleHash2008Test
         
         private SafeNullHandlingSelectParams mSafeNullHandlingSelectParams;
         
+        private SetHashToCRC32Params mSetHashToCRC32Params;
+        
+        private SetHashToFNV1a64Params mSetHashToFNV1a64Params;
+        
         private SetHashToRipeMD160Params mSetHashToRipeMD160Params;
         
         private SetHashToSHA1Params mSetHashToSHA1Params;
         
         private SetHashToSHA256Params mSetHashToSHA256Params;
-
-        private SetHashToCRC32Params mSetHashToCRC32Params;
-
-        private SetHashToFNV1a64Params mSetHashToFNV1a64Params;
         
         private UIStartPageMicrosoftViWindow mUIStartPageMicrosoftViWindow;
         
@@ -2150,6 +2177,21 @@ namespace MultipleHash2008Test
         /// Select 'Multiple Hash' in 'To:' combo box
         /// </summary>
         public string UITOComboBoxSelectedItem = "Multiple Hash";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'Assert_VS2008StillOpen'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class Assert_VS2008StillOpenExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'System' menu item's property 'Exists' equals 'False'
+        /// </summary>
+        public bool UISystemMenuItemExists = false;
         #endregion
     }
     
@@ -2825,6 +2867,36 @@ namespace MultipleHash2008Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'SetHashToCRC32'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToCRC32Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'CRC32' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "CRC32";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SetHashToFNV1a64'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class SetHashToFNV1a64Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'FNV1a64' in 'None' cell
+        /// </summary>
+        public string UINoneCellValue = "FNV1a64";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'SetHashToRipeMD160'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
@@ -2868,37 +2940,7 @@ namespace MultipleHash2008Test
         public string UINoneCellValue = "SHA256";
         #endregion
     }
-
-    /// <summary>
-    /// Parameters to be passed into 'SetHashToCRC32'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class SetHashToCRC32Params
-    {
-
-        #region Fields
-        /// <summary>
-        /// Type 'CRC32' in 'None' cell
-        /// </summary>
-        public string UINoneCellValue = "CRC32";
-        #endregion
-    }
-
-    /// <summary>
-    /// Parameters to be passed into 'SetHashToFNV1a64'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
-    public class SetHashToFNV1a64Params
-    {
-
-        #region Fields
-        /// <summary>
-        /// Type 'FNV1a64' in 'None' cell
-        /// </summary>
-        public string UINoneCellValue = "FNV1a64";
-        #endregion
-    }
-
+    
     [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
     public class UIStartPageMicrosoftViWindow : WinWindow
     {
@@ -3021,6 +3063,18 @@ namespace MultipleHash2008Test
                 return this.mUIPipelineTaskViewWindow;
             }
         }
+        
+        public UISystemMenuBar UISystemMenuBar
+        {
+            get
+            {
+                if ((this.mUISystemMenuBar == null))
+                {
+                    this.mUISystemMenuBar = new UISystemMenuBar(this);
+                }
+                return this.mUISystemMenuBar;
+            }
+        }
         #endregion
         
         #region Fields
@@ -3041,6 +3095,8 @@ namespace MultipleHash2008Test
         private UIItemWindow13 mUIItemWindow13;
         
         private UIPipelineTaskViewWindow mUIPipelineTaskViewWindow;
+        
+        private UISystemMenuBar mUISystemMenuBar;
         #endregion
     }
     
@@ -3636,6 +3692,42 @@ namespace MultipleHash2008Test
         
         #region Fields
         private WinControl mUIDataFlowDiagramDiagram;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    public class UISystemMenuBar : WinMenuBar
+    {
+        
+        public UISystemMenuBar(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinMenu.PropertyNames.Name] = "System";
+            this.WindowTitles.Add("Start Page - Microsoft Visual Studio (Administrator)");
+            #endregion
+        }
+        
+        #region Properties
+        public WinMenuItem UISystemMenuItem
+        {
+            get
+            {
+                if ((this.mUISystemMenuItem == null))
+                {
+                    this.mUISystemMenuItem = new WinMenuItem(this);
+                    #region Search Criteria
+                    this.mUISystemMenuItem.SearchProperties[WinMenuItem.PropertyNames.Name] = "System";
+                    this.mUISystemMenuItem.WindowTitles.Add("Start Page - Microsoft Visual Studio (Administrator)");
+                    #endregion
+                }
+                return this.mUISystemMenuItem;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinMenuItem mUISystemMenuItem;
         #endregion
     }
     
