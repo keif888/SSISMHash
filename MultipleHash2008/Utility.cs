@@ -120,6 +120,11 @@ namespace Martin.SQLServer.Dts
         /// This is the name of the SSIS Property that holds the Safe Null Handling details.
         /// </summary>
         private const string ConstSafeNullHandlingPropName = "SafeNullHandling";
+
+        /// <summary>
+        /// This is the name of the SSIS Propery that holds the Millisecond handling details.
+        /// </summary>
+        private const string ConstMillsecondPropName = "IncludeMillsecond";
         #endregion
 
         /// <summary>
@@ -173,6 +178,15 @@ namespace Martin.SQLServer.Dts
             }
         }
 
+
+        public static string HandleMillisecondPropName
+        {
+            get
+            {
+                return ConstMillsecondPropName;
+            }
+        }
+
         #region Types to Byte Arrays
         /// <summary>
         /// Converts from bool to a byte array.
@@ -213,13 +227,20 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="value">input value to convert to byte array</param>
         /// <returns>byte array</returns>
-        private static byte[] ToArray(DateTimeOffset value)
+        private static byte[] ToArray(DateTimeOffset value, Boolean millisecondHandling)
         {
             using (MemoryStream stream = new MemoryStream())
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    writer.Write(value.ToString("u"));
+                    if (millisecondHandling)
+                    {
+                        writer.Write(value.ToString("yyyy-MM-dd HH:mm:ss.fffffff zzz")); // Issue 10534 Fix (Change from u to yyyy-MM-dd HH:mm:ss.fffffff zzz).
+                    }
+                    else
+                    {
+                        writer.Write(value.ToString("u"));
+                    }
                     return stream.ToArray();
                 }
             }
@@ -230,13 +251,20 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="value">input value to convert to byte array</param>
         /// <returns>byte array</returns>
-        public static byte[] ToArray(DateTime value)
+        public static byte[] ToArray(DateTime value, Boolean millisecondHandling)
         {
             using (MemoryStream stream = new MemoryStream())
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    writer.Write(value.ToString("u"));
+                    if (millisecondHandling)  // Keep the "old" format prior to 10534 if no milliseconds.  (Date types).
+                    {
+                        writer.Write(value.ToString("yyyy-MM-dd HH:mm:ss.fffffff"));   // Issue 10534 Fix (Change from u to yyyy-MM-dd HH:mm:ss.fffffff).
+                    }
+                    else
+                    {
+                        writer.Write(value.ToString("u"));
+                    }
                     return stream.ToArray();
                 }
             }
@@ -458,9 +486,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        private static void Append(ref byte[] array, ref Int32 bufferUsed, DateTimeOffset value)
+        private static void Append(ref byte[] array, ref Int32 bufferUsed, DateTimeOffset value, Boolean millisecondHandling)
         {
-            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value, millisecondHandling));
         }
 
         /// <summary>
@@ -468,9 +496,9 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        public static void Append(ref byte[] array, ref Int32 bufferUsed, DateTime value)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, DateTime value, Boolean millisecondHandling)
         {
-            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value));
+            Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value, millisecondHandling));
         }
 
         /// <summary>
@@ -717,7 +745,7 @@ namespace Martin.SQLServer.Dts
         /// This creates the hash value from a thread
         /// </summary>
         /// <param name="state">this is the thread state object that is passed</param>
-        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling)
+        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling, bool millisecondHandling)
         {
             byte[] inputByteBuffer = new byte[1000];
             Int32 bufferUsed = 0;
@@ -756,10 +784,10 @@ namespace Martin.SQLServer.Dts
 #if SQL2005
 #else
                         case DataType.DT_DBTIMESTAMPOFFSET:
-                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTimeOffset(columnToProcessID));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTimeOffset(columnToProcessID), millisecondHandling);
                             break;
                         case DataType.DT_DBDATE:
-                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID), millisecondHandling);
                             break;
 #endif
                         case DataType.DT_DATE:
@@ -769,7 +797,7 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_DBTIMESTAMP2:
                         case DataType.DT_FILETIME:
 #endif
-                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID));
+                            Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID), millisecondHandling);
                             break;
 #if SQL2005
 #else

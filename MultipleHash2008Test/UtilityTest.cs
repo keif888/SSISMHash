@@ -297,15 +297,33 @@ namespace MultipleHash2008Test
         public void ToArrayTestDateTime()
         {
             DateTime value = new DateTime(1234567890);
-            byte[] expected = new byte[21] { 20, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 90 };
+            byte[] expected = new byte[28] { 27, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 46, 52, 53, 54, 55, 56, 57, 48 };
             byte[] actual;
-            actual = Utility.ToArray(value);
+            actual = Utility.ToArray(value, true);
             Assert.AreEqual(expected.Length, actual.Length, "Values are not same length");
             for (int i = 0; i < expected.Length; i++)
             {
                 Assert.AreEqual(expected[i], actual[i]);
             }
         }
+
+        /// <summary>
+        ///A test for ToArray
+        ///</summary>
+        [TestMethod()]
+        public void ToArrayTestDateTimeFalse()
+        {
+            DateTime value = new DateTime(1234567890);
+            byte[] expected = new byte[21] { 20, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 90 };
+            byte[] actual;
+            actual = Utility.ToArray(value, false);
+            Assert.AreEqual(expected.Length, actual.Length, "Values are not same length");
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.AreEqual(expected[i], actual[i]);
+            }
+        }
+
 
         /// <summary>
         ///A test for ToArray
@@ -413,10 +431,28 @@ namespace MultipleHash2008Test
         public void AppendTestDateTime()
         {
             byte[] array = new byte[1] { 0 };
+            byte[] arrayExpected = new byte[29] { 0, 27, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 46, 52, 53, 54, 55, 56, 57, 48 };
+            DateTime value = new DateTime(1234567890);
+            int usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value, true);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
+            for (int i = 0; i < arrayExpected.Length; i++)
+            {
+                Assert.AreEqual(arrayExpected[i], array[i]);
+            }
+        }
+
+        /// <summary>
+        ///A test for Append
+        ///</summary>
+        [TestMethod()]
+        public void AppendTestDateTimeFalse()
+        {
+            byte[] array = new byte[1] { 0 };
             byte[] arrayExpected = new byte[22] { 0, 20, 48, 48, 48, 49, 45, 48, 49, 45, 48, 49, 32, 48, 48, 58, 48, 50, 58, 48, 51, 90 };
             DateTime value = new DateTime(1234567890);
             int usedBuffer = 1;
-            Utility.Append(ref array, ref usedBuffer, value);
+            Utility.Append(ref array, ref usedBuffer, value, false);
             Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
@@ -726,7 +762,7 @@ namespace MultipleHash2008Test
             TimeSpan offset = new TimeSpan(1, 0, 0);
             DateTimeOffset value = new DateTimeOffset(2011, 08, 21, 15, 37, 00, offset);
             int usedBuffer = 1;
-            Utility_Accessor.Append(ref array, ref usedBuffer, value);
+            Utility_Accessor.Append(ref array, ref usedBuffer, value, false);
             Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
             for (int i = 0; i < arrayExpected.Length; i++)
             {
@@ -742,9 +778,26 @@ namespace MultipleHash2008Test
         {
             TimeSpan offset = new TimeSpan(1, 0, 0);
             DateTimeOffset value = new DateTimeOffset(2011, 08, 21, 15, 37, 00, offset);
+            byte[] expected = new byte[35] { 34, 50, 48, 49, 49, 45, 48, 56, 45, 50, 49, 32, 49, 53, 58, 51, 55, 58, 48, 48, 46, 48, 48, 48, 48, 48, 48, 48, 32, 43, 48, 49, 58, 48, 48 };
+            byte[] actual;
+            actual = Utility_Accessor.ToArray(value, true);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.AreEqual(expected[i], actual[i]);
+            }
+        }
+
+        /// <summary>
+        ///A test for ToArray
+        ///</summary>
+        [TestMethod()]
+        public void ToArrayTestDateTimeOffsetFalse()
+        {
+            TimeSpan offset = new TimeSpan(1, 0, 0);
+            DateTimeOffset value = new DateTimeOffset(2011, 08, 21, 15, 37, 00, offset);
             byte[] expected = new byte[21] { 20, 50, 48, 49, 49, 45, 48, 56, 45, 50, 49, 32, 49, 52, 58, 51, 55, 58, 48, 48, 90 };
             byte[] actual;
-            actual = Utility_Accessor.ToArray(value);
+            actual = Utility_Accessor.ToArray(value, false);
             for (int i = 0; i < expected.Length; i++)
             {
                 Assert.AreEqual(expected[i], actual[i]);

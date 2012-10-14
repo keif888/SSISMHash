@@ -108,7 +108,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 5)]
+        CurrentVersion = 6)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -143,6 +143,11 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         private bool safeNullHandling;
 
+        /// <summary>
+        /// Are milliseconds to be detected by Utility.ToArray? 
+        /// </summary>
+        private bool includeMilliseconds;
+        
         /// <summary>
         /// An array of Events that are used to signal that all the
         /// child threads have finished.
@@ -247,6 +252,19 @@ namespace Martin.SQLServer.Dts
             True
         }
 
+        public enum MillisecondHandling
+        {
+            /// <summary>
+            /// Version 1.5 and earlier compatability.  Milliseconds are not hashed.
+            /// </summary>
+            False,
+            /// <summary>
+            /// Force Milliseconds to be hashed.
+            /// </summary>
+            True
+
+        }
+
         #endregion
         #region Design Time
 
@@ -274,6 +292,8 @@ namespace Martin.SQLServer.Dts
             {
                 bool blnFoundThreadProperty = false;
                 bool blnFoundHandleNullsProperty = false;
+                bool blnFoundMillisecondProperty = false;
+
                 foreach (IDTSCustomProperty customProperty in this.ComponentMetaData.CustomPropertyCollection)
                 {
                     if (customProperty.Name == Utility.MultipleThreadPropName)
@@ -284,11 +304,16 @@ namespace Martin.SQLServer.Dts
                     {
                         blnFoundHandleNullsProperty = true;
                     }
-                    if (blnFoundHandleNullsProperty && blnFoundThreadProperty)
+                    if (customProperty.Name == Utility.HandleMillisecondPropName)
+                    {
+                        blnFoundMillisecondProperty = true;
+                    }
+                    if (blnFoundHandleNullsProperty && blnFoundThreadProperty && blnFoundMillisecondProperty)
                     {
                         break;
                     }
                 }
+                
                 if (!blnFoundThreadProperty)
                 {
                     MultipleHash.AddMultipleThreadProperty(this.ComponentMetaData);
@@ -299,6 +324,12 @@ namespace Martin.SQLServer.Dts
                     MultipleHash.AddSafeNullHandlingProperty(this.ComponentMetaData);
                     // Change to False as this is an upgrade, and we should be compatible after upgrade.
                     this.ComponentMetaData.CustomPropertyCollection[Utility.SafeNullHandlingPropName].Value = SafeNullHandling.False;
+                }
+
+                if (!blnFoundMillisecondProperty)
+                {
+                    MultipleHash.AddMillisecondHandleProperty(this.ComponentMetaData);
+                    this.ComponentMetaData.CustomPropertyCollection[Utility.HandleMillisecondPropName].Value = MillisecondHandling.False;
                 }
 
                 foreach (IDTSOutputColumn outputColumn in this.ComponentMetaData.OutputCollection[0].OutputColumnCollection)
@@ -379,6 +410,9 @@ namespace Martin.SQLServer.Dts
             // Add the Safe Null Handling property, as True...
             MultipleHash.AddSafeNullHandlingProperty(this.ComponentMetaData);
 
+            // Add the Millisecond property as True.
+            MultipleHash.AddMillisecondHandleProperty(this.ComponentMetaData);
+
             // Name the input and output, and make the output asynchronous.
             ComponentMetaData.InputCollection[0].Name = "Input";
 
@@ -404,6 +438,7 @@ namespace Martin.SQLServer.Dts
         {
             int testMultiThreadThere = 0;
             int testSafeNullThere = 0;
+            int testMillisecondThere = 0;
 
             // Check that the MultiThread property is there.
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
@@ -423,6 +458,15 @@ namespace Martin.SQLServer.Dts
                     if (!Enum.IsDefined(typeof(SafeNullHandling), customProperty.Value))
                     {
                         this.InternalFireError(Properties.Resources.PropertyNullHandlingInvalid);
+                        return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                    }
+                }
+                if (customProperty.Name == Utility.HandleMillisecondPropName)
+                {
+                    testMillisecondThere++;
+                    if (!Enum.IsDefined(typeof(MillisecondHandling), customProperty.Value))
+                    {
+                        this.InternalFireError(Properties.Resources.PropertyMillisecondInvalid);
                         return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                     }
                 }
@@ -715,6 +759,7 @@ namespace Martin.SQLServer.Dts
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
             int multiThreadCount = 0;
             int testSafeNullThere = 0;
+            int testMillisecondThere = 0;
             List<int> itemsToRemove = new List<int>();
 
             // Make sure that ONLY the right properties are here.
@@ -753,6 +798,23 @@ namespace Martin.SQLServer.Dts
                         }
                     }
                 }
+
+                if (customProperty.Name == Utility.HandleMillisecondPropName)
+                {
+                    testMillisecondThere++;
+                    if (testMillisecondThere > 1)
+                    {
+                        itemsToRemove.Add(customProperty.ID);
+                    }
+                    else
+                    {
+                        if (!Enum.IsDefined(typeof(MillisecondHandling), customProperty.Value))
+                        {
+                            itemsToRemove.Add(customProperty.ID);
+                            testMillisecondThere--;
+                        }
+                    }
+                }
             }
 
             foreach (int removeItem in itemsToRemove)
@@ -768,6 +830,11 @@ namespace Martin.SQLServer.Dts
             if (testSafeNullThere == 0)
             {
                 MultipleHash.AddSafeNullHandlingProperty(ComponentMetaData);
+            }
+
+            if (testMillisecondThere == 0)
+            {
+                MultipleHash.AddMillisecondHandleProperty(ComponentMetaData);
             }
 
             // Go through all the output columns now.
@@ -1047,6 +1114,18 @@ namespace Martin.SQLServer.Dts
                         this.safeNullHandling = false;
                     }
                 }
+
+                if (customProperty.Name == Utility.HandleMillisecondPropName)
+                {
+                    if ((MillisecondHandling)customProperty.Value == MillisecondHandling.True)
+                    {
+                        this.includeMilliseconds = true;
+                    }
+                    else
+                    {
+                        this.includeMilliseconds = false;
+                    }
+                }
             }
 
             switch (testThread)
@@ -1145,7 +1224,7 @@ namespace Martin.SQLServer.Dts
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
                             this.threadResets[i] = new ManualResetEvent(false);
-                            passThreadState = new PassThreadState(this.outputColumnsArray[i], buffer, this.ComponentMetaData, this.threadResets[i], this.safeNullHandling);
+                            passThreadState = new PassThreadState(this.outputColumnsArray[i], buffer, this.ComponentMetaData, this.threadResets[i], this.safeNullHandling, this.includeMilliseconds);
                             ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessOutputColumn.CalculateHash), passThreadState);
 #if DEBUG
                             ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
@@ -1165,7 +1244,7 @@ namespace Martin.SQLServer.Dts
                         // Step through each output column
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
-                            Utility.CalculateHash(this.outputColumnsArray[i], buffer, this.safeNullHandling);
+                            Utility.CalculateHash(this.outputColumnsArray[i], buffer, this.safeNullHandling, this.includeMilliseconds);
                         }
                     }
                 }
@@ -1406,7 +1485,7 @@ namespace Martin.SQLServer.Dts
         /// <param name="metaData">The component MetaData to add the new property to</param>
         static private void AddSafeNullHandlingProperty(IDTSComponentMetaData metaData)
         {
-            // Add the Multi Thread Property
+            // Add the Safe Null Handling Property
             IDTSCustomProperty safeNullHandlingProperty = metaData.CustomPropertyCollection.New();
             safeNullHandlingProperty.Description = "Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability.";
             safeNullHandlingProperty.Name = Utility.SafeNullHandlingPropName;
@@ -1415,6 +1494,25 @@ namespace Martin.SQLServer.Dts
             safeNullHandlingProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
             safeNullHandlingProperty.TypeConverter = typeof(SafeNullHandling).AssemblyQualifiedName;
             safeNullHandlingProperty.Value = SafeNullHandling.True;
+        }
+        #endregion
+
+        #region AddMillisecondHandleProperty
+        /// <summary>
+        /// Creates a new custom property collection to hold the Millisecond Handling property
+        /// </summary>
+        /// <param name="metaData">The component MetaData to add the new property to</param>
+        static private void AddMillisecondHandleProperty(IDTSComponentMetaData metaData)
+        {
+            // Add the Millisecond Property
+            IDTSCustomProperty millisecondHandlingProperty = metaData.CustomPropertyCollection.New();
+            millisecondHandlingProperty.Description = "Select True to enable hashing of Milliseconds, False for earlier version compatability.";
+            millisecondHandlingProperty.Name = Utility.HandleMillisecondPropName;
+            millisecondHandlingProperty.ContainsID = false;
+            millisecondHandlingProperty.EncryptionRequired = false;
+            millisecondHandlingProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            millisecondHandlingProperty.TypeConverter = typeof(MillisecondHandling).AssemblyQualifiedName;
+            millisecondHandlingProperty.Value = MillisecondHandling.True;
         }
         #endregion
 

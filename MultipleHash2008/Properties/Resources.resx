@@ -177,6 +177,9 @@
   <data name="PropertyInputColumnLineageIDsMissing" xml:space="preserve">
     <value>The output property InputColumnLineageIDs is missing from column %s.</value>
   </data>
+  <data name="PropertyMillisecondInvalid" xml:space="preserve">
+    <value>The property MillisecondHandling is set to an invalid value.</value>
+  </data>
   <data name="PropertyMultiThreadInvalid" xml:space="preserve">
     <value>The property MultiThread is set to an invalid value.</value>
   </data>
