@@ -74,7 +74,7 @@
 <DTS:Property DTS:Name="CreationName">SSIS.Pipeline.2</DTS:Property>
 <DTS:Property DTS:Name="DisableEventHandlers">0</DTS:Property><DTS:ObjectData><pipeline id="0" name="pipelineXml" description="pipelineXml" defaultBufferMaxRows="10000" engineThreads="10" defaultBufferSize="10485760" BLOBTempStoragePath="" bufferTempStoragePath="" runInOptimizedMode="true">
 <components>
-<component id="18" name="Multiple Hash Safe Not Thread" componentClassID="{2E42D45B-F83C-400F-8D77-61DDE6A7DF29}" description="Creates Multiple Hash's from selected input columns." localeId="-1" usesDispositions="false" validateExternalMetadata="True" version="5" pipelineVersion="0" contactInfo="">
+<component id="18" name="Multiple Hash Safe Not Thread" componentClassID="{2E42D45B-F83C-400F-8D77-61DDE6A7DF29}" description="Creates Multiple Hash's from selected input columns." localeId="-1" usesDispositions="false" validateExternalMetadata="True" version="6" pipelineVersion="0" contactInfo="">
 <properties>
 <property id="23" name="UserComponentTypeName" dataType="System.String" state="default" isArray="false" description="" typeConverter="" UITypeEditor="" containsID="false" expressionType="None">Martin.SQLServer.Dts.MultipleHash, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
 </properties>
