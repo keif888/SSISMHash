@@ -25,7 +25,7 @@ namespace MultipleHash2008Test
     using MouseButtons = System.Windows.Forms.MouseButtons;
     
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public partial class UIMap
     {
         
@@ -1228,6 +1228,61 @@ namespace MultipleHash2008Test
             Mouse.Click(uITrueCell, new Point(24, 8));
         }
         
+        /// <summary>
+        /// CheckMillisecondBox - Use 'CheckMillisecondBoxParams' to pass parameters into this method.
+        /// </summary>
+        public void CheckMillisecondBox()
+        {
+            #region Variable Declarations
+            WinCheckBox uIMillisecondsCheckBox = this.UIMultipleHashFormWindow.UIMillisecondsWindow.UIMillisecondsCheckBox;
+            #endregion
+
+            // Select 'Milliseconds?' check box
+            uIMillisecondsCheckBox.Checked = this.CheckMillisecondBoxParams.UIMillisecondsCheckBoxChecked;
+        }
+        
+        /// <summary>
+        /// UnCheckMillisecondBox - Use 'UnCheckMillisecondBoxParams' to pass parameters into this method.
+        /// </summary>
+        public void UnCheckMillisecondBox()
+        {
+            #region Variable Declarations
+            WinCheckBox uIMillisecondsCheckBox = this.UIMultipleHashFormWindow.UIMillisecondsWindow.UIMillisecondsCheckBox;
+            #endregion
+
+            // Clear 'Milliseconds?' check box
+            uIMillisecondsCheckBox.Checked = this.UnCheckMillisecondBoxParams.UIMillisecondsCheckBoxChecked;
+        }
+        
+        /// <summary>
+        /// AssertMillisecondsChecked - Use 'AssertMillisecondsCheckedExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void AssertMillisecondsChecked()
+        {
+            #region Variable Declarations
+            WinCheckBox uIMillisecondsCheckBox = this.UIMultipleHashFormWindow.UIMillisecondsWindow.UIMillisecondsCheckBox;
+            #endregion
+
+            // Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+            Assert.AreEqual(this.AssertMillisecondsCheckedExpectedValues.UIMillisecondsCheckBoxControlType, uIMillisecondsCheckBox.ControlType.ToString());
+
+            // Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+            Assert.AreEqual(this.AssertMillisecondsCheckedExpectedValues.UIMillisecondsCheckBoxControlType1, uIMillisecondsCheckBox.ControlType.ToString());
+        }
+        
+        /// <summary>
+        /// AssertMillisecondsUnChecked - Use 'AssertMillisecondsUnCheckedExpectedValues' to pass parameters into this method.
+        /// </summary>
+        public void AssertMillisecondsUnChecked()
+        {
+            #region Variable Declarations
+            WinCheckBox uIMillisecondsCheckBox = this.UIMultipleHashFormWindow.UIMillisecondsWindow.UIMillisecondsCheckBox;
+            #endregion
+
+            // Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+            Assert.AreEqual(this.AssertMillisecondsUnCheckedExpectedValues.UIMillisecondsCheckBoxControlType, uIMillisecondsCheckBox.ControlType.ToString());
+        }
+        
         #region Properties
         public virtual AddAnotherOutputHasColumnAsSHA1Params AddAnotherOutputHasColumnAsSHA1Params
         {
@@ -1865,6 +1920,54 @@ namespace MultipleHash2008Test
             }
         }
         
+        public virtual CheckMillisecondBoxParams CheckMillisecondBoxParams
+        {
+            get
+            {
+                if ((this.mCheckMillisecondBoxParams == null))
+                {
+                    this.mCheckMillisecondBoxParams = new CheckMillisecondBoxParams();
+                }
+                return this.mCheckMillisecondBoxParams;
+            }
+        }
+        
+        public virtual UnCheckMillisecondBoxParams UnCheckMillisecondBoxParams
+        {
+            get
+            {
+                if ((this.mUnCheckMillisecondBoxParams == null))
+                {
+                    this.mUnCheckMillisecondBoxParams = new UnCheckMillisecondBoxParams();
+                }
+                return this.mUnCheckMillisecondBoxParams;
+            }
+        }
+        
+        public virtual AssertMillisecondsCheckedExpectedValues AssertMillisecondsCheckedExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertMillisecondsCheckedExpectedValues == null))
+                {
+                    this.mAssertMillisecondsCheckedExpectedValues = new AssertMillisecondsCheckedExpectedValues();
+                }
+                return this.mAssertMillisecondsCheckedExpectedValues;
+            }
+        }
+        
+        public virtual AssertMillisecondsUnCheckedExpectedValues AssertMillisecondsUnCheckedExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertMillisecondsUnCheckedExpectedValues == null))
+                {
+                    this.mAssertMillisecondsUnCheckedExpectedValues = new AssertMillisecondsUnCheckedExpectedValues();
+                }
+                return this.mAssertMillisecondsUnCheckedExpectedValues;
+            }
+        }
+        
         public UIStartPageMicrosoftViWindow UIStartPageMicrosoftViWindow
         {
             get
@@ -2093,6 +2196,14 @@ namespace MultipleHash2008Test
         
         private SetHashToSHA256Params mSetHashToSHA256Params;
         
+        private CheckMillisecondBoxParams mCheckMillisecondBoxParams;
+        
+        private UnCheckMillisecondBoxParams mUnCheckMillisecondBoxParams;
+        
+        private AssertMillisecondsCheckedExpectedValues mAssertMillisecondsCheckedExpectedValues;
+        
+        private AssertMillisecondsUnCheckedExpectedValues mAssertMillisecondsUnCheckedExpectedValues;
+        
         private UIStartPageMicrosoftViWindow mUIStartPageMicrosoftViWindow;
         
         private UIOpenProjectWindow mUIOpenProjectWindow;
@@ -2118,7 +2229,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AddAnotherOutputHasColumnAsSHA1'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AddAnotherOutputHasColumnAsSHA1Params
     {
         
@@ -2143,7 +2254,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AddOutputHasColumnAsMD5'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AddOutputHasColumnAsMD5Params
     {
         
@@ -2168,7 +2279,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AddPath'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AddPathParams
     {
         
@@ -2183,7 +2294,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Assert_VS2008StillOpen'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Assert_VS2008StillOpenExpectedValues
     {
         
@@ -2198,7 +2309,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Assert1stRowIsYetAnotherColumn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Assert1stRowIsYetAnotherColumnExpectedValues
     {
         
@@ -2213,7 +2324,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Assert2ndRowIsNotSelected'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Assert2ndRowIsNotSelectedExpectedValues
     {
         
@@ -2228,7 +2339,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Assert2ndRowIsSelected'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Assert2ndRowIsSelectedExpectedValues
     {
         
@@ -2243,7 +2354,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Assert2ndRowIsYetAnotherColumn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Assert2ndRowIsYetAnotherColumnExpectedValues
     {
         
@@ -2258,7 +2369,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAddOutputNotAllowed'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAddOutputNotAllowedExpectedValues
     {
         
@@ -2274,7 +2385,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorInputColumnChecked'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorInputColumnCheckedExpectedValues
     {
         
@@ -2289,7 +2400,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorInputColumnUnChecked'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorInputColumnUnCheckedExpectedValues
     {
         
@@ -2304,7 +2415,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorInputReadWriteNotSupported'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorInputReadWriteNotSupportedExpectedValues
     {
         
@@ -2319,7 +2430,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorMultipleThreadAuto'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorMultipleThreadAutoExpectedValues
     {
         
@@ -2334,7 +2445,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorMultipleThreadNone'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorMultipleThreadNoneExpectedValues
     {
         
@@ -2349,7 +2460,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorMultipleThreadOn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorMultipleThreadOnExpectedValues
     {
         
@@ -2364,7 +2475,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorOutputColumnDescription'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorOutputColumnDescriptionExpectedValues
     {
         
@@ -2379,7 +2490,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorOutputColumnHashType'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorOutputColumnHashTypeExpectedValues
     {
         
@@ -2394,7 +2505,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorOutputColumnLineageIDOK'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorOutputColumnLineageIDOKExpectedValues
     {
         
@@ -2409,7 +2520,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorOutputColumnName'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorOutputColumnNameExpectedValues
     {
         
@@ -2424,7 +2535,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorOutputColumnSHA1Length'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorOutputColumnSHA1LengthExpectedValues
     {
         
@@ -2439,7 +2550,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertAdvancedEditorPropertyValueNotSupported'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertAdvancedEditorPropertyValueNotSupportedExpectedValues
     {
         
@@ -2454,7 +2565,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertMultipleThreadAuto'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertMultipleThreadAutoExpectedValues
     {
         
@@ -2469,7 +2580,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertMultipleThreadNone'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertMultipleThreadNoneExpectedValues
     {
         
@@ -2484,7 +2595,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertMultipleThreadOn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertMultipleThreadOnExpectedValues
     {
         
@@ -2499,7 +2610,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertOutputColumnsAreZero'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertOutputColumnsAreZeroExpectedValues
     {
         
@@ -2514,7 +2625,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertSafeNullHandlingClearAssert'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertSafeNullHandlingClearAssertExpectedValues
     {
         
@@ -2529,7 +2640,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertSafeNullHandlingSelectAssert'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertSafeNullHandlingSelectAssertExpectedValues
     {
         
@@ -2544,7 +2655,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'AssertSortPositionIsZero'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class AssertSortPositionIsZeroExpectedValues
     {
         
@@ -2559,7 +2670,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'Delete2ndOutputColumn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class Delete2ndOutputColumnParams
     {
         
@@ -2574,7 +2685,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'DeletePathFromScriptToMultipleHash'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class DeletePathFromScriptToMultipleHashParams
     {
         
@@ -2589,7 +2700,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'LoadVS2008AndAddMultipleHash'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class LoadVS2008AndAddMultipleHashParams
     {
         
@@ -2609,7 +2720,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputColumnsSelectColumn_1'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputColumnsSelectColumn_1Params
     {
         
@@ -2624,7 +2735,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputColumnsSetReadWrite'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputColumnsSetReadWriteParams
     {
         
@@ -2639,7 +2750,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputColumnsUnselectColumn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputColumnsUnselectColumnParams
     {
         
@@ -2654,7 +2765,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesAddColumn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesAddColumnParams
     {
         
@@ -2669,7 +2780,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesFixDataType'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesFixDataTypeParams
     {
         
@@ -2684,7 +2795,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesSetDataType'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesSetDataTypeParams
     {
         
@@ -2699,7 +2810,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesSetDescription'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesSetDescriptionParams
     {
         
@@ -2714,7 +2825,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesSetLineageID'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesSetLineageIDParams
     {
         
@@ -2729,7 +2840,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesSetLineageIDBad'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesSetLineageIDBadParams
     {
         
@@ -2744,7 +2855,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorInputOutputPropertiesSetSHA1'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorInputOutputPropertiesSetSHA1Params
     {
         
@@ -2759,7 +2870,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleHashAdvancedEditorMultipleThreadsAuto'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleHashAdvancedEditorMultipleThreadsAutoParams
     {
         
@@ -2774,7 +2885,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleThreadAutoToNone'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleThreadAutoToNoneParams
     {
         
@@ -2794,7 +2905,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleThreadNoneToAuto'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleThreadNoneToAutoParams
     {
         
@@ -2809,7 +2920,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'MultipleThreadNoneToOn'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class MultipleThreadNoneToOnParams
     {
         
@@ -2824,7 +2935,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'PressEscape'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class PressEscapeParams
     {
         
@@ -2839,7 +2950,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SafeNullHandlingClear'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SafeNullHandlingClearParams
     {
         
@@ -2854,7 +2965,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SafeNullHandlingSelect'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SafeNullHandlingSelectParams
     {
         
@@ -2869,7 +2980,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SetHashToCRC32'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SetHashToCRC32Params
     {
         
@@ -2884,7 +2995,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SetHashToFNV1a64'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SetHashToFNV1a64Params
     {
         
@@ -2899,7 +3010,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SetHashToRipeMD160'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SetHashToRipeMD160Params
     {
         
@@ -2914,7 +3025,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SetHashToSHA1'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SetHashToSHA1Params
     {
         
@@ -2929,7 +3040,7 @@ namespace MultipleHash2008Test
     /// <summary>
     /// Parameters to be passed into 'SetHashToSHA256'
     /// </summary>
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class SetHashToSHA256Params
     {
         
@@ -2941,7 +3052,72 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    /// <summary>
+    /// Parameters to be passed into 'CheckMillisecondBox'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
+    public class CheckMillisecondBoxParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Select 'Milliseconds?' check box
+        /// </summary>
+        public bool UIMillisecondsCheckBoxChecked = true;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'UnCheckMillisecondBox'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
+    public class UnCheckMillisecondBoxParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Clear 'Milliseconds?' check box
+        /// </summary>
+        public bool UIMillisecondsCheckBoxChecked = false;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertMillisecondsChecked'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
+    public class AssertMillisecondsCheckedExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+        /// </summary>
+        public string UIMillisecondsCheckBoxControlType = "CheckBox";
+        
+        /// <summary>
+        /// Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+        /// </summary>
+        public string UIMillisecondsCheckBoxControlType1 = "CheckBox";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertMillisecondsUnChecked'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
+    public class AssertMillisecondsUnCheckedExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that 'Milliseconds?' check box's property 'ControlType' equals 'CheckBox'
+        /// </summary>
+        public string UIMillisecondsCheckBoxControlType = "CheckBox";
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIStartPageMicrosoftViWindow : WinWindow
     {
         
@@ -3100,7 +3276,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMenuBarMenuBar : WinMenuBar
     {
         
@@ -3133,7 +3309,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIFileMenuItem : WinMenuItem
     {
         
@@ -3204,7 +3380,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOpenMenuItem : WinMenuItem
     {
         
@@ -3242,7 +3418,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISolutionExplorerWindow : WinWindow
     {
         
@@ -3275,7 +3451,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISolutionExplorerTree : WinTree
     {
         
@@ -3306,7 +3482,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISSIS2008TestMultipleTreeItem : WinTreeItem
     {
         
@@ -3339,7 +3515,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISSISPackagesTreeItem : WinTreeItem
     {
         
@@ -3381,7 +3557,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIToolBarWindow : WinWindow
     {
         
@@ -3413,7 +3589,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIToolBarToolBar : WinToolBar
     {
         
@@ -3449,7 +3625,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow : WinWindow
     {
         
@@ -3485,7 +3661,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIToolboxTree : WinTree
     {
         
@@ -3521,7 +3697,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow1 : WinWindow
     {
         
@@ -3556,7 +3732,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow12 : WinWindow
     {
         
@@ -3591,7 +3767,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow13 : WinWindow
     {
         
@@ -3626,7 +3802,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIPipelineTaskViewWindow : WinWindow
     {
         
@@ -3658,7 +3834,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIToeditaDataFlowtasksClient : WinClient
     {
         
@@ -3695,7 +3871,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISystemMenuBar : WinMenuBar
     {
         
@@ -3731,7 +3907,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOpenProjectWindow : WinWindow
     {
         
@@ -3777,7 +3953,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow2 : WinWindow
     {
         
@@ -3810,7 +3986,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISSIS2008TestMultipleListItem : WinListItem
     {
         
@@ -3846,7 +4022,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow11 : WinWindow
     {
         
@@ -3879,7 +4055,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISSIS2008TestMultipleListItem1 : WinListItem
     {
         
@@ -3915,7 +4091,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMultipleHashFormWindow : WinWindow
     {
         
@@ -4060,6 +4236,18 @@ namespace MultipleHash2008Test
                 return this.mUIMoveDownWindow;
             }
         }
+        
+        public UIMillisecondsWindow UIMillisecondsWindow
+        {
+            get
+            {
+                if ((this.mUIMillisecondsWindow == null))
+                {
+                    this.mUIMillisecondsWindow = new UIMillisecondsWindow(this);
+                }
+                return this.mUIMillisecondsWindow;
+            }
+        }
         #endregion
         
         #region Fields
@@ -4084,10 +4272,12 @@ namespace MultipleHash2008Test
         private UIMoveUpWindow mUIMoveUpWindow;
         
         private UIMoveDownWindow mUIMoveDownWindow;
+        
+        private UIMillisecondsWindow mUIMillisecondsWindow;
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDgvAvailableColumnsWindow : WinWindow
     {
         
@@ -4119,7 +4309,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDataGridViewTable : WinTable
     {
         
@@ -4193,7 +4383,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row : WinRow
     {
         
@@ -4230,7 +4420,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row : WinRow
     {
         
@@ -4267,7 +4457,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row1 : WinRow
     {
         
@@ -4304,7 +4494,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row1 : WinRow
     {
         
@@ -4341,7 +4531,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOKWindow : WinWindow
     {
         
@@ -4377,7 +4567,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UISafeNullHandlingWindow : WinWindow
     {
         
@@ -4413,7 +4603,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UICbThreadingWindow : WinWindow
     {
         
@@ -4448,7 +4638,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UITcTabsWindow : WinWindow
     {
         
@@ -4520,7 +4710,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDgvOutputColumnsWindow : WinWindow
     {
         
@@ -4552,7 +4742,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDataGridViewTable1 : WinTable
     {
         
@@ -4626,7 +4816,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row2 : WinRow
     {
         
@@ -4663,7 +4853,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row11 : WinRow
     {
         
@@ -4700,7 +4890,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row11 : WinRow
     {
         
@@ -4737,7 +4927,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row2 : WinRow
     {
         
@@ -4791,7 +4981,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDgvHashColumnsWindow : WinWindow
     {
         
@@ -4823,7 +5013,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDataGridViewTable2 : WinTable
     {
         
@@ -4897,7 +5087,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row3 : WinRow
     {
         
@@ -4934,7 +5124,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row12 : WinRow
     {
         
@@ -4989,7 +5179,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row3 : WinRow
     {
         
@@ -5026,7 +5216,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row21 : WinRow
     {
         
@@ -5063,7 +5253,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow3 : WinWindow
     {
         
@@ -5098,7 +5288,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDgvInputColumnsWindow : WinWindow
     {
         
@@ -5130,7 +5320,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDataGridViewTable3 : WinTable
     {
         
@@ -5204,7 +5394,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row4 : WinRow
     {
         
@@ -5241,7 +5431,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow0Row13 : WinRow
     {
         
@@ -5278,7 +5468,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row4 : WinRow
     {
         
@@ -5315,7 +5505,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRow1Row12 : WinRow
     {
         
@@ -5352,7 +5542,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMoveUpWindow : WinWindow
     {
         
@@ -5388,7 +5578,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMoveDownWindow : WinWindow
     {
         
@@ -5424,7 +5614,43 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
+    public class UIMillisecondsWindow : WinWindow
+    {
+        
+        public UIMillisecondsWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlName] = "cbMilliseconds";
+            this.WindowTitles.Add("MultipleHashForm");
+            #endregion
+        }
+        
+        #region Properties
+        public WinCheckBox UIMillisecondsCheckBox
+        {
+            get
+            {
+                if ((this.mUIMillisecondsCheckBox == null))
+                {
+                    this.mUIMillisecondsCheckBox = new WinCheckBox(this);
+                    #region Search Criteria
+                    this.mUIMillisecondsCheckBox.SearchProperties[WinCheckBox.PropertyNames.Name] = "Milliseconds?";
+                    this.mUIMillisecondsCheckBox.WindowTitles.Add("MultipleHashForm");
+                    #endregion
+                }
+                return this.mUIMillisecondsCheckBox;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinCheckBox mUIMillisecondsCheckBox;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIComponentMenuWindow : WinWindow
     {
         
@@ -5456,7 +5682,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIComponentMenuMenu : WinMenu
     {
         
@@ -5510,7 +5736,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIAdvancedEditorforMulWindow : WinWindow
     {
         
@@ -5710,7 +5936,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIPropertyGridViewWindow : WinWindow
     {
         
@@ -5743,7 +5969,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIPropertyGridViewTable : WinTable
     {
         
@@ -6059,7 +6285,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOKWindow1 : WinWindow
     {
         
@@ -6095,7 +6321,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UITheadvancededitorproTabList : WinTabList
     {
         
@@ -6151,7 +6377,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIAddOutputWindow : WinWindow
     {
         
@@ -6187,7 +6413,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIInputsandoutputsTree : WinTree
     {
         
@@ -6233,7 +6459,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIInputTreeItem : WinTreeItem
     {
         
@@ -6266,7 +6492,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIInputColumnsTreeItem : WinTreeItem
     {
         
@@ -6308,7 +6534,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIHashedOutputTreeItem : WinTreeItem
     {
         
@@ -6341,7 +6567,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOutputColumnsTreeItem : WinTreeItem
     {
         
@@ -6383,7 +6609,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UICancelWindow : WinWindow
     {
         
@@ -6419,7 +6645,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIColumnsGridControlWindow : WinWindow
     {
         
@@ -6451,7 +6677,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIColumn0Column : WinControl
     {
         
@@ -6488,7 +6714,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIGridControlWindow : WinWindow
     {
         
@@ -6554,7 +6780,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIColumn2Column : WinControl
     {
         
@@ -6591,7 +6817,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIColumn0Column1 : WinControl
     {
         
@@ -6632,7 +6858,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIItemWindow4 : WinWindow
     {
         
@@ -6669,7 +6895,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIErroratDataFlowTaskMWindow : WinWindow
     {
         
@@ -6705,7 +6931,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIAddColumnWindow : WinWindow
     {
         
@@ -6741,7 +6967,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIColumnWindow : WinWindow
     {
         
@@ -6777,7 +7003,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIRefreshWindow : WinWindow
     {
         
@@ -6813,7 +7039,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIWindowsFormsParkingWWindow : WinWindow
     {
         
@@ -6859,7 +7085,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UINoneWindow : WinWindow
     {
         
@@ -6894,7 +7120,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIBytestreamDT_BYTESWindow : WinWindow
     {
         
@@ -6929,7 +7155,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMicrosoftVisualStudiWindow : WinWindow
     {
         
@@ -6975,7 +7201,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOKWindow2 : WinWindow
     {
         
@@ -7029,7 +7255,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIComponentMultipleHasWindow : WinWindow
     {
         
@@ -7066,7 +7292,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIPropertiesWindowWindow : WinWindow
     {
         
@@ -7112,7 +7338,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOKWindow3 : WinWindow
     {
         
@@ -7148,7 +7374,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIPropertyvalueisnotvaWindow : WinWindow
     {
         
@@ -7184,7 +7410,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIMicrosoftVisualStudiWindow1 : WinWindow
     {
         
@@ -7216,7 +7442,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UINOWindow : WinWindow
     {
         
@@ -7252,7 +7478,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIDataFlowWindow : WinWindow
     {
         
@@ -7298,7 +7524,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIComboBox2Window : WinWindow
     {
         
@@ -7334,7 +7560,7 @@ namespace MultipleHash2008Test
         #endregion
     }
     
-    [GeneratedCode("Coded UITest Builder", "10.0.40219.1")]
+    [GeneratedCode("Coded UITest Builder", "10.0.40219.415")]
     public class UIOKWindow4 : WinWindow
     {
         

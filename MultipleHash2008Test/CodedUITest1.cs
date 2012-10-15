@@ -206,6 +206,16 @@ namespace MultipleHash2008Test
         }
 
 
+        [TestMethod]
+        public void TestMillisecondCheckBox()
+        {
+            this.UIMap.OpenMultipleHash();
+            this.UIMap.CheckMillisecondBox();
+            this.UIMap.AssertMillisecondsChecked();
+            this.UIMap.UnCheckMillisecondBox();
+            this.UIMap.AssertMillisecondsUnChecked();
+        }
+
         // Coded UI can't get at the advanced editor, reliably...
         //[TestMethod]
         //public void AddOutputColumnAdvancedEditor()

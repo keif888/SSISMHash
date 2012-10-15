@@ -24,7 +24,10 @@ IF ERRORLEVEL 1 GOTO Failed
 IF %ERRORLEVEL% EQU 0 GOTO Failed
 FINDSTR /I /L  /C:"The version or pipeline version" Testing.log
 IF ERRORLEVEL 1 GOTO Failed
-
+ECHO Please Test other UI functions Manually Here!
+type ManualTestCases.txt
+"%programfiles%\Microsoft Visual Studio 9.0\Common7\IDE\DevEnv.exe"
+Pause
 ECHO DTExec Tests Passed!
 GOTO Finish
 :Failed

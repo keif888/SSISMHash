@@ -30,6 +30,7 @@ namespace Martin.SQLServer.Dts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeplex"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "MultipleHashForm"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "Untick"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ssismhash")]
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultipleHashForm));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@ namespace Martin.SQLServer.Dts
             this.gridColumnCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.gridColumnAvailableColumns = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbMilliseconds = new System.Windows.Forms.CheckBox();
             this.cbSafeNullHandling = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cbThreading = new System.Windows.Forms.ComboBox();
@@ -62,6 +64,7 @@ namespace Martin.SQLServer.Dts
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -161,6 +164,7 @@ namespace Martin.SQLServer.Dts
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.cbMilliseconds);
             this.panel2.Controls.Add(this.cbSafeNullHandling);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.cbThreading);
@@ -170,6 +174,19 @@ namespace Martin.SQLServer.Dts
             this.panel2.Size = new System.Drawing.Size(828, 37);
             this.panel2.TabIndex = 5;
             // 
+            // cbMilliseconds
+            // 
+            this.cbMilliseconds.AutoSize = true;
+            this.cbMilliseconds.Location = new System.Drawing.Point(425, 8);
+            this.cbMilliseconds.Name = "cbMilliseconds";
+            this.cbMilliseconds.Size = new System.Drawing.Size(89, 17);
+            this.cbMilliseconds.TabIndex = 5;
+            this.cbMilliseconds.Text = "Milliseconds?";
+            this.toolTip1.SetToolTip(this.cbMilliseconds, "Enables Milliseconds for Hash Calculation on Time types.\r\nOff for Backwards Compa" +
+        "tability to 1.5.1 or earlier");
+            this.cbMilliseconds.UseVisualStyleBackColor = true;
+            this.cbMilliseconds.CheckedChanged += new System.EventHandler(this.cbMilliseconds_CheckedChanged);
+            // 
             // cbSafeNullHandling
             // 
             this.cbSafeNullHandling.AutoSize = true;
@@ -178,6 +195,7 @@ namespace Martin.SQLServer.Dts
             this.cbSafeNullHandling.Size = new System.Drawing.Size(114, 17);
             this.cbSafeNullHandling.TabIndex = 4;
             this.cbSafeNullHandling.Text = "Safe Null Handling";
+            this.toolTip1.SetToolTip(this.cbSafeNullHandling, "Turn off to disable Null and Empty string detection.\r\nNot Recommended...");
             this.cbSafeNullHandling.UseVisualStyleBackColor = true;
             this.cbSafeNullHandling.CheckedChanged += new System.EventHandler(this.cbSafeNullHandling_CheckedChanged);
             // 
@@ -203,6 +221,7 @@ namespace Martin.SQLServer.Dts
             this.cbThreading.Size = new System.Drawing.Size(158, 21);
             this.cbThreading.TabIndex = 1;
             this.cbThreading.Text = "None";
+            this.toolTip1.SetToolTip(this.cbThreading, resources.GetString("cbThreading.ToolTip"));
             this.cbThreading.TextChanged += new System.EventHandler(this.cbThreading_TextChanged);
             // 
             // tbOutput
@@ -400,6 +419,7 @@ namespace Martin.SQLServer.Dts
             this.tpAbout.TabIndex = 2;
             this.tpAbout.Text = "About";
             this.tpAbout.UseVisualStyleBackColor = true;
+            this.tpAbout.Click += new System.EventHandler(this.tpAbout_Click);
             // 
             // llCodeplex
             // 
@@ -426,10 +446,10 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(404, 26);
+            this.label8.Size = new System.Drawing.Size(412, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was last updated by Keith Martin in March 2012.  This is version 1" +
-    ".5\r\nDownload the latest version or get help from:";
+            this.label8.Text = "This component was last updated by Keith Martin in October 2012.  This is version" +
+    " 1.6\r\nDownload the latest version or get help from:";
             // 
             // panel1
             // 
@@ -510,5 +530,7 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsSortPosition;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvOutputColumnsColumnName;
         private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsHashType;
+        private System.Windows.Forms.CheckBox cbMilliseconds;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

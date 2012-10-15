@@ -1,4 +1,16 @@
-﻿Multiple Hash Test Cases:
+﻿Manual Tests for Release 1.6.
+
+Using the Advanced Editor, in the Output Column section, change the Hash Type.
+Using the Advanced Editor, in the Output Column section, change the output column name.
+Using the Advanced Editor, in the Output Column section, change some other property.
+
+
+
+-----------------------------------------------------------------------------------------
+After this line are the historical manual tests, before the Coded UI tests replaced them.
+-----------------------------------------------------------------------------------------
+
+Multiple Hash Test Cases:
 Execute the following test cases on the following hardware/Software Combinations:
 Test Cases:
 Batch:

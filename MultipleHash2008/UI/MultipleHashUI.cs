@@ -145,6 +145,8 @@ namespace Martin.SQLServer.Dts
             form.SetThreadingDetail += new SetThreadingDetailEventHandler(this.form_SetThreadingDetail);
             form.GetSafeNullHandlingDetail += new GetSafeNullDetailsEventHandler(this.form_GetSafeNullDetail);
             form.SetSafeNullHandlingDetail += new SetSafeNullDetailsEventHandler(this.form_SetSafeNullDetail);
+            form.GetMillisecondHandlingDetail += new GetMillisecondHandlingDetailEventHandler (this.form_GetMillisecondDetail);
+            form.SetMillisecondHandlingDetail += new SetMillisecondHandlingDetailEventHandler(this.form_SetMillisecondDetail);
         }
 
         #region Event handlers
@@ -649,6 +651,55 @@ namespace Martin.SQLServer.Dts
         }
         #endregion
 
+        #region Millisecond Handlers
+        /// <summary>
+        /// Sets the Millisecond details to the Component
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_SetMillisecondDetail(object sender, HashMillisecondArgs args)
+        {
+            Debug.Assert(args != null, "Invalid arguments passed from the UI");
+            this.ClearErrors();
+            try
+            {
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.HandleMillisecondPropName)
+                    {
+                        customProperty.Value = args.millisecondHandlingDetail;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets the Millisecond details from the Component
+        /// </summary>
+        /// <param name="sender">where the request came from</param>
+        /// <param name="args">the arguments passed</param>
+        void form_GetMillisecondDetail(object sender, HashMillisecondArgs args)
+        {
+            try
+            {
+                foreach (IDTSCustomProperty customProperty in this.ComponentMetadata.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.HandleMillisecondPropName)
+                    {
+                        args.millisecondHandlingDetail = (MultipleHash.MillisecondHandling)customProperty.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ReportErrors(ex);
+            }
+        }
+        #endregion
 
         #endregion
     }

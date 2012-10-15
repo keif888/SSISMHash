@@ -94,6 +94,21 @@ namespace Martin.SQLServer.Dts
     /// <param name="args">the safe null details</param>
     internal delegate void SetSafeNullDetailsEventHandler(object sender, SafeNullArgs args);
 
+    /// <summary>
+    /// Retrieves the Millisecond details
+    /// </summary>
+    /// <param name="sender">Who Called Me?</param>
+    /// <param name="args">the millisecond details</param>
+    internal delegate void GetMillisecondHandlingDetailEventHandler (object sender, HashMillisecondArgs args);
+    
+    /// <summary>
+    /// Updates the Millisecond details
+    /// </summary>
+    /// <param name="sender">Who Called Me?</param>
+    /// <param name="args">the millisecond detail</param>
+    internal delegate void SetMillisecondHandlingDetailEventHandler(object sender, HashMillisecondArgs args);
+
+
     internal struct InputColumnElement
     {
         public bool Selected;
@@ -212,6 +227,17 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         internal event ErrorEventHandler CallErrorHandler;
 
+        /// <summary>
+        /// Fires when the Millisecond handling details are to be returned.
+        /// </summary>
+        internal event GetMillisecondHandlingDetailEventHandler GetMillisecondHandlingDetail;
+
+        /// <summary>
+        /// Fires when the Millisecond handling details are to be updated.
+        /// </summary>
+        internal event SetMillisecondHandlingDetailEventHandler SetMillisecondHandlingDetail;
+
+
         #endregion
 
         #region Overridden methods
@@ -231,9 +257,11 @@ namespace Martin.SQLServer.Dts
                 this.LoadAvailableColumns();
                 ThreadingArgs args = new ThreadingArgs();
                 SafeNullArgs safeNullArgs = new SafeNullArgs();
+                HashMillisecondArgs millisecondArgs = new HashMillisecondArgs();
 
                 args.threadDetail = MultipleHash.MultipleThread.None;
                 safeNullArgs.safeNullHandlingDetail = MultipleHash.SafeNullHandling.True;
+                millisecondArgs.millisecondHandlingDetail = MultipleHash.MillisecondHandling.True;
 
                 // Call the GetThreading event...
                 IAsyncResult res = this.GetThreadingDetail.BeginInvoke(this, args, null, null);
@@ -244,6 +272,11 @@ namespace Martin.SQLServer.Dts
                 res = this.GetSafeNullHandlingDetail.BeginInvoke(this, safeNullArgs, null, null);
                 this.GetSafeNullHandlingDetail.EndInvoke(res);
                 cbSafeNullHandling.Checked = MultipleHashForm.GetSafeNullValue(safeNullArgs.safeNullHandlingDetail);
+
+                // Call the Millisecond event
+                res = this.GetMillisecondHandlingDetail.BeginInvoke(this, millisecondArgs, null, null);
+                this.GetMillisecondHandlingDetail.EndInvoke(res);
+                cbMilliseconds.Checked = MultipleHashForm.GetMillisecondValue(millisecondArgs.millisecondHandlingDetail);
             }
             catch (Exception ex)
             {
@@ -1121,6 +1154,23 @@ namespace Martin.SQLServer.Dts
             }
         }
 
+        private void cbMilliseconds_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                HashMillisecondArgs args = new HashMillisecondArgs();
+                args.millisecondHandlingDetail = MultipleHashForm.GetMillisecondEnum(cbMilliseconds.Checked);
+
+                // Call the SetMilliseconds event...
+                IAsyncResult res = this.SetMillisecondHandlingDetail.BeginInvoke(this, args, null, null);
+                this.SetMillisecondHandlingDetail.EndInvoke(res);
+            }
+            catch (Exception ex)
+            {
+                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                this.CallErrorHandler.EndInvoke(res);
+            }
+        }
 
         #endregion
 
@@ -1277,6 +1327,46 @@ namespace Martin.SQLServer.Dts
         #endregion
 
 
+        #region GetSafeMillisecondEnum
+        /// <summary>
+        /// Returns a bool to indicate the value for the Millisecond Handling parameter
+        /// </summary>
+        /// <param name="millisecondValue">The enum value for Millisecond handling</param>
+        /// <returns>True or False based on the Millisecond Handling</returns>
+        static private bool GetMillisecondValue(MultipleHash.MillisecondHandling millisecondValue)
+        {
+            switch (millisecondValue)
+            {
+                case MultipleHash.MillisecondHandling.False:
+                    return false;
+                case MultipleHash.MillisecondHandling.True:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="millisecondValue"></param>
+        /// <returns></returns>
+        static private MultipleHash.MillisecondHandling GetMillisecondEnum(bool millisecondValue)
+        {
+            switch (millisecondValue)
+            {
+                case true:
+                    return MultipleHash.MillisecondHandling.True;
+                default:
+                    return MultipleHash.MillisecondHandling.False;
+            }
+        }
+        #endregion
+
+        private void tpAbout_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     /// <summary>
@@ -1400,5 +1490,16 @@ namespace Martin.SQLServer.Dts
         /// The safe Null Handling value to pass
         /// </summary>
         public MultipleHash.SafeNullHandling safeNullHandlingDetail;
+    }
+
+    /// <summary>
+    /// Class to pass the Millseconds Boolean around
+    /// </summary>
+    internal class HashMillisecondArgs
+    {
+        /// <summary>
+        /// The Milliseconds to pass around.
+        /// </summary>
+        public MultipleHash.MillisecondHandling millisecondHandlingDetail;
     }
 }
