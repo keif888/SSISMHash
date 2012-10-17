@@ -4,6 +4,7 @@ Using the Advanced Editor, in the Output Column section, change the Hash Type.
 Using the Advanced Editor, in the Output Column section, change the output column name.
 Using the Advanced Editor, in the Output Column section, change some other property.
 
+Use the CRC and FNV Hashes via the GUI.
 
 
 -----------------------------------------------------------------------------------------

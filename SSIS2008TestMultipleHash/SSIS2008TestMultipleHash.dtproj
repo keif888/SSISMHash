@@ -82,5 +82,10 @@
       <FullPath>TestStringGT1000Bytes.dtsx</FullPath>
       <References />
     </DtsPackage>
+    <DtsPackage FormatVersion="3">
+      <Name>EveryDataTypePrecisionTest.dtsx</Name>
+      <FullPath>EveryDataTypePrecisionTest.dtsx</FullPath>
+      <References />
+    </DtsPackage>
   </DTSPackages>
 </Project>
