@@ -734,9 +734,16 @@ namespace Martin.SQLServer.Dts
         /// <returns>The number of cores</returns>
         public static int GetNumberOfProcessorCores()
         {
-            int processorMask = System.Diagnostics.Process.GetCurrentProcess().ProcessorAffinity.ToInt32();
-            int numProcessors = (int)Math.Log(processorMask, 2) + 1;
-            return Math.Max(1, numProcessors);
+            try
+            {
+                Int64 processorMask = System.Diagnostics.Process.GetCurrentProcess().ProcessorAffinity.ToInt64();
+                int numProcessors = (int)Math.Log(processorMask, 2) + 1;
+                return Math.Max(1, numProcessors);
+            }
+            catch
+            {
+                return 1;
+            }
         }
         #endregion
 
