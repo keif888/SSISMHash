@@ -47,9 +47,9 @@ Section "MainSection" SEC01
         DetailPrint 'Unregister existing MultipleHash2012.dll'
         SetOutPath '$TEMP'
         SetOverwrite on
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
         nsExec::ExecToLog '"$TEMP\gacutil.exe" /u MultipleHash2012'
 
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" ""
@@ -76,9 +76,9 @@ Section "MainSection" SEC01
   DetailPrint 'Install MultipleHash2012.dll to Assembly Cache'
   SetOutPath '$TEMP'
   SetOverwrite on
-  File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
-  File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
-  File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
+  File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+  File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+  File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" ""
   nsExec::ExecToLog '"$TEMP\gacutil.exe" /i "$0\PipelineComponents\MultipleHash2012.dll"'
   DetailPrint 'Please check the output from the Assembly Registration above for Errors.'
@@ -104,7 +104,7 @@ SectionEnd
 ;FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
   Abort
 FunctionEnd
 
@@ -112,9 +112,9 @@ Section Uninstall
         SetOutPath '$TEMP'
         SetOverwrite on
         DetailPrint 'Add GACUtil.exe to $TEMP'
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
-        File 'C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GacUtil.exe'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\gacutil.exe.config'
+        File 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\1033\gacutlrc.dll'
         DetailPrint 'Unregister MultipleHash'
         nsExec::ExecToLog '$TEMP\gacutil.exe /u MultipleHash2012'
         DetailPrint 'Delete GACUtil.exe From $TEMP'

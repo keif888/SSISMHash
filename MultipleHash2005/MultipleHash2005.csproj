@@ -189,10 +189,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
-COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\90\DTS\PipelineComponents\" /Y
-COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\90\Tools\Binn\VSShell\Common7\IDE\" /Y
-"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\90\DTS\PipelineComponents\$(TargetName).DLL"
+    <PostBuildEvent>if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\90\DTS\PipelineComponents\" /Y
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\90\Tools\Binn\VSShell\Common7\IDE\" /Y
+if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\90\DTS\PipelineComponents\$(TargetName).DLL"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
