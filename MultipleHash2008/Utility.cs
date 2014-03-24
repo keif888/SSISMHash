@@ -486,7 +486,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="array">Original Value</param>
         /// <param name="value">Value To Append</param>
-        private static void Append(ref byte[] array, ref Int32 bufferUsed, DateTimeOffset value, Boolean millisecondHandling)
+        public static void Append(ref byte[] array, ref Int32 bufferUsed, DateTimeOffset value, Boolean millisecondHandling)
         {
             Utility.Append(ref array, ref bufferUsed, Utility.ToArray(value, millisecondHandling));
         }

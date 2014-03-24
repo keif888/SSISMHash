@@ -23,9 +23,11 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MultipleHashInstallerx64", 
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MultipleHashInstallerx32", "MultipleHashInstallerx32\MultipleHashInstallerx32.wixproj", "{E267DF72-54B3-45B0-AF08-00DBB749C5E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2012Test", "MultipleHash2012Test\MultipleHash2012Test.csproj", "{07AF96F5-2C35-40AA-AC63-1295756DC3AB}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 9
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs07
 		SccLocalPath0 = .
@@ -50,6 +52,9 @@ Global
 		SccProjectUniqueName7 = MultipleHashInstallerx32\\MultipleHashInstallerx32.wixproj
 		SccProjectName7 = MultipleHashInstallerx32
 		SccLocalPath7 = MultipleHashInstallerx32
+		SccProjectUniqueName8 = MultipleHash2012Test\\MultipleHash2012Test.csproj
+		SccProjectName8 = MultipleHash2012Test
+		SccLocalPath8 = MultipleHash2012Test
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +202,26 @@ Global
 		{E267DF72-54B3-45B0-AF08-00DBB749C5E7}.UnitTest|Mixed Platforms.Build.0 = Release|x86
 		{E267DF72-54B3-45B0-AF08-00DBB749C5E7}.UnitTest|x86.ActiveCfg = Release|x86
 		{E267DF72-54B3-45B0-AF08-00DBB749C5E7}.UnitTest|x86.Build.0 = Release|x86
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Development|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Development|Mixed Platforms.Build.0 = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Development|x86.ActiveCfg = Debug|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.UnitTest|Any CPU.ActiveCfg = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.UnitTest|Any CPU.Build.0 = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.UnitTest|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.UnitTest|Mixed Platforms.Build.0 = Release|Any CPU
+		{07AF96F5-2C35-40AA-AC63-1295756DC3AB}.UnitTest|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

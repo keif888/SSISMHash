@@ -71,9 +71,11 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
 
+      <!--
       <Component Id="SQL2014GAC" Guid="ABE14AF0-8666-4AC8-9433-E87903A75E7E">
         <File Id="SQL2014DLLGAC" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
+      -->
 
       <Component Id="SQL2012GAC" Guid="03F16F6D-7013-4EAB-995C-BC3059659DC3">
         <File Id="SQL2012DLLGAC" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
@@ -144,7 +146,7 @@
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
           <Condition Level="0">NOT SSIS32_2014</Condition>
         </Feature>
-        <ComponentRef Id="SQL2014GAC" />
+        <ComponentRef Id="SQL2012GAC" />
         <Condition Level="0">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
       </Feature>
       <Feature Id="SQL2012" Level="1" Title="SQL 2012">
