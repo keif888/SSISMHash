@@ -7,12 +7,12 @@
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{8A083C2A-88A6-4C13-A2DE-7EA5AFB7AF5B}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.1440.19"
+  DTS:LastModifiedProductVersion="11.0.3402.0"
   DTS:LocaleID="3081"
   DTS:ObjectName="SimpleTextTest"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{A53B9092-AF67-4978-BB99-E622633FA3C4}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{C8277B67-8EF7-4E3C-B6EB-F2FECFEFFF23}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,7 +29,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="65001"
-          DTS:ConnectionString="D:\2008Projects\CodePlexMultipleHash\MultipleHash2008\MultipleHash.cs">
+          DTS:ConnectionString="D:\Users\keith_000\Source\Workspaces\ssismhash\MultipleHash2008\License.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="TextLine"
-              DTS:DTSID="{13AB969E-5662-408E-AD13-CD7FC5D7FD49}"
+              DTS:DTSID="{44957EB4-8B22-4E4C-974F-F3FD59D585A0}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -180,7 +180,7 @@
               componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="4">
+              version="6">
               <properties>
                 <property
                   dataType="System.Int32"
@@ -195,6 +195,11 @@
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
+                  name="IncludeMillsecond"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
               </properties>
               <inputs>
                 <input
@@ -302,7 +307,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="136,44"
           Id="Package\Data Flow Task"
           TopLeft="5.5,5.5" />
       </GraphLayout>
@@ -312,17 +317,17 @@
     design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="136,44"
           Id="Package\Data Flow Task\Recordset Destination"
           TopLeft="18.4811320754717,214.179245283019" />
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="136,44"
           Id="Package\Data Flow Task\Flat File Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="136,44"
           Id="Package\Data Flow Task\Multiple Hash"
           TopLeft="5.5,92.3679245283019" />
         <EdgeLayout
@@ -348,9 +353,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-1.50943396226415,43.9433962264151,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout

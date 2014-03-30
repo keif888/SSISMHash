@@ -194,6 +194,19 @@
         <Condition Level="1004">NOT (SSIS32_2005 OR SSIS64_2005)</Condition>
       </Feature>
     </Feature>
+    <!-- Display a Warning dialog box IF SSIS isn't detected-->
+    <UI>
+      <InstallUISequence>
+        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008 OR SSIS32_2005)</Show>
+      </InstallUISequence>
+      <Dialog Id="SSISWarning" Width="200" Height="100">
+        <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />
+        <Control Type="Text" Id="text2" Width="151" Height="12" X="4" Y="22" Text="Use Custom Install to install." />
+        <Control Type="PushButton" Id="OK" Width="56" Height="17" X="68" Y="56" Text="OK">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+    </UI>
 
   </Product>
 </Wix>

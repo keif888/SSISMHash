@@ -30,28 +30,28 @@
     <UIRef Id="WixUI_FeatureTree"/>
     <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
-    <Property Id="SSIS64_2014_PATH">
+    <Property Id="SSIS64_2014_PATH" Value="C:\Program Files\Microsoft SQL Server\120\DTS">
       <RegistrySearch Type="directory" Id="SSIS64_2014_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="yes"/>
     </Property>
-    <Property Id="SSIS32_2014_PATH">
+    <Property Id="SSIS32_2014_PATH" Value="C:\Program Files (x86)\Microsoft SQL Server\120\DTS">
       <RegistrySearch Type="directory" Id="SSIS32_2014_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="no"/>
     </Property>
-    <Property Id="SSIS64_2012_PATH">
+    <Property Id="SSIS64_2012_PATH" Value="C:\Program Files\Microsoft SQL Server\110\DTS">
       <RegistrySearch Type="directory" Id="SSIS64_2012_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="yes"/>
     </Property>
-    <Property Id="SSIS32_2012_PATH">
+    <Property Id="SSIS32_2012_PATH" Value="C:\Program Files (x86)\Microsoft SQL Server\110\DTS">
       <RegistrySearch Type="directory" Id="SSIS32_2012_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="no"/>
     </Property>
-    <Property Id="SSIS64_2008_PATH">
+    <Property Id="SSIS64_2008_PATH" Value="C:\Program Files\Microsoft SQL Server\100\DTS">
       <RegistrySearch Type="directory" Id="SSIS64_2008_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="yes"/>
     </Property>
-    <Property Id="SSIS32_2008_PATH">
+    <Property Id="SSIS32_2008_PATH" Value="C:\Program Files (x86)\Microsoft SQL Server\100\DTS">
       <RegistrySearch Type="directory" Id="SSIS32_2008_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
     </Property>
-    <Property Id="SSIS64_2005_PATH">
+    <Property Id="SSIS64_2005_PATH" Value="C:\Program Files\Microsoft SQL Server\90\DTS">
       <RegistrySearch Type="directory" Id="SSIS64_2005_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="SQLPath" Win64="yes"/>
     </Property>
-    <Property Id="SSIS32_2005_PATH">
+    <Property Id="SSIS32_2005_PATH" Value="C:\Program Files (x86)\Microsoft SQL Server\90\DTS">
       <RegistrySearch Type="directory" Id="SSIS32_2005_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\MSDTS\Setup\DTSPath" Win64="no"/>
     </Property>
 
@@ -88,13 +88,14 @@
     <Property Id="SSIS32_2005">
       <RegistrySearch Type="raw" Id="SSIS32_2005" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="Edition" Win64="no"/>
     </Property>
-    
 
-    <!-- We need to find either or both a 32 or 64 bit install of SSIS 2005, 2008 or 2012. -->
-    <Condition Message="SQL Server Integration Services is not installed on this computer.  Please install SQL Server Integration Services before running this installer.">
+    <!-- We need to find either or both a 32 or 64 bit install of SSIS 2005, 2008 or 2012. 
+    Replaced with Warning below.
+    <Condition Message="SQL Server Integration Services or BIDS/SSDT is not installed on this computer.  Please install SQL Server Integration Services, BIDS or SSDT before running this installer.">
       Installed OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008 OR SSIS64_2005 OR SSIS32_2005
     </Condition>
-
+    -->
+    
     <Condition Message="You need to be an administrator to install this product.">
       Privileged
     </Condition>
@@ -218,12 +219,12 @@
       
     <Feature Id="Complete" Level="1" Title="Text File Splitter Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
       <Feature Id="SQL2014" Level="1" Title="SQL 2014">
-        <Feature Id="SQL2014x64" Level="1" Title="x86">
+        <Feature Id="SQL2014x64" Level="1" Title="x86" ConfigurableDirectory="SSIS64_2014_PATH">
           <ComponentRef Id="SQL2014x64DLL"/>
           <ComponentRef Id="SQL2014x64UpgradeMapping"/>
           <Condition Level="0">NOT SSIS64_2014</Condition>
         </Feature>
-        <Feature Id="SQL2014x32" Level="1" Title="x86">
+        <Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
           <ComponentRef Id="SQL2014x32DLL"/>
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
           <Condition Level="0">NOT SSIS32_2014</Condition>
@@ -232,12 +233,12 @@
         <Condition Level="0">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
       </Feature>
       <Feature Id="SQL2012" Level="1" Title="SQL 2012">
-        <Feature Id="SQL2012x64" Level="1" Title="x64">
+        <Feature Id="SQL2012x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2012_PATH">
           <ComponentRef Id="SQL2012x64DLL"/>
           <ComponentRef Id="SQL2012x64UpgradeMapping"/>
           <Condition Level="0">NOT SSIS64_2012</Condition>
         </Feature>
-        <Feature Id="SQL2012x32" Level="1" Title="x86">
+        <Feature Id="SQL2012x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2012_PATH">
           <ComponentRef Id="SQL2012x32DLL"/>
           <ComponentRef Id="SQL2012x32UpgradeMapping"/>
           <Condition Level="0">NOT SSIS32_2012</Condition>
@@ -246,12 +247,12 @@
         <Condition Level="0">NOT (SSIS32_2012 OR SSIS64_2012)</Condition>
       </Feature>
       <Feature Id="SQL2008" Level="1" Title="SQL 2008">
-        <Feature Id="SQL2008x64" Level="1" Title="x64">
+        <Feature Id="SQL2008x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2008_PATH">
           <ComponentRef Id="SQL2008x64DLL"/>
           <ComponentRef Id="SQL2008x64UpgradeMapping"/>
           <Condition Level="0">NOT SSIS64_2008</Condition>
         </Feature>
-        <Feature Id="SQL2008x32" Level="1" Title="x86">
+        <Feature Id="SQL2008x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2008_PATH">
           <ComponentRef Id="SQL2008x32DLL"/>
           <ComponentRef Id="SQL2008x32UpgradeMapping"/>
           <Condition Level="0">NOT SSIS32_2008</Condition>
@@ -260,11 +261,11 @@
         <Condition Level="0">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
       </Feature>
       <Feature Id="SQL2005" Level="1" Title="SQL 2005">
-        <Feature Id="SQL2005x64" Level="1" Title="x64">
+        <Feature Id="SQL2005x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2005_PATH">
           <ComponentRef Id="SQL2005x64DLL"/>
           <Condition Level="0">NOT SSIS64_2005</Condition>
         </Feature>
-        <Feature Id="SQL2005x32" Level="1" Title="x86">
+        <Feature Id="SQL2005x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2005_PATH">
           <ComponentRef Id="SQL2005x32DLL"/>
           <Condition Level="0">NOT SSIS32_2005</Condition>
         </Feature>
@@ -272,6 +273,20 @@
         <Condition Level="0">NOT (SSIS32_2005 OR SSIS64_2005)</Condition>
       </Feature>
     </Feature>
-    
+
+    <!-- Display a Warning dialog box IF SSIS isn't detected-->
+    <UI>
+      <InstallUISequence>
+        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS64_2014 OR SSIS32_2014 OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008 OR SSIS64_2005 OR SSIS32_2005)</Show>
+      </InstallUISequence>
+      <Dialog Id="SSISWarning" Width="200" Height="100">
+        <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />
+        <Control Type="Text" Id="text2" Width="151" Height="12" X="4" Y="22" Text="Use Custom Install to install." />
+        <Control Type="PushButton" Id="OK" Width="56" Height="17" X="68" Y="56" Text="OK">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+    </UI>
+
   </Product>
 </Wix>

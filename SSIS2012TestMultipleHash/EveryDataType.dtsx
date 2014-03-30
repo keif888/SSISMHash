@@ -7,12 +7,12 @@
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{A8CA8A63-2D08-4451-AF50-BA94623FF3B8}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.1440.19"
+  DTS:LastModifiedProductVersion="11.0.3402.0"
   DTS:LocaleID="3081"
   DTS:ObjectName="EveryDataType"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{B94DDAA8-7D65-4304-98FE-E7D4EA6F5CE7}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{CAD5C325-C146-40DC-A104-A0C5C08C6560}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,7 +29,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="65001"
-          DTS:ConnectionString="D:\2008Projects\CodePlexMultipleHash\MultipleHash2008\License.txt">
+          DTS:ConnectionString="D:\Users\keith_000\Source\Workspaces\ssismhash\MultipleHash2008\License.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="TextLine"
-              DTS:DTSID="{8212193B-D93F-4DE4-BBAB-7A48751C6957}"
+              DTS:DTSID="{3165CD64-A975-4B75-8437-42451A0108E0}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -867,7 +867,7 @@
               componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="3">
+              version="6">
               <properties>
                 <property
                   dataType="System.Int32"
@@ -882,6 +882,11 @@
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
+                  name="IncludeMillsecond"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
               </properties>
               <inputs>
                 <input
@@ -1070,9 +1075,10 @@
                           name="HashType"
                           typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
                         <property
+                          containsID="true"
                           dataType="System.String"
                           description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
-                          name="InputColumnLineageIDs">42,45,48,51,54,57,60,63,66,69,72,75,78,81,84,87</property>
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 13]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 14]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 15]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 16]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 17]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 18]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 19]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 20]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 21]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 22]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 23]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 24]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 25]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 26]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 27]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 28]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -1144,7 +1150,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="136,44"
           Id="Package\Data Flow Task"
           TopLeft="5.5,5.5" />
       </GraphLayout>
@@ -1157,42 +1163,20 @@
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="135.773584905661,43.9245283018868"
-          Id="Package\Data Flow Task\Derived Column"
-          TopLeft="5.5,87.1603773584906" />
-        <NodeLayout
-          Size="135.773584905661,43.9245283018868"
-          Id="Package\Data Flow Task\Multiple Hash"
-          TopLeft="5.5,168.820754716981" />
-        <NodeLayout
-          Size="135.773584905661,43.9245283018868"
           Id="Package\Data Flow Task\Recordset Destination"
           TopLeft="5.5,250.481132075472" />
         <NodeLayout
           Size="135.773584905661,43.9245283018868"
           Id="Package\Data Flow Task\Flat File Source"
           TopLeft="5.5,5.5" />
-        <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
-          TopLeft="73.3867924528302,49.4245283018868">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,37.7358490566038"
-              Start="0,0"
-              End="0,30.2358490566038">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.2358490566038" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Data Flow Task\Multiple Hash"
+          TopLeft="5.5,168.820754716981" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\Data Flow Task\Derived Column"
+          TopLeft="5.5,87.1603773584906" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[HashedOutput]"
           TopLeft="73.3867924528302,212.745283018868">
@@ -1218,6 +1202,30 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
+          TopLeft="73.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.7358490566038"
+              Start="0,0"
+              End="0,30.2358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.2358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\Data Flow Task.Paths[Derived Column Output]"
           TopLeft="73.3867924528302,131.084905660377">
           <EdgeLayout.Curve>
@@ -1236,7 +1244,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
