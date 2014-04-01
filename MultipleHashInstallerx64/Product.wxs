@@ -27,7 +27,7 @@
       Schedule="afterInstallInitialize"
       DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
 
-    <UIRef Id="WixUI_FeatureTree"/>
+    <UIRef Id="WixUI_Mondo"/>
     <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
     <Property Id="SSIS64_2014_PATH" Value="C:\Program Files\Microsoft SQL Server\120\DTS">
@@ -222,55 +222,55 @@
         <Feature Id="SQL2014x64" Level="1" Title="x86" ConfigurableDirectory="SSIS64_2014_PATH">
           <ComponentRef Id="SQL2014x64DLL"/>
           <ComponentRef Id="SQL2014x64UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS64_2014</Condition>
+          <Condition Level="1004">NOT SSIS64_2014</Condition>
         </Feature>
         <Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
           <ComponentRef Id="SQL2014x32DLL"/>
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS32_2014</Condition>
+          <Condition Level="1004">NOT SSIS32_2014</Condition>
         </Feature>
         <ComponentRef Id="SQL2012GAC" />
-        <Condition Level="0">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
+        <Condition Level="1004">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
       </Feature>
       <Feature Id="SQL2012" Level="1" Title="SQL 2012">
         <Feature Id="SQL2012x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2012_PATH">
           <ComponentRef Id="SQL2012x64DLL"/>
           <ComponentRef Id="SQL2012x64UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS64_2012</Condition>
+          <Condition Level="1004">NOT SSIS64_2012</Condition>
         </Feature>
         <Feature Id="SQL2012x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2012_PATH">
           <ComponentRef Id="SQL2012x32DLL"/>
           <ComponentRef Id="SQL2012x32UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS32_2012</Condition>
+          <Condition Level="1004">NOT SSIS32_2012</Condition>
         </Feature>
         <ComponentRef Id="SQL2012GAC" />
-        <Condition Level="0">NOT (SSIS32_2012 OR SSIS64_2012)</Condition>
+        <Condition Level="1004">NOT (SSIS32_2012 OR SSIS64_2012)</Condition>
       </Feature>
       <Feature Id="SQL2008" Level="1" Title="SQL 2008">
         <Feature Id="SQL2008x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2008_PATH">
           <ComponentRef Id="SQL2008x64DLL"/>
           <ComponentRef Id="SQL2008x64UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS64_2008</Condition>
+          <Condition Level="1004">NOT SSIS64_2008</Condition>
         </Feature>
         <Feature Id="SQL2008x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2008_PATH">
           <ComponentRef Id="SQL2008x32DLL"/>
           <ComponentRef Id="SQL2008x32UpgradeMapping"/>
-          <Condition Level="0">NOT SSIS32_2008</Condition>
+          <Condition Level="1004">NOT SSIS32_2008</Condition>
         </Feature>
         <ComponentRef Id="SQL2008GAC" />
-        <Condition Level="0">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
+        <Condition Level="1004">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
       </Feature>
       <Feature Id="SQL2005" Level="1" Title="SQL 2005">
         <Feature Id="SQL2005x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2005_PATH">
           <ComponentRef Id="SQL2005x64DLL"/>
-          <Condition Level="0">NOT SSIS64_2005</Condition>
+          <Condition Level="1004">NOT SSIS64_2005</Condition>
         </Feature>
         <Feature Id="SQL2005x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2005_PATH">
           <ComponentRef Id="SQL2005x32DLL"/>
-          <Condition Level="0">NOT SSIS32_2005</Condition>
+          <Condition Level="1004">NOT SSIS32_2005</Condition>
         </Feature>
         <ComponentRef Id="SQL2005GAC" />
-        <Condition Level="0">NOT (SSIS32_2005 OR SSIS64_2005)</Condition>
+        <Condition Level="1004">NOT (SSIS32_2005 OR SSIS64_2005)</Condition>
       </Feature>
     </Feature>
 
