@@ -108,7 +108,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 6)]
+        CurrentVersion = 7)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -213,7 +213,17 @@ namespace Martin.SQLServer.Dts
             /// <summary>
             /// Creates a 64 bit FNV1a hash
             /// </summary>
-            FNV1a64
+            FNV1a64,
+
+            /// <summary>
+            /// Creates a Murmur Hash using the 3a version
+            /// </summary>
+            MurmurHash3a,
+
+            /// <summary>
+            /// Creates an xxHash hash
+            /// </summary>
+            xxHash
         }
 
         /// <summary>
@@ -265,6 +275,22 @@ namespace Martin.SQLServer.Dts
 
         }
 
+        public enum OutputTypeEnumerator
+        {
+            /// <summary>
+            /// Version 1.6 and earlier output default as Binary Type
+            /// </summary>
+            Binary,
+            /// <summary>
+            /// Base64 encoded output as string
+            /// </summary>
+            Base64String,
+            /// <summary>
+            /// Hex encoded output as string eg. (0x1234567890abcdef)
+            /// </summary>
+            HexString
+        }
+
         #endregion
         #region Design Time
 
@@ -293,6 +319,7 @@ namespace Martin.SQLServer.Dts
                 bool blnFoundThreadProperty = false;
                 bool blnFoundHandleNullsProperty = false;
                 bool blnFoundMillisecondProperty = false;
+                bool blnFoundOutputTypeProperty = false;
 
                 foreach (IDTSCustomProperty customProperty in this.ComponentMetaData.CustomPropertyCollection)
                 {
@@ -334,6 +361,7 @@ namespace Martin.SQLServer.Dts
 
                 foreach (IDTSOutputColumn outputColumn in this.ComponentMetaData.OutputCollection[0].OutputColumnCollection)
                 {
+                    blnFoundOutputTypeProperty = false;
                     foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
                     {
                         if (customProperty.Name == Utility.InputColumnLineagePropName)
@@ -374,8 +402,16 @@ namespace Martin.SQLServer.Dts
                             {
                                 customProperty.Value = newValue;
                             }
-                            break;
                         }
+                        if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                        {
+                            blnFoundOutputTypeProperty = true;
+                        }
+                    }
+                    if (!blnFoundOutputTypeProperty)
+                    {
+                        // Add the missing property defaulted to Binary (as per previous versions).
+                        AddOutputTypeProperty(outputColumn);
                     }
                 }
 
@@ -526,9 +562,76 @@ namespace Martin.SQLServer.Dts
 #endif
 
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
+            bool blnHashTypeProp = false;
+            bool blnLineageProp = false;
+            bool blnOutputTypeProp = false;
 
             foreach (IDTSOutputColumn outputColumn in output.OutputColumnCollection)
             {
+                blnHashTypeProp = false;
+                blnLineageProp = false;
+                blnOutputTypeProp = false;
+
+                // Loop through and check the properties.
+                foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
+                {
+                    // Assume that SSIS will PREVENT duplicate names properties.
+                    if (customProperty.Name == Utility.HashTypePropName)
+                    {
+                        blnHashTypeProp = true;
+                    }
+                    if (customProperty.Name == Utility.InputColumnLineagePropName)
+                    {
+                        blnLineageProp = true;
+                    }
+                    if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                    {
+                        blnOutputTypeProp = true;
+                        switch ((OutputTypeEnumerator) customProperty.Value)
+                        {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.DataType != DataType.DT_BYTES)
+                                {
+                                    this.InternalFireError(Properties.Resources.OutputDatatypeInvalid);
+                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                                }
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.DataType != DataType.DT_STR)
+                                {
+                                    this.InternalFireError(Properties.Resources.OutputDatatypeInvalid);
+                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                                }
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.DataType != DataType.DT_STR)
+                                {
+                                    this.InternalFireError(Properties.Resources.OutputDatatypeInvalid);
+                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                if (!blnHashTypeProp)
+                {
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.HashTypePropName, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
+
+                if (!blnLineageProp)
+                {
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.InputColumnLineagePropName, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
+
+                if (!blnOutputTypeProp)
+                {
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.OutputColumnOutputTypePropName, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
+
                 if (outputColumn.DataType != DataType.DT_BYTES)
                 {
                     this.InternalFireError(Properties.Resources.OutputDatatypeInvalid);
@@ -554,7 +657,7 @@ namespace Martin.SQLServer.Dts
                                 }
                                 else
                                 {
-                                    this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
+                                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.InputColumnLineagePropName, outputColumn.Name));
                                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                                 }
                             }
@@ -639,7 +742,7 @@ namespace Martin.SQLServer.Dts
 
                             break;
                         default:
-                            this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
+                            this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.HashTypePropName, outputColumn.Name));
                             return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                     }
                 }
@@ -1532,6 +1635,25 @@ namespace Martin.SQLServer.Dts
             inputColumnLineageIDs.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
             inputColumnLineageIDs.Value = string.Empty;
         } 
+        #endregion
+
+        #region AddOutputTypeProperty
+        /// <summary>
+        /// Creates the new custom property to hold the output type.  It defaults to Binary...
+        /// </summary>
+        /// <param name="outputColumn">The output column to add the property to.</param>
+        static private void AddOutputTypeProperty(IDTSOutputColumn outputColumn)
+        {
+            // Add the Output Type property
+            IDTSCustomProperty outputTypeProperty = outputColumn.CustomPropertyCollection.New();
+            outputTypeProperty.Description = "Stores the type of the output column";
+            outputTypeProperty.Name = Utility.OutputColumnOutputTypePropName;
+            outputTypeProperty.ContainsID = false;
+            outputTypeProperty.EncryptionRequired = false;
+            outputTypeProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            outputTypeProperty.TypeConverter = typeof(OutputTypeEnumerator).AssemblyQualifiedName;
+            outputTypeProperty.Value = OutputTypeEnumerator.Binary;
+        }
         #endregion
 
         #region InternalFireError
