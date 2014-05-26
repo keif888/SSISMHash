@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{D183A3D8-5FD8-494B-B014-37F57B35E655}") = "SSIS2008TestMultipleHash", "SSIS2008TestMultipleHash.dtproj", "{C7F9D685-518B-4430-AB9B-A156E74D9460}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7F9D685-518B-4430-AB9B-A156E74D9460}.Development|Default.ActiveCfg = Development
+		{C7F9D685-518B-4430-AB9B-A156E74D9460}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
