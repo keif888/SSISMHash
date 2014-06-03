@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Multiple Hash 2012"
-!define PRODUCT_VERSION "V1.6.1"
+!define PRODUCT_VERSION "V1.6.1.2"
 !define PRODUCT_PUBLISHER "Keith Martin"
 !define PRODUCT_WEB_SITE "http://ssismhash.codeplex.com/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"

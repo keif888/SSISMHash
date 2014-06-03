@@ -4,6 +4,7 @@
     <Configuration>
       <Name>Development</Name>
       <Options>
+        <Run64BitRuntime>true</Run64BitRuntime>
         <UserIDs />
         <UserPasswords />
         <OfflineMode>false</OfflineMode>
@@ -14,6 +15,7 @@
     <Configuration>
       <Name>UnitTest</Name>
       <Options>
+        <Run64BitRuntime>true</Run64BitRuntime>
         <UserIDs />
         <UserPasswords />
         <OfflineMode>false</OfflineMode>

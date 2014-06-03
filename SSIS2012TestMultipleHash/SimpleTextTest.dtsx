@@ -2,19 +2,19 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="5/11/2010 7:50:47 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="VISUALSTUDIO"
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{8A083C2A-88A6-4C13-A2DE-7EA5AFB7AF5B}"
-  DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.3402.0"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2344.23"
   DTS:LocaleID="3081"
   DTS:ObjectName="SimpleTextTest"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{C8277B67-8EF7-4E3C-B6EB-F2FECFEFFF23}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{F1F8FFA8-5CA0-4714-A4C2-5E465E004352}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[MultipleHash.cs]"
@@ -68,10 +68,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Data Flow Task"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{3AF9501C-963D-4822-A7C0-B4B774EBF12A}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -84,7 +84,7 @@
           <components>
             <component
               refId="Package\Data Flow Task\Flat File Source"
-              componentClassID="{D23FD76B-F51D-420F-BBCB-19CBF6AC1AB4}"
+              componentClassID="Microsoft.FlatFileSource"
               contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Flat File Source"
               localeId="3081"
@@ -177,7 +177,7 @@
             </component>
             <component
               refId="Package\Data Flow Task\Multiple Hash"
-              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              componentClassID="Microsoft.ManagedComponentHost"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
               version="6">
@@ -186,20 +186,20 @@
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
                   name="IncludeMillsecond"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
               </properties>
               <inputs>
                 <input
@@ -250,7 +250,7 @@
             </component>
             <component
               refId="Package\Data Flow Task\Recordset Destination"
-              componentClassID="{C457FD7E-CE98-4C4B-AEFE-F3AE0044F181}"
+              componentClassID="Microsoft.RecordsetDestination"
               contactInfo="Recordset Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates and populates an in-memory ADO recordset."
               name="Recordset Destination">
@@ -299,7 +299,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="sql12">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
@@ -307,7 +307,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="136,44"
+          Size="151,42"
           Id="Package\Data Flow Task"
           TopLeft="5.5,5.5" />
       </GraphLayout>
@@ -319,35 +319,31 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="136,44"
+          Size="182,42"
           Id="Package\Data Flow Task\Recordset Destination"
-          TopLeft="18.4811320754717,214.179245283019" />
+          TopLeft="5.50000000000003,209.5" />
         <NodeLayout
-          Size="136,44"
+          Size="151,42"
           Id="Package\Data Flow Task\Flat File Source"
-          TopLeft="5.5,5.5" />
+          TopLeft="21,5.5" />
         <NodeLayout
-          Size="136,44"
+          Size="142,42"
           Id="Package\Data Flow Task\Multiple Hash"
-          TopLeft="5.5,92.3679245283019" />
+          TopLeft="25.5,107.5" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[HashedOutput]"
-          TopLeft="73.3867924528302,136.292452830189">
+          TopLeft="96.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="12.9811320754717,77.8867924528302"
+              EndConnector="0,60"
               Start="0,0"
-              End="12.9811320754717,70.3867924528302">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,38.9433962264151" />
-                  <mssgle:LineSegment
-                    End="12.9811320754717,38.9433962264151" />
-                  <mssgle:LineSegment
-                    End="12.9811320754717,70.3867924528302" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -358,18 +354,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[Flat File Source Output]"
-          TopLeft="73.3867924528302,49.4245283018868">
+          TopLeft="96.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,42.9433962264151"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,35.4433962264151">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.4433962264151" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
