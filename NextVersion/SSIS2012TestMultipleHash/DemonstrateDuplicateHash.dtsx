@@ -2,19 +2,19 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/13/2010 8:41:08 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="VISUALSTUDIO"
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{F9F83F7A-94F3-4507-8B78-9BCA497C0F90}"
-  DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="11.0.1440.19"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2344.23"
   DTS:LocaleID="3081"
   DTS:ObjectName="DemonstrateDuplicateHash"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{AA50BB64-9B2E-484E-8232-75C27E9EB7D5}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{C687FF56-3200-4CA6-9980-884C647D946D}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Source Flat File]"
@@ -29,7 +29,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="65001"
-          DTS:ConnectionString="D:\2008Projects\CodePlexMultipleHash\MultipleHash2008\MultipleHash.cs">
+          DTS:ConnectionString="D:\Users\keith_000\Source\Workspaces\ssismhash\MultipleHash2008\License.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="CSharpSource"
-              DTS:DTSID="{7C4C574D-D24C-4AD6-B109-A6DE5738663C}"
+              DTS:DTSID="{4FE3D6E9-6935-4E6C-BBD0-A4250F3CB2E4}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -68,10 +68,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Demonstrate Hash Detection Failure"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{174C5861-9B1A-4D41-962C-71ABA5F8EEFC}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Demonstrate Hash Detection Failure"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -84,7 +84,7 @@
           <components>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Create Test Data"
-              componentClassID="{49928E82-9C4E-49F0-AABE-3812B82707EC}"
+              componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Updates column values using expressions"
               name="Create Test Data"
@@ -227,7 +227,7 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Flat File Source"
-              componentClassID="{D23FD76B-F51D-420F-BBCB-19CBF6AC1AB4}"
+              componentClassID="Microsoft.FlatFileSource"
               contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Flat File Source"
               localeId="3081"
@@ -320,24 +320,29 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Multiple Hash"
-              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              componentClassID="Microsoft.ManagedComponentHost"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="4">
+              version="6">
               <properties>
                 <property
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
+                  name="IncludeMillsecond"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
               </properties>
               <inputs>
                 <input
@@ -456,7 +461,7 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Recordset Destination"
-              componentClassID="{C457FD7E-CE98-4C4B-AEFE-F3AE0044F181}"
+              componentClassID="Microsoft.RecordsetDestination"
               contactInfo="Recordset Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates and populates an in-memory ADO recordset that is available outside of the data flow. Scripts and other package elements can use the recordset. For example, use a recordset to store the names of files that will be loaded into the data warehouse."
               name="Recordset Destination">
@@ -522,7 +527,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="sql12">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
@@ -530,7 +535,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="209.660377358491,43.9245283018868"
+          Size="249,42"
           Id="Package\Demonstrate Hash Detection Failure"
           TopLeft="5.5,5.5" />
       </GraphLayout>
@@ -540,37 +545,59 @@
     design-time-name="Package\Demonstrate Hash Detection Failure">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="135.773584905661,43.9245283018868"
-          Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
-          TopLeft="16.4811320754717,235.160377358491" />
-        <NodeLayout
-          Size="135.773584905661,43.9245283018868"
-          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
-          TopLeft="16.4811320754717,113.311320754717" />
-        <NodeLayout
-          Size="135.773584905661,43.9245283018868"
+          Size="151,42"
           Id="Package\Demonstrate Hash Detection Failure\Flat File Source"
-          TopLeft="5.5,5.5" />
+          TopLeft="21,5.5" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
+          TopLeft="25.5,209.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
+          TopLeft="17.5,107.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
+          TopLeft="5.50000000000003,311.5" />
         <EdgeLayout
-          Id="Package\Demonstrate Hash Detection Failure.Paths[Flat File Source Output]"
-          TopLeft="73.3867924528302,49.4245283018868">
+          Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
+          TopLeft="96.5,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="10.9811320754717,63.8867924528302"
+              EndConnector="0,60"
               Start="0,0"
-              End="10.9811320754717,56.3867924528302">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.9245283018868" />
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Demonstrate Hash Detection Failure.Paths[Flat File Source Output]"
+          TopLeft="96.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="10.9811320754717,31.9245283018868" />
-                  <mssgle:LineSegment
-                    End="10.9811320754717,56.3867924528302" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -581,73 +608,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Demonstrate Hash Detection Failure.Paths[Derived Column Output]"
-          TopLeft="84.3679245283019,157.235849056604">
+          TopLeft="96.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,77.9245283018868"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,70.4245283018868">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,70.4245283018868" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <AnnotationLayout
-          Text="Four Hash Values.&#xD;&#xA;Left Null Right&#xD;&#xA;Left Right Null&#xD;&#xA;Null Left Right&#xD;&#xA;Right Left Null"
-          ParentId="Package\Demonstrate Hash Detection Failure"
-          Size="226.415094339623,75.7833333333334"
-          Id="239c91c0-117b-422f-a841-ff46e9dd1d0b"
-          TopLeft="295.009433962264,224.141509433962">
-          <AnnotationLayout.FontInfo>
-            <mssge:FontInfo
-              Family="Tahoma"
-              Size="8.25"
-              Color="#FF080000">
-              <mssge:FontInfo.TextDecorations>
-                <av:TextDecorationCollection />
-              </mssge:FontInfo.TextDecorations>
-            </mssge:FontInfo>
-          </AnnotationLayout.FontInfo>
-        </AnnotationLayout>
-        <NodeLayout
-          Size="182.863333333334,42"
-          Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
-          TopLeft="23,334" />
-        <EdgeLayout
-          Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
-          TopLeft="84.3679245283019,279.084905660377">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="30.0637421383648,54.9150943396227"
-              Start="0,0"
-              End="30.0637421383648,47.4150943396227">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,23.4575471698113" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,23.4575471698113"
-                    Point2="0,27.4575471698113"
-                    Point3="4,27.4575471698113" />
-                  <mssgle:LineSegment
-                    End="26.0637421383648,27.4575471698113" />
-                  <mssgle:CubicBezierSegment
-                    Point1="26.0637421383648,27.4575471698113"
-                    Point2="30.0637421383648,27.4575471698113"
-                    Point3="30.0637421383648,31.4575471698113" />
-                  <mssgle:LineSegment
-                    End="30.0637421383648,47.4150943396227" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

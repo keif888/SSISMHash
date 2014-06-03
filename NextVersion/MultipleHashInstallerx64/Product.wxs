@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.1.1"?>
+  <?define ProductVersion = "1.6.1.3"?>
   <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -102,11 +102,9 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
 
-      <!--
       <Component Id="SQL2014GAC" Guid="32BD89BB-7EEA-41ED-8832-C29AD17E2F71">
-        <File Id="SQL2014DLLGAC" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+        <File Id="SQL2014DLLGAC" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
-      -->
 
       <Component Id="SQL2012GAC" Guid="03F16F6D-7013-4EAB-995C-BC3059659DC3">
         <File Id="SQL2012DLLGAC" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
@@ -124,12 +122,12 @@
       <Directory Id="SSIS64_2014_PATH" Name="SSIS64_2014_PATH">
         <Directory Id="SQL2014x64Pipeline" Name="PipelineComponents">
           <Component Id="SQL2014x64DLL" Guid="6B2B4A81-1F32-4C80-AD0B-7EAE7438E2AC" Win64="yes">
-            <File Id="SQL2014x64DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
+            <File Id="SQL2014x64DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
           </Component>
         </Directory>
         <Directory Id="SQL2014x64Upgrade" Name="UpgradeMappings">
           <Component Id="SQL2014x64UpgradeMapping" Guid="976D2EB0-FC43-4F6E-BEEF-7E50079CB70B" Win64="yes">
-            <File Id="SQL2014x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+            <File Id="SQL2014x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
           </Component>
         </Directory>
       </Directory>
@@ -137,12 +135,12 @@
       <Directory Id="SSIS32_2014_PATH" Name="SSIS32_2014_PATH">
         <Directory Id="SQL2014x32Pipeline" Name="PipelineComponents">
           <Component Id="SQL2014x32DLL" Guid="9E115C03-BFED-4E25-96C5-38101001A30E" Win64="no">
-            <File Id="SQL2014x32DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
+            <File Id="SQL2014x32DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
           </Component>
         </Directory>
         <Directory Id="SQL2014x32Upgrade" Name="UpgradeMappings">
           <Component Id="SQL2014x32UpgradeMapping" Guid="F4AD083A-C079-4042-B465-B6EC3533E7D6" Win64="no">
-            <File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+            <File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
           </Component>
         </Directory>
       </Directory>
@@ -219,7 +217,7 @@
       
     <Feature Id="Complete" Level="1" Title="Text File Splitter Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
       <Feature Id="SQL2014" Level="1" Title="SQL 2014">
-        <Feature Id="SQL2014x64" Level="1" Title="x86" ConfigurableDirectory="SSIS64_2014_PATH">
+        <Feature Id="SQL2014x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2014_PATH">
           <ComponentRef Id="SQL2014x64DLL"/>
           <ComponentRef Id="SQL2014x64UpgradeMapping"/>
           <Condition Level="1004">NOT SSIS64_2014</Condition>
@@ -229,7 +227,7 @@
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
           <Condition Level="1004">NOT SSIS32_2014</Condition>
         </Feature>
-        <ComponentRef Id="SQL2012GAC" />
+        <ComponentRef Id="SQL2014GAC" />
         <Condition Level="1004">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
       </Feature>
       <Feature Id="SQL2012" Level="1" Title="SQL 2012">

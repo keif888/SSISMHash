@@ -49,6 +49,9 @@ namespace Martin.SQLServer.Dts
     using System.Text;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
     using Microsoft.SqlServer.Dts.Pipeline;
+#if SQL2014
+    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+#endif
 #if SQL2012
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
 #endif
