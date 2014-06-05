@@ -1201,9 +1201,9 @@ namespace Martin.SQLServer.Dts
         /// <param name="buffer">The input buffer.</param>
         public override void ProcessInput(int inputID, PipelineBuffer buffer)
         {
-#if DEBUG
+//#if DEBUG
             bool FireAgain = true;
-#endif
+//#endif
             PassThreadState passThreadState;
             if (buffer == null)
             {
@@ -1222,7 +1222,99 @@ namespace Martin.SQLServer.Dts
 #if DEBUG
                     this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: while (buffer.NextRow())", string.Empty, 0, ref FireAgain); 
 #endif
-
+                    for (int i = 0; i < buffer.ColumnCount; i++)
+                    {
+                        if (!buffer.IsNull(i))
+                        {
+                            switch (buffer.GetColumnInfo(i).DataType)
+                            {
+                                case DataType.DT_BOOL:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetBoolean(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_IMAGE:
+                                    uint blobLength = buffer.GetBlobLength(i);
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(buffer.GetBlobData(i, 0, (int)blobLength))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_BYTES:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(buffer.GetBytes(i))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_CY:
+                                case DataType.DT_DECIMAL:
+                                case DataType.DT_NUMERIC:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetDecimal(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+#if SQL2005
+#else
+                                case DataType.DT_DBTIMESTAMPOFFSET:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetDateTimeOffset(i), true))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_DBDATE:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetDate(i), true))), string.Empty, 0, ref FireAgain);
+                                    break;
+#endif
+                                case DataType.DT_DATE:
+                                case DataType.DT_DBTIMESTAMP:
+#if SQL2005
+#else
+                                case DataType.DT_DBTIMESTAMP2:
+                                case DataType.DT_FILETIME:
+#endif
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetDateTime(i), true))), string.Empty, 0, ref FireAgain);
+                                    break;
+#if SQL2005
+#else
+                                case DataType.DT_DBTIME:
+                                case DataType.DT_DBTIME2:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetTime(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+#endif
+                                case DataType.DT_GUID:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetGuid(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_I1:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetSByte(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_I2:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetInt16(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_I4:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetInt32(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_I8:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetInt64(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_NTEXT:
+                                case DataType.DT_STR:
+                                case DataType.DT_TEXT:
+                                case DataType.DT_WSTR:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(buffer.GetString(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_R4:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetSingle(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_R8:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetDouble(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_UI1:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetByte(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_UI2:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetUInt16(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_UI4:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetUInt32(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_UI8:
+                                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Column {0} Value {1}", i, System.Convert.ToBase64String(Utility.ToArray(buffer.GetUInt64(i)))), string.Empty, 0, ref FireAgain);
+                                    break;
+                                case DataType.DT_EMPTY:
+                                case DataType.DT_NULL:
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    //
                     if (this.numOfThreads > 1)
                     {
 #if DEBUG
@@ -1258,8 +1350,13 @@ namespace Martin.SQLServer.Dts
                         // Step through each output column
                         for (int i = 0; i < this.numOfOutputColumns; i++)
                         {
-                            Utility.CalculateHash(this.outputColumnsArray[i], buffer, this.safeNullHandling, this.includeMilliseconds);
+                            Utility.CalculateHash(this.outputColumnsArray[i], buffer, this.safeNullHandling, this.includeMilliseconds, this.ComponentMetaData);
+                            //buffer.GetBytes(this.outputColumnsArray[i].OutputColumnId);
                         }
+                    }
+                    for (int i = 0; i < this.numOfOutputColumns; i++)
+                    {
+                        this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Output Column {0} Value {1}", i, System.Convert.ToBase64String(buffer.GetBytes(this.outputColumnsArray[i].OutputColumnId))), string.Empty, 0, ref FireAgain);
                     }
                 }
             }

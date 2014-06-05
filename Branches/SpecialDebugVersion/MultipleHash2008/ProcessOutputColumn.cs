@@ -65,7 +65,7 @@ namespace Martin.SQLServer.Dts
         public static void CalculateHash(object state)
         {
             PassThreadState passThreadState = (PassThreadState)state;
-            Utility.CalculateHash(passThreadState.ColumnToProcess, passThreadState.Buffer, passThreadState.SafeNullHandling, passThreadState.MillisecondHandling);
+            Utility.CalculateHash(passThreadState.ColumnToProcess, passThreadState.Buffer, passThreadState.SafeNullHandling, passThreadState.MillisecondHandling, passThreadState.MetaData);
             passThreadState.ThreadReset.Set();
         }
     }
