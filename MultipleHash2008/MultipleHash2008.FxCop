@@ -1,0 +1,1406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="1.35" Name="My FxCop Project">
+ <ProjectOptions>
+  <SharedProject>True</SharedProject>
+  <Stylesheet Apply="False">http://www.gotdotnet.com/team/fxcop//xsl/1.35/FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Active, Excluded" NewOnly="False" />
+   <Report Status="Active" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
+  <Spelling Locale="en-us" />
+  <VersionAware>False</VersionAware>
+  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+ </ProjectOptions>
+ <Targets>
+  <AssemblyReferenceDirectories>
+   <Directory>C:/Program Files/Microsoft SQL Server/100/DTS/Binn/</Directory>
+   <Directory>C:/Program Files/Microsoft SQL Server/100/SDK/Assemblies/</Directory>
+  </AssemblyReferenceDirectories>
+  <Target Name="$(ProjectDir)/bin/Debug/MultipleHash2008.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="1.35">
+  <Namespaces>
+   <Namespace Name="Martin.SQLServer.Dts">
+    <Messages>
+     <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Status="Excluded" Created="2009-10-11 04:42:35Z">
+      <Issue Name="Namespace">
+       <Item>Martin.SQLServer.Dts</Item>
+      </Issue>
+      <Notes>
+       <User Name="Installer">
+        <Note Id="0" />
+       </User>
+      </Notes>
+     </Message>
+    </Messages>
+   </Namespace>
+  </Namespaces>
+  <Targets>
+   <Target Name="$(ProjectDir)/bin/Debug/MultipleHash2008.dll">
+    <Modules>
+     <Module Name="multiplehash2008.dll">
+      <Namespaces>
+       <Namespace Name="Martin.SQLServer.Dts">
+        <Types>
+         <Type Name="AddOutputColumnNameArgs">
+          <Members>
+           <Member Name="CancelAction">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>AddOutputColumnNameArgs.CancelAction</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="AlterOutputColumnArgs">
+          <Members>
+           <Member Name="CancelAction">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>AlterOutputColumnArgs.CancelAction</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="DataFlowComponentUI">
+          <Members>
+           <Member Name="GetErrorMessage():System.String">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2009-10-16 11:44:26Z">
+              <Issue Certainty="50">
+               <Item>GetErrorMessage</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetTooltipString(System.Object):System.String">
+            <Messages>
+             <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Created="2009-10-11 04:42:35Z">
+              <Issue Name="Parameter">
+               <Item>dataFlowColumn</Item>
+               <Item>Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSExternalMetadataColumn100</Item>
+               <Item>DataFlowComponentUI.GetTooltipString(Object):String</Item>
+               <Item>isint</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>dataFlowColumn</Item>
+               <Item>Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100</Item>
+               <Item>DataFlowComponentUI.GetTooltipString(Object):String</Item>
+               <Item>isint</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>dataFlowColumn</Item>
+               <Item>Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100</Item>
+               <Item>DataFlowComponentUI.GetTooltipString(Object):String</Item>
+               <Item>isint</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>dataFlowColumn</Item>
+               <Item>Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn100</Item>
+               <Item>DataFlowComponentUI.GetTooltipString(Object):String</Item>
+               <Item>isint</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Delete(System.Windows.Forms.IWin32Window):System.Void">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>DataFlowComponentUI</Item>
+               <Item>IDtsComponentUI.Delete(IWin32Window):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Edit(System.Windows.Forms.IWin32Window,Microsoft.SqlServer.Dts.Runtime.Variables,Microsoft.SqlServer.Dts.Runtime.Connections):System.Boolean">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>DataFlowComponentUI.Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Edit(IWin32Window, Variables, Connections):Boolean</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>DataFlowComponentUI</Item>
+               <Item>IDtsComponentUI.Edit(IWin32Window, Variables, Connections):Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Help(System.Windows.Forms.IWin32Window):System.Void">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>DataFlowComponentUI</Item>
+               <Item>IDtsComponentUI.Help(IWin32Window):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Initialize(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100,System.IServiceProvider):System.Void">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>DataFlowComponentUI.Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.Initialize(IDTSComponentMetaData100, IServiceProvider):Void</Item>
+               <Item>System.ApplicationException</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>DataFlowComponentUI</Item>
+               <Item>IDtsComponentUI.Initialize(IDTSComponentMetaData100, IServiceProvider):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Microsoft.SqlServer.Dts.Pipeline.Design.IDtsComponentUI.New(System.Windows.Forms.IWin32Window):System.Void">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>DataFlowComponentUI</Item>
+               <Item>IDtsComponentUI.New(IWin32Window):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="DeleteOutputColumnArgs">
+          <Members>
+           <Member Name="CancelAction">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>DeleteOutputColumnArgs.CancelAction</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="MultipleHash">
+          <Members>
+           <Member Name="AddHashTypeProperty(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100):System.Void">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-11 04:42:35Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHash.AddHashTypeProperty(IDTSOutputColumn100):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="AddInputLineageIDsProperty(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100):System.Void">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-11 04:42:35Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHash.AddInputLineageIDsProperty(IDTSOutputColumn100):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="AddMultipleThreadProperty(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100):System.Void">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-11 04:42:35Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHash.AddMultipleThreadProperty(IDTSComponentMetaData100):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="FixColumnList(System.String,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100):System.String">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-11 04:42:35Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+               <Item>System.Convert.ToInt32(System.String)</Item>
+               <Item>System.Convert.ToInt32(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2009-10-11 04:42:35Z">
+              <Issue Name="IsNullOrEmpty">
+               <Item>op_Equality</Item>
+               <Item>String.Empty</Item>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+              </Issue>
+              <Issue Name="IsNullOrEmpty">
+               <Item>op_Equality</Item>
+               <Item>String.Empty</Item>
+               <Item>MultipleHash.FixColumnList(String, IDTSInputColumnCollection100):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InsertInput(Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTSInsertPlacement,System.Int32):Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHash.InsertInput(DTSInsertPlacement, Int32):IDTSInput100</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InsertOutput(Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTSInsertPlacement,System.Int32):Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHash.InsertOutput(DTSInsertPlacement, Int32):IDTSOutput100</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="PostExecute():System.Void">
+            <Messages>
+             <Message Id="System.Int64.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.PostExecute():Void</Item>
+               <Item>System.Int64.ToString</Item>
+               <Item>System.Int64.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ReinitializeMetaData():System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.ReinitializeMetaData():Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="testThread" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.ReinitializeMetaData():Void</Item>
+               <Item>testThread</Item>
+               <Item>Martin.SQLServer.Dts.MultipleHash+MultipleThread</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SetOutputColumnProperty(System.Int32,System.Int32,System.String,System.Object):Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty100">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHash.SetOutputColumnProperty(Int32, Int32, String, Object):IDTSCustomProperty100</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SetUsageType(System.Int32,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput100,System.Int32,Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTSUsageType):Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn100">
+            <Messages>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHash.SetUsageType(Int32, IDTSVirtualInput100, Int32, DTSUsageType):IDTSInputColumn100</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="virtualCol" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>MultipleHash.SetUsageType(Int32, IDTSVirtualInput100, Int32, DTSUsageType):IDTSInputColumn100</Item>
+               <Item>virtualCol</Item>
+               <Item>Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn100</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Validate():Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTSValidationStatus">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.Validate():DTSValidationStatus</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="testThread" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.Validate():DTSValidationStatus</Item>
+               <Item>testThread</Item>
+               <Item>Martin.SQLServer.Dts.MultipleHash+MultipleThread</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ValidateColumnList(System.String,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100):System.Boolean">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.ValidateColumnList(String, IDTSInputColumnCollection100):Boolean</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHash.ValidateColumnList(String, IDTSInputColumnCollection100):Boolean</Item>
+               <Item>System.Convert.ToInt32(System.String)</Item>
+               <Item>System.Convert.ToInt32(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ValidateDataType(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100,System.Int32):System.Boolean">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-11 04:42:35Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHash.ValidateDataType(IDTSOutputColumn100, Int32):Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="MultipleHashForm">
+          <Members>
+           <Member Name="btnDown_Click(System.Object,System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.btnDown_Click(Object, EventArgs):Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.btnDown_Click(Object, EventArgs):Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.btnDown_Click(Object, EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="btnUp_Click(System.Object,System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.btnUp_Click(Object, EventArgs):Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.btnUp_Click(Object, EventArgs):Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.btnUp_Click(Object, EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="DeleteColumns(Martin.SQLServer.Dts.SetInputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.DeleteColumns(SetInputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvAvailableColumns_CellValueChanged(System.Object,System.Windows.Forms.DataGridViewCellEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvAvailableColumns_CellValueChanged(Object, DataGridViewCellEventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvAvailableColumns_CurrentCellDirtyStateChanged(System.Object,System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvAvailableColumns_CurrentCellDirtyStateChanged(Object, EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvHashColumns_CellValueChanged(System.Object,System.Windows.Forms.DataGridViewCellEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvHashColumns_CellValueChanged(Object, DataGridViewCellEventArgs):Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvHashColumns_CellValueChanged(Object, DataGridViewCellEventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvHashColumns_CurrentCellDirtyStateChanged(System.Object,System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvHashColumns_CurrentCellDirtyStateChanged(Object, EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvOutputColumns_CellValueChanged(System.Object,System.Windows.Forms.DataGridViewCellEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvOutputColumns_CellValueChanged(Object, DataGridViewCellEventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvOutputColumns_CellValueChanged(Object, DataGridViewCellEventArgs):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvOutputColumns_SelectionChanged(System.Object,System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvOutputColumns_SelectionChanged(Object, EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="dgvOutputColumns_UserDeletingRow(System.Object,System.Windows.Forms.DataGridViewRowCancelEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.dgvOutputColumns_UserDeletingRow(Object, DataGridViewRowCancelEventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetHashEnum(System.String):Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-16 12:14:56Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHashForm.GetHashEnum(String):HashTypeEnumerator</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetHashName(Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator):System.String">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2009-10-16 12:14:56Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MultipleHashForm.GetHashName(HashTypeEnumerator):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InitializeComponent():System.Void">
+            <Messages>
+             <Message Id="System.Windows.Forms.Control.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>About</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Cancel</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Input Columns</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Move Down</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Move Up</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>MultipleHashForm</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>OK</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Output Columns</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>Output Columns</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>This component was written by Keith Martin in August 2009.  This is version 1.1&#xD;&#xA;Download the latest version or get help from:</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.InitializeComponent():Void</Item>
+               <Item>1</Item>
+               <Item>Control.set_Text(String):Void</Item>
+               <Item>http://ssismhash.codeplex.com/</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LoadAvailableColumns():System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.LoadAvailableColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.LoadAvailableColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.LoadAvailableColumns():Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LoadOutputColumns():System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.LoadOutputColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.LoadOutputColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.LoadOutputColumns():Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="OnLoad(System.EventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.OnLoad(EventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="RefreshdgvHashColumns():System.Void">
+            <Messages>
+             <Message TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.RefreshdgvHashColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.RefreshdgvHashColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashForm.RefreshdgvHashColumns():Void</Item>
+               <Item>DataGridViewRowCollection.get_Item(Int32):DataGridViewRow</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.RefreshdgvHashColumns():Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.RefreshdgvHashColumns():Void</Item>
+               <Item>System.Int32.ToString(System.String)</Item>
+               <Item>System.Int32.ToString(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SetColumns(Martin.SQLServer.Dts.SetInputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.SetColumns(SetInputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="tcTabs_Selecting(System.Object,System.Windows.Forms.TabControlCancelEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashForm.tcTabs_Selecting(Object, TabControlCancelEventArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="MultipleHashUI">
+          <Members>
+           <Member Name="form_AddOutputColumn(System.Object,Martin.SQLServer.Dts.AddOutputColumnNameArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_AddOutputColumn(Object, AddOutputColumnNameArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHashUI.form_AddOutputColumn(Object, AddOutputColumnNameArgs):Void</Item>
+               <Item>System.ApplicationException</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_AlterOutputColumn(System.Object,Martin.SQLServer.Dts.AlterOutputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+               <Item>System.ApplicationException</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+              <Issue>
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2009-10-11 04:42:35Z">
+              <Issue Name="IsNullOrEmpty">
+               <Item>op_Equality</Item>
+               <Item>String.Empty</Item>
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+              </Issue>
+              <Issue Name="IsNullOrEmpty">
+               <Item>op_Equality</Item>
+               <Item>String.Empty</Item>
+               <Item>MultipleHashUI.form_AlterOutputColumn(Object, AlterOutputColumnArgs):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_DeleteInputColumn(System.Object,Martin.SQLServer.Dts.SetInputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_DeleteInputColumn(Object, SetInputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHashUI.form_DeleteInputColumn(Object, SetInputColumnArgs):Void</Item>
+               <Item>System.ApplicationException</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_DeleteOutputColumn(System.Object,Martin.SQLServer.Dts.DeleteOutputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_DeleteOutputColumn(Object, DeleteOutputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_GetInputColumns(System.Object,Martin.SQLServer.Dts.InputColumnsArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_GetInputColumns(Object, InputColumnsArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_GetOutputColumns(System.Object,Martin.SQLServer.Dts.OutputColumnsArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_GetOutputColumns(Object, OutputColumnsArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_GetOutputColumns(Object, OutputColumnsArgs):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="form_SetInputColumn(System.Object,Martin.SQLServer.Dts.SetInputColumnArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>MultipleHashUI.form_SetInputColumn(Object, SetInputColumnArgs):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2009-10-11 04:42:35Z">
+              <Issue Name="TooGeneric">
+               <Item>MultipleHashUI.form_SetInputColumn(Object, SetInputColumnArgs):Void</Item>
+               <Item>System.ApplicationException</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="OutputColumn">
+          <Members>
+           <Member Name=".ctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>OutputColumn.OutputColumn()</Item>
+               <Item>outputColumnID</Item>
+               <Item>System.Int32</Item>
+               <Item>0</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="AddColumnInformation(Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100,System.Int32):System.Void">
+            <Messages>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>OutputColumn.AddColumnInformation(IDTSBufferManager100, IDTSOutput100, IDTSInput100, Int32):Void</Item>
+               <Item>System.Convert.ToInt32(System.String)</Item>
+               <Item>System.Convert.ToInt32(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="Utility">
+          <Members>
+           <Member Name="Append(System.Byte[]&amp;,System.Boolean):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Byte):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Byte[]):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Char,System.Text.Encoding):System.Void">
+            <Messages>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>'encoding'</Item>
+               <Item>Utility.Append(Byte[]&amp;, Char, Encoding):Void</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.DateTime):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Decimal):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Double):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Guid):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="1" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Int16):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Int32):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Int64):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.SByte):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.Single):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.String,System.Text.Encoding):System.Void">
+            <Messages>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2009-10-16 11:44:26Z">
+              <Issue>
+               <Item>'encoding'</Item>
+               <Item>Utility.Append(Byte[]&amp;, String, Encoding):Void</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.TimeSpan):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.UInt16):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.UInt32):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Append(System.Byte[]&amp;,System.UInt64):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Status="Excluded" Created="2009-10-16 11:44:26Z">
+              <Issue Level="CriticalWarning">
+               <Item>array</Item>
+              </Issue>
+              <Notes>
+               <User Name="Installer">
+                <Note Id="2" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetNumberOfProcessorCores():System.Int32">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2009-10-16 11:44:26Z">
+              <Issue Certainty="50">
+               <Item>GetNumberOfProcessorCores</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SetOutputColumnDataType(Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator,Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100):System.Void">
+            <Messages>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2009-10-16 12:14:56Z">
+              <Issue>
+               <Item>'outputColumn'</Item>
+               <Item>Utility.SetOutputColumnDataType(HashTypeEnumerator, IDTSOutputColumn100):Void</Item>
+              </Issue>
+              <Issue>
+               <Item>'outputColumn'</Item>
+               <Item>Utility.SetOutputColumnDataType(HashTypeEnumerator, IDTSOutputColumn100):Void</Item>
+              </Issue>
+              <Issue>
+               <Item>'outputColumn'</Item>
+               <Item>Utility.SetOutputColumnDataType(HashTypeEnumerator, IDTSOutputColumn100):Void</Item>
+              </Issue>
+              <Issue>
+               <Item>'outputColumn'</Item>
+               <Item>Utility.SetOutputColumnDataType(HashTypeEnumerator, IDTSOutputColumn100):Void</Item>
+              </Issue>
+              <Issue>
+               <Item>'outputColumn'</Item>
+               <Item>Utility.SetOutputColumnDataType(HashTypeEnumerator, IDTSOutputColumn100):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Boolean):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Boolean):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Byte):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Byte):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.DateTime):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(DateTime):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(DateTime):Byte[]</Item>
+               <Item>System.DateTime.ToString(System.String)</Item>
+               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Decimal):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Decimal):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Double):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Double):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Int16):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Int16):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Int32):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Int32):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Int64):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Int64):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.SByte):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(SByte):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.Single):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(Single):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.TimeSpan):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(TimeSpan):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.UInt16):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(UInt16):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.UInt32):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(UInt32):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ToArray(System.UInt64):System.Byte[]">
+            <Messages>
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2009-10-11 04:42:35Z">
+              <Issue>
+               <Item>Utility.ToArray(UInt64):Byte[]</Item>
+               <Item>'stream'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Notes>
+   <User Name="Installer">
+    <Note Id="0" Modified="2009-10-16 11:45:25Z">SQLServer is quite valid...</Note>
+    <Note Id="1" Modified="2009-10-16 12:07:40Z">Valid.  Array is modified...</Note>
+    <Note Id="2" Modified="2009-10-16 12:08:00Z">Valid.  Array is modified.</Note>
+   </User>
+  </Notes>
+  <Rules>
+   <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
+    <Resolution Name="Default">It appears that field '{0}' is never used or is only ever assigned to. Use this field or remove it.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCallPropertiesThatCloneValuesInLoops" Category="Microsoft.Performance" CheckId="CA1817">
+    <Resolution Name="Default">Within {0}, consider  getting the value of '{1}' once and caching it inside a local variable before entering the loop.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
+    <Resolution Name="Parameter">'{0}', a parameter, is cast to type '{1}' multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify '{0}' to catch a more specific exception than '{1}' or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818">
+    <Resolution Name="Default">Change {0} to use StringBuilder instead of String.Concat or +=</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202">
+    <Resolution Name="Default">'{0}' contains possible code paths that dispose {1} multiple times. Change this behavior so that Close or Dispose is only called once or ensure that the Dispose implementation of '{1}' is reentrant.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805">
+    <Resolution Name="Default">{0} initializes field {1} of type {2} to {3}. Remove this initialization as it will be done automatically by the runtime.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303">
+    <Resolution Name="Default">{0} passes a literal as parameter {1} of a call to {2}. Retrieve the following string argument from a resource table instead: '{3}'</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045">
+    <Resolution Name="Default">Consider a design that does not require that '{0}' be a reference parameter.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201">
+    <Resolution Name="TooGeneric">{0} creates an exception of type '{1}', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Resolution>
+   </Rule>
+   <Rule TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033">
+    <Resolution Name="Default">Make '{0}' sealed (a breaking change if this class has previously shipped), implement the method non-explicitly, or implement a new method that exposes the functionality of '{1}' and is visible to derived classes.</Resolution>
+   </Rule>
+   <Rule TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705">
+    <Resolution Name="Namespace">Correct the capitalization of namespace name '{0}'.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+    <Resolution Name="Default">The 'this' parameter (or 'Me' in VB) of {0} is never used. Mark the member as static (or Shared in VB) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804">
+    <Resolution Name="Default">{0} declares a local, '{1}', of type {2}, which is never used or is only assigned to. Use this local or remove it.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="Default">{0} makes a call to {1} that does not explicitly provide an IFormatProvider. This should be replaced with a call to {2}.</Resolution>
+   </Rule>
+   <Rule TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820">
+    <Resolution Name="IsNullOrEmpty">Replace the call to String.{0}({1}) in '{2}' with a call to String.IsNullOrEmpty.</Resolution>
+   </Rule>
+   <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+    <Resolution Name="Default">Change '{0}' to a property if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062">
+    <Resolution Name="Default">Validate parameter {0} passed to externally visible method {1}.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>

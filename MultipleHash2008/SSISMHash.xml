@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" ?>
+<Mappings xmlns="http://www.microsoft.com/SqlServer/Dts/UpgradeMapping.xsd">
+
+  <!--  
+		SSIS Multple Hash Upgrade Mappings
+		Copyright © 2010 Keith Martin 
+		%ProgramFiles%\Microsoft SQL Server\100\DTS\UpgradeMappings\
+		Upgrade mapping for SQL Server 2005 to SQL Server 2008.			  
+	-->
+
+  <ExtensionMapping
+		tag="SSIS Multiple Hash"
+		oldAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="Martin.SQLServer.Dts.MultipleHash, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+</Mappings>
