@@ -4,7 +4,7 @@
   <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
-<!-- 1A32075B-C33C-41B6-B9B4-3990557CC879 -->
+
   <Product Id="*" 
            Name="Multiple Hash x64" 
            Language="1033" 

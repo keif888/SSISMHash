@@ -190,7 +190,7 @@
     <value>The property SafeNullHandling is set to an invalid value.</value>
   </data>
   <data name="PropertyRemoved" xml:space="preserve">
-    <value>The output properties HashType and InputColumnLineageIDs are missing (or there are extra properties) on column %s.</value>
+    <value>The output property {0} is missing from column {1}.</value>
   </data>
   <data name="ReadWriteNotSupported" xml:space="preserve">
     <value>Read write not supported.</value>

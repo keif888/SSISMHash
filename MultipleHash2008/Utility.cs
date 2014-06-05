@@ -128,6 +128,11 @@ namespace Martin.SQLServer.Dts
         /// This is the name of the SSIS Propery that holds the Millisecond handling details.
         /// </summary>
         private const string ConstMillsecondPropName = "IncludeMillsecond";
+
+        /// <summary>
+        /// This is the name of the SSIS property that holds the output type details.
+        /// </summary>
+        private const string ConstOutputTypePropName = "HashOutputType";
         #endregion
 
         /// <summary>
@@ -157,6 +162,17 @@ namespace Martin.SQLServer.Dts
             { 
                 return ConstInputColumnLineagePropName; 
             } 
+        }
+
+        /// <summary>
+        /// Gets the output columns output type property name
+        /// </summary>
+        public static string OutputColumnOutputTypePropName
+        {
+            get
+            {
+                return ConstOutputTypePropName;
+            }
         }
 
         /// <summary>

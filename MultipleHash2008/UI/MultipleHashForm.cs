@@ -1205,6 +1205,10 @@ namespace Martin.SQLServer.Dts
                     return "FNV1a32";
                 case MultipleHash.HashTypeEnumerator.FNV1a64:
                     return "FNV1a64";
+                case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                    return "MurmurHash3a";
+                case MultipleHash.HashTypeEnumerator.xxHash:
+                    return "xxHash";
                 case MultipleHash.HashTypeEnumerator.None:
                 default:
                     return "None";
@@ -1240,6 +1244,10 @@ namespace Martin.SQLServer.Dts
                     return MultipleHash.HashTypeEnumerator.FNV1a32;
                 case "FNV1a64":
                     return MultipleHash.HashTypeEnumerator.FNV1a64;
+                case "MurmurHash3a":
+                    return MultipleHash.HashTypeEnumerator.MurmurHash3a;
+                case "xxHash":
+                    return MultipleHash.HashTypeEnumerator.xxHash;
                 case "None":
                 default:
                     return MultipleHash.HashTypeEnumerator.None;
@@ -1326,6 +1334,46 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
+        #region Output Type Enum Helper Functions
+
+        /// <summary>
+        /// Returns the string value from the OutputTypeEnumerator enum.
+        /// </summary>
+        /// <param name="outputTypeValue">The OutputTypeEnumerator value to return a string for</param>
+        /// <returns>The string value for the OutputTypeEnumerator</returns>
+        static private string GetOutputTypeName(MultipleHash.OutputTypeEnumerator outputTypeValue)
+        {
+            switch(outputTypeValue)
+            {
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    return "Base64";
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    return "HexString";
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                default:
+                    return "Binary";
+            }
+        }
+
+        /// <summary>
+        /// Returns the OutputTypeEnumerator value for the passed in string hashValue
+        /// </summary>
+        /// <param name="outputTypeValue">The string value for the OutputTypeEnumerator</param>
+        /// <returns>The OutputTypeEnumerator value for the passed in string.</returns>
+        static private MultipleHash.OutputTypeEnumerator GetOutputTypeEnum(string outputTypeValue)
+        {
+            switch (outputTypeValue)
+            {
+                case "Base64":
+                    return MultipleHash.OutputTypeEnumerator.Base64String;
+                case "HexString":
+                    return MultipleHash.OutputTypeEnumerator.HexString;
+                case "Binary":
+                default:
+                    return MultipleHash.OutputTypeEnumerator.Binary;
+            }
+        }
+        #endregion
 
         #region GetSafeMillisecondEnum
         /// <summary>
