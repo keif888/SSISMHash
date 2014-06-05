@@ -51,15 +51,19 @@ namespace Martin.SQLServer.Dts
     using Microsoft.SqlServer.Dts.Pipeline;
 #if SQL2014
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
 #if SQL2012
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
 #if SQL2008
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
 #if SQL2005
      using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
+     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData90;
 #endif
     #endregion
     /// <summary>
@@ -230,7 +234,7 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="value">input value to convert to byte array</param>
         /// <returns>byte array</returns>
-        private static byte[] ToArray(DateTimeOffset value, Boolean millisecondHandling)
+        public static byte[] ToArray(DateTimeOffset value, Boolean millisecondHandling)
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -755,7 +759,7 @@ namespace Martin.SQLServer.Dts
         /// This creates the hash value from a thread
         /// </summary>
         /// <param name="state">this is the thread state object that is passed</param>
-        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling, bool millisecondHandling)
+        public static void CalculateHash(OutputColumn columnToProcess, PipelineBuffer buffer, bool safeNullHandling, bool millisecondHandling, IDTSComponentMetaData componentMetaData)
         {
             byte[] inputByteBuffer = new byte[1000];
             Int32 bufferUsed = 0;
@@ -899,6 +903,12 @@ namespace Martin.SQLServer.Dts
                     break;
             }
             buffer.SetBytes(columnToProcess.OutputColumnId, hash);
+            Boolean FireAgain = true;
+            componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} inputByteBuffer {0}", System.Convert.ToBase64String(inputByteBuffer), columnToProcessID), string.Empty, 0, ref FireAgain);
+            componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} hash {0}", System.Convert.ToBase64String(hash), columnToProcessID), string.Empty, 0, ref FireAgain);
+            componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} bufferUsed {0}", bufferUsed, columnToProcessID), string.Empty, 0, ref FireAgain);
+            componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} HashType {0}", columnToProcess.HashType, columnToProcessID), string.Empty, 0, ref FireAgain);
+            
         }
 
         #endregion
