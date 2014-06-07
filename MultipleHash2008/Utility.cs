@@ -270,7 +270,8 @@ namespace Martin.SQLServer.Dts
                     }
                     else
                     {
-                        writer.Write(value.ToString("u"));
+                        //writer.Write(value.ToString("u"));
+                        writer.Write(value.ToString("yyyy-MM-dd HH:mm:ssZ"));
                     }
                     return stream.ToArray();
                 }
@@ -767,10 +768,17 @@ namespace Martin.SQLServer.Dts
             uint blobLength = 0;
             Int32 columnToProcessID = 0;
 
+#if DEBUG
+            Boolean FireAgain = true;
+#endif
+
             // Step through each input column for that output column
             for (int j = 0; j < columnToProcess.Count; j++)
             {
                 columnToProcessID = columnToProcess[j];  // Only call this once, as it appears to be "slow".
+#if DEBUG
+                componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {0}, j = {1}, columnToProcessID = {2}, DataType = {3}", columnToProcess.OutputColumnId, j, columnToProcessID, buffer.GetColumnInfo(columnToProcessID).DataType.ToString()), string.Empty, 0, ref FireAgain);
+#endif
                 // Skip NULL values, as they "don't" exist...
                 if (!buffer.IsNull(columnToProcessID))
                 {
@@ -802,6 +810,9 @@ namespace Martin.SQLServer.Dts
                             break;
                         case DataType.DT_DBDATE:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID), millisecondHandling);
+#if DEBUG
+                            componentMetaData.FireInformation(1600, componentMetaData.Name, String.Format("columnToProcess {0}, j = {1}, inputByteBuffer = {2}", columnToProcess.OutputColumnId, j, buffer.GetDate(columnToProcessID).ToString("u")), string.Empty, 0, ref FireAgain);
+#endif
                             break;
 #endif
                         case DataType.DT_DATE:
@@ -812,6 +823,11 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_FILETIME:
 #endif
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID), millisecondHandling);
+#if DEBUG
+                            DateTime dummy = buffer.GetDateTime(columnToProcessID);
+                            componentMetaData.FireInformation(1600, componentMetaData.Name, String.Format("columnToProcess {0}, j = {1}, inputByteBuffer = {2}", columnToProcess.OutputColumnId, j, dummy.ToString("u")), string.Empty, 0, ref FireAgain);
+                            componentMetaData.FireInformation(1600, componentMetaData.Name, String.Format("columnToProcess {0}, j = {1}, inputByteBuffer = {2}", columnToProcess.OutputColumnId, j,dummy.ToUniversalTime().ToString("u")), string.Empty, 0, ref FireAgain);
+#endif
                             break;
 #if SQL2005
 #else
@@ -871,6 +887,10 @@ namespace Martin.SQLServer.Dts
                 {
                     nullHandling += "Y";
                 }
+
+#if DEBUG
+                componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {0}, j = {1}, inputByteBuffer = {2}", columnToProcess.OutputColumnId, j, System.Convert.ToBase64String(inputByteBuffer)), string.Empty, 0, ref FireAgain);
+#endif
             }
 
             if (safeNullHandling)
@@ -903,12 +923,13 @@ namespace Martin.SQLServer.Dts
                     break;
             }
             buffer.SetBytes(columnToProcess.OutputColumnId, hash);
-            Boolean FireAgain = true;
+#if DEBUG
+            columnToProcessID = columnToProcess.OutputColumnId;
             componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} inputByteBuffer {0}", System.Convert.ToBase64String(inputByteBuffer), columnToProcessID), string.Empty, 0, ref FireAgain);
             componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} hash {0}", System.Convert.ToBase64String(hash), columnToProcessID), string.Empty, 0, ref FireAgain);
             componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} bufferUsed {0}", bufferUsed, columnToProcessID), string.Empty, 0, ref FireAgain);
             componentMetaData.FireInformation(1100, componentMetaData.Name, String.Format("columnToProcess {1} HashType {0}", columnToProcess.HashType, columnToProcessID), string.Empty, 0, ref FireAgain);
-            
+#endif            
         }
 
         #endregion
