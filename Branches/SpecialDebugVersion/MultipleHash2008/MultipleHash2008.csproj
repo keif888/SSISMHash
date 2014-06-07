@@ -182,14 +182,14 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
-if NOT [$(ConfigurationName)] == [Release] DEL "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).*" /Q
-if NOT [$(ConfigurationName)] == [Release] DEL "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\$(TargetName).*" /Q
-if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 11.0\Team Tools\Performance Tools\vsinstr" -coverage "$(TargetDir)$(TargetName).dll"
-if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v7.0A\bin\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
-if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\DTS\PipelineComponents\" /Y
-if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\" /Y
-if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).DLL"
+    <PostBuildEvent>REM if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -u $(TargetName)
+REM if NOT [$(ConfigurationName)] == [Release] DEL "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).*" /Q
+REM if NOT [$(ConfigurationName)] == [Release] DEL "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\$(TargetName).*" /Q
+REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 11.0\Team Tools\Performance Tools\vsinstr" -coverage "$(TargetDir)$(TargetName).dll"
+REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v7.0A\bin\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+REM if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\DTS\PipelineComponents\" /Y
+REM if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\100\Tools\Binn\VSShell\Common7\IDE\" /Y
+REM if NOT [$(ConfigurationName)] == [Release] "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\GACUtil.exe" -i "%25ProgramFiles%25\Microsoft SQL Server\100\DTS\PipelineComponents\$(TargetName).DLL"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

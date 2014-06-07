@@ -1112,6 +1112,9 @@ namespace Martin.SQLServer.Dts
 
             foreach (IDTSCustomProperty customProperty in ComponentMetaData.CustomPropertyCollection)
             {
+#if DEBUG
+                this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Custom Property {0} has value {1}.", customProperty.Name, customProperty.Value), string.Empty, 0, ref fireAgain);
+#endif
                 if (customProperty.Name == Utility.MultipleThreadPropName)
                 {
                     testThread = (MultipleThread)customProperty.Value;
@@ -1158,6 +1161,9 @@ namespace Martin.SQLServer.Dts
             }
 
             this.numOfOutputColumns = ComponentMetaData.OutputCollection[0].OutputColumnCollection.Count;
+#if DEBUG
+            this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Number of Output Columns is {0}.", this.numOfOutputColumns), string.Empty, 0, ref fireAgain);
+#endif
             // Only enable Multiple Threads if more than 5 outputs.
             if ((testThread == MultipleThread.Auto) && (this.numOfOutputColumns < 6))
             {
@@ -1173,6 +1179,15 @@ namespace Martin.SQLServer.Dts
                 {
                     this.ComponentMetaData.FireWarning(0, this.ComponentMetaData.Name, "Inside PreExecute: HashObject has not been set for " + ComponentMetaData.OutputCollection[0].OutputColumnCollection[i].Name, string.Empty, 0);
                 }
+#if DEBUG
+                foreach (IDTSCustomProperty customProperty in ComponentMetaData.OutputCollection[0].OutputColumnCollection[i].CustomPropertyCollection)
+                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Output Column Name {0}, custom Property {1} has value {2}.", ComponentMetaData.OutputCollection[0].OutputColumnCollection[i].Name, customProperty.Name, customProperty.Value), string.Empty, 0, ref fireAgain);
+
+                for (int iCount = 0; iCount < this.outputColumnsArray[i].Count; iCount++)
+                {
+                    this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, String.Format("Output Column Name {0}, input column {1} has inputColumnLineage {2}.", ComponentMetaData.OutputCollection[0].OutputColumnCollection[i].Name, iCount, this.outputColumnsArray[i][iCount]), string.Empty, 0, ref fireAgain);
+                }
+#endif
             }
 
             if (this.numOfThreads > 1)
@@ -1221,7 +1236,6 @@ namespace Martin.SQLServer.Dts
                     this.numOfRowsProcessed++;
 #if DEBUG
                     this.ComponentMetaData.FireInformation(0, this.ComponentMetaData.Name, "Inside ProcessInput: while (buffer.NextRow())", string.Empty, 0, ref FireAgain); 
-#endif
                     for (int i = 0; i < buffer.ColumnCount; i++)
                     {
                         if (!buffer.IsNull(i))
@@ -1314,6 +1328,7 @@ namespace Martin.SQLServer.Dts
                             }
                         }
                     }
+#endif
                     //
                     if (this.numOfThreads > 1)
                     {
