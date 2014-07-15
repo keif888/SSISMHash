@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.2.3"?>
+  <?define ProductVersion = "1.6.3.4"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -31,31 +31,59 @@
     <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
     <!-- Find the path for SSIS' installation files. -->
-    <Property Id="SSIS32_2014_PATH" Value="C:\Program Files\Microsoft SQL Server\120\DTS">
-      <RegistrySearch Type="directory" Id="SSIS32_2014_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="no"/>
+    <Property Id="SSIS32_2014_PATH">
+      <!-- Value="C:\Program Files\Microsoft SQL Server\120\DTS"> -->
+      <RegistrySearch Type="directory" Id="SSIS32_2014_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="no"/>
+      <RegistrySearch Type="directory" Id="SSIS32_2014_PATH_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="SQLPath" Win64="no"/>
+      <DirectorySearch AssignToProperty="yes" Id="SSIS32_2014_PATH_3" Path="[ProgramFilesFolder]\Microsoft SQL Server\120\DTS" />
     </Property>
-    <Property Id="SSIS32_2012_PATH" Value="C:\Program Files\Microsoft SQL Server\110\DTS">
-      <RegistrySearch Type="directory" Id="SSIS32_2012_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="no"/>
+    <Property Id="SSIS32_2012_PATH">
+      <!-- Value="C:\Program Files\Microsoft SQL Server\110\DTS"> -->
+      <RegistrySearch Type="directory" Id="SSIS32_2012_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="no"/>
+      <RegistrySearch Type="directory" Id="SSIS32_2012_PATH_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="SQLPath" Win64="no"/>
+      <DirectorySearch AssignToProperty="yes" Id="SSIS32_2012_PATH_3" Path="[ProgramFilesFolder]\Microsoft SQL Server\110\DTS" />
     </Property>
-    <Property Id="SSIS32_2008_PATH" Value="C:\Program Files\Microsoft SQL Server\100\DTS">
-      <RegistrySearch Type="directory" Id="SSIS32_2008_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
+    <Property Id="SSIS32_2008_PATH">
+      <!-- Value="C:\Program Files\Microsoft SQL Server\100\DTS">-->
+      <RegistrySearch Type="directory" Id="SSIS32_2008_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
+      <DirectorySearch AssignToProperty="yes" Id="SSIS32_2008_PATH_2" Path="[ProgramFilesFolder]\Microsoft SQL Server\100\DTS" />
     </Property>
-    <Property Id="SSIS32_2005_PATH" Value="C:\Program Files\Microsoft SQL Server\90\DTS">
-      <RegistrySearch Type="directory" Id="SSIS32_2005_PATH" Root="HKLM" Key="SOFTWARE\Microsoft\MSDTS\Setup\DTSPath" Win64="no"/>
+    <Property Id="SSIS32_2005_PATH">
+      <!-- Value="C:\Program Files\Microsoft SQL Server\90\DTS"> -->
+      <RegistrySearch Type="directory" Id="SSIS32_2005_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\MSDTS\Setup\DTSPath" Win64="no"/>
+      <DirectorySearch AssignToProperty="yes" Id="SSIS32_2005_PATH_2" Path="[ProgramFilesFolder]\Microsoft SQL Server\90\DTS" />
     </Property>
+
+    <!--
+    <SetProperty Id="SSIS32_2014_PATH_2" After="AppSearch" Value="[SSIS32_2014_PATH_3]">
+      SSIS32_2014_PATH_3
+    </SetProperty>
+    <SetProperty Id="SSIS32_2014_PATH" After="AppSearch" Value="[SSIS32_2014_PATH_2]">
+      SSIS32_2014_PATH_2
+    </SetProperty>
+    <SetProperty Id="SSIS32_2012_PATH" After="AppSearch" Value="[SSIS32_2012_PATH_2]">
+      SSIS32_2012_PATH_2
+    </SetProperty>
+
+-->
 
     <!-- Try and detect if SSIS is installed.  This doesn't work for BIDS/SSDTBI install's. -->
     <Property Id="SSIS32_2014">
-      <RegistrySearch Type="raw" Id="SSIS32_2014" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="no"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS32_2014_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSDTBI_VS2013\Setup" Name="Version" Win64="no"/> -->
+      <RegistrySearch Type="raw" Id="SSIS32_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="no"/>
     </Property>
     <Property Id="SSIS32_2012">
-      <RegistrySearch Type="raw" Id="SSIS32_2012" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="no"/>
     </Property>
     <Property Id="SSIS32_2008">
-      <RegistrySearch Type="raw" Id="SSIS32_2008" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="no"/>
     </Property>
     <Property Id="SSIS32_2005">
-      <RegistrySearch Type="raw" Id="SSIS32_2005" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="Edition" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2005_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="Edition" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2005_2" Root="HKCR" Key="IntegrationServices.Package.90" Win64="no"/>
     </Property>
 
     <!-- Try and detect if BIDS is installed. 
