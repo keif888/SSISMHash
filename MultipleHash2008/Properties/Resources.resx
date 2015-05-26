@@ -160,7 +160,7 @@
     <value>Output columns cannot be added to </value>
   </data>
   <data name="OutputDatatypeInvalid" xml:space="preserve">
-    <value>The HashType and Column Data Types do not match.</value>
+    <value>The HashType, OutputType and Column Data Types do not match for column {0}.</value>
   </data>
   <data name="OutputPropertyCannotBeChanged" xml:space="preserve">
     <value>The output property that you selected, can not be changed.</value>
