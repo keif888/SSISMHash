@@ -125,6 +125,7 @@ namespace Martin.SQLServer.Dts
     internal struct OutputColumnElement
     {
         public MultipleHash.HashTypeEnumerator Hash;
+        public MultipleHash.OutputTypeEnumerator dataType;
         public DataFlowElement OutputColumn;
         public InputColumnElement[] InputColumns;
     }
@@ -985,6 +986,7 @@ namespace Martin.SQLServer.Dts
                     // Get the text box and Hash Type
                     DataGridViewTextBoxCell textBoxCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsColumnName.Index] as DataGridViewTextBoxCell;
                     DataGridViewComboBoxCell comboCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsHashType.Index] as DataGridViewComboBoxCell;
+                    DataGridViewComboBoxCell dataTypeCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsDataType.Index] as DataGridViewComboBoxCell;
 
                     // Default the text box data, if there isn't anything.
                     if (textBoxCell.Value == null)
@@ -1014,6 +1016,16 @@ namespace Martin.SQLServer.Dts
                         {
                             outputColumnRow.Hash = MultipleHash.HashTypeEnumerator.None;
                             comboCell.Value = MultipleHashForm.GetHashName(MultipleHash.HashTypeEnumerator.None);
+                        }
+
+                        if (dataTypeCell.Value != null)
+                        {
+                            outputColumnRow.dataType = MultipleHashForm.GetDataTypeEnum(dataTypeCell.Value.ToString());
+                        }
+                        else
+                        {
+                            outputColumnRow.dataType = MultipleHash.OutputTypeEnumerator.Binary;
+                            dataTypeCell.Value = MultipleHashForm.GetDataTypeName(MultipleHash.OutputTypeEnumerator.Binary);
                         }
 
                         // Filling the cells.
@@ -1251,6 +1263,47 @@ namespace Martin.SQLServer.Dts
                 case "None":
                 default:
                     return MultipleHash.HashTypeEnumerator.None;
+            }
+        }
+        #endregion
+
+        #region dataType Value Helper Functions
+
+        /// <summary>
+        /// Returns the string value from the outputValue enum.
+        /// </summary>
+        /// <param name="outputValue">The OutputTypeEnumerator value to return a string for</param>
+        /// <returns>The string value for the OutputTypeEnumerator</returns>
+        static private string GetDataTypeName(MultipleHash.OutputTypeEnumerator outputValue)
+        {
+            switch(outputValue)
+            {
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    return "Base64String";
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    return "HexString";
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                default:
+                    return "Binary";
+            }
+        }
+
+        /// <summary>
+        /// Returns the OutputTypeEnumerator value for the passed in string outputValue
+        /// </summary>
+        /// <param name="hashValue">The string value for the OutputTypeEnumerator</param>
+        /// <returns>The OutputTypeEnumerator value for the passed in string.</returns>
+        static private MultipleHash.OutputTypeEnumerator GetDataTypeEnum(string outputValue)
+        {
+            switch (outputValue)
+            {
+                case "Base64String":
+                    return MultipleHash.OutputTypeEnumerator.Base64String;
+                case "HexString":
+                    return MultipleHash.OutputTypeEnumerator.HexString;
+                case "Binary":
+                default:
+                    return MultipleHash.OutputTypeEnumerator.Binary;
             }
         }
         #endregion

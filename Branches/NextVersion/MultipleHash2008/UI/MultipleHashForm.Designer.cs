@@ -47,8 +47,6 @@ namespace Martin.SQLServer.Dts
             this.tbOutput = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgvOutputColumns = new System.Windows.Forms.DataGridView();
-            this.dgvOutputColumnsColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvOutputColumnsHashType = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.outputHashContainer = new System.Windows.Forms.SplitContainer();
             this.dgvInputColumns = new System.Windows.Forms.DataGridView();
             this.dgvInputColumnsSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -65,6 +63,9 @@ namespace Martin.SQLServer.Dts
             this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvOutputColumnsColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvOutputColumnsHashType = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dgvOutputColumnsDataType = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tcTabs.SuspendLayout();
             this.tbInput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
@@ -249,7 +250,7 @@ namespace Martin.SQLServer.Dts
             // 
             this.splitContainer1.Panel2.Controls.Add(this.outputHashContainer);
             this.splitContainer1.Size = new System.Drawing.Size(828, 429);
-            this.splitContainer1.SplitterDistance = 245;
+            this.splitContainer1.SplitterDistance = 342;
             this.splitContainer1.TabIndex = 11;
             // 
             // dgvOutputColumns
@@ -257,45 +258,19 @@ namespace Martin.SQLServer.Dts
             this.dgvOutputColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOutputColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgvOutputColumnsColumnName,
-            this.dgvOutputColumnsHashType});
+            this.dgvOutputColumnsHashType,
+            this.dgvOutputColumnsDataType});
             this.dgvOutputColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvOutputColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvOutputColumns.MultiSelect = false;
             this.dgvOutputColumns.Name = "dgvOutputColumns";
             this.dgvOutputColumns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvOutputColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOutputColumns.Size = new System.Drawing.Size(245, 429);
+            this.dgvOutputColumns.Size = new System.Drawing.Size(342, 429);
             this.dgvOutputColumns.TabIndex = 7;
             this.dgvOutputColumns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOutputColumns_CellValueChanged);
             this.dgvOutputColumns.SelectionChanged += new System.EventHandler(this.dgvOutputColumns_SelectionChanged);
             this.dgvOutputColumns.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvOutputColumns_UserDeletingRow);
-            // 
-            // dgvOutputColumnsColumnName
-            // 
-            this.dgvOutputColumnsColumnName.HeaderText = "Column Name";
-            this.dgvOutputColumnsColumnName.MinimumWidth = 30;
-            this.dgvOutputColumnsColumnName.Name = "dgvOutputColumnsColumnName";
-            this.dgvOutputColumnsColumnName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dgvOutputColumnsColumnName.ToolTipText = "Enter the name for this output column";
-            // 
-            // dgvOutputColumnsHashType
-            // 
-            this.dgvOutputColumnsHashType.HeaderText = "Hash";
-            this.dgvOutputColumnsHashType.Items.AddRange(new object[] {
-            "None",
-            "MD5",
-            "RipeMD160",
-            "SHA1",
-            "SHA256",
-            "SHA384",
-            "SHA512",
-            "CRC32",
-            "CRC32C",
-            "FNV1a32",
-            "FNV1a64"});
-            this.dgvOutputColumnsHashType.MinimumWidth = 30;
-            this.dgvOutputColumnsHashType.Name = "dgvOutputColumnsHashType";
-            this.dgvOutputColumnsHashType.ToolTipText = "Select the hash value to be applied to this output column";
             // 
             // outputHashContainer
             // 
@@ -311,8 +286,8 @@ namespace Martin.SQLServer.Dts
             // 
             this.outputHashContainer.Panel2.Controls.Add(this.dgvHashColumns);
             this.outputHashContainer.Panel2.Controls.Add(this.panel3);
-            this.outputHashContainer.Size = new System.Drawing.Size(579, 429);
-            this.outputHashContainer.SplitterDistance = 247;
+            this.outputHashContainer.Size = new System.Drawing.Size(482, 429);
+            this.outputHashContainer.SplitterDistance = 205;
             this.outputHashContainer.TabIndex = 12;
             // 
             // dgvInputColumns
@@ -327,7 +302,7 @@ namespace Martin.SQLServer.Dts
             this.dgvInputColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvInputColumns.Name = "dgvInputColumns";
             this.dgvInputColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInputColumns.Size = new System.Drawing.Size(247, 429);
+            this.dgvInputColumns.Size = new System.Drawing.Size(205, 429);
             this.dgvInputColumns.TabIndex = 0;
             this.dgvInputColumns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputColumns_CellContentClick);
             // 
@@ -358,7 +333,7 @@ namespace Martin.SQLServer.Dts
             this.dgvHashColumns.Location = new System.Drawing.Point(0, 0);
             this.dgvHashColumns.Name = "dgvHashColumns";
             this.dgvHashColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHashColumns.Size = new System.Drawing.Size(328, 399);
+            this.dgvHashColumns.Size = new System.Drawing.Size(273, 399);
             this.dgvHashColumns.TabIndex = 8;
             this.dgvHashColumns.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvHashColumns_CurrentCellDirtyStateChanged);
             // 
@@ -384,7 +359,7 @@ namespace Martin.SQLServer.Dts
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 399);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(328, 30);
+            this.panel3.Size = new System.Drawing.Size(273, 30);
             this.panel3.TabIndex = 11;
             // 
             // btnUp
@@ -461,6 +436,44 @@ namespace Martin.SQLServer.Dts
             this.panel1.Size = new System.Drawing.Size(842, 29);
             this.panel1.TabIndex = 6;
             // 
+            // dgvOutputColumnsColumnName
+            // 
+            this.dgvOutputColumnsColumnName.HeaderText = "Column Name";
+            this.dgvOutputColumnsColumnName.MinimumWidth = 30;
+            this.dgvOutputColumnsColumnName.Name = "dgvOutputColumnsColumnName";
+            this.dgvOutputColumnsColumnName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgvOutputColumnsColumnName.ToolTipText = "Enter the name for this output column";
+            // 
+            // dgvOutputColumnsHashType
+            // 
+            this.dgvOutputColumnsHashType.HeaderText = "Hash";
+            this.dgvOutputColumnsHashType.Items.AddRange(new object[] {
+            "None",
+            "MD5",
+            "RipeMD160",
+            "SHA1",
+            "SHA256",
+            "SHA384",
+            "SHA512",
+            "CRC32",
+            "CRC32C",
+            "FNV1a32",
+            "FNV1a64",
+            "MurmurHash3a",
+            "xxHash"});
+            this.dgvOutputColumnsHashType.MinimumWidth = 30;
+            this.dgvOutputColumnsHashType.Name = "dgvOutputColumnsHashType";
+            this.dgvOutputColumnsHashType.ToolTipText = "Select the hash value to be applied to this output column";
+            // 
+            // dgvOutputColumnsDataType
+            // 
+            this.dgvOutputColumnsDataType.HeaderText = "Data Type";
+            this.dgvOutputColumnsDataType.Items.AddRange(new object[] {
+            "Binary",
+            "Base64String",
+            "HexString"});
+            this.dgvOutputColumnsDataType.Name = "dgvOutputColumnsDataType";
+            // 
             // MultipleHashForm
             // 
             this.AcceptButton = this.btnOK;
@@ -528,9 +541,10 @@ namespace Martin.SQLServer.Dts
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvInputColumnsColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHashColumnsSortPosition;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvOutputColumnsColumnName;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsHashType;
         private System.Windows.Forms.CheckBox cbMilliseconds;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvOutputColumnsColumnName;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsHashType;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgvOutputColumnsDataType;
     }
 }
