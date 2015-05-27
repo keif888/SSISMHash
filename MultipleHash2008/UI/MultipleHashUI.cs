@@ -479,7 +479,7 @@ namespace Martin.SQLServer.Dts
                 // If the hash value has changed, assign the new value, and correct the output column data type.
                 if ((MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value != args.OutputColumnDetail.Hash)
                 {
-                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, outputColumn);
+                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, (MultipleHash.OutputTypeEnumerator) outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value, outputColumn);
                     outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = args.OutputColumnDetail.Hash;
                 }
 
