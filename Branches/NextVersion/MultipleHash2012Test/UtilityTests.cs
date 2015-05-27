@@ -7,6 +7,8 @@ using Martin.SQLServer.Dts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Pipeline;
+using MultipleHash2012Test;
+using MultipleHash2012Test.SSISImplementations;
 
 namespace Martin.SQLServer.Dts.Tests
 {
@@ -694,6 +696,26 @@ namespace Martin.SQLServer.Dts.Tests
             {
                 Assert.AreEqual(arrayExpected[i], array[i]);
             }
+            arrayExpected = new byte[1031];
+            value = new byte[1030];
+            byte j = 0;
+            arrayExpected[0] = 0;
+            for (int i = 1; i < 1031; i++)
+            {
+                value[i - 1] = j;
+                arrayExpected[i] = j;
+                if (j != 0xFF)
+                    j++;
+                else
+                    j = 0;
+            }
+            usedBuffer = 1;
+            Utility.Append(ref array, ref usedBuffer, value);
+            Assert.AreEqual(arrayExpected.Length, usedBuffer, "Values are not same length");
+            for (int i = 0; i < arrayExpected.Length; i++)
+            {
+                Assert.AreEqual(arrayExpected[i], array[i]);
+            }
         }
 
         /// <summary>
@@ -743,6 +765,60 @@ namespace Martin.SQLServer.Dts.Tests
             string actual;
             actual = Utility.SafeNullHandlingPropName;
             Assert.AreEqual("SafeNullHandling", actual);
+        }
+
+        /// <summary>
+        /// A test to check if we can set output column data types.
+        /// </summary>
+        [TestMethod()]
+        public void SetOutputColumnDataTypeTest()
+        {
+            IDTSOutput100 output = new OutputTestImpl();
+            IDTSOutputColumn100 outputColumn;
+            outputColumn = output.OutputColumnCollection.New();
+
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.None, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(16, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(16, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA1, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(20, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(20, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA256, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(32, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(48, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA512, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(64, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(4, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32C, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(4, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a32, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(4, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a64, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MurmurHash3a, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);  // MurmurHash3a using 128bit hash result.  (See this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/MurmurHash/MurmurHash3.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(16, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.xxHash, MultipleHash.OutputTypeEnumerator.Binary, outputColumn);  // xxHash using 64bit hash result. (see this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/xxHash/xxHash.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
+            Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
+
+
+            Assert.Fail();
         }
 
 
