@@ -7,14 +7,59 @@ using Martin.SQLServer.Dts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime;
 using MultipleHash2012Test;
 using MultipleHash2012Test.SSISImplementations;
+using System.Data.SqlServerCe;
+using System.IO;
+using System.Data;
+using System.Diagnostics;
+using Microsoft.SqlServer.Dts.Runtime;
+
 
 namespace Martin.SQLServer.Dts.Tests
 {
     [TestClass()]
     public class UtilityTests
     {
+
+        const string sqlCEDatabaseName = @".\UtilityTest.sdf";
+        const string sqlCEPassword = "MartinSource";
+        SqlCeEngine sqlCEEngine = null;
+
+        private static string connectionString()
+        {
+            return String.Format("DataSource=\"{0}\"; Password='{1}'", sqlCEDatabaseName, sqlCEPassword);
+        }
+
+        [TestInitialize]
+        public void SetupSQLCEDatabase()
+        {
+            if (File.Exists(sqlCEDatabaseName))
+            {
+                File.Delete(sqlCEDatabaseName);
+            }
+
+            sqlCEEngine = new SqlCeEngine(connectionString());
+            sqlCEEngine.CreateDatabase();
+
+            SqlCeConnection connection = new SqlCeConnection(connectionString());
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            //StringData,MoreStringData,2012-01-04,18,19.05
+
+            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+            SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
+            command.ExecuteNonQuery();
+
+//            tableCreate = "CREATE TABLE [MoreTestRecords] ([binarycolumn] varbinary(20), )";
+
+            connection.Close();
+            sqlCEEngine.Dispose();
+        }
 
         /// <summary>
         ///A test for MultipleThreadPropName
@@ -768,6 +813,30 @@ namespace Martin.SQLServer.Dts.Tests
         }
 
         /// <summary>
+        ///A test for HandleMillisecondPropName
+        ///</summary>
+        [TestMethod()]
+        public void HandleMillisecondPropNameTest()
+        {
+            string actual;
+            actual = Utility.HandleMillisecondPropName;
+            Assert.AreEqual("IncludeMillsecond", actual);
+        }
+
+        /// <summary>
+        ///A test for OutputColumnOutputTypePropName
+        ///</summary>
+        [TestMethod()]
+        public void OutputColumnOutputTypePropNameTest()
+        {
+            string actual;
+            actual = Utility.OutputColumnOutputTypePropName;
+            Assert.AreEqual("HashOutputType", actual);
+        }
+
+
+
+        /// <summary>
         /// A test to check if we can set output column data types.
         /// </summary>
         [TestMethod()]
@@ -817,10 +886,256 @@ namespace Martin.SQLServer.Dts.Tests
             Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BYTES, outputColumn.DataType, "DT_BYTES wasn't set as data type");
             Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
 
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.None, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(34, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(34, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA1, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(42, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(42, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA256, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(66, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(98, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA512, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(130, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(6, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32C, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(6, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a32, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(6, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a64, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(10, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MurmurHash3a, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);  // MurmurHash3a using 128bit hash result.  (See this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/MurmurHash/MurmurHash3.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(34, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.xxHash, MultipleHash.OutputTypeEnumerator.HexString, outputColumn);  // xxHash using 64bit hash result. (see this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/xxHash/xxHash.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(10, outputColumn.Length, "Length wasn't set correctly");
 
-            Assert.Fail();
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.None, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(24, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(24, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA1, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(28, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(28, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA256, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(44, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(64, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA512, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(88, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32C, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a32, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(8, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.FNV1a64, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(12, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MurmurHash3a, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);  // MurmurHash3a using 128bit hash result.  (See this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/MurmurHash/MurmurHash3.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(24, outputColumn.Length, "Length wasn't set correctly");
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.xxHash, MultipleHash.OutputTypeEnumerator.Base64String, outputColumn);  // xxHash using 64bit hash result. (see this for code https://github.com/brandondahler/Data.HashFunction/blob/master/src/xxHash/xxHash.cs)
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_STR, outputColumn.DataType, "DT_STR wasn't set as data type");
+            Assert.AreEqual(12, outputColumn.Length, "Length wasn't set correctly");
         }
 
+
+        /// <summary>
+        ///A test for CalculateHash
+        ///StringData,MoreStringData,2012-01-04,18,19.05
+        ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+        ///</summary>
+        [TestMethod()]
+        public void CalculateHashTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+            ComponentEventHandler events = new ComponentEventHandler();
+            dataFlowTask.Events = DtsConvert.GetExtendedInterface(events as IDTSComponentEvents);
+
+            // Create a flat file source
+            ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
+            flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
+            flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
+            flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
+            flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
+            flatFileConnectionManager.Properties["DataRowsToSkip"].SetValue(flatFileConnectionManager, 0);
+            flatFileConnectionManager.Properties["Unicode"].SetValue(flatFileConnectionManager, false);
+            flatFileConnectionManager.Properties["CodePage"].SetValue(flatFileConnectionManager, 1252);
+
+            // Create the columns in the flat file
+            IDTSConnectionManagerFlatFile100 flatFileConnection = flatFileConnectionManager.InnerObject as IDTSConnectionManagerFlatFile100;
+            IDTSConnectionManagerFlatFileColumn100 StringDataColumn = flatFileConnection.Columns.Add();
+            StringDataColumn.ColumnDelimiter = ",";
+            StringDataColumn.ColumnType = "Delimited";
+            StringDataColumn.DataType = DataType.DT_STR;
+            StringDataColumn.DataPrecision = 0;
+            StringDataColumn.DataScale = 0;
+            StringDataColumn.MaximumWidth = 255;
+            ((IDTSName100)StringDataColumn).Name = "StringData";
+            IDTSConnectionManagerFlatFileColumn100 MoreStringColumn = flatFileConnection.Columns.Add();
+            MoreStringColumn.ColumnDelimiter = ",";
+            MoreStringColumn.ColumnType = "Delimited";
+            MoreStringColumn.DataType = DataType.DT_STR;
+            MoreStringColumn.DataPrecision = 0;
+            MoreStringColumn.DataScale = 0;
+            MoreStringColumn.MaximumWidth = 255;
+            ((IDTSName100)MoreStringColumn).Name = "MoreString";
+            IDTSConnectionManagerFlatFileColumn100 DateColumn = flatFileConnection.Columns.Add();
+            DateColumn.ColumnDelimiter = ",";
+            DateColumn.ColumnType = "Delimited";
+            DateColumn.DataType = DataType.DT_DATE;
+            DateColumn.DataPrecision = 0;
+            DateColumn.DataScale = 0;
+            DateColumn.MaximumWidth = 0;
+            ((IDTSName100)DateColumn).Name = "DateColumn";
+            IDTSConnectionManagerFlatFileColumn100 IntegerColumn = flatFileConnection.Columns.Add();
+            IntegerColumn.ColumnDelimiter = ",";
+            IntegerColumn.ColumnType = "Delimited";
+            IntegerColumn.DataType = DataType.DT_I4;
+            IntegerColumn.DataPrecision = 0;
+            IntegerColumn.DataScale = 0;
+            IntegerColumn.MaximumWidth = 0;
+            ((IDTSName100)IntegerColumn).Name = "IntegerColumn";
+            IDTSConnectionManagerFlatFileColumn100 NumericColumn = flatFileConnection.Columns.Add();
+            NumericColumn.ColumnDelimiter = ",";
+            NumericColumn.ColumnType = "Delimited";
+            NumericColumn.DataType = DataType.DT_NUMERIC;
+            NumericColumn.DataPrecision = 15;
+            NumericColumn.DataScale = 2;
+            NumericColumn.MaximumWidth = 0;
+            ((IDTSName100)NumericColumn).Name = "NumericColumn";
+            
+            var app = new Microsoft.SqlServer.Dts.Runtime.Application();
+
+            IDTSComponentMetaData100 flatFileSource = dataFlowTask.ComponentMetaDataCollection.New();
+            flatFileSource.ComponentClassID = app.PipelineComponentInfos["Flat File Source"].CreationName;
+            // Get the design time instance of the Flat File Source Component
+            var flatFileSourceInstance = flatFileSource.Instantiate();
+            flatFileSourceInstance.ProvideComponentProperties();
+
+            flatFileSource.RuntimeConnectionCollection[0].ConnectionManager = DtsConvert.GetExtendedInterface(flatFileConnectionManager);
+            flatFileSource.RuntimeConnectionCollection[0].ConnectionManagerID = flatFileConnectionManager.ID;
+
+            // Reinitialize the metadata.
+            flatFileSourceInstance.AcquireConnections(null);
+            flatFileSourceInstance.ReinitializeMetaData();
+            flatFileSourceInstance.ReleaseConnections();
+
+
+
+            //[MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+            IDTSComponentMetaData100 multipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            multipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper multipleHashInstance = multipleHash.Instantiate();
+
+            multipleHashInstance.ProvideComponentProperties();
+            multipleHash.Name = "Multiple Hash Test";
+            multipleHashInstance.ReinitializeMetaData();
+
+            // Create the path from source to destination.
+            CreatePath(dataFlowTask, flatFileSource.OutputCollection[0], multipleHash, multipleHashInstance);
+
+        
+        }
+
+
+        private void CreatePath(MainPipe dataFlowTask, IDTSOutput100 fromOutput, IDTSComponentMetaData100 toComponent, CManagedComponentWrapper toInstance)
+        {
+            // Create the path from source to destination.
+            IDTSPath100 path = dataFlowTask.PathCollection.New();
+            path.AttachPathAndPropagateNotifications(fromOutput, toComponent.InputCollection[0]);
+
+            // Get the destination's default input and virtual input.
+            IDTSInput100 input = toComponent.InputCollection[0];
+            IDTSVirtualInput100 vInput = input.GetVirtualInput();
+
+            // Iterate through the virtual input column collection.
+            foreach (IDTSVirtualInputColumn100 vColumn in vInput.VirtualInputColumnCollection)
+            {
+                // Find external column by name
+                IDTSExternalMetadataColumn100 externalColumn = null;
+                foreach (IDTSExternalMetadataColumn100 column in input.ExternalMetadataColumnCollection)
+                {
+                    if (String.Compare(column.Name, vColumn.Name, true) == 0)
+                    {
+                        externalColumn = column;
+                        break;
+                    }
+                }
+                if (externalColumn != null)
+                {
+                    // Select column, and retain new input column
+                    IDTSInputColumn100 inputColumn = toInstance.SetUsageType(input.ID, vInput, vColumn.LineageID, DTSUsageType.UT_READONLY);
+                    // Map input column to external column
+                    toInstance.MapInputColumn(input.ID, inputColumn.ID, externalColumn.ID);
+                }
+            }
+        }
+
+        private void CreateSQLCEComponent(Microsoft.SqlServer.Dts.Runtime.Package package, MainPipe dataFlowTask, String tableName, out ConnectionManager sqlCECM, out IDTSComponentMetaData100 sqlCETarget, out CManagedComponentWrapper sqlCEInstance)
+        {
+            // Add SQL CE Connection
+            sqlCECM = package.Connections.Add("SQLMOBILE");
+            sqlCECM.ConnectionString = connectionString();
+            sqlCECM.Name = "SQLCE Destination " + tableName;
+
+            sqlCETarget = dataFlowTask.ComponentMetaDataCollection.New();
+            sqlCETarget.ComponentClassID = typeof(Microsoft.SqlServer.Dts.Pipeline.SqlCEDestinationAdapter).AssemblyQualifiedName;
+            sqlCEInstance = sqlCETarget.Instantiate();
+            sqlCEInstance.ProvideComponentProperties();
+            sqlCETarget.Name = "SQLCE Target " + tableName;
+            sqlCETarget.RuntimeConnectionCollection[0].ConnectionManager = DtsConvert.GetExtendedInterface(sqlCECM);
+            sqlCETarget.RuntimeConnectionCollection[0].ConnectionManagerID = sqlCECM.ID;
+
+            sqlCETarget.CustomPropertyCollection["Table Name"].Value = tableName;
+            sqlCEInstance.AcquireConnections(null);
+            sqlCEInstance.ReinitializeMetaData();
+            sqlCEInstance.ReleaseConnections();
+        }
+
+
+        #region Error Delegate
+
+        private List<String> errorMessages;
+
+        void PostError(string errorMessage)
+        {
+            errorMessages.Add(errorMessage);
+        }
+        #endregion
 
         /*
          * The following test is commented out as it can't work due to SSIS design.

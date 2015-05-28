@@ -138,9 +138,9 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Prevents a default instance of the Utility class from being created.
         /// </summary>
-        private Utility()
-        {
-        }
+        //private Utility()
+        //{
+        //}
 
         /// <summary>
         /// Gets the hash property name
@@ -719,6 +719,7 @@ namespace Martin.SQLServer.Dts
                     {
                         case MultipleHash.HashTypeEnumerator.None:
                         case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 34, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.RipeMD160:
@@ -740,10 +741,8 @@ namespace Martin.SQLServer.Dts
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 6, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 0);
-                            break;
-
-                        default:
                             break;
                     }
                     break;
@@ -752,6 +751,7 @@ namespace Martin.SQLServer.Dts
                     {
                         case MultipleHash.HashTypeEnumerator.None:
                         case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 24, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.RipeMD160:
@@ -773,10 +773,8 @@ namespace Martin.SQLServer.Dts
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 8, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
                             outputColumn.SetDataTypeProperties(DataType.DT_STR, 12, 0, 0, 0);
-                            break;
-
-                        default:
                             break;
                     }
                     break;
@@ -786,6 +784,7 @@ namespace Martin.SQLServer.Dts
                     {
                         case MultipleHash.HashTypeEnumerator.None:
                         case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
                             outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 16, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.RipeMD160:
@@ -807,10 +806,8 @@ namespace Martin.SQLServer.Dts
                             outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 4, 0, 0, 0);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
                             outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 8, 0, 0, 0);
-                            break;
-
-                        default:
                             break;
                     }
                     break;
