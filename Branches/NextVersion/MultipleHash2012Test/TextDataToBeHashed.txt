@@ -1,0 +1,6 @@
+﻿StringData,MoreStringData,2012-01-01,15,15.02
+StringData,MoreStringData,2012-01-02,16,15.03
+StringData,MoreStringData,2012-01-03,17,15.04
+StringData,MoreStringData,2012-01-04,18,19.05
+NullRow,,2015-01-05,19,20.04
+
