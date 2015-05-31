@@ -720,29 +720,29 @@ namespace Martin.SQLServer.Dts
                         case MultipleHash.HashTypeEnumerator.None:
                         case MultipleHash.HashTypeEnumerator.MD5:
                         case MultipleHash.HashTypeEnumerator.MurmurHash3a:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 34, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 34, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.RipeMD160:
                         case MultipleHash.HashTypeEnumerator.SHA1:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 42, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 42, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA256:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 66, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 66, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA384:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 98, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 98, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA512:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 130, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 130, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.CRC32:
                         case MultipleHash.HashTypeEnumerator.CRC32C:
                         case MultipleHash.HashTypeEnumerator.FNV1a32:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 6, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 6, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
                         case MultipleHash.HashTypeEnumerator.xxHash:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 1252);
                             break;
                     }
                     break;
@@ -752,29 +752,29 @@ namespace Martin.SQLServer.Dts
                         case MultipleHash.HashTypeEnumerator.None:
                         case MultipleHash.HashTypeEnumerator.MD5:
                         case MultipleHash.HashTypeEnumerator.MurmurHash3a:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 24, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 24, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.RipeMD160:
                         case MultipleHash.HashTypeEnumerator.SHA1:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 28, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 28, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA256:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 44, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 44, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA384:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 64, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 64, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.SHA512:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 88, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 88, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.CRC32:
                         case MultipleHash.HashTypeEnumerator.CRC32C:
                         case MultipleHash.HashTypeEnumerator.FNV1a32:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 8, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 8, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
                         case MultipleHash.HashTypeEnumerator.xxHash:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 12, 0, 0, 0);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 12, 0, 0, 1252);
                             break;
                     }
                     break;
