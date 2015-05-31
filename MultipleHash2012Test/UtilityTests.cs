@@ -51,7 +51,7 @@ namespace Martin.SQLServer.Dts.Tests
             }
             //StringData,MoreStringData,2012-01-04,18,19.05
 
-            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] nvarchar(34), [MD5BaseOutput] nvarchar(24))";
             SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
             command.ExecuteNonQuery();
 
@@ -1030,7 +1030,7 @@ namespace Martin.SQLServer.Dts.Tests
             IntegerColumn.MaximumWidth = 0;
             ((IDTSName100)IntegerColumn).Name = "IntegerColumn";
             IDTSConnectionManagerFlatFileColumn100 NumericColumn = flatFileConnection.Columns.Add();
-            NumericColumn.ColumnDelimiter = ",";
+            NumericColumn.ColumnDelimiter = "\r\n";
             NumericColumn.ColumnType = "Delimited";
             NumericColumn.DataType = DataType.DT_NUMERIC;
             NumericColumn.DataPrecision = 15;
@@ -1068,7 +1068,116 @@ namespace Martin.SQLServer.Dts.Tests
             // Create the path from source to destination.
             CreatePath(dataFlowTask, flatFileSource.OutputCollection[0], multipleHash, multipleHashInstance);
 
-        
+            // Select the input columns.
+            IDTSInput100 multipleHashInput = multipleHash.InputCollection[0];
+            IDTSVirtualInput100 multipleHashvInput = multipleHashInput.GetVirtualInput();
+            foreach (IDTSVirtualInputColumn100 vColumn in multipleHashvInput.VirtualInputColumnCollection)
+            {
+                multipleHashInstance.SetUsageType(multipleHashInput.ID, multipleHashvInput, vColumn.LineageID, DTSUsageType.UT_READONLY);
+            }
+
+            // Add the output columns
+            // Generate the Lineage String
+            String lineageString = String.Empty;
+            foreach(IDTSInputColumn100 inputColumn in multipleHashInput.InputColumnCollection)
+            {
+                if (lineageString == String.Empty)
+                {
+                    lineageString = String.Format("#{0}", inputColumn.LineageID);
+                }
+                else
+                {
+                    lineageString = String.Format("{0},#{1}", lineageString, inputColumn.LineageID);
+                }
+            }
+
+            int outputID = multipleHash.OutputCollection[0].ID;
+            int outputColumnPos = multipleHash.OutputCollection[0].OutputColumnCollection.Count;
+
+            // Add output column MD5BinaryOutput (MD5, Binary)
+            IDTSOutputColumn100 MD5BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5BinaryOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
+            MD5BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5BinaryOutput.Name = "MD5BinaryOutput";
+            MD5BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            // Add output column MD5HexOutput (MD5, HexString)
+            IDTSOutputColumn100 MD5HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5HexOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
+            MD5HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5HexOutput.Name = "MD5HexOutput";
+            MD5HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.HexString, MD5HexOutput);
+            // Add output column MD5BaseOutput (MD5, Base64String)
+            IDTSOutputColumn100 MD5BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5BaseOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
+            MD5BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5BaseOutput.Name = "MD5BaseOutput";
+            MD5BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.Base64String, MD5BaseOutput);
+
+            // Add SQL CE Destination
+
+            // Add SQL CE Connection
+            ConnectionManager sqlCECM = null;
+            IDTSComponentMetaData100 sqlCETarget = null;
+            CManagedComponentWrapper sqlCEInstance = null;
+            CreateSQLCEComponent(package, dataFlowTask, "TestRecords", out sqlCECM, out sqlCETarget, out sqlCEInstance);
+            CreatePath(dataFlowTask, multipleHash.OutputCollection[0], sqlCETarget, sqlCEInstance);
+
+            app.SaveToXml(@"d:\test\test.dtsx", package, null);
+
+            // Create a package events handler, to catch the output when running.
+            PackageEventHandler packageEvents = new PackageEventHandler();
+
+            // Execute the package
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult result = package.Execute(null, null, packageEvents as IDTSEvents, null, null);
+            foreach (String message in packageEvents.eventMessages)
+            {
+                Debug.WriteLine(message);
+            }
+            // Make sure the package worked.
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, result, "Execution Failed");
+
+            // Connect to the SQLCE database
+            SqlCeConnection connection = new SqlCeConnection(connectionString());
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecords] ORDER BY [StringData]", connection);
+            SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
+            int rowCount = 0;
+            while (sqlData.Read())
+            {
+                rowCount++;
+                switch (rowCount)
+                {
+                    case 1:
+                        Assert.AreEqual("NullRow", sqlData.GetString(1), "StringData <> NullRow");
+                        Assert.AreEqual("Joe Smith", sqlData.GetString(2), "AccountName <> Joe Smith");
+                        break;
+                    case 2:
+                        Assert.AreEqual(12346, sqlData.GetInt32(1), "AccountCode <> 12346");
+                        Assert.AreEqual("James Smith", sqlData.GetString(2), "AccountName <> James Smith");
+                        break;
+                    case 3:
+                        Assert.AreEqual(12356, sqlData.GetInt32(1), "Account Code <> 12356");
+                        Assert.AreEqual("Mike Smith", sqlData.GetString(2), "AccountName <> Mike Smith");
+                        break;
+                    case 4:
+                        Assert.AreEqual(12856, sqlData.GetInt32(1), "Account Code <> 12856");
+                        Assert.AreEqual("John Smith", sqlData.GetString(2), "AccountName <> John Smith");
+                        break;
+                    default:
+                        Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
+                        break;
+                }
+            }
+            Assert.AreEqual(4, rowCount, "Rows in Account");
+
+
+            Assert.Inconclusive("Test Not Complete!");
         }
 
 

@@ -86,6 +86,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComponentEventHandler.cs" />
+    <Compile Include="PackageEventHandler.cs" />
     <Compile Include="SSISImplementations\InputTestImpl.cs" />
     <Compile Include="SSISImplementations\BufferManagerTestImpl.cs" />
     <Compile Include="CRC32CTests.cs" />
