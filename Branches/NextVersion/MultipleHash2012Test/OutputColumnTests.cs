@@ -102,6 +102,9 @@ namespace Martin.SQLServer.Dts.Tests
             customProperty = outputColumn.CustomPropertyCollection.New();
             customProperty.Name = Utility.InputColumnLineagePropName;
             customProperty.Value = "#1,#2,#3,#4,#5,#6";
+            customProperty = outputColumn.CustomPropertyCollection.New();
+            customProperty.Name = Utility.OutputColumnOutputTypePropName;
+            customProperty.Value = MultipleHash.OutputTypeEnumerator.Binary;
 
             target.AddColumnInformation(bufferManager, output, input, outputColumnIndex);
             Assert.AreEqual(6, target.Count, "The number of items in the list");
@@ -183,6 +186,9 @@ namespace Martin.SQLServer.Dts.Tests
             customProperty = outputColumn.CustomPropertyCollection.New();
             customProperty.Name = Utility.HashTypePropName;
             customProperty.Value = MultipleHash.HashTypeEnumerator.RipeMD160;
+            customProperty = outputColumn.CustomPropertyCollection.New();
+            customProperty.Name = Utility.OutputColumnOutputTypePropName;
+            customProperty.Value = MultipleHash.OutputTypeEnumerator.Binary;
 
             target.AddColumnInformation(bufferManager, output, input, outputColumnIndex);
             Assert.AreEqual(6, target.Count, "The number of items in the list");
@@ -214,6 +220,9 @@ namespace Martin.SQLServer.Dts.Tests
             customProperty = outputColumn.CustomPropertyCollection.New();
             customProperty.Name = Utility.InputColumnLineagePropName;
             customProperty.Value = "#1,#2,#3,#4,#5,#6";
+            customProperty = outputColumn.CustomPropertyCollection.New();
+            customProperty.Name = Utility.OutputColumnOutputTypePropName;
+            customProperty.Value = MultipleHash.OutputTypeEnumerator.Binary;
             customProperty = outputColumn.CustomPropertyCollection.New();
             customProperty.Name = Utility.HashTypePropName;
             customProperty.Value = MultipleHash.HashTypeEnumerator.SHA1;

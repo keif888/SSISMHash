@@ -978,13 +978,63 @@ namespace Martin.SQLServer.Dts
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.CRC32C:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a32:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a64:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.xxHash:
                     hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer, 0, bufferUsed);
                     break;
                 default:
                     hash = new byte[1];
                     break;
             }
-            buffer.SetBytes(columnToProcess.OutputColumnId, hash);
+            switch(columnToProcess.OutputHashDataType)
+            {
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                    buffer.SetBytes(columnToProcess.OutputColumnId, hash);
+                    break;
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    buffer.SetString(columnToProcess.OutputColumnId, System.Convert.ToBase64String(hash, 0, hash.Length));
+                    break;
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    buffer.SetString(columnToProcess.OutputColumnId, String.Format("0x{0}", ByteArrayToHexViaLookup32(hash)));
+                    break;
+            }
+            
+        }
+
+        #endregion
+
+        #region Hex String
+
+        /// <summary>
+        /// This is some stuff that I found via Google, which is supposed to be much faster than the SoapHexBinary implementation.  And speed is king here.
+        /// http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa
+        /// http://stackoverflow.com/a/24343727/48700
+        /// </summary>
+
+        private static readonly uint[] _lookup32 = CreateLookup32();
+
+        private static uint[] CreateLookup32()
+        {
+            var result = new uint[256];
+            for (int i = 0; i < 256; i++)
+            {
+                string s = i.ToString("X2");
+                result[i] = ((uint)s[0]) + ((uint)s[1] << 16);
+            }
+            return result;
+        }
+
+        private static string ByteArrayToHexViaLookup32(byte[] bytes)
+        {
+            var lookup32 = _lookup32;
+            var result = new char[bytes.Length * 2];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                var val = lookup32[bytes[i]];
+                result[2 * i] = (char)val;
+                result[2 * i + 1] = (char)(val >> 16);
+            }
+            return new string(result);
         }
 
         #endregion
