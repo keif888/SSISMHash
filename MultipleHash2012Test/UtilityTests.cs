@@ -15,8 +15,7 @@ using System.Data.SqlServerCe;
 using System.IO;
 using System.Data;
 using System.Diagnostics;
-using Microsoft.SqlServer.Dts.Runtime;
-
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace Martin.SQLServer.Dts.Tests
 {
@@ -1053,6 +1052,7 @@ namespace Martin.SQLServer.Dts.Tests
             flatFileSourceInstance.AcquireConnections(null);
             flatFileSourceInstance.ReinitializeMetaData();
             flatFileSourceInstance.ReleaseConnections();
+            flatFileSource.CustomPropertyCollection["RetainNulls"].Value = true;
 
 
 
@@ -1154,27 +1154,37 @@ namespace Martin.SQLServer.Dts.Tests
                 switch (rowCount)
                 {
                     case 1:
-                        Assert.AreEqual("NullRow", sqlData.GetString(1), "StringData <> NullRow");
-                        Assert.AreEqual("Joe Smith", sqlData.GetString(2), "AccountName <> Joe Smith");
+                        Assert.AreEqual("NullRow", sqlData.GetString(0), "StringData <> NullRow");
+                        Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+                        byte[] byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byte[] byteExpected = GetStringToBytes("ad0ff38c612ba6550f7f991d8d451557");
+                        testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
+                        Assert.AreEqual("0xad0ff38c612ba6550f7f991d8d451557", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
+                        Assert.AreEqual("rQ/zjGErplUPf5kdjUUVVw==", sqlData.GetString(7), "MD5 as Base 64");
                         break;
                     case 2:
-                        Assert.AreEqual(12346, sqlData.GetInt32(1), "AccountCode <> 12346");
-                        Assert.AreEqual("James Smith", sqlData.GetString(2), "AccountName <> James Smith");
+                        Assert.AreEqual("StringData1", sqlData.GetString(0), "StringData <> StringData1");
+                        Assert.AreEqual("MoreStringData1", sqlData.GetString(1), "AccountName <> MoreStringData1");
                         break;
                     case 3:
-                        Assert.AreEqual(12356, sqlData.GetInt32(1), "Account Code <> 12356");
-                        Assert.AreEqual("Mike Smith", sqlData.GetString(2), "AccountName <> Mike Smith");
+                        Assert.AreEqual("StringData2", sqlData.GetString(0), "StringData <> StringData2");
+                        Assert.AreEqual("MoreStringData2", sqlData.GetString(1), "AccountName <> MoreStringData2");
                         break;
                     case 4:
-                        Assert.AreEqual(12856, sqlData.GetInt32(1), "Account Code <> 12856");
-                        Assert.AreEqual("John Smith", sqlData.GetString(2), "AccountName <> John Smith");
+                        Assert.AreEqual("StringData3", sqlData.GetString(0), "StringData <> StringData3");
+                        Assert.AreEqual("MoreStringData3", sqlData.GetString(1), "AccountName <> John Smith");
+                        break;
+                    case 5:
+                        Assert.AreEqual("StringData4", sqlData.GetString(0), "StringData <> StringData4");
+                        Assert.AreEqual("MoreStringData4", sqlData.GetString(1), "AccountName <> John Smith");
                         break;
                     default:
                         Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
                         break;
                 }
             }
-            Assert.AreEqual(4, rowCount, "Rows in Account");
+            Assert.AreEqual(5, rowCount, "Rows in TestRecords");
 
 
             Assert.Inconclusive("Test Not Complete!");
@@ -1244,6 +1254,25 @@ namespace Martin.SQLServer.Dts.Tests
         {
             errorMessages.Add(errorMessage);
         }
+        #endregion
+
+        #region Byte Stuff
+
+        public byte[] GetStringToBytes(string value)
+        {
+            SoapHexBinary shb = SoapHexBinary.Parse(value);
+            return shb.Value;
+        }
+
+        public void testByteValues(byte[] expected, byte[] actual, String message)
+        {
+            Assert.AreEqual(expected.Length, actual.Length, String.Format("{0} Length", message));
+            for (int i=0; i<expected.Length; i++)
+            {
+                Assert.AreEqual(expected[i], actual[i], String.Format("{0} Array Item {1}", message, i));
+            }
+        }
+
         #endregion
 
         /*
