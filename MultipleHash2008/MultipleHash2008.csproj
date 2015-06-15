@@ -114,6 +114,7 @@
     <Compile Include="FNV1a64.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MultipleHash.cs" />
+    <Compile Include="Murmur3a.cs" />
     <Compile Include="OutputColumn.cs" />
     <Compile Include="PassThreadState.cs" />
     <Compile Include="ProcessOutputColumn.cs" />
@@ -133,6 +134,7 @@
     </Compile>
     <Compile Include="UI\MultipleHashUI.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="xxHash.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="key.ico" />

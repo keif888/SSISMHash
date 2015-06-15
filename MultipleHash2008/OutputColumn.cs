@@ -156,12 +156,12 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Stores the generator for the Murmur3a hash
         /// </summary>
-        private CRC32 hashMurmur3a;
+        private Murmur3a hashMurmur3a;
 
         /// <summary>
         /// Stores the generator for the xxHash hash
         /// </summary>
-        private CRC32 hashxxHash;
+        private xxHash hashxxHash;
 
         #endregion
 
@@ -374,11 +374,11 @@ namespace Martin.SQLServer.Dts
                     break;
                 case MultipleHash.HashTypeEnumerator.MurmurHash3a:
                     //ToDo: Call the MurmurHash
-                    this.hashMurmur3a = CRC32.Create();
+                    this.hashMurmur3a = Murmur3a.Create();
                     break;
                 case MultipleHash.HashTypeEnumerator.xxHash:
                     // todo: call the xxHash
-                    this.hashxxHash = CRC32.Create();
+                    this.hashxxHash = xxHash.Create();
                     break;
                 default:
                     break;
