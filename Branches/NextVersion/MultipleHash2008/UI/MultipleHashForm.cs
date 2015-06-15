@@ -411,6 +411,7 @@ namespace Martin.SQLServer.Dts
                             // Filling the cells.
                             SetGridCellData(this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsColumnName.Index], outputColumnRow);
                             this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = MultipleHashForm.GetHashName(outputColumnRow.Hash);
+                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsDataType.Index].Value = MultipleHashForm.GetDataTypeName(outputColumnRow.dataType);
                         }
                     }
 
@@ -1057,6 +1058,12 @@ namespace Martin.SQLServer.Dts
                         {
                             // Push the change into the Tag...
                             outputColumnRow.Hash = MultipleHashForm.GetHashEnum(comboCell.Value.ToString());
+                        }
+
+                        // If the changed column is the DataType column...
+                        if (e.ColumnIndex == this.dgvOutputColumnsDataType.Index)
+                        {
+                            outputColumnRow.dataType = MultipleHashForm.GetDataTypeEnum(dataTypeCell.Value.ToString());
                         }
 
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();

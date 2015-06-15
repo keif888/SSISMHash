@@ -54,6 +54,11 @@ namespace Martin.SQLServer.Dts.Tests
             SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
             command.ExecuteNonQuery();
 
+            tableCreate = "CREATE TABLE [TestRecordsMurmur3a] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [Murmur3aBinaryOutput] varbinary(16), [Murmur3aHexOutput] nvarchar(34), [Murmur3aBaseOutput] nvarchar(24))";
+            command = new SqlCeCommand(tableCreate, connection);
+            command.ExecuteNonQuery();
+
+
 //            tableCreate = "CREATE TABLE [MoreTestRecords] ([binarycolumn] varbinary(20), )";
 
             connection.Close();
@@ -973,7 +978,7 @@ namespace Martin.SQLServer.Dts.Tests
         ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
-        public void CalculateHashTest()
+        public void CalculateHashMD5Test()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
             Executable exec = package.Executables.Add("STOCK:PipelineTask");
@@ -1148,6 +1153,8 @@ namespace Martin.SQLServer.Dts.Tests
             SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecords] ORDER BY [StringData]", connection);
             SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
             int rowCount = 0;
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
             while (sqlData.Read())
             {
                 rowCount++;
@@ -1156,9 +1163,9 @@ namespace Martin.SQLServer.Dts.Tests
                     case 1:
                         Assert.AreEqual("NullRow", sqlData.GetString(0), "StringData <> NullRow");
                         Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
-                        byte[] byteResult = new byte[16];
+                        byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byte[] byteExpected = GetStringToBytes("ad0ff38c612ba6550f7f991d8d451557");
+                        byteExpected = GetStringToBytes("ad0ff38c612ba6550f7f991d8d451557");
                         testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
                         Assert.AreEqual("0xad0ff38c612ba6550f7f991d8d451557", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
                         Assert.AreEqual("rQ/zjGErplUPf5kdjUUVVw==", sqlData.GetString(7), "MD5 as Base 64");
@@ -1166,18 +1173,42 @@ namespace Martin.SQLServer.Dts.Tests
                     case 2:
                         Assert.AreEqual("StringData1", sqlData.GetString(0), "StringData <> StringData1");
                         Assert.AreEqual("MoreStringData1", sqlData.GetString(1), "AccountName <> MoreStringData1");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("35ec7260ec3b96b84e026111f8d7c966");
+                        testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
+                        Assert.AreEqual("0x35ec7260ec3b96b84e026111f8d7c966", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
+                        Assert.AreEqual("NexyYOw7lrhOAmER+NfJZg==", sqlData.GetString(7), "MD5 as Base 64");
                         break;
                     case 3:
                         Assert.AreEqual("StringData2", sqlData.GetString(0), "StringData <> StringData2");
                         Assert.AreEqual("MoreStringData2", sqlData.GetString(1), "AccountName <> MoreStringData2");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("85070590507e30f622e85b3de2fd1be7");
+                        testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
+                        Assert.AreEqual("0x85070590507e30f622e85b3de2fd1be7", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
+                        Assert.AreEqual("hQcFkFB+MPYi6Fs94v0b5w==", sqlData.GetString(7), "MD5 as Base 64");
                         break;
                     case 4:
                         Assert.AreEqual("StringData3", sqlData.GetString(0), "StringData <> StringData3");
-                        Assert.AreEqual("MoreStringData3", sqlData.GetString(1), "AccountName <> John Smith");
+                        Assert.AreEqual("MoreStringData3", sqlData.GetString(1), "AccountName <> MoreStringData3");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("56c4813f94449bae1db11116a983a515");
+                        testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
+                        Assert.AreEqual("0x56c4813f94449bae1db11116a983a515", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
+                        Assert.AreEqual("VsSBP5REm64dsREWqYOlFQ==", sqlData.GetString(7), "MD5 as Base 64");
                         break;
                     case 5:
                         Assert.AreEqual("StringData4", sqlData.GetString(0), "StringData <> StringData4");
-                        Assert.AreEqual("MoreStringData4", sqlData.GetString(1), "AccountName <> John Smith");
+                        Assert.AreEqual("MoreStringData4", sqlData.GetString(1), "AccountName <> MoreStringData4");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("687502290576828a03b30658121389c2");
+                        testByteValues(byteExpected, byteResult, "MD5 Hash as Binary");
+                        Assert.AreEqual("0x687502290576828a03b30658121389c2", sqlData.GetString(6).ToLower(), "MD5 Hash as Hex String");
+                        Assert.AreEqual("aHUCKQV2gooDswZYEhOJwg==", sqlData.GetString(7), "MD5 as Base 64");
                         break;
                     default:
                         Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
@@ -1185,9 +1216,253 @@ namespace Martin.SQLServer.Dts.Tests
                 }
             }
             Assert.AreEqual(5, rowCount, "Rows in TestRecords");
+        }
 
 
-            Assert.Inconclusive("Test Not Complete!");
+        /// <summary>
+        ///A test for CalculateHash
+        ///StringData,MoreStringData,2012-01-04,18,19.05
+        ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+        ///</summary>
+        [TestMethod()]
+        public void CalculateHashMurmurHash3aTest()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
+            Executable exec = package.Executables.Add("STOCK:PipelineTask");
+            Microsoft.SqlServer.Dts.Runtime.TaskHost thMainPipe = exec as Microsoft.SqlServer.Dts.Runtime.TaskHost;
+            MainPipe dataFlowTask = thMainPipe.InnerObject as MainPipe;
+            ComponentEventHandler events = new ComponentEventHandler();
+            dataFlowTask.Events = DtsConvert.GetExtendedInterface(events as IDTSComponentEvents);
+
+            // Create a flat file source
+            ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
+            flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
+            flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
+            flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
+            flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
+            flatFileConnectionManager.Properties["DataRowsToSkip"].SetValue(flatFileConnectionManager, 0);
+            flatFileConnectionManager.Properties["Unicode"].SetValue(flatFileConnectionManager, false);
+            flatFileConnectionManager.Properties["CodePage"].SetValue(flatFileConnectionManager, 1252);
+
+            // Create the columns in the flat file
+            IDTSConnectionManagerFlatFile100 flatFileConnection = flatFileConnectionManager.InnerObject as IDTSConnectionManagerFlatFile100;
+            IDTSConnectionManagerFlatFileColumn100 StringDataColumn = flatFileConnection.Columns.Add();
+            StringDataColumn.ColumnDelimiter = ",";
+            StringDataColumn.ColumnType = "Delimited";
+            StringDataColumn.DataType = DataType.DT_STR;
+            StringDataColumn.DataPrecision = 0;
+            StringDataColumn.DataScale = 0;
+            StringDataColumn.MaximumWidth = 255;
+            ((IDTSName100)StringDataColumn).Name = "StringData";
+            IDTSConnectionManagerFlatFileColumn100 MoreStringColumn = flatFileConnection.Columns.Add();
+            MoreStringColumn.ColumnDelimiter = ",";
+            MoreStringColumn.ColumnType = "Delimited";
+            MoreStringColumn.DataType = DataType.DT_STR;
+            MoreStringColumn.DataPrecision = 0;
+            MoreStringColumn.DataScale = 0;
+            MoreStringColumn.MaximumWidth = 255;
+            ((IDTSName100)MoreStringColumn).Name = "MoreString";
+            IDTSConnectionManagerFlatFileColumn100 DateColumn = flatFileConnection.Columns.Add();
+            DateColumn.ColumnDelimiter = ",";
+            DateColumn.ColumnType = "Delimited";
+            DateColumn.DataType = DataType.DT_DATE;
+            DateColumn.DataPrecision = 0;
+            DateColumn.DataScale = 0;
+            DateColumn.MaximumWidth = 0;
+            ((IDTSName100)DateColumn).Name = "DateColumn";
+            IDTSConnectionManagerFlatFileColumn100 IntegerColumn = flatFileConnection.Columns.Add();
+            IntegerColumn.ColumnDelimiter = ",";
+            IntegerColumn.ColumnType = "Delimited";
+            IntegerColumn.DataType = DataType.DT_I4;
+            IntegerColumn.DataPrecision = 0;
+            IntegerColumn.DataScale = 0;
+            IntegerColumn.MaximumWidth = 0;
+            ((IDTSName100)IntegerColumn).Name = "IntegerColumn";
+            IDTSConnectionManagerFlatFileColumn100 NumericColumn = flatFileConnection.Columns.Add();
+            NumericColumn.ColumnDelimiter = "\r\n";
+            NumericColumn.ColumnType = "Delimited";
+            NumericColumn.DataType = DataType.DT_NUMERIC;
+            NumericColumn.DataPrecision = 15;
+            NumericColumn.DataScale = 2;
+            NumericColumn.MaximumWidth = 0;
+            ((IDTSName100)NumericColumn).Name = "NumericColumn";
+
+            var app = new Microsoft.SqlServer.Dts.Runtime.Application();
+
+            IDTSComponentMetaData100 flatFileSource = dataFlowTask.ComponentMetaDataCollection.New();
+            flatFileSource.ComponentClassID = app.PipelineComponentInfos["Flat File Source"].CreationName;
+            // Get the design time instance of the Flat File Source Component
+            var flatFileSourceInstance = flatFileSource.Instantiate();
+            flatFileSourceInstance.ProvideComponentProperties();
+
+            flatFileSource.RuntimeConnectionCollection[0].ConnectionManager = DtsConvert.GetExtendedInterface(flatFileConnectionManager);
+            flatFileSource.RuntimeConnectionCollection[0].ConnectionManagerID = flatFileConnectionManager.ID;
+
+            // Reinitialize the metadata.
+            flatFileSourceInstance.AcquireConnections(null);
+            flatFileSourceInstance.ReinitializeMetaData();
+            flatFileSourceInstance.ReleaseConnections();
+            flatFileSource.CustomPropertyCollection["RetainNulls"].Value = true;
+
+
+
+            //[MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
+            IDTSComponentMetaData100 multipleHash = dataFlowTask.ComponentMetaDataCollection.New();
+            multipleHash.ComponentClassID = typeof(Martin.SQLServer.Dts.MultipleHash).AssemblyQualifiedName;
+            CManagedComponentWrapper multipleHashInstance = multipleHash.Instantiate();
+
+            multipleHashInstance.ProvideComponentProperties();
+            multipleHash.Name = "Multiple Hash Test";
+            multipleHashInstance.ReinitializeMetaData();
+
+            // Create the path from source to destination.
+            CreatePath(dataFlowTask, flatFileSource.OutputCollection[0], multipleHash, multipleHashInstance);
+
+            // Select the input columns.
+            IDTSInput100 multipleHashInput = multipleHash.InputCollection[0];
+            IDTSVirtualInput100 multipleHashvInput = multipleHashInput.GetVirtualInput();
+            foreach (IDTSVirtualInputColumn100 vColumn in multipleHashvInput.VirtualInputColumnCollection)
+            {
+                multipleHashInstance.SetUsageType(multipleHashInput.ID, multipleHashvInput, vColumn.LineageID, DTSUsageType.UT_READONLY);
+            }
+
+            // Add the output columns
+            // Generate the Lineage String
+            String lineageString = String.Empty;
+            foreach (IDTSInputColumn100 inputColumn in multipleHashInput.InputColumnCollection)
+            {
+                if (lineageString == String.Empty)
+                {
+                    lineageString = String.Format("#{0}", inputColumn.LineageID);
+                }
+                else
+                {
+                    lineageString = String.Format("{0},#{1}", lineageString, inputColumn.LineageID);
+                }
+            }
+
+            int outputID = multipleHash.OutputCollection[0].ID;
+            int outputColumnPos = multipleHash.OutputCollection[0].OutputColumnCollection.Count;
+
+            // Add output column Murmur3aBinaryOutput (Murmur3a, Binary)
+            IDTSOutputColumn100 Murmur3aBinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "Murmur3aBinaryOutput", "Murmur3a Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            Murmur3aBinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
+            Murmur3aBinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MurmurHash3a;
+            Murmur3aBinaryOutput.Name = "Murmur3aBinaryOutput";
+            Murmur3aBinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            // Add output column Murmur3aHexOutput (Murmur3a, HexString)
+            IDTSOutputColumn100 Murmur3aHexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "Murmur3aHexOutput", "Murmur3a Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            Murmur3aHexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
+            Murmur3aHexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MurmurHash3a;
+            Murmur3aHexOutput.Name = "Murmur3aHexOutput";
+            Murmur3aHexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MurmurHash3a, MultipleHash.OutputTypeEnumerator.HexString, Murmur3aHexOutput);
+            // Add output column Murmur3aBaseOutput (Murmur3a, Base64String)
+            IDTSOutputColumn100 Murmur3aBaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "Murmur3aBaseOutput", "Murmur3a Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            Murmur3aBaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
+            Murmur3aBaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MurmurHash3a;
+            Murmur3aBaseOutput.Name = "Murmur3aBaseOutput";
+            Murmur3aBaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MurmurHash3a, MultipleHash.OutputTypeEnumerator.Base64String, Murmur3aBaseOutput);
+
+            // Add SQL CE Destination
+
+            // Add SQL CE Connection
+            ConnectionManager sqlCECM = null;
+            IDTSComponentMetaData100 sqlCETarget = null;
+            CManagedComponentWrapper sqlCEInstance = null;
+            CreateSQLCEComponent(package, dataFlowTask, "TestRecordsMurmur3a", out sqlCECM, out sqlCETarget, out sqlCEInstance);
+            CreatePath(dataFlowTask, multipleHash.OutputCollection[0], sqlCETarget, sqlCEInstance);
+
+            app.SaveToXml(@"d:\test\test.dtsx", package, null);
+
+            // Create a package events handler, to catch the output when running.
+            PackageEventHandler packageEvents = new PackageEventHandler();
+
+            // Execute the package
+            Microsoft.SqlServer.Dts.Runtime.DTSExecResult result = package.Execute(null, null, packageEvents as IDTSEvents, null, null);
+            foreach (String message in packageEvents.eventMessages)
+            {
+                Debug.WriteLine(message);
+            }
+            // Make sure the package worked.
+            Assert.AreEqual(Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success, result, "Execution Failed");
+
+            // Connect to the SQLCE database
+            SqlCeConnection connection = new SqlCeConnection(connectionString());
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecordsMurmur3a] ORDER BY [StringData]", connection);
+            SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
+            int rowCount = 0;
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
+            while (sqlData.Read())
+            {
+                rowCount++;
+                switch (rowCount)
+                {
+                    case 1:
+                        Assert.AreEqual("NullRow", sqlData.GetString(0), "StringData <> NullRow");
+                        Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("ad0ff38c612ba6550f7f991d8d451557");
+                        testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
+                        Assert.AreEqual("0xad0ff38c612ba6550f7f991d8d451557", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("rQ/zjGErplUPf5kdjUUVVw==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        break;
+                    case 2:
+                        Assert.AreEqual("StringData1", sqlData.GetString(0), "StringData <> StringData1");
+                        Assert.AreEqual("MoreStringData1", sqlData.GetString(1), "AccountName <> MoreStringData1");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("35ec7260ec3b96b84e026111f8d7c966");
+                        testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
+                        Assert.AreEqual("0x35ec7260ec3b96b84e026111f8d7c966", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("NexyYOw7lrhOAmER+NfJZg==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        break;
+                    case 3:
+                        Assert.AreEqual("StringData2", sqlData.GetString(0), "StringData <> StringData2");
+                        Assert.AreEqual("MoreStringData2", sqlData.GetString(1), "AccountName <> MoreStringData2");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("85070590507e30f622e85b3de2fd1be7");
+                        testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
+                        Assert.AreEqual("0x85070590507e30f622e85b3de2fd1be7", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("hQcFkFB+MPYi6Fs94v0b5w==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        break;
+                    case 4:
+                        Assert.AreEqual("StringData3", sqlData.GetString(0), "StringData <> StringData3");
+                        Assert.AreEqual("MoreStringData3", sqlData.GetString(1), "AccountName <> MoreStringData3");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("56c4813f94449bae1db11116a983a515");
+                        testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
+                        Assert.AreEqual("0x56c4813f94449bae1db11116a983a515", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("VsSBP5REm64dsREWqYOlFQ==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        break;
+                    case 5:
+                        Assert.AreEqual("StringData4", sqlData.GetString(0), "StringData <> StringData4");
+                        Assert.AreEqual("MoreStringData4", sqlData.GetString(1), "AccountName <> MoreStringData4");
+                        byteResult = new byte[16];
+                        sqlData.GetBytes(5, 0, byteResult, 0, 16);
+                        byteExpected = GetStringToBytes("687502290576828a03b30658121389c2");
+                        testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
+                        Assert.AreEqual("0x687502290576828a03b30658121389c2", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("aHUCKQV2gooDswZYEhOJwg==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        break;
+                    default:
+                        Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
+                        break;
+                }
+            }
+            Assert.AreEqual(5, rowCount, "Rows in TestRecords");
         }
 
 
@@ -1248,7 +1523,7 @@ namespace Martin.SQLServer.Dts.Tests
 
         #region Error Delegate
 
-        private List<String> errorMessages;
+        private List<String> errorMessages = new List<string>();
 
         void PostError(string errorMessage)
         {

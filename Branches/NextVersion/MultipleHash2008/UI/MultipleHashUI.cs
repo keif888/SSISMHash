@@ -322,18 +322,24 @@ namespace Martin.SQLServer.Dts
                     string[] inputLineageIDs;
                     string inputLineageList;
                     IDTSOutputColumn outputColumn = outputColumns[i];
-                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                    {
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
-                        inputLineageList = outputColumn.CustomPropertyCollection[1].Value.ToString();
-                        inputLineageIDs = inputLineageList.Split(',');
-                    }
-                    else
-                    {
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
-                        inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
-                        inputLineageIDs = inputLineageList.Split(',');
-                    }
+
+                    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value;
+                    args.OutputColumns[i].dataType = (MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value;
+                    inputLineageList = outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value.ToString();
+                    inputLineageIDs = inputLineageList.Split(',');
+
+                    //if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
+                    //{
+                    //    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
+                    //    inputLineageList = outputColumn.CustomPropertyCollection[1].Value.ToString();
+                    //    inputLineageIDs = inputLineageList.Split(',');
+                    //}
+                    //else
+                    //{
+                    //    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
+                    //    inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
+                    //    inputLineageIDs = inputLineageList.Split(',');
+                    //}
 
                     // Assign the array to hold the input columns
                     args.OutputColumns[i].InputColumns = new InputColumnElement[inputColumnsCount];
@@ -384,15 +390,18 @@ namespace Martin.SQLServer.Dts
                         inputLineageList = String.Join(",", inputList.ToArray());
                     }
 
-                    // Push the changed list back to the SSIS Component...
-                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                    {
-                        outputColumn.CustomPropertyCollection[1].Value = inputLineageList;
-                    }
-                    else
-                    {
-                        outputColumn.CustomPropertyCollection[0].Value = inputLineageList;
-                    }
+
+                    outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = inputLineageList;
+
+                    //// Push the changed list back to the SSIS Component...
+                    //if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
+                    //{
+                    //    outputColumn.CustomPropertyCollection[1].Value = inputLineageList;
+                    //}
+                    //else
+                    //{
+                    //    outputColumn.CustomPropertyCollection[0].Value = inputLineageList;
+                    //}
 
                     args.OutputColumns[i].OutputColumn = new DataFlowElement(outputColumn.Name, outputColumn);
                 }
@@ -479,8 +488,15 @@ namespace Martin.SQLServer.Dts
                 // If the hash value has changed, assign the new value, and correct the output column data type.
                 if ((MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value != args.OutputColumnDetail.Hash)
                 {
-                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, (MultipleHash.OutputTypeEnumerator) outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value, outputColumn);
+                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, args.OutputColumnDetail.dataType, outputColumn);
                     outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = args.OutputColumnDetail.Hash;
+                }
+
+                // If the output data type has changed, assign the new value, and correct the output column data type.
+                if ((MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value != args.OutputColumnDetail.dataType)
+                {
+                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, args.OutputColumnDetail.dataType, outputColumn);
+                    outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = args.OutputColumnDetail.dataType;
                 }
 
                 // define a sorted list to hold the input columns
