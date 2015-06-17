@@ -113,6 +113,7 @@
     <Compile Include="FNV1a32.cs" />
     <Compile Include="FNV1a64.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IntHelpers.cs" />
     <Compile Include="MultipleHash.cs" />
     <Compile Include="Murmur3a.cs" />
     <Compile Include="OutputColumn.cs" />
