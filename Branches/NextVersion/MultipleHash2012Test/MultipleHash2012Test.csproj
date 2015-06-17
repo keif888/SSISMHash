@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -86,6 +87,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComponentEventHandler.cs" />
+    <Compile Include="IntHelpersTests.cs" />
+    <Compile Include="Murmur3aTests.cs" />
     <Compile Include="PackageEventHandler.cs" />
     <Compile Include="SSISImplementations\InputTestImpl.cs" />
     <Compile Include="SSISImplementations\BufferManagerTestImpl.cs" />
