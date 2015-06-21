@@ -136,6 +136,12 @@ namespace Martin.SQLServer.Dts
     /// </summary>
     public partial class MultipleHashForm : Form
     {
+
+        private CheckBox dgvAvailableColumnsSelectAll;
+        private CheckBox dgvInputColumnsSelectAll;
+        private bool isdgvAvailableColumnsSelectAllChecked;
+        private bool isdgvInputColumnsSelectAllChecked;
+
         /// <summary>
         /// This flag is set to true while loading the state from the component, to disable
         /// the grid events during that time.
@@ -254,6 +260,26 @@ namespace Martin.SQLServer.Dts
             this.isLoading = true;
             try
             {
+                // Add SelectAll check boxes.
+                dgvAvailableColumnsSelectAll = new CheckBox();
+                dgvAvailableColumnsSelectAll.Name = "dgvAvailableColumnsSelectAll";
+                dgvAvailableColumnsSelectAll.Size = new System.Drawing.Size(14, 14);
+                // Get a rectangle that represents the header column
+                System.Drawing.Rectangle rect = this.dgvAvailableColumns.GetCellDisplayRectangle(0, -1, true);
+                dgvAvailableColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvAvailableColumnsSelectAll.Width)/2), rect.Location.Y + ((rect.Height - dgvAvailableColumnsSelectAll.Height)/2));
+                dgvAvailableColumnsSelectAll.BackColor = System.Drawing.Color.White;
+                dgvAvailableColumns.Controls.Add(dgvAvailableColumnsSelectAll);
+                dgvAvailableColumnsSelectAll.Click += dgvAvailableColumnsSelectAll_Click;
+
+                dgvInputColumnsSelectAll = new CheckBox();
+                dgvInputColumnsSelectAll.Name = "dgvInputColumnsSelectAll";
+                dgvInputColumnsSelectAll.Size = new System.Drawing.Size(14, 14);
+                // Get a rectangle that represents the header column
+                rect = this.dgvInputColumns.GetCellDisplayRectangle(0, -1, true);
+                dgvInputColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvInputColumnsSelectAll.Width) / 2), rect.Location.Y + ((rect.Height - dgvInputColumnsSelectAll.Height) / 2));
+                dgvInputColumnsSelectAll.BackColor = System.Drawing.Color.White;
+                dgvInputColumns.Controls.Add(dgvInputColumnsSelectAll);
+
                 // Loading available and previously selected columns.
                 this.LoadAvailableColumns();
                 ThreadingArgs args = new ThreadingArgs();
@@ -288,6 +314,26 @@ namespace Martin.SQLServer.Dts
             {
                 this.isLoading = false;
             }
+        }
+
+        void dgvAvailableColumnsSelectAll_Click(object sender, EventArgs e)
+        {
+            this.isdgvAvailableColumnsSelectAllChecked = true;
+            CheckBox wrkCheckBox = (sender as CheckBox);
+            DataGridView wrkDataGridView = (DataGridView)wrkCheckBox.Parent;
+            int rowIndex = 0;
+            foreach(DataGridViewRow row in wrkDataGridView.Rows)
+            {
+                if ((bool)row.Cells[0].Value != wrkCheckBox.Checked)
+                {
+                    //row.Cells[0].Value = wrkCheckBox.Checked;
+                    DataGridViewCellEventArgs args = new DataGridViewCellEventArgs(0, rowIndex);
+                    dgvAvailableColumns_CellContentClick(sender, args);
+                }
+                rowIndex++;
+            }
+            wrkDataGridView.EndEdit();
+            this.isdgvAvailableColumnsSelectAllChecked = false;
         }
 
         #endregion
@@ -675,6 +721,51 @@ namespace Martin.SQLServer.Dts
                 this.CallErrorHandler.EndInvoke(res);
             }
         }
+
+        private void dgvAvailableColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!isLoading)
+            {
+                if (!isdgvAvailableColumnsSelectAllChecked)
+                {
+                    DataGridView wkgDataGridView = (sender as DataGridView);
+                    if (wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewCheckBoxCell)
+                    {
+                        if (((bool)wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) == false)
+                        {
+                            this.dgvAvailableColumnsSelectAll.Checked = false;
+                        }
+                        else
+                        {
+                            bool areAllChecked = true;
+                            foreach (DataGridViewRow row in wkgDataGridView.Rows)
+                            {
+                                if (((bool)row.Cells[0].Value) == false)
+                                {
+                                    areAllChecked = false;
+                                    break;
+                                }
+                            }
+                            this.dgvAvailableColumnsSelectAll.Checked = areAllChecked;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void dgvAvailableColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (!isLoading)
+            {
+                DataGridView dgvWorking = (sender as DataGridView);
+                if (dgvWorking.CurrentCell is DataGridViewCheckBoxCell)
+                {
+                    //dgvWorking.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                }
+            }
+        }
+
+
         #endregion
 
         #region Change Order Events
@@ -1471,10 +1562,6 @@ namespace Martin.SQLServer.Dts
         }
         #endregion
 
-        private void tpAbout_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
     /// <summary>
