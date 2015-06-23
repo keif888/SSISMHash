@@ -1410,6 +1410,7 @@ namespace Martin.SQLServer.Dts
 	                    }
                     break;
                 case HashTypeEnumerator.FNV1a64:
+                case HashTypeEnumerator.xxHash:
                     switch (outputType)
 	                    {
                             case OutputTypeEnumerator.Binary:
@@ -1429,6 +1430,7 @@ namespace Martin.SQLServer.Dts
 	                    }
                     break;
                 case HashTypeEnumerator.MD5:
+                case HashTypeEnumerator.MurmurHash3a:
                     switch (outputType)
                     {
                         case OutputTypeEnumerator.Binary:
