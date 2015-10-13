@@ -47,6 +47,9 @@ namespace Martin.SQLServer.Dts
     using System.Threading;
     using Microsoft.SqlServer.Dts.Pipeline;
 
+#if SQL2016
+    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
+#endif
 #if SQL2014
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
