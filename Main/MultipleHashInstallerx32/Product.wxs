@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.4.4"?>
+  <?define ProductVersion = "1.6.5.4"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -158,6 +158,9 @@
           <Component Id="SQL2016x32UpgradeMapping" Guid="F5C6A531-1BB4-4C8A-97BB-2F11CE5B1C3D" Win64="no">
             <File Id="SQL2016x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
           </Component>
+          <Component Id="SQL2016x32UpgradeMappingExtension" Guid="250C57CF-92F7-47D3-9E60-81D79B7F3DA1" Win64="no">
+            <File Id="SQL2016x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+          </Component>
         </Directory>
       </Directory>
 
@@ -170,6 +173,9 @@
         <Directory Id="SQL2014x32Upgrade" Name="UpgradeMappings">
           <Component Id="SQL2014x32UpgradeMapping" Guid="F4AD083A-C079-4042-B465-B6EC3533E7D6" Win64="no">
             <File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+          </Component>
+          <Component Id="SQL2014x32UpgradeMappingExtension" Guid="E5E9503D-BF63-45E9-93F3-D81A3C7AB072" Win64="no">
+            <File Id="SQL2014x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
           </Component>
         </Directory>
       </Directory>
@@ -216,6 +222,7 @@
         <Feature Id="SQL2016x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2016_PATH">
           <ComponentRef Id="SQL2016x32DLL"/>
           <ComponentRef Id="SQL2016x32UpgradeMapping"/>
+          <ComponentRef Id="SQL2016x32UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS32_2016</Condition>
         </Feature>
         <ComponentRef Id="SQL2016GAC" />
@@ -225,6 +232,7 @@
         <Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
           <ComponentRef Id="SQL2014x32DLL"/>
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
+          <ComponentRef Id="SQL2014x32UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS32_2014</Condition>
         </Feature>
         <ComponentRef Id="SQL2014GAC" />

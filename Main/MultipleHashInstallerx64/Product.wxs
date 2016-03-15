@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.4.4"?>
+  <?define ProductVersion = "1.6.5.4"?>
   <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -94,7 +94,7 @@
 
     <Property Id="SSIS64_2016">
       <RegistrySearch Type="raw" Id="SSIS64_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="yes"/> -->
     </Property>
 
     <Property Id="SSIS32_2016">
@@ -104,7 +104,7 @@
 
     <Property Id="SSIS64_2014">
       <RegistrySearch Type="raw" Id="SSIS64_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="yes"/>-->
     </Property>
 
     <Property Id="SSIS32_2014">
@@ -114,7 +114,7 @@
 
     <Property Id="SSIS64_2012">
       <RegistrySearch Type="raw" Id="SSIS64_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="yes"/>-->
     </Property>
 
     <Property Id="SSIS32_2012">
@@ -124,7 +124,7 @@
 
     <Property Id="SSIS64_2008">
       <RegistrySearch Type="raw" Id="SSIS64_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="yes"/>-->
     </Property>
 
     <Property Id="SSIS32_2008">
@@ -134,7 +134,7 @@
 
     <Property Id="SSIS64_2005">
       <RegistrySearch Type="raw" Id="SSIS64_2005_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="ProductCode" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2005_2" Root="HKCR" Key="IntegrationServices.Package.90" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2005_2" Root="HKCR" Key="IntegrationServices.Package.90" Win64="yes"/>-->
     </Property>
 
     <Property Id="SSIS32_2005">
@@ -186,6 +186,9 @@
           <Component Id="SQL2016x64UpgradeMapping" Guid="4BD23332-9484-45B5-8441-61160FC3C835" Win64="yes">
             <File Id="SQL2016x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
           </Component>
+          <Component Id="SQL2016x64UpgradeMappingExtension" Guid="175771A8-B672-4C66-A012-8E5E32BD00FD" Win64="yes">
+            <File Id="SQL2016x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+          </Component>
         </Directory>
       </Directory>
 
@@ -198,6 +201,9 @@
         <Directory Id="SQL2016x32Upgrade" Name="UpgradeMappings">
           <Component Id="SQL2016x32UpgradeMapping" Guid="B13196E0-1C72-4413-8C1E-20F0FB23C4FD" Win64="no">
             <File Id="SQL2016x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+          </Component>
+          <Component Id="SQL2016x32UpgradeMappingExtension" Guid="250C57CF-92F7-47D3-9E60-81D79B7F3DA1" Win64="no">
+            <File Id="SQL2016x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
           </Component>
         </Directory>
       </Directory>
@@ -212,6 +218,9 @@
           <Component Id="SQL2014x64UpgradeMapping" Guid="976D2EB0-FC43-4F6E-BEEF-7E50079CB70B" Win64="yes">
             <File Id="SQL2014x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
           </Component>
+          <Component Id="SQL2014x64UpgradeMappingExtension" Guid="3ED9C9D3-4169-44A1-90E6-2FC9741B2D72" Win64="yes">
+            <File Id="SQL2014x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+          </Component>
         </Directory>
       </Directory>
 
@@ -224,6 +233,9 @@
         <Directory Id="SQL2014x32Upgrade" Name="UpgradeMappings">
           <Component Id="SQL2014x32UpgradeMapping" Guid="F4AD083A-C079-4042-B465-B6EC3533E7D6" Win64="no">
             <File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+          </Component>
+          <Component Id="SQL2014x32UpgradeMappingExtension" Guid="E5E9503D-BF63-45E9-93F3-D81A3C7AB072" Win64="no">
+            <File Id="SQL2014x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
           </Component>
         </Directory>
       </Directory>
@@ -303,11 +315,13 @@
         <Feature Id="SQL2016x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2016_PATH">
           <ComponentRef Id="SQL2016x64DLL"/>
           <ComponentRef Id="SQL2016x64UpgradeMapping"/>
+          <ComponentRef Id="SQL2016x64UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS64_2016</Condition>
         </Feature>
         <Feature Id="SQL2016x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2016_PATH">
           <ComponentRef Id="SQL2016x32DLL"/>
           <ComponentRef Id="SQL2016x32UpgradeMapping"/>
+          <ComponentRef Id="SQL2016x32UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS32_2016</Condition>
         </Feature>
         <ComponentRef Id="SQL2016GAC" />
@@ -317,11 +331,13 @@
         <Feature Id="SQL2014x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2014_PATH">
           <ComponentRef Id="SQL2014x64DLL"/>
           <ComponentRef Id="SQL2014x64UpgradeMapping"/>
+          <ComponentRef Id="SQL2014x64UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS64_2014</Condition>
         </Feature>
         <Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
           <ComponentRef Id="SQL2014x32DLL"/>
           <ComponentRef Id="SQL2014x32UpgradeMapping"/>
+          <ComponentRef Id="SQL2014x32UpgradeMappingExtension"/>
           <Condition Level="1004">NOT SSIS32_2014</Condition>
         </Feature>
         <ComponentRef Id="SQL2014GAC" />
