@@ -446,10 +446,10 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(410, 26);
+            this.label8.Size = new System.Drawing.Size(422, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was last updated by Keith Martin in July 2014.  This is version 1." +
-    "6.3.4\r\nTo download the latest version or get help go to:";
+            this.label8.Text = "This component was last updated by Keith Martin in March 2016.  This is version 1" +
+    ".6.5.4\r\nTo download the latest version or get help go to:";
             // 
             // panel1
             // 
