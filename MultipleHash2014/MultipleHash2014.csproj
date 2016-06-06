@@ -167,6 +167,7 @@
     <EmbeddedResource Include="key.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SSISMHash.extensions.xml" />
     <Content Include="SSISMHash.xml">
       <SubType>Designer</SubType>
     </Content>
