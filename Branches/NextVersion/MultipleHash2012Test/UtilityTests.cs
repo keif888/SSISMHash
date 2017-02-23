@@ -991,7 +991,7 @@ namespace Martin.SQLServer.Dts.Tests
             ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
             flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
             flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
-            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @"D:\Test\TextDataToBeHashed.txt");
             flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
             flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
             flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
@@ -1216,6 +1216,8 @@ namespace Martin.SQLServer.Dts.Tests
                 }
             }
             Assert.AreEqual(5, rowCount, "Rows in TestRecords");
+            connection.Close();
+            sqlCEEngine.Dispose();
         }
 
 
@@ -1238,7 +1240,7 @@ namespace Martin.SQLServer.Dts.Tests
             ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
             flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
             flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
-            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @"D:\Test\TextDataToBeHashed.txt");
             flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
             flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
             flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
@@ -1412,50 +1414,50 @@ namespace Martin.SQLServer.Dts.Tests
                         Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
                         byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byteExpected = GetStringToBytes("ad0ff38c612ba6550f7f991d8d451557");
+                        byteExpected = GetStringToBytes("a6b1e7adea05d62eee4a69b75bb6fa0f");
                         testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
-                        Assert.AreEqual("0xad0ff38c612ba6550f7f991d8d451557", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
-                        Assert.AreEqual("rQ/zjGErplUPf5kdjUUVVw==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        Assert.AreEqual("0xa6b1e7adea05d62eee4a69b75bb6fa0f", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("prHnreoF1i7uSmm3W7b6Dw==", sqlData.GetString(7), "Murmur3a as Base 64");
                         break;
                     case 2:
                         Assert.AreEqual("StringData1", sqlData.GetString(0), "StringData <> StringData1");
                         Assert.AreEqual("MoreStringData1", sqlData.GetString(1), "AccountName <> MoreStringData1");
                         byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byteExpected = GetStringToBytes("35ec7260ec3b96b84e026111f8d7c966");
+                        byteExpected = GetStringToBytes("dd8bc7d17663e60762a651a0cf9c4587");
                         testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
-                        Assert.AreEqual("0x35ec7260ec3b96b84e026111f8d7c966", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
-                        Assert.AreEqual("NexyYOw7lrhOAmER+NfJZg==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        Assert.AreEqual("0xdd8bc7d17663e60762a651a0cf9c4587", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("3YvH0XZj5gdiplGgz5xFhw==", sqlData.GetString(7), "Murmur3a as Base 64");
                         break;
                     case 3:
                         Assert.AreEqual("StringData2", sqlData.GetString(0), "StringData <> StringData2");
                         Assert.AreEqual("MoreStringData2", sqlData.GetString(1), "AccountName <> MoreStringData2");
                         byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byteExpected = GetStringToBytes("85070590507e30f622e85b3de2fd1be7");
+                        byteExpected = GetStringToBytes("a9a7e8b837da471597612542cb991d60");
                         testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
-                        Assert.AreEqual("0x85070590507e30f622e85b3de2fd1be7", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
-                        Assert.AreEqual("hQcFkFB+MPYi6Fs94v0b5w==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        Assert.AreEqual("0xa9a7e8b837da471597612542cb991d60", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("qafouDfaRxWXYSVCy5kdYA==", sqlData.GetString(7), "Murmur3a as Base 64");
                         break;
                     case 4:
                         Assert.AreEqual("StringData3", sqlData.GetString(0), "StringData <> StringData3");
                         Assert.AreEqual("MoreStringData3", sqlData.GetString(1), "AccountName <> MoreStringData3");
                         byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byteExpected = GetStringToBytes("56c4813f94449bae1db11116a983a515");
+                        byteExpected = GetStringToBytes("c7b26b54eae2b2b3bbc6517442f87850");
                         testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
-                        Assert.AreEqual("0x56c4813f94449bae1db11116a983a515", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
-                        Assert.AreEqual("VsSBP5REm64dsREWqYOlFQ==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        Assert.AreEqual("0xc7b26b54eae2b2b3bbc6517442f87850", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("x7JrVOrisrO7xlF0Qvh4UA==", sqlData.GetString(7), "Murmur3a as Base 64");
                         break;
                     case 5:
                         Assert.AreEqual("StringData4", sqlData.GetString(0), "StringData <> StringData4");
                         Assert.AreEqual("MoreStringData4", sqlData.GetString(1), "AccountName <> MoreStringData4");
                         byteResult = new byte[16];
                         sqlData.GetBytes(5, 0, byteResult, 0, 16);
-                        byteExpected = GetStringToBytes("687502290576828a03b30658121389c2");
+                        byteExpected = GetStringToBytes("52e3a27aa7a40b6bf9f7e12ffdbdab6d");
                         testByteValues(byteExpected, byteResult, "Murmur3a Hash as Binary");
-                        Assert.AreEqual("0x687502290576828a03b30658121389c2", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
-                        Assert.AreEqual("aHUCKQV2gooDswZYEhOJwg==", sqlData.GetString(7), "Murmur3a as Base 64");
+                        Assert.AreEqual("0x52e3a27aa7a40b6bf9f7e12ffdbdab6d", sqlData.GetString(6).ToLower(), "Murmur3a Hash as Hex String");
+                        Assert.AreEqual("UuOieqekC2v59+Ev/b2rbQ==", sqlData.GetString(7), "Murmur3a as Base 64");
                         break;
                     default:
                         Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
@@ -1463,6 +1465,9 @@ namespace Martin.SQLServer.Dts.Tests
                 }
             }
             Assert.AreEqual(5, rowCount, "Rows in TestRecords");
+            connection.Close();
+            sqlCEEngine.Dispose();
+
         }
 
 

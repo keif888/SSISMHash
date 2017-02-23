@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.5.4"?>
+  <?define ProductVersion = "1.7.0.0"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -20,7 +20,9 @@
              Compressed="yes"
              InstallScope="perMachine"
              Platform="x86"/>
-
+    
+    <Property Id="ARPHELPLINK" Value="http://ssismhash.codeplex.com/" />
+    
     <Media Id="1" Cabinet="HultipleHash.cab" EmbedCab="yes" />
 
     <MajorUpgrade
@@ -217,7 +219,7 @@
     </Directory>
 
 
-    <Feature Id="Complete" Level="1" Title="Text File Splitter Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
+    <Feature Id="Complete" Level="1" Title="Multiple Hash Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
       <Feature Id="SQL2016" Level="1" Title="SQL 2016">
         <Feature Id="SQL2016x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2016_PATH">
           <ComponentRef Id="SQL2016x32DLL"/>
