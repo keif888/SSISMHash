@@ -27,18 +27,6 @@ namespace Martin.SQLServer.Dts.Tests
         }
 
         [TestMethod()]
-        public void ComputeHashTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void ComputeHashTest1()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
         public void InitializeTest()
         {
             Murmur3a target = new Murmur3a();
