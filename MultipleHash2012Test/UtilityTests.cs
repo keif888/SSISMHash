@@ -978,6 +978,7 @@ namespace Martin.SQLServer.Dts.Tests
         ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
+        [DeploymentItem(@"TextDataToBeHashed.txt")]
         public void CalculateHashMD5Test()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
@@ -991,7 +992,7 @@ namespace Martin.SQLServer.Dts.Tests
             ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
             flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
             flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
-            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @"D:\Test\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
             flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
             flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
             flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
@@ -1227,6 +1228,7 @@ namespace Martin.SQLServer.Dts.Tests
         ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
+        [DeploymentItem(@"TextDataToBeHashed.txt")]
         public void CalculateHashMurmurHash3aTest()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package = new Microsoft.SqlServer.Dts.Runtime.Package();
@@ -1240,7 +1242,7 @@ namespace Martin.SQLServer.Dts.Tests
             ConnectionManager flatFileConnectionManager = package.Connections.Add("FLATFILE");
             flatFileConnectionManager.Properties["Format"].SetValue(flatFileConnectionManager, "Delimited");
             flatFileConnectionManager.Properties["Name"].SetValue(flatFileConnectionManager, "Flat File Connection");
-            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @"D:\Test\TextDataToBeHashed.txt");
+            flatFileConnectionManager.Properties["ConnectionString"].SetValue(flatFileConnectionManager, @".\TextDataToBeHashed.txt");
             flatFileConnectionManager.Properties["ColumnNamesInFirstDataRow"].SetValue(flatFileConnectionManager, false);
             flatFileConnectionManager.Properties["HeaderRowDelimiter"].SetValue(flatFileConnectionManager, "\r\n");
             flatFileConnectionManager.Properties["TextQualifier"].SetValue(flatFileConnectionManager, "\"");
