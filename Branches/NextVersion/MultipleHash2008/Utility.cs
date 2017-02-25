@@ -741,11 +741,11 @@ namespace Martin.SQLServer.Dts
                         case MultipleHash.HashTypeEnumerator.CRC32:
                         case MultipleHash.HashTypeEnumerator.CRC32C:
                         case MultipleHash.HashTypeEnumerator.FNV1a32:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 6, 0, 0, 1252);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 1252);
                             break;
                         case MultipleHash.HashTypeEnumerator.FNV1a64:
                         case MultipleHash.HashTypeEnumerator.xxHash:
-                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 1252);
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 18, 0, 0, 1252);
                             break;
                     }
                     break;

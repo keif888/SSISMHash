@@ -1416,7 +1416,7 @@ namespace Martin.SQLServer.Dts
                                     return false;
                                 break;
                             case OutputTypeEnumerator.HexString:
-                                if (outputColumn.Length != 6)
+                                if (outputColumn.Length != 10)
                                     return false;
                                 break;
                             default:
@@ -1436,7 +1436,7 @@ namespace Martin.SQLServer.Dts
                                     return false;
                                 break;
                             case OutputTypeEnumerator.HexString:
-                                if (outputColumn.Length != 10)
+                                if (outputColumn.Length != 18)
                                     return false;
                                 break;
                             default:
