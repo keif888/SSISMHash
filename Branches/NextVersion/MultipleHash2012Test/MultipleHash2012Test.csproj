@@ -105,6 +105,8 @@
     <Compile Include="SSISImplementations\OutputColumnCollectionTestImpl.cs" />
     <Compile Include="SSISImplementations\OutputColumnTestImpl.cs" />
     <Compile Include="SSISImplementations\OutputTestImpl.cs" />
+    <Compile Include="StaticTestUtilities.cs" />
+    <Compile Include="MD5Tests.cs" />
     <Compile Include="xxHashTests.cs" />
     <Compile Include="UnitTestCRC32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
