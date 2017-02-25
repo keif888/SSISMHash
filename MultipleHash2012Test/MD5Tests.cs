@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Martin.SQLServer.Dts;
-using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime;
 using System.Data.SqlServerCe;
@@ -11,10 +10,10 @@ using System.IO;
 
 namespace MultipleHash2012Test
 {
-    [TestClass()]
-    public class UnitTestCRC32
+    [TestClass]
+    public class MD5Tests
     {
-        const string sqlCEDatabaseName = @".\CRC32Test.sdf";
+        const string sqlCEDatabaseName = @".\MD5Test.sdf";
         const string sqlCEPassword = "MartinSource";
         SqlCeEngine sqlCEEngine = null;
 
@@ -39,7 +38,7 @@ namespace MultipleHash2012Test
             }
 
             // Create the table with the test results.
-            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [BinaryOutput] varbinary(4), [HexOutput] nvarchar(10), [BaseOutput] nvarchar(8))";
+            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] nvarchar(34), [MD5BaseOutput] nvarchar(24))";
             SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
             command.ExecuteNonQuery();
 
@@ -51,10 +50,12 @@ namespace MultipleHash2012Test
 
         /// <summary>
         ///A test for CalculateHash
+        ///StringData,MoreStringData,2012-01-04,18,19.05
+        ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [MD5BinaryOutput] varbinary(16), [MD5HexOutput] varchar(34), [MD5BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
         [DeploymentItem(@"TextDataToBeHashed.txt")]
-        public void CalculateHashCRC32Test()
+        public void CalculateHashMD5Test()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package;
             IDTSComponentMetaData100 multipleHash;
@@ -67,27 +68,26 @@ namespace MultipleHash2012Test
             int outputID = multipleHash.OutputCollection[0].ID;
             int outputColumnPos = multipleHash.OutputCollection[0].OutputColumnCollection.Count;
 
-            // Add output column CRC32BinaryOutput (CRC32, Binary)
-            IDTSOutputColumn100 CRC32BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BinaryOutput", "CRC32 Hash of the input");
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BinaryOutput.Name = "BinaryOutput";
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Binary, CRC32BinaryOutput);
-            // Add output column CRC32HexOutput (CRC32, HexString)
-            IDTSOutputColumn100 CRC32HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "HexOutput", "CRC32 Hash of the input");
-            CRC32HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
-            CRC32HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32HexOutput.Name = "HexOutput";
-            CRC32HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.HexString, CRC32HexOutput);
-            // Add output column CRC32BaseOutput (CRC32, Base64String)
-            IDTSOutputColumn100 CRC32BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BaseOutput", "CRC32 Hash of the input");
-            CRC32BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
-            CRC32BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BaseOutput.Name = "BaseOutput";
-            CRC32BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Base64String, CRC32BaseOutput);
+            // Add output column MD5BinaryOutput (MD5, Binary)
+            IDTSOutputColumn100 MD5BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5BinaryOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
+            MD5BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5BinaryOutput.Name = "MD5BinaryOutput";
+            MD5BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            // Add output column MD5HexOutput (MD5, HexString)
+            IDTSOutputColumn100 MD5HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5HexOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
+            MD5HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5HexOutput.Name = "MD5HexOutput";
+            MD5HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.HexString, MD5HexOutput);
+            // Add output column MD5BaseOutput (MD5, Base64String)
+            IDTSOutputColumn100 MD5BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "MD5BaseOutput", "MD5 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            MD5BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
+            MD5BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.MD5;
+            MD5BaseOutput.Name = "MD5BaseOutput";
+            MD5BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.MD5, MultipleHash.OutputTypeEnumerator.Base64String, MD5BaseOutput);
 
             // Add SQL CE Destination
 
@@ -127,19 +127,19 @@ namespace MultipleHash2012Test
                 switch (rowCount)
                 {
                     case 1:
-                        StaticTestUtilities.testValues4("CRC32", sqlData, "NullRow", null, "b72e9896", "ty6Ylg==");
+                        StaticTestUtilities.testValues16("MD5", sqlData, "NullRow", null, "ad0ff38c612ba6550f7f991d8d451557", "rQ/zjGErplUPf5kdjUUVVw==");
                         break;
                     case 2:
-                        StaticTestUtilities.testValues4("CRC32", sqlData, "StringData1", "MoreStringData1", "4fa69232", "T6aSMg==");
+                        StaticTestUtilities.testValues16("MD5", sqlData, "StringData1", "MoreStringData1", "35ec7260ec3b96b84e026111f8d7c966", "NexyYOw7lrhOAmER+NfJZg==");
                         break;
                     case 3:
-                        StaticTestUtilities.testValues4("CRC32", sqlData, "StringData2", "MoreStringData2", "12988cea", "EpiM6g==");
+                        StaticTestUtilities.testValues16("MD5", sqlData, "StringData2", "MoreStringData2", "85070590507e30f622e85b3de2fd1be7", "hQcFkFB+MPYi6Fs94v0b5w==");
                         break;
                     case 4:
-                        StaticTestUtilities.testValues4("CRC32", sqlData, "StringData3", "MoreStringData3", "631f9b57", "Yx+bVw==");
+                        StaticTestUtilities.testValues16("MD5", sqlData, "StringData3", "MoreStringData3", "56c4813f94449bae1db11116a983a515", "VsSBP5REm64dsREWqYOlFQ==");
                         break;
                     case 5:
-                        StaticTestUtilities.testValues4("CRC32", sqlData, "StringData4", "MoreStringData4", "f8bed23b", "+L7SOw==");
+                        StaticTestUtilities.testValues16("MD5", sqlData, "StringData4", "MoreStringData4", "687502290576828a03b30658121389c2", "aHUCKQV2gooDswZYEhOJwg==");
                         break;
                     default:
                         Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
@@ -152,42 +152,5 @@ namespace MultipleHash2012Test
         }
 
 
-        /// <summary>
-        ///A test for CRC32 Constructor
-        ///</summary>
-        [TestMethod()]
-        public void CRC32ConstructorTest()
-        {
-            CRC32 target = new CRC32();
-            Assert.IsNotNull(target);
-        }
-
-        /// <summary>
-        ///A test for Create
-        ///</summary>
-        [TestMethod()]
-        public void CreateTest()
-        {
-            CRC32 expected = new CRC32();
-            CRC32 actual;
-            actual = CRC32.Create();
-            Assert.AreEqual(expected.ToString(), actual.ToString());
-        }
-
-        /// <summary>
-        ///A test for ComputeHash
-        ///</summary>
-        [TestMethod()]
-        public void ComputeHashTestJustBuffer()
-        {
-            CRC32 target = new CRC32();
-            byte[] buffer = ASCIIEncoding.ASCII.GetBytes("abcdefghijklmnopqrstuvwxyz");
-            byte[] expected = { 0xbd, 0x50, 0x27, 0x4c };
-            byte[] actual;
-            actual = target.ComputeHash(buffer);
-            Assert.AreEqual(expected.Length, actual.Length);
-            for (int i = 0; i < expected.Length; i++)
-                Assert.AreEqual(expected[i], actual[i]);
-        }
     }
 }

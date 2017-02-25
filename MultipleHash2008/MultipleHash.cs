@@ -1412,7 +1412,7 @@ namespace Martin.SQLServer.Dts
                                     return false;
                                 break;
                             case OutputTypeEnumerator.Base64String:
-                                if (outputColumn.Length != 10)
+                                if (outputColumn.Length != 8)
                                     return false;
                                 break;
                             case OutputTypeEnumerator.HexString:
