@@ -107,6 +107,11 @@
     <Compile Include="SSISImplementations\OutputTestImpl.cs" />
     <Compile Include="StaticTestUtilities.cs" />
     <Compile Include="MD5Tests.cs" />
+    <Compile Include="RipeMD160Tests.cs" />
+    <Compile Include="SHA1Tests.cs" />
+    <Compile Include="SHA256Tests.cs" />
+    <Compile Include="SHA384Tests.cs" />
+    <Compile Include="SHA512Tests.cs" />
     <Compile Include="xxHashTests.cs" />
     <Compile Include="UnitTestCRC32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

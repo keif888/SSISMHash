@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Martin.SQLServer.Dts;
-using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime;
 using System.Data.SqlServerCe;
@@ -11,10 +10,10 @@ using System.IO;
 
 namespace MultipleHash2012Test
 {
-    [TestClass()]
-    public class UnitTestCRC32
+    [TestClass]
+    public class SHA384Tests
     {
-        const string sqlCEDatabaseName = @".\CRC32Test.sdf";
+        const string sqlCEDatabaseName = @".\SHA384Test.sdf";
         const string sqlCEPassword = "MartinSource";
         SqlCeEngine sqlCEEngine = null;
 
@@ -39,7 +38,7 @@ namespace MultipleHash2012Test
             }
 
             // Create the table with the test results.
-            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [BinaryOutput] varbinary(4), [HexOutput] nvarchar(10), [BaseOutput] nvarchar(8))";
+            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [SHA384BinaryOutput] varbinary(48), [SHA384HexOutput] nvarchar(98), [SHA384BaseOutput] nvarchar(64))";
             SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
             command.ExecuteNonQuery();
 
@@ -60,10 +59,12 @@ namespace MultipleHash2012Test
 
         /// <summary>
         ///A test for CalculateHash
+        ///StringData,MoreStringData,2012-01-04,18,19.05
+        ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [SHA384BinaryOutput] varbinary(16), [SHA384HexOutput] varchar(34), [SHA384BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
         [DeploymentItem(@"TextDataToBeHashed.txt")]
-        public void CalculateHashCRC32Test()
+        public void CalculateHashSHA384Test()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package;
             IDTSComponentMetaData100 multipleHash;
@@ -76,27 +77,27 @@ namespace MultipleHash2012Test
             int outputID = multipleHash.OutputCollection[0].ID;
             int outputColumnPos = multipleHash.OutputCollection[0].OutputColumnCollection.Count;
 
-            // Add output column CRC32BinaryOutput (CRC32, Binary)
-            IDTSOutputColumn100 CRC32BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BinaryOutput", "CRC32 Hash of the input");
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BinaryOutput.Name = "BinaryOutput";
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Binary, CRC32BinaryOutput);
-            // Add output column CRC32HexOutput (CRC32, HexString)
-            IDTSOutputColumn100 CRC32HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "HexOutput", "CRC32 Hash of the input");
-            CRC32HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
-            CRC32HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32HexOutput.Name = "HexOutput";
-            CRC32HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.HexString, CRC32HexOutput);
-            // Add output column CRC32BaseOutput (CRC32, Base64String)
-            IDTSOutputColumn100 CRC32BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BaseOutput", "CRC32 Hash of the input");
-            CRC32BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
-            CRC32BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BaseOutput.Name = "BaseOutput";
-            CRC32BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Base64String, CRC32BaseOutput);
+            // Add output column SHA384BinaryOutput (SHA384, Binary)
+            IDTSOutputColumn100 SHA384BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "SHA384BinaryOutput", "SHA384 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            SHA384BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
+            SHA384BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.SHA384;
+            SHA384BinaryOutput.Name = "SHA384BinaryOutput";
+            SHA384BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.Binary, SHA384BinaryOutput);
+            // Add output column SHA384HexOutput (SHA384, HexString)
+            IDTSOutputColumn100 SHA384HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "SHA384HexOutput", "SHA384 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            SHA384HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
+            SHA384HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.SHA384;
+            SHA384HexOutput.Name = "SHA384HexOutput";
+            SHA384HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.HexString, SHA384HexOutput);
+            // Add output column SHA384BaseOutput (SHA384, Base64String)
+            IDTSOutputColumn100 SHA384BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "SHA384BaseOutput", "SHA384 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            SHA384BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
+            SHA384BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.SHA384;
+            SHA384BaseOutput.Name = "SHA384BaseOutput";
+            SHA384BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.SHA384, MultipleHash.OutputTypeEnumerator.Base64String, SHA384BaseOutput);
 
             // Add SQL CE Destination
 
@@ -138,19 +139,19 @@ namespace MultipleHash2012Test
                     switch (rowCount)
                     {
                         case 1:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "NullRow", null, "b72e9896", "ty6Ylg==");
+                            StaticTestUtilities.testValues48("SHA384", sqlData, "NullRow", null, "08b53cabec16f989febb7594542989474cc68bc88f5ef25ef3d3eaa5c587c5bdc54dc88f6c2af8dab2dd496d66c5f4aa", "CLU8q+wW+Yn+u3WUVCmJR0zGi8iPXvJe89PqpcWHxb3FTciPbCr42rLdSW1mxfSq");
                             break;
                         case 2:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData1", "MoreStringData1", "4fa69232", "T6aSMg==");
+                            StaticTestUtilities.testValues48("SHA384", sqlData, "StringData1", "MoreStringData1", "432aad9910a1232a4699f8d998211dd74ace4dc63cc4617e2c02c6d5f582c22f2ce829e81237ec3b2b261c943dd24deb", "QyqtmRChIypGmfjZmCEd10rOTcY8xGF+LALG1fWCwi8s6CnoEjfsOysmHJQ90k3r");
                             break;
                         case 3:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData2", "MoreStringData2", "12988cea", "EpiM6g==");
+                            StaticTestUtilities.testValues48("SHA384", sqlData, "StringData2", "MoreStringData2", "7e0022b353057d6596a499021300f6f08a82d0dbe36b3f413c0f08b5ba0b740b8fd91d1860e81720487eb624952cd15d", "fgAis1MFfWWWpJkCEwD28IqC0Nvjaz9BPA8ItboLdAuP2R0YYOgXIEh+tiSVLNFd");
                             break;
                         case 4:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData3", "MoreStringData3", "631f9b57", "Yx+bVw==");
+                            StaticTestUtilities.testValues48("SHA384", sqlData, "StringData3", "MoreStringData3", "bbeb7ffe8289295e0cd0a3ed7b75ea03b9e7e25116da56569f1e85b2dd30f42903cd0e6b8cf33c3c6690bb1a105b8393", "u+t//oKJKV4M0KPte3XqA7nn4lEW2lZWnx6Fst0w9CkDzQ5rjPM8PGaQuxoQW4OT");
                             break;
                         case 5:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData4", "MoreStringData4", "f8bed23b", "+L7SOw==");
+                            StaticTestUtilities.testValues48("SHA384", sqlData, "StringData4", "MoreStringData4", "f0adce5888a63f94b69551b13e612e165eaa25bafa768faf8fc0221bfd906c3eded45ed838f3c095c5a3ce962cc8b32f", "8K3OWIimP5S2lVGxPmEuFl6qJbr6do+vj8AiG/2QbD7e1F7YOPPAlcWjzpYsyLMv");
                             break;
                         default:
                             Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
@@ -170,42 +171,5 @@ namespace MultipleHash2012Test
         }
 
 
-        /// <summary>
-        ///A test for CRC32 Constructor
-        ///</summary>
-        [TestMethod()]
-        public void CRC32ConstructorTest()
-        {
-            CRC32 target = new CRC32();
-            Assert.IsNotNull(target);
-        }
-
-        /// <summary>
-        ///A test for Create
-        ///</summary>
-        [TestMethod()]
-        public void CreateTest()
-        {
-            CRC32 expected = new CRC32();
-            CRC32 actual;
-            actual = CRC32.Create();
-            Assert.AreEqual(expected.ToString(), actual.ToString());
-        }
-
-        /// <summary>
-        ///A test for ComputeHash
-        ///</summary>
-        [TestMethod()]
-        public void ComputeHashTestJustBuffer()
-        {
-            CRC32 target = new CRC32();
-            byte[] buffer = ASCIIEncoding.ASCII.GetBytes("abcdefghijklmnopqrstuvwxyz");
-            byte[] expected = { 0xbd, 0x50, 0x27, 0x4c };
-            byte[] actual;
-            actual = target.ComputeHash(buffer);
-            Assert.AreEqual(expected.Length, actual.Length);
-            for (int i = 0; i < expected.Length; i++)
-                Assert.AreEqual(expected[i], actual[i]);
-        }
     }
 }

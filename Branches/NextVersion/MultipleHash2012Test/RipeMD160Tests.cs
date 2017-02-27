@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Martin.SQLServer.Dts;
-using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime;
 using System.Data.SqlServerCe;
@@ -11,10 +10,10 @@ using System.IO;
 
 namespace MultipleHash2012Test
 {
-    [TestClass()]
-    public class UnitTestCRC32
+    [TestClass]
+    public class RipeMD160Tests
     {
-        const string sqlCEDatabaseName = @".\CRC32Test.sdf";
+        const string sqlCEDatabaseName = @".\RipeMD160Test.sdf";
         const string sqlCEPassword = "MartinSource";
         SqlCeEngine sqlCEEngine = null;
 
@@ -39,7 +38,7 @@ namespace MultipleHash2012Test
             }
 
             // Create the table with the test results.
-            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [BinaryOutput] varbinary(4), [HexOutput] nvarchar(10), [BaseOutput] nvarchar(8))";
+            String tableCreate = "CREATE TABLE [TestRecords] ([StringData] nvarchar(255), [MoreString] nvarchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [RipeMD160BinaryOutput] varbinary(20), [RipeMD160HexOutput] nvarchar(42), [RipeMD160BaseOutput] nvarchar(28))";
             SqlCeCommand command = new SqlCeCommand(tableCreate, connection);
             command.ExecuteNonQuery();
 
@@ -60,10 +59,12 @@ namespace MultipleHash2012Test
 
         /// <summary>
         ///A test for CalculateHash
+        ///StringData,MoreStringData,2012-01-04,18,19.05
+        ///String tableCreate = "CREATE TABLE [TestRecords] ([StringData] varchar(255), [MoreString] varchar(255), [DateColumn] DATETIME, [IntegerColumn] bigint, [NumericColumn] numeric(15,2), [RipeMD160BinaryOutput] varbinary(16), [RipeMD160HexOutput] varchar(34), [RipeMD160BaseOutput] varchar(24))";
         ///</summary>
         [TestMethod()]
         [DeploymentItem(@"TextDataToBeHashed.txt")]
-        public void CalculateHashCRC32Test()
+        public void CalculateHashRipeMD160Test()
         {
             Microsoft.SqlServer.Dts.Runtime.Package package;
             IDTSComponentMetaData100 multipleHash;
@@ -76,27 +77,27 @@ namespace MultipleHash2012Test
             int outputID = multipleHash.OutputCollection[0].ID;
             int outputColumnPos = multipleHash.OutputCollection[0].OutputColumnCollection.Count;
 
-            // Add output column CRC32BinaryOutput (CRC32, Binary)
-            IDTSOutputColumn100 CRC32BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BinaryOutput", "CRC32 Hash of the input");
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BinaryOutput.Name = "BinaryOutput";
-            CRC32BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Binary, CRC32BinaryOutput);
-            // Add output column CRC32HexOutput (CRC32, HexString)
-            IDTSOutputColumn100 CRC32HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "HexOutput", "CRC32 Hash of the input");
-            CRC32HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
-            CRC32HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32HexOutput.Name = "HexOutput";
-            CRC32HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.HexString, CRC32HexOutput);
-            // Add output column CRC32BaseOutput (CRC32, Base64String)
-            IDTSOutputColumn100 CRC32BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "BaseOutput", "CRC32 Hash of the input");
-            CRC32BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
-            CRC32BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.CRC32;
-            CRC32BaseOutput.Name = "BaseOutput";
-            CRC32BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
-            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.CRC32, MultipleHash.OutputTypeEnumerator.Base64String, CRC32BaseOutput);
+            // Add output column RipeMD160BinaryOutput (RipeMD160, Binary)
+            IDTSOutputColumn100 RipeMD160BinaryOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "RipeMD160BinaryOutput", "RipeMD160 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            RipeMD160BinaryOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Binary;
+            RipeMD160BinaryOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.RipeMD160;
+            RipeMD160BinaryOutput.Name = "RipeMD160BinaryOutput";
+            RipeMD160BinaryOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.Binary, RipeMD160BinaryOutput);
+            // Add output column RipeMD160HexOutput (RipeMD160, HexString)
+            IDTSOutputColumn100 RipeMD160HexOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "RipeMD160HexOutput", "RipeMD160 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            RipeMD160HexOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.HexString;
+            RipeMD160HexOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.RipeMD160;
+            RipeMD160HexOutput.Name = "RipeMD160HexOutput";
+            RipeMD160HexOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.HexString, RipeMD160HexOutput);
+            // Add output column RipeMD160BaseOutput (RipeMD160, Base64String)
+            IDTSOutputColumn100 RipeMD160BaseOutput = multipleHashInstance.InsertOutputColumnAt(outputID, outputColumnPos++, "RipeMD160BaseOutput", "RipeMD160 Hash of the input"); //multipleHash.OutputCollection[0].OutputColumnCollection.New();
+            RipeMD160BaseOutput.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = MultipleHash.OutputTypeEnumerator.Base64String;
+            RipeMD160BaseOutput.CustomPropertyCollection[Utility.HashTypePropName].Value = MultipleHash.HashTypeEnumerator.RipeMD160;
+            RipeMD160BaseOutput.Name = "RipeMD160BaseOutput";
+            RipeMD160BaseOutput.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = lineageString;
+            Utility.SetOutputColumnDataType(MultipleHash.HashTypeEnumerator.RipeMD160, MultipleHash.OutputTypeEnumerator.Base64String, RipeMD160BaseOutput);
 
             // Add SQL CE Destination
 
@@ -122,14 +123,14 @@ namespace MultipleHash2012Test
 
             // Connect to the SQLCE database
             SqlCeConnection connection = new SqlCeConnection(StaticTestUtilities.connectionString(sqlCEDatabaseName, sqlCEPassword));
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecords] ORDER BY [StringData]", connection);
             try
             {
-                if (connection.State == ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-
-                SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecords] ORDER BY [StringData]", connection);
                 SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
                 int rowCount = 0;
                 while (sqlData.Read())
@@ -138,19 +139,19 @@ namespace MultipleHash2012Test
                     switch (rowCount)
                     {
                         case 1:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "NullRow", null, "b72e9896", "ty6Ylg==");
+                            StaticTestUtilities.testValues20("RipeMD160", sqlData, "NullRow", null, "83c5a4d2b3d607c4dc49829011a16cc9415ac865", "g8Wk0rPWB8TcSYKQEaFsyUFayGU=");
                             break;
                         case 2:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData1", "MoreStringData1", "4fa69232", "T6aSMg==");
+                            StaticTestUtilities.testValues20("RipeMD160", sqlData, "StringData1", "MoreStringData1", "95878786667e4fb8baf5e93e3d7560ead8939551", "lYeHhmZ+T7i69ek+PXVg6tiTlVE=");
                             break;
                         case 3:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData2", "MoreStringData2", "12988cea", "EpiM6g==");
+                            StaticTestUtilities.testValues20("RipeMD160", sqlData, "StringData2", "MoreStringData2", "616a8ed8b2210e16da0dcfa9a126e7e0bc305b39", "YWqO2LIhDhbaDc+poSbn4LwwWzk=");
                             break;
                         case 4:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData3", "MoreStringData3", "631f9b57", "Yx+bVw==");
+                            StaticTestUtilities.testValues20("RipeMD160", sqlData, "StringData3", "MoreStringData3", "c3a0013e3c3fc7d4e8e078ae165cb54d6ec91023", "w6ABPjw/x9To4HiuFly1TW7JECM=");
                             break;
                         case 5:
-                            StaticTestUtilities.testValues4("CRC32", sqlData, "StringData4", "MoreStringData4", "f8bed23b", "+L7SOw==");
+                            StaticTestUtilities.testValues20("RipeMD160", sqlData, "StringData4", "MoreStringData4", "d570b9cd0e00f44afb85d6c5e1ccaccc17280fd3", "1XC5zQ4A9Er7hdbF4cyszBcoD9M=");
                             break;
                         default:
                             Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
@@ -170,42 +171,5 @@ namespace MultipleHash2012Test
         }
 
 
-        /// <summary>
-        ///A test for CRC32 Constructor
-        ///</summary>
-        [TestMethod()]
-        public void CRC32ConstructorTest()
-        {
-            CRC32 target = new CRC32();
-            Assert.IsNotNull(target);
-        }
-
-        /// <summary>
-        ///A test for Create
-        ///</summary>
-        [TestMethod()]
-        public void CreateTest()
-        {
-            CRC32 expected = new CRC32();
-            CRC32 actual;
-            actual = CRC32.Create();
-            Assert.AreEqual(expected.ToString(), actual.ToString());
-        }
-
-        /// <summary>
-        ///A test for ComputeHash
-        ///</summary>
-        [TestMethod()]
-        public void ComputeHashTestJustBuffer()
-        {
-            CRC32 target = new CRC32();
-            byte[] buffer = ASCIIEncoding.ASCII.GetBytes("abcdefghijklmnopqrstuvwxyz");
-            byte[] expected = { 0xbd, 0x50, 0x27, 0x4c };
-            byte[] actual;
-            actual = target.ComputeHash(buffer);
-            Assert.AreEqual(expected.Length, actual.Length);
-            for (int i = 0; i < expected.Length; i++)
-                Assert.AreEqual(expected[i], actual[i]);
-        }
     }
 }

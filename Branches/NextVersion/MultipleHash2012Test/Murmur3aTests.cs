@@ -55,6 +55,15 @@ namespace Martin.SQLServer.Dts.Tests
             sqlCEEngine.Dispose();
         }
 
+        [ClassCleanup]
+        public static void RemoveSQLCEDatabase()
+        {
+            // Discard the previous iteration of this test database.
+            if (File.Exists(sqlCEDatabaseName))
+            {
+                File.Delete(sqlCEDatabaseName);
+            }
+        }
 
         [TestMethod()]
         public void Murmur3aTest()
@@ -152,47 +161,51 @@ namespace Martin.SQLServer.Dts.Tests
 
             // Connect to the SQLCE database
             SqlCeConnection connection = new SqlCeConnection(StaticTestUtilities.connectionString(sqlCEDatabaseName, sqlCEPassword));
-            if (connection.State == ConnectionState.Closed)
+            try
             {
-                connection.Open();
-            }
-
-            SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecordsMurmur3a] ORDER BY [StringData]", connection);
-            SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
-            int rowCount = 0;
-            while (sqlData.Read())
-            {
-                rowCount++;
-                switch (rowCount)
+                if (connection.State == ConnectionState.Closed)
                 {
-                    case 1:
-                        StaticTestUtilities.testValues16("Murmur3a", sqlData, "NullRow", null, "a6b1e7adea05d62eee4a69b75bb6fa0f", "prHnreoF1i7uSmm3W7b6Dw==");
-                        break;
-                    case 2:
-                        StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData1", "MoreStringData1", "dd8bc7d17663e60762a651a0cf9c4587", "3YvH0XZj5gdiplGgz5xFhw==");
-                        break;
-                    case 3:
-                        StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData2", "MoreStringData2", "a9a7e8b837da471597612542cb991d60", "qafouDfaRxWXYSVCy5kdYA==");
-                        break;
-                    case 4:
-                        StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData3", "MoreStringData3", "c7b26b54eae2b2b3bbc6517442f87850", "x7JrVOrisrO7xlF0Qvh4UA==");
-                        break;
-                    case 5:
-                        StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData4", "MoreStringData4", "52e3a27aa7a40b6bf9f7e12ffdbdab6d", "UuOieqekC2v59+Ev/b2rbQ==");
-                        break;
-                    default:
-                        Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
-                        break;
+                    connection.Open();
+                }
+
+                SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecordsMurmur3a] ORDER BY [StringData]", connection);
+                SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
+                int rowCount = 0;
+                while (sqlData.Read())
+                {
+                    rowCount++;
+                    switch (rowCount)
+                    {
+                        case 1:
+                            StaticTestUtilities.testValues16("Murmur3a", sqlData, "NullRow", null, "a6b1e7adea05d62eee4a69b75bb6fa0f", "prHnreoF1i7uSmm3W7b6Dw==");
+                            break;
+                        case 2:
+                            StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData1", "MoreStringData1", "dd8bc7d17663e60762a651a0cf9c4587", "3YvH0XZj5gdiplGgz5xFhw==");
+                            break;
+                        case 3:
+                            StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData2", "MoreStringData2", "a9a7e8b837da471597612542cb991d60", "qafouDfaRxWXYSVCy5kdYA==");
+                            break;
+                        case 4:
+                            StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData3", "MoreStringData3", "c7b26b54eae2b2b3bbc6517442f87850", "x7JrVOrisrO7xlF0Qvh4UA==");
+                            break;
+                        case 5:
+                            StaticTestUtilities.testValues16("Murmur3a", sqlData, "StringData4", "MoreStringData4", "52e3a27aa7a40b6bf9f7e12ffdbdab6d", "UuOieqekC2v59+Ev/b2rbQ==");
+                            break;
+                        default:
+                            Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
+                            break;
+                    }
+                }
+                Assert.AreEqual(5, rowCount, "Rows in TestRecords");
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
                 }
             }
-            Assert.AreEqual(5, rowCount, "Rows in TestRecords");
-            connection.Close();
-            sqlCEEngine.Dispose();
-
         }
-
-
-
-
     }
 }
