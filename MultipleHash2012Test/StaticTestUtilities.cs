@@ -156,6 +156,91 @@ namespace MultipleHash2012Test
             Assert.AreEqual(String.Format("0x{0}", bytes), sqlData.GetString(6).ToLower(), String.Format("{0} Hash as Hex String", hashName));
             Assert.AreEqual(base64, sqlData.GetString(7), String.Format("{0} as Base 64", hashName));
         }
+
+        public static void testValues20(String hashName, SqlCeDataReader sqlData, String string0, String string1, String bytes, String base64)
+        {
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
+            Assert.AreEqual(string0, sqlData.GetString(0), String.Format("StringData <> {0}", string0));
+            if (String.IsNullOrEmpty(string1))
+            {
+                Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+            }
+            else
+            {
+                Assert.AreEqual(string1, sqlData.GetString(1), String.Format("AccountName <> {0}", string1));
+            }
+            byteResult = new byte[20];
+            sqlData.GetBytes(5, 0, byteResult, 0, 20);
+            byteExpected = StaticTestUtilities.GetStringToBytes(bytes);
+            StaticTestUtilities.testByteValues(byteExpected, byteResult, String.Format("{0} Hash as Binary", hashName));
+            Assert.AreEqual(String.Format("0x{0}", bytes), sqlData.GetString(6).ToLower(), String.Format("{0} Hash as Hex String", hashName));
+            Assert.AreEqual(base64, sqlData.GetString(7), String.Format("{0} as Base 64", hashName));
+        }
+
+        public static void testValues32(String hashName, SqlCeDataReader sqlData, String string0, String string1, String bytes, String base64)
+        {
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
+            Assert.AreEqual(string0, sqlData.GetString(0), String.Format("StringData <> {0}", string0));
+            if (String.IsNullOrEmpty(string1))
+            {
+                Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+            }
+            else
+            {
+                Assert.AreEqual(string1, sqlData.GetString(1), String.Format("AccountName <> {0}", string1));
+            }
+            byteResult = new byte[32];
+            sqlData.GetBytes(5, 0, byteResult, 0, 32);
+            byteExpected = StaticTestUtilities.GetStringToBytes(bytes);
+            StaticTestUtilities.testByteValues(byteExpected, byteResult, String.Format("{0} Hash as Binary", hashName));
+            Assert.AreEqual(String.Format("0x{0}", bytes), sqlData.GetString(6).ToLower(), String.Format("{0} Hash as Hex String", hashName));
+            Assert.AreEqual(base64, sqlData.GetString(7), String.Format("{0} as Base 64", hashName));
+        }
+
+        public static void testValues48(String hashName, SqlCeDataReader sqlData, String string0, String string1, String bytes, String base64)
+        {
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
+            Assert.AreEqual(string0, sqlData.GetString(0), String.Format("StringData <> {0}", string0));
+            if (String.IsNullOrEmpty(string1))
+            {
+                Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+            }
+            else
+            {
+                Assert.AreEqual(string1, sqlData.GetString(1), String.Format("AccountName <> {0}", string1));
+            }
+            byteResult = new byte[48];
+            sqlData.GetBytes(5, 0, byteResult, 0, 48);
+            byteExpected = StaticTestUtilities.GetStringToBytes(bytes);
+            StaticTestUtilities.testByteValues(byteExpected, byteResult, String.Format("{0} Hash as Binary", hashName));
+            Assert.AreEqual(String.Format("0x{0}", bytes), sqlData.GetString(6).ToLower(), String.Format("{0} Hash as Hex String", hashName));
+            Assert.AreEqual(base64, sqlData.GetString(7), String.Format("{0} as Base 64", hashName));
+        }
+
+        public static void testValues64(String hashName, SqlCeDataReader sqlData, String string0, String string1, String bytes, String base64)
+        {
+            byte[] byteResult = null;
+            byte[] byteExpected = null;
+            Assert.AreEqual(string0, sqlData.GetString(0), String.Format("StringData <> {0}", string0));
+            if (String.IsNullOrEmpty(string1))
+            {
+                Assert.IsTrue(sqlData.IsDBNull(1), "2nd Column is NOT null");
+            }
+            else
+            {
+                Assert.AreEqual(string1, sqlData.GetString(1), String.Format("AccountName <> {0}", string1));
+            }
+            byteResult = new byte[64];
+            sqlData.GetBytes(5, 0, byteResult, 0, 64);
+            byteExpected = StaticTestUtilities.GetStringToBytes(bytes);
+            StaticTestUtilities.testByteValues(byteExpected, byteResult, String.Format("{0} Hash as Binary", hashName));
+            Assert.AreEqual(String.Format("0x{0}", bytes), sqlData.GetString(6).ToLower(), String.Format("{0} Hash as Hex String", hashName));
+            Assert.AreEqual(base64, sqlData.GetString(7), String.Format("{0} as Base 64", hashName));
+        }
+
         public static void BuildSSISPackage(out Microsoft.SqlServer.Dts.Runtime.Package package, out IDTSComponentMetaData100 multipleHash, out CManagedComponentWrapper multipleHashInstance, out String lineageString, out MainPipe dataFlowTask)
         {
             Microsoft.SqlServer.Dts.Runtime.Application app;

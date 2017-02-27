@@ -51,6 +51,17 @@ namespace MultipleHash2012Test
             sqlCEEngine.Dispose();
         }
 
+        [ClassCleanup]
+        public static void RemoveSQLCEDatabase()
+        {
+            // Discard the previous iteration of this test database.
+            if (File.Exists(sqlCEDatabaseName))
+            {
+                File.Delete(sqlCEDatabaseName);
+            }
+        }
+
+
         [TestMethod]
         public void InitialiseTest()
         {
@@ -185,43 +196,51 @@ namespace MultipleHash2012Test
 
             // Connect to the SQLCE database
             SqlCeConnection connection = new SqlCeConnection(connectionString());
-            if (connection.State == ConnectionState.Closed)
+            try
             {
-                connection.Open();
-            }
-
-            SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecordsxxHash] ORDER BY [StringData]", connection);
-            SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
-            int rowCount = 0;
-            while (sqlData.Read())
-            {
-                rowCount++;
-                switch (rowCount)
+                if (connection.State == ConnectionState.Closed)
                 {
-                    case 1:
-                        StaticTestUtilities.testValues8("xxHash", sqlData, "NullRow", null, "63d75a5b2781fb7f", "Y9daWyeB+38=");
-                        break;
-                    case 2:
-                        StaticTestUtilities.testValues8("xxHash", sqlData, "StringData1", "MoreStringData1", "e5f10f243a28ead1", "5fEPJDoo6tE=");
-                        break;
-                    case 3:
-                        StaticTestUtilities.testValues8("xxHash", sqlData, "StringData2", "MoreStringData2", "191f4ed7e4958618", "GR9O1+SVhhg=");
-                        break;
-                    case 4:
-                        StaticTestUtilities.testValues8("xxHash", sqlData, "StringData3", "MoreStringData3", "fb80f19f00ce45b7", "+4DxnwDORbc=");
-                        break;
-                    case 5:
-                        StaticTestUtilities.testValues8("xxHash", sqlData, "StringData4", "MoreStringData4", "c056c66a492d32fc", "wFbGakktMvw=");
-                        break;
-                    default:
-                        Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
-                        break;
+                    connection.Open();
+                }
+
+                SqlCeCommand sqlCommand = new SqlCeCommand("SELECT * FROM [TestRecordsxxHash] ORDER BY [StringData]", connection);
+                SqlCeDataReader sqlData = sqlCommand.ExecuteReader(CommandBehavior.Default);
+                int rowCount = 0;
+                while (sqlData.Read())
+                {
+                    rowCount++;
+                    switch (rowCount)
+                    {
+                        case 1:
+                            StaticTestUtilities.testValues8("xxHash", sqlData, "NullRow", null, "63d75a5b2781fb7f", "Y9daWyeB+38=");
+                            break;
+                        case 2:
+                            StaticTestUtilities.testValues8("xxHash", sqlData, "StringData1", "MoreStringData1", "e5f10f243a28ead1", "5fEPJDoo6tE=");
+                            break;
+                        case 3:
+                            StaticTestUtilities.testValues8("xxHash", sqlData, "StringData2", "MoreStringData2", "191f4ed7e4958618", "GR9O1+SVhhg=");
+                            break;
+                        case 4:
+                            StaticTestUtilities.testValues8("xxHash", sqlData, "StringData3", "MoreStringData3", "fb80f19f00ce45b7", "+4DxnwDORbc=");
+                            break;
+                        case 5:
+                            StaticTestUtilities.testValues8("xxHash", sqlData, "StringData4", "MoreStringData4", "c056c66a492d32fc", "wFbGakktMvw=");
+                            break;
+                        default:
+                            Assert.Fail(string.Format("Account has to many records AccountCode {0}, AccountName {1}", sqlData.GetInt32(1), sqlData.GetString(2)));
+                            break;
+                    }
+                }
+                Assert.AreEqual(5, rowCount, "Rows in TestRecords");
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
                 }
             }
-            Assert.AreEqual(5, rowCount, "Rows in TestRecords");
-            connection.Close();
-            sqlCEEngine.Dispose();
-
         }
 
         #region Private Functions
