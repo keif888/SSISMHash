@@ -1,0 +1,2505 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/28/2017 6:10:32 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="LUG"
+  DTS:CreatorName="LUG\keith_000"
+  DTS:DTSID="{C3DA394B-5CC6-4CEC-AFED-18C9D02C7808}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="13.0.1601.5"
+  DTS:LocaleID="2057"
+  DTS:ObjectName="PerfTest_Auto_xxHash"
+  DTS:PackageType="5"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{BA2D33F7-467A-4B6F-AAE0-3D23A1A3205E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8F2B2069-7CEF-4F79-9544-AA4C6F1AE8B2}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="vElapsedSeconds">
+      <DTS:VariableValue
+        DTS:DataType="3">60</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3D6BED52-C64C-4B8A-8541-BBDF754B40A0}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="vRows">
+      <DTS:VariableValue
+        DTS:DataType="3">500000</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{1D9A3691-D8E5-4BF3-BA54-0D1E2C109C8C}"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Multiple Hash"
+              componentClassID="DTS.ManagedComponentWrapper.3"
+              contactInfo="http://ssismhash.codeplex.com/"
+              description="Creates Multiple Hash's from selected input columns."
+              name="Multiple Hash"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Select the number of threads to use"
+                  name="MultipleThreads"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
+                  name="SafeNullHandling"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
+                  name="IncludeMillsecond"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Multiple Hash.Inputs[Input]"
+                  name="Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_BOOL]"
+                      cachedDataType="bool"
+                      cachedName="DT_BOOL"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_CY]"
+                      cachedDataType="cy"
+                      cachedName="DT_CY"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBDATE]"
+                      cachedDataType="dbDate"
+                      cachedName="DT_DBDATE"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIME]"
+                      cachedDataType="dbTime"
+                      cachedName="DT_DBTIME"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIME2]"
+                      cachedDataType="dbTime2"
+                      cachedName="DT_DBTIME2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMP]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DT_DBTIMESTAMP"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMP2]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DT_DBTIMESTAMP2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMPOFFSET]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="DT_DBTIMESTAMPOFFSET"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DATE]"
+                      cachedDataType="date"
+                      cachedName="DT_DATE"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DECIMAL]"
+                      cachedDataType="decimal"
+                      cachedName="DT_DECIMAL"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_R8]"
+                      cachedDataType="r8"
+                      cachedName="DT_R8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I8]"
+                      cachedDataType="i8"
+                      cachedName="DT_I8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI8]"
+                      cachedDataType="ui8"
+                      cachedName="DT_UI8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_R4]"
+                      cachedDataType="r4"
+                      cachedName="DT_R4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I4]"
+                      cachedDataType="i4"
+                      cachedName="DT_I4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI4]"
+                      cachedDataType="ui4"
+                      cachedName="DT_UI4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_NUMERIC]"
+                      cachedDataType="numeric"
+                      cachedName="DT_NUMERIC"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I1]"
+                      cachedDataType="i1"
+                      cachedName="DT_I1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI1]"
+                      cachedDataType="ui1"
+                      cachedName="DT_UI1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_STR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="256"
+                      cachedName="DT_STR"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_TEXT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="DT_TEXT"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I2]"
+                      cachedDataType="i2"
+                      cachedName="DT_I2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI2]"
+                      cachedDataType="ui2"
+                      cachedName="DT_UI2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_WSTR]"
+                      cachedDataType="wstr"
+                      cachedLength="256"
+                      cachedName="DT_WSTR"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_NTEXT]"
+                      cachedDataType="nText"
+                      cachedName="DT_NTEXT"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_GUID]"
+                      cachedDataType="guid"
+                      cachedName="DT_GUID"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput]"
+                  description="Hashed rows are directed to this output."
+                  name="HashedOutput"
+                  synchronousInputId="Package\Data Flow Task\Multiple Hash.Inputs[Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn]"
+                      name="HashColumn">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn2]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn2]"
+                      name="HAshColumn2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn3]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn3]"
+                      name="HashColumn3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn4]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn4]"
+                      name="HashColumn4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn5]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn5]"
+                      name="HAshColumn5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn6]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn6]"
+                      name="HashColumn6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAShColumn7]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAShColumn7]"
+                      name="HAShColumn7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn8]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn8]"
+                      name="HashColumn8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">12</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]},#{Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Script Component"
+              componentClassID="DTS.ManagedComponentWrapper.3"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;8"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="Script Component"
+              version="8">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="30">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public Output0Buffer Output0Buffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != Output0Buffer)
+        {
+            Output0Buffer.SetEndOfRowset();
+            Output0Buffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Output 0"))
+            {
+                Output0Buffer = new Output0Buffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 vElapsedSeconds
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["vElapsedSeconds"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public Int32 vRows
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["vRows"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+using System.Text;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    #region Help:  Using Integration Services variables and parameters
+    /* To use a variable in this script, first ensure that the variable has been added to
+     * either the list contained in the ReadOnlyVariables property or the list contained in
+     * the ReadWriteVariables property of this script component, according to whether or not your
+     * code needs to write into the variable.  To do so, save this script, close this instance of
+     * Visual Studio, and update the ReadOnlyVariables and ReadWriteVariables properties in the
+     * Script Transformation Editor window.
+     * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+     *
+     * Example of reading from a variable or parameter:
+     *  DateTime startTime = Variables.MyStartTime;
+     *
+     * Example of writing to a variable:
+     *  Variables.myStringVariable = "new value";
+     */
+    #endregion
+
+    #region Help:  Using Integration Services Connnection Managers
+    /* Some types of connection managers can be used in this script component.  See the help topic
+     * "Working with Connection Managers Programatically" for details.
+     *
+     * To use a connection manager in this script, first ensure that the connection manager has
+     * been added to either the list of connection managers on the Connection Managers page of the
+     * script component editor.  To add the connection manager, save this script, close this instance of
+     * Visual Studio, and add the Connection Manager to the list.
+     *
+     * If the component needs to hold a connection open while processing rows, override the
+     * AcquireConnections and ReleaseConnections methods.
+     * 
+     * Example of using an ADO.Net connection manager to acquire a SqlConnection:
+     *  object rawConnection = Connections.SalesDB.AcquireConnection(transaction);
+     *  SqlConnection salesDBConn = (SqlConnection)rawConnection;
+     *
+     * Example of using a File connection manager to acquire a file path:
+     *  object rawConnection = Connections.Prices_zip.AcquireConnection(transaction);
+     *  string filePath = (string)rawConnection;
+     *
+     * Example of releasing a connection manager:
+     *  Connections.SalesDB.ReleaseConnection(rawConnection);
+     */
+    #endregion
+
+    #region Help:  Firing Integration Services Events
+    /* This script component can fire events.
+     *
+     * Example of firing an error event:
+     *  ComponentMetaData.FireError(10, "Process Values", "Bad value", "", 0, out cancel);
+     *
+     * Example of firing an information event:
+     *  ComponentMetaData.FireInformation(10, "Process Values", "Processing has started", "", 0, fireAgain);
+     *
+     * Example of firing a warning event:
+     *  ComponentMetaData.FireWarning(10, "Process Values", "No rows were received", "", 0);
+     */
+    #endregion
+
+    private Random random;
+    private DateTime startTime;
+    private int numberOfRows;
+    private int elapsedSeconds;
+
+    /// <summary>
+    /// This method is called once, before rows begin to be processed in the data flow.
+    ///
+    /// You can remove this method if you don't need to do anything here.
+    /// </summary>
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        /*
+         * Add your code here
+         */
+        random = new Random();
+        startTime = DateTime.Now;
+        numberOfRows = this.Variables.vRows;
+        elapsedSeconds = this.Variables.vElapsedSeconds;
+    }
+
+    /// <summary>
+    /// This method is called after all the rows have passed through this component.
+    ///
+    /// You can delete this method if you don't need to do anything here.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+        /*
+         * Add your code here
+         */
+    }
+
+    private string RandomString(int size, bool lowerCase)
+    {
+        StringBuilder builder = new StringBuilder();
+        char ch;
+        for (int i = 1; i < size + 1; i++)
+        {
+            ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+            builder.Append(ch);
+        }
+        if (lowerCase)
+            return builder.ToString().ToLower();
+        else
+            return builder.ToString();
+    }
+
+    public override void CreateNewOutputRows()
+    {
+        /*
+          Add rows by calling the AddRow method on the member variable named "<Output Name>Buffer".
+          For example, call MyOutputBuffer.AddRow() if your output was named "MyOutput".
+        */
+        //bool pbFireAgain = true;
+        for (int i = 0; i< numberOfRows; i++)
+        {
+            Output0Buffer.AddRow();
+            Output0Buffer.DTBOOL = (i % 2 == 1) ? true : false;
+            Output0Buffer.DTCY = i;
+            Output0Buffer.DTDATE = DateTime.Today;//DateTime.Now;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDate", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBDATE = DateTime.Today;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBDATE", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBTIME = DateTime.Now.TimeOfDay;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBTIME", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBTIME2 = DateTime.Now.TimeOfDay;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBTIME2", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBTIMESTAMP = DateTime.Now;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBTIMESTAMP", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBTIMESTAMP2 = DateTime.Today;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBTIMESTAMP2", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDBTIMESTAMPOFFSET = DateTimeOffset.UtcNow;
+            //this.ComponentMetaData.FireInformation(0, "CreateNewOutputRows", "DTDBTIMESTAMPOFFSET", String.Empty, 0, ref pbFireAgain);
+            Output0Buffer.DTDECIMAL = Math.Round((decimal)(i * Math.PI), 4);
+            Output0Buffer.DTGUID = Guid.NewGuid();
+            Output0Buffer.DTI1 =  (sbyte)(i % 8);
+            Output0Buffer.DTI2 = (short)(i % 16);
+            Output0Buffer.DTI4 = i;
+            Output0Buffer.DTI8 = (long)i;
+            Output0Buffer.DTNUMERIC = Math.Round((decimal)(i * Math.PI), 4);
+            Output0Buffer.DTR4 = (float)(i * Math.PI);
+            Output0Buffer.DTR8 = (double)(i * Math.PI);
+            Output0Buffer.DTSTR = RandomString(255, false);
+            Output0Buffer.DTUI1 = (byte)(i % 8);
+            Output0Buffer.DTUI2 = (ushort)(i % 16);
+            Output0Buffer.DTUI4 = (uint)i;
+            Output0Buffer.DTUI8 = (ulong)i;
+            Output0Buffer.DTWSTR = RandomString(255, false);
+            if ((int)((DateTime.Now - startTime).TotalSeconds) > elapsedSeconds)
+            {
+                this.ComponentMetaData.FireWarning(0, "CreateNewOutputRows", String.Format("Timeout Expired. {0} rows were genereated.", i),String.Empty, 0);
+                break;
+            }
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class Output0Buffer: ScriptBuffer
+
+{
+    public Output0Buffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public Boolean DTBOOL
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool DTBOOL_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Decimal DTCY
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool DTCY_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public DateTime DTDBDATE
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool DTDBDATE_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public TimeSpan DTDBTIME
+    {
+        set
+        {
+            this[3] = value;
+        }
+    }
+    public bool DTDBTIME_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(3);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public TimeSpan DTDBTIME2
+    {
+        set
+        {
+            this[4] = value;
+        }
+    }
+    public bool DTDBTIME2_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(4);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public DateTime DTDBTIMESTAMP
+    {
+        set
+        {
+            this[5] = value;
+        }
+    }
+    public bool DTDBTIMESTAMP_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(5);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public DateTime DTDBTIMESTAMP2
+    {
+        set
+        {
+            this[6] = value;
+        }
+    }
+    public bool DTDBTIMESTAMP2_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(6);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public DateTimeOffset DTDBTIMESTAMPOFFSET
+    {
+        set
+        {
+            this[7] = value;
+        }
+    }
+    public bool DTDBTIMESTAMPOFFSET_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(7);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public DateTime DTDATE
+    {
+        set
+        {
+            this[8] = value;
+        }
+    }
+    public bool DTDATE_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(8);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Decimal DTDECIMAL
+    {
+        set
+        {
+            this[9] = value;
+        }
+    }
+    public bool DTDECIMAL_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(9);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Double DTR8
+    {
+        set
+        {
+            this[10] = value;
+        }
+    }
+    public bool DTR8_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(10);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Int64 DTI8
+    {
+        set
+        {
+            this[11] = value;
+        }
+    }
+    public bool DTI8_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(11);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public UInt64 DTUI8
+    {
+        set
+        {
+            this[12] = value;
+        }
+    }
+    public bool DTUI8_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(12);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Single DTR4
+    {
+        set
+        {
+            this[13] = value;
+        }
+    }
+    public bool DTR4_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(13);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Int32 DTI4
+    {
+        set
+        {
+            this[14] = value;
+        }
+    }
+    public bool DTI4_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(14);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public UInt32 DTUI4
+    {
+        set
+        {
+            this[15] = value;
+        }
+    }
+    public bool DTUI4_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(15);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Decimal DTNUMERIC
+    {
+        set
+        {
+            this[16] = value;
+        }
+    }
+    public bool DTNUMERIC_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(16);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public SByte DTI1
+    {
+        set
+        {
+            this[17] = value;
+        }
+    }
+    public bool DTI1_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(17);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public Byte DTUI1
+    {
+        set
+        {
+            this[18] = value;
+        }
+    }
+    public bool DTUI1_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(18);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String DTSTR
+    {
+        set
+        {
+            this[19] = value;
+        }
+    }
+    public bool DTSTR_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(19);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public BlobColumn DTTEXT
+    {
+        get
+        {
+            return (BlobColumn)Buffer[BufferColumnIndexes[20]];
+        }
+    }
+    public bool DTTEXT_IsNull
+    {
+        get
+        {
+            return IsNull(20);
+        }
+    }
+
+    public Int16 DTI2
+    {
+        set
+        {
+            this[21] = value;
+        }
+    }
+    public bool DTI2_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(21);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public UInt16 DTUI2
+    {
+        set
+        {
+            this[22] = value;
+        }
+    }
+    public bool DTUI2_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(22);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String DTWSTR
+    {
+        set
+        {
+            this[23] = value;
+        }
+    }
+    public bool DTWSTR_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(23);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public BlobColumn DTNTEXT
+    {
+        get
+        {
+            return (BlobColumn)Buffer[BufferColumnIndexes[24]];
+        }
+    }
+    public bool DTNTEXT_IsNull
+    {
+        get
+        {
+            return IsNull(24);
+        }
+    }
+
+    public Guid DTGUID
+    {
+        set
+        {
+            this[25] = value;
+        }
+    }
+    public bool DTGUID_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(25);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Settings.get_Default():SC_8d0962137e5c431f86055edb7a29d871.Properties.Sett" +
+    "ings")]
+
+namespace SC_8d0962137e5c431f86055edb7a29d871.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_8d0962137e5c431f86055edb7a29d871.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_8d0962137e5c431f86055edb7a29d871.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_8d0962137e5c431f86055edb7a29d871</msb:CodeName>
+		<msb:Language>msBuild</msb:Language>
+		<msb:DisplayName>SC_8d0962137e5c431f86055edb7a29d871</msb:DisplayName>
+		<msb:ProjectId>{2436BE0C-AE29-4AFA-A595-AEC3267556AE}</msb:ProjectId>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_8d0962137e5c431f86055edb7a29d871.csproj"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_8d0962137e5c431f86055edb7a29d871")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_8d0962137e5c431f86055edb7a29d871")]
+[assembly: AssemblyCopyright("Copyright @  2017")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_8d0962137e5c431f86055edb7a29d871.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1AE289BC-4611-4B5C-8DD3-B0DF78FE4677}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_8d0962137e5c431f86055edb7a29d871</RootNamespace>
+    <AssemblyName>SC_8d0962137e5c431f86055edb7a29d871</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptComponent" IconIndex="0" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC110</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_8d0962137e5c431f86055edb7a29d871.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[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
+AgDlAgAAAQCmCAAAAgBGCgAAAwAdCAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/
+BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAA
+AQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/
+BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAA
+AQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/
+BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQC/BAAAAQCOCgAAAgAtCQAAAwCACgAABAAdCAAAAQA1CwAA
+AQA1CwAAAQC/BAkAIAkBABEAIAkGABkAIAkKACkAIAkQADEAIAkQADkAIAkQAEEAIAkQAEkAIAkQ
+AFEAIAkQAFkAIAkQAGEAIAkQAGkAIAkGANkAIAkGAPkAIAkVAAkBIAkGAMkAogQGAHEAIAkGAHkA
+4QsbAMkArQQGAIEAIAkGAHEANgInABEBGgkrABkBkQAwABkBbgg1AIEAGQI6ANEA/QRAACEBEglA
+AKkA7QpMAHkACQwbAHkA+wtSALEA6QtXAKkA+QpcABEBIAJiAMEAEQJqAHkAyAdvAIkAbQknAMkA
+3gF4ACEBwQp+ACEBIAyEACkB5ASHAJEAIAmQAJEATQeaAJEAPAcBAEEBIAkQAJEApgigAJEARgqk
+AJkARAeoAJEANQetAJEA9AsGAJEA3goGAJEA4QqyAMkAIAkGAMkANQG6AMkAWgrBANEAIAkGAMkA
+MArHAJEBRAfNAMkAzAvUAJkBnQvaALEBUwLhALEBEwzqAOEAIAnwAAEBIAkGAC4ACwAYAi4AEwAh
+Ai4AGwBAAi4AIwBJAi4AKwByAi4AMwByAi4AOwByAi4AQwBJAi4ASwB4Ai4AUwByAi4AWwCPAkMA
+YwDXAuMAawDXAoEBewDXAukGcwBAAgkHcwBAAiAARAC2AAMAAQAGADUABwA3AAgAOQAAAHgBuwEA
+AJ4GuwEAANkBvwEAADAHuwEAAFIBxAEAAGMGuwEAAEUByQEAAE8GuwEAAJ0AyQEAAHYFuwEAAIMB
+xAEAALAGuwEAAL4AxAEAAKwFuwEAAKoBzgEAAOwGuwEAAF8BxAEAAHcGuwEAAGoBvwEAAIkGuwEA
+AA4B0wEAABgGuwEAAPsA1wEAAPcFuwEAAAQB2wEAAAcGuwEAAOsA3wEAAOcFuwEAANgA4wEAAMYF
+uwEAAOEA5wEAANYFuwEAACABvwEAACgGuwEAAHsA6wEAAFUFuwEAAIQA7wEAAGUFuwEAAJUB8wEA
+AMkGuwEAAM4B9wEAAB4HuwEAAKsA/AEAAIsFuwEAALQAAAIAAJsFuwEAAJ8B8wEAANoGuwEAAMIB
+9wEAAAsHuwEAAC4BBAIAAD0GuwEAAE4J4wEAALsK4wEAALEICQIAAMUCDgIAAAkLEwIBAAcAAwAB
+AAgABQABAAkABwABAAoACQABAAsACwABAAwADQABAA0ADwABAA4AEQABAA8AEwABABAAFQABABEA
+FwABABIAGQABABMAGwABABQAHQABABUAHwABABYAIQABABcAIwABABgAJQABABkAJwABABoAKQAB
+ABsAKwABABwALQABAB0ALwABAB4AMQABAB8AMwABACAANQABACEANwABACIAOQABACMAOwABACQA
+PQABACUAPwABACYAQQABACcAQwABACgARQABACkARwABACoASQABACsASwABACwATQABAC0ATwAB
+AC4AUQACAC8AUwACADAAVQABADEAVwABADIAWQABADMAWwABADQAXQABADUAXwABADYAYQACADcA
+YwACADgAZQABADkAZwABADoAaQACAEUAawACAEYAbQACAEgAbwACAEkAcQABAEoAcQACAEsAcwAE
+gAAAAQAAAHwY05AAAAAAAABTAAAABAAAAAAAAAAAAAAA+AD0AQAAAAALAAAAAAAAAAAAAAABAT8L
+AAAAAAsAAAAAAAAAAAAAAAEBZAsAAAAABAAAAAAAAAAAAAAA+ABWBwAAAAALAAAAAAAAAAAAAAAB
+AUoIAAAAAAsAAAAAAAAAAAAAAAEBJwgAAAAAAAAAAAEAAACvCQAAAAAAAABJRFRTQ29tcG9uZW50
+TWV0YURhdGExMDAASURUU1ZhcmlhYmxlMTAwAElEVFNWYXJpYWJsZXMxMDAASURUU0V2YWx1YXRv
+ckNvbnRleHQxMDAAU0NfOGQwOTYyMTM3ZTVjNDMxZjg2MDU1ZWRiN2EyOWQ4NzEAc2V0X0RUSTEA
+c2V0X0RUVUkxAFVJbnQzMgBUb0ludDMyAHNldF9EVERCVElNRTIAc2V0X0RUSTIAc2V0X0RUVUky
+AHNldF9EVERCVElNRVNUQU1QMgBVSW50NjQAc2V0X0RUSTQAc2V0X0RUVUk0AHNldF9EVFI0AFVJ
+bnQxNgBzZXRfRFRJOABzZXRfRFRVSTgAc2V0X0RUUjgAPE1vZHVsZT4Ac2V0X0RUTlVNRVJJQwBz
+ZXRfRFRHVUlEAEdldE91dHB1dElEAHNldF9EVERCVElNRQBzZXRfRFREQkRBVEUAc2V0X0RUREFU
+RQBzZXRfRFRERUNJTUFMAHNldF9EVEJPT0wAc2V0X0RUREJUSU1FU1RBTVAAc2V0X0RUU1RSAHNl
+dF9EVFdTVFIAc2V0X0RUREJUSU1FU1RBTVBPRkZTRVQAZ2V0X0RUTlRFWFQAZ2V0X0RUVEVYVABz
+ZXRfRFRDWQBnZXRfQ29tcG9uZW50TWV0YURhdGEAbXNjb3JsaWIATWFya091dHB1dHNGaW5pc2hl
+ZABOZXdHdWlkAEFwcGVuZABSb3VuZABkZWZhdWx0SW5zdGFuY2UATmV4dERvdWJsZQBSdW50aW1l
+VHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBTaW5nbGUARGF0ZVRpbWUAc3RhcnRUaW1lAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlBpcGVsaW5lAFR5cGUAZ2V0X0N1bHR1cmUAc2V0X0N1bHR1
+cmUAcmVzb3VyY2VDdWx0dXJlAEFwcGxpY2F0aW9uU2V0dGluZ3NCYXNlAGxvd2VyQ2FzZQBFZGl0
+b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBEZWJ1Z2dlck5vblVz
+ZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0cmli
+dXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUAVGFy
+Z2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBBc3Nl
+bWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUA
+QXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0cmlidXRlAFNTSVNT
+Y3JpcHRDb21wb25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0
+ZQBSdW50aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRlAFBvc3RFeGVjdXRlAFNC
+eXRlAHZhbHVlAHNpemUAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBGaXJlV2FybmluZwBSYW5k
+b21TdHJpbmcAVG9TdHJpbmcATWF0aABEZWNpbWFsAFN5c3RlbS5Db21wb25lbnRNb2RlbABTQ184
+ZDA5NjIxMzdlNWM0MzFmODYwNTVlZGI3YTI5ZDg3MS5kbGwAc2V0X0RUSTFfSXNOdWxsAHNldF9E
+VFVJMV9Jc051bGwAc2V0X0RUREJUSU1FMl9Jc051bGwAc2V0X0RUSTJfSXNOdWxsAHNldF9EVFVJ
+Ml9Jc051bGwAc2V0X0RUREJUSU1FU1RBTVAyX0lzTnVsbABzZXRfRFRJNF9Jc051bGwAc2V0X0RU
+VUk0X0lzTnVsbABzZXRfRFRSNF9Jc051bGwAc2V0X0RUSThfSXNOdWxsAHNldF9EVFVJOF9Jc051
+bGwAc2V0X0RUUjhfSXNOdWxsAHNldF9EVE5VTUVSSUNfSXNOdWxsAHNldF9EVEdVSURfSXNOdWxs
+AHNldF9EVERCVElNRV9Jc051bGwAc2V0X0RUREJEQVRFX0lzTnVsbABzZXRfRFREQVRFX0lzTnVs
+bABzZXRfRFRERUNJTUFMX0lzTnVsbABzZXRfRFRCT09MX0lzTnVsbABzZXRfRFREQlRJTUVTVEFN
+UF9Jc051bGwAc2V0X0RUU1RSX0lzTnVsbABzZXRfRFRXU1RSX0lzTnVsbABzZXRfRFREQlRJTUVT
+VEFNUE9GRlNFVF9Jc051bGwAZ2V0X0RUTlRFWFRfSXNOdWxsAGdldF9EVFRFWFRfSXNOdWxsAHNl
+dF9EVENZX0lzTnVsbABTZXROdWxsAGdldF9JdGVtAHNldF9JdGVtAFN5c3RlbQBSYW5kb20AcmFu
+ZG9tAHJlc291cmNlTWFuAEJvb2xlYW4AVGltZVNwYW4AU2NyaXB0TWFpbgBCbG9iQ29sdW1uAFN5
+c3RlbS5Db25maWd1cmF0aW9uAFN5c3RlbS5HbG9iYWxpemF0aW9uAG9wX1N1YnRyYWN0aW9uAFN5
+c3RlbS5SZWZsZWN0aW9uAEludmFsaWRPcGVyYXRpb25FeGNlcHRpb24AQ3VsdHVyZUluZm8AT3V0
+cHV0TmFtZU1hcABPdXRwdXRNYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1lV3JhcABN
+aWNyb3NvZnQuU3FsU2VydmVyLkRUU1BpcGVsaW5lV3JhcABUb0NoYXIAU3RyaW5nQnVpbGRlcgBP
+dXRwdXQwQnVmZmVyAFBpcGVsaW5lQnVmZmVyAFNjcmlwdEJ1ZmZlcgBnZXRfUmVzb3VyY2VNYW5h
+Z2VyAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUuV3JhcHBlcgBNaWNyb3NvZnQuU3Fs
+U2VydmVyLkR0cy5QaXBlbGluZS5XcmFwcGVyAFRvTG93ZXIARmxvb3IALmN0b3IALmNjdG9yAE91
+dHB1dElEcwBTeXN0ZW0uRGlhZ25vc3RpY3MAZ2V0X3ZFbGFwc2VkU2Vjb25kcwBlbGFwc2VkU2Vj
+b25kcwBnZXRfVG90YWxTZWNvbmRzAFN5c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMAU3lz
+dGVtLlJlc291cmNlcwBTQ184ZDA5NjIxMzdlNWM0MzFmODYwNTVlZGI3YTI5ZDg3MS5Qcm9wZXJ0
+aWVzLlJlc291cmNlcy5yZXNvdXJjZXMARGVidWdnaW5nTW9kZXMAU0NfOGQwOTYyMTM3ZTVjNDMx
+Zjg2MDU1ZWRiN2EyOWQ4NzEuUHJvcGVydGllcwBnZXRfUmVhZE9ubHlWYXJpYWJsZXMAQnVmZmVy
+Q29sdW1uSW5kZXhlcwBHZXRDb2x1bW5JbmRleGVzAFNldHRpbmdzAENvbm5lY3Rpb25zAEJ1ZmZl
+cnMARmluaXNoT3V0cHV0cwBudW1iZXJPZlJvd3MAQ3JlYXRlTmV3T3V0cHV0Um93cwBnZXRfdlJv
+d3MARm9ybWF0AE9iamVjdABEYXRlVGltZU9mZnNldABTZXRFbmRPZlJvd3NldABvcF9JbXBsaWNp
+dABvcF9FeHBsaWNpdABnZXRfRGVmYXVsdABVc2VyQ29tcG9uZW50AFBhcmVudENvbXBvbmVudABT
+Y3JpcHRDb21wb25lbnQATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABDb252ZXJ0AE1pY3Jv
+c29mdC5TcWxTZXJ2ZXIuUGlwZWxpbmVIb3N0AFByaW1lT3V0cHV0AFN5c3RlbS5UZXh0AEdldFZh
+bHVlV2l0aENvbnRleHQAU2NyaXB0Q29tcG9uZW50RXZhbENvbnRleHQAZ2V0X0V2YWx1YXRvckNv
+bnRleHQAZ2V0X05vdwBnZXRfVXRjTm93AEFkZFJvdwBnZXRfVGltZU9mRGF5AGdldF9Ub2RheQBn
+ZXRfQXNzZW1ibHkARW1wdHkAAAAAJ0MAcgBlAGEAdABlAE4AZQB3AE8AdQB0AHAAdQB0AFIAbwB3
+AHMAAFVUAGkAbQBlAG8AdQB0ACAARQB4AHAAaQByAGUAZAAuACAAewAwAH0AIAByAG8AdwBzACAA
+dwBlAHIAZQAgAGcAZQBuAGUAcgBlAGEAdABlAGQALgAAgJtJAHMATgB1AGwAbAAgAHAAcgBvAHAA
+ZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQAIAB0AG8AIABGAGEAbABzAGUALgAg
+AEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQAaABlACAAYwBvAGwAdQBtAG4A
+IABpAG4AcwB0AGUAYQBkAC4AABFPAHUAdABwAHUAdAAgADAAAB92AEUAbABhAHAAcwBlAGQAUwBl
+AGMAbwBuAGQAcwAAC3YAUgBvAHcAcwAAcVMAQwBfADgAZAAwADkANgAyADEAMwA3AGUANQBjADQA
+MwAxAGYAOAA2ADAANQA1AGUAZABiADcAYQAyADkAZAA4ADcAMQAuAFAAcgBvAHAAZQByAHQAaQBl
+AHMALgBSAGUAcwBvAHUAcgBjAGUAcwAAJnKLdbi7qEmIPBPqkdo6WgAEIAEBCAMgAAEFIAEBEREE
+IAEBDgUgAQEReQQAABE9BgcDEkEDCAMgAA0EAAENDQQAAQgNBAABAwgFIAESQQMDIAAOBwcDCBE9
+EUUFAAERVQgEIAARRQQAABFZBQABEVUNBwACEVURVQgEAAARYQgAAhFFET0RPQUgABKAlQUAAg4O
+HAIGDgggBQEIDg4OCAkgAwESTR0IElEFIAIBCBwDBhJNAwYdCAQgARwIBCABAggDIAACAwcBCAYA
+AggSUQ4FIAEdCAgFIAASgMkGIAESgM0cBQAAEoDRBiABHBKA1QgAARKA2RGA3QUgABKA4QcgAgEO
+EoDhCLd6XFYZNOCJCImEXc2AgMyRAwYSOQMGET0CBggDBhIUAwYSGAMGEgwDBhJlAwYScQMGEnUD
+BhIgBSACDggCBCABAQIFIAEBEVUFIAEBET0FIAEBEUUFIAEBEVkEIAEBDQQgAQEKBCABAQsEIAEB
+DAQgAQEJBCABAQQEIAEBBQQgABJdBCABAQYEIAEBBwUgAQERYQsgBAEIHQgdEk0SUQUgAQESZQMg
+AAgEAAAScQQAABJ1BQABARJ1BAAAEiADAAABAygAAgQoABFVBCgAET0EKAARRQQoABFZAygADQMo
+AAoDKAALAygADAMoAAgDKAAJAygABAMoAAUDKAAOBCgAEl0DKAAGAygABwQoABFhBAgAEnEECAAS
+dQQIABIgCAEACAAAAAAAHgEAAQBUAhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dzAQgBAAIAAAAAACgB
+ACNTQ184ZDA5NjIxMzdlNWM0MzFmODYwNTVlZGI3YTI5ZDg3MQAABQEAAAAAFgEAEUNvcHlyaWdo
+dCBAICAyMDE3AABHAQAaLk5FVEZyYW1ld29yayxWZXJzaW9uPXY0LjABAFQOFEZyYW1ld29ya0Rp
+c3BsYXlOYW1lEC5ORVQgRnJhbWV3b3JrIDQEAQAAALQAAADOyu++AQAAAJEAAABsU3lzdGVtLlJl
+c291cmNlcy5SZXNvdXJjZVJlYWRlciwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVy
+ZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5I1N5c3RlbS5SZXNvdXJj
+ZXMuUnVudGltZVJlc291cmNlU2V0AgAAAAAAAAAAAAAAUEFEUEFEULQAAAAwSAAAAAAAAAAAAABK
+SAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEgAAAAAAAAAAAAAAABfQ29yRGxsTWFpbgBtc2Nv
+cmVlLmRsbAAAAAAA/yUAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAABgA
+AIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgAAABYYAAAGgQA
+AAAAAAAAAAAAGgQ0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAAAL0E7/4AAAEA
+AAABANOQfBgAAAEA05B8GD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAAAQBWAGEAcgBG
+AGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAAAAAAAACwBHoD
+AAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAAFYDAAABADAAMAAwADAAMAA0AGIAMAAA
+ABoAAQABAEMAbwBtAG0AZQBuAHQAcwAAAAAAAAAiAAEAAQBDAG8AbQBwAGEAbgB5AE4AYQBtAGUA
+AAAAAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBDAF8AOABk
+ADAAOQA2ADIAMQAzADcAZQA1AGMANAAzADEAZgA4ADYAMAA1ADUAZQBkAGIANwBhADIAOQBkADgA
+NwAxAAAAPgAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADYAMgA2ADgALgAz
+ADcAMAA3ADUAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBDAF8AOABkADAA
+OQA2ADIAMQAzADcAZQA1AGMANAAzADEAZgA4ADYAMAA1ADUAZQBkAGIANwBhADIAOQBkADgANwAx
+AC4AZABsAGwAAABIABIAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIA
+aQBnAGgAdAAgAEAAIAAgADIAMAAxADcAAAAqAAEAAQBMAGUAZwBhAGwAVAByAGEAZABlAG0AYQBy
+AGsAcwAAAAAAAAAAAHgAKAABAE8AcgBpAGcAaQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMA
+XwA4AGQAMAA5ADYAMgAxADMANwBlADUAYwA0ADMAMQBmADgANgAwADUANQBlAGQAYgA3AGEAMgA5
+AGQAOAA3ADEALgBkAGwAbAAAAGgAJAABAFAAcgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8A
+OABkADAAOQA2ADIAMQAzADcAZQA1AGMANAAzADEAZgA4ADYAMAA1ADUAZQBkAGIANwBhADIAOQBk
+ADgANwAxAAAAQgAPAAEAUAByAG8AZAB1AGMAdABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgA2ADIA
+NgA4AC4AMwA3ADAANwA1AAAAAABGAA8AAQBBAHMAcwBlAG0AYgBsAHkAIABWAGUAcgBzAGkAbwBu
+AAAAMQAuADAALgA2ADIANgA4AC4AMwA3ADAANwA1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAADAAAAFw4AAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_8d0962137e5c431f86055edb7a29d871</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages, Microsoft.SqlServer.VSTAScriptingLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">User::vElapsedSeconds,User::vRows</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">f023d5c05f93910f60c1767d88378a47</property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataShaChecksum"
+                  typeConverter="NOTBROWSABLE">a0b9c5f539039db6e2f81667c2cbe4029e64d203</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.SqlServer.Dts.Pipeline.ScriptComponentHost, Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</property>
+              </properties>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Script Component.Outputs[Output 0]"
+                  hasSideEffects="true"
+                  name="Output 0">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]"
+                      name="DT_BOOL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]"
+                      dataType="cy"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]"
+                      name="DT_CY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]"
+                      dataType="dbDate"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]"
+                      name="DT_DBDATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]"
+                      dataType="dbTime"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]"
+                      name="DT_DBTIME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]"
+                      dataType="dbTime2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]"
+                      name="DT_DBTIME2"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]"
+                      name="DT_DBTIMESTAMP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]"
+                      name="DT_DBTIMESTAMP2"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]"
+                      name="DT_DBTIMESTAMPOFFSET"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]"
+                      name="DT_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]"
+                      name="DT_DECIMAL"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]"
+                      name="DT_R8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]"
+                      dataType="i8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]"
+                      name="DT_I8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]"
+                      dataType="ui8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]"
+                      name="DT_UI8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]"
+                      dataType="r4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]"
+                      name="DT_R4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]"
+                      name="DT_I4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]"
+                      dataType="ui4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]"
+                      name="DT_UI4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]"
+                      name="DT_NUMERIC"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]"
+                      dataType="i1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]"
+                      name="DT_I1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]"
+                      dataType="ui1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]"
+                      name="DT_UI1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="256"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]"
+                      name="DT_STR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]"
+                      name="DT_TEXT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]"
+                      dataType="i2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]"
+                      name="DT_I2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]"
+                      dataType="ui2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]"
+                      name="DT_UI2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]"
+                      dataType="wstr"
+                      length="256"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]"
+                      name="DT_WSTR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]"
+                      dataType="nText"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]"
+                      name="DT_NTEXT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]"
+                      dataType="guid"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]"
+                      name="DT_GUID" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Trash Destination"
+              componentClassID="DTS.ManagedComponentWrapper.3"
+              contactInfo="Trash Destination; http://www.konesans.com"
+              description="Terminate the data flow path"
+              name="Trash Destination">
+              <properties>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Konesans.Dts.Pipeline.TrashDestination.Trash, Konesans.Dts.Pipeline.TrashDestination, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b2ab4a111192992b</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput]"
+                  hasSideEffects="true"
+                  name="TrashInput">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_BOOL]"
+                      cachedDataType="bool"
+                      cachedName="DT_BOOL"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_BOOL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_CY]"
+                      cachedDataType="cy"
+                      cachedName="DT_CY"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_CY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBDATE]"
+                      cachedDataType="dbDate"
+                      cachedName="DT_DBDATE"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBDATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBTIME]"
+                      cachedDataType="dbTime"
+                      cachedName="DT_DBTIME"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBTIME2]"
+                      cachedDataType="dbTime2"
+                      cachedName="DT_DBTIME2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIME2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMP]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DT_DBTIMESTAMP"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMP2]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DT_DBTIMESTAMP2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMP2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMPOFFSET]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="DT_DBTIMESTAMPOFFSET"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DBTIMESTAMPOFFSET]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DATE]"
+                      cachedDataType="date"
+                      cachedName="DT_DATE"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_DECIMAL]"
+                      cachedDataType="decimal"
+                      cachedName="DT_DECIMAL"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_DECIMAL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_R8]"
+                      cachedDataType="r8"
+                      cachedName="DT_R8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_I8]"
+                      cachedDataType="i8"
+                      cachedName="DT_I8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_UI8]"
+                      cachedDataType="ui8"
+                      cachedName="DT_UI8"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_R4]"
+                      cachedDataType="r4"
+                      cachedName="DT_R4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_R4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_I4]"
+                      cachedDataType="i4"
+                      cachedName="DT_I4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_UI4]"
+                      cachedDataType="ui4"
+                      cachedName="DT_UI4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_NUMERIC]"
+                      cachedDataType="numeric"
+                      cachedName="DT_NUMERIC"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NUMERIC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_I1]"
+                      cachedDataType="i1"
+                      cachedName="DT_I1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_UI1]"
+                      cachedDataType="ui1"
+                      cachedName="DT_UI1"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_STR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="256"
+                      cachedName="DT_STR"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_STR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_TEXT]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="DT_TEXT"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_TEXT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_I2]"
+                      cachedDataType="i2"
+                      cachedName="DT_I2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_I2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_UI2]"
+                      cachedDataType="ui2"
+                      cachedName="DT_UI2"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_UI2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_WSTR]"
+                      cachedDataType="wstr"
+                      cachedLength="256"
+                      cachedName="DT_WSTR"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_WSTR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_NTEXT]"
+                      cachedDataType="nText"
+                      cachedName="DT_NTEXT"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_NTEXT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[DT_GUID]"
+                      cachedDataType="guid"
+                      cachedName="DT_GUID"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Output 0].Columns[DT_GUID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HashColumn]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HashColumn"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HAshColumn2]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HAshColumn2"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HashColumn3]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HashColumn3"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HashColumn4]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HashColumn4"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HAshColumn5]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HAshColumn5"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAshColumn5]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HashColumn6]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HashColumn6"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn6]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HAShColumn7]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HAShColumn7"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HAShColumn7]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput].Columns[HashColumn8]"
+                      cachedDataType="bytes"
+                      cachedLength="8"
+                      cachedName="HashColumn8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[HashColumn8]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[HashedOutput]"
+              endId="Package\Data Flow Task\Trash Destination.Inputs[TrashInput]"
+              name="HashedOutput"
+              startId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Output 0]"
+              endId="Package\Data Flow Task\Multiple Hash.Inputs[Input]"
+              name="Output 0"
+              startId="Package\Data Flow Task\Script Component.Outputs[Output 0]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="106,64" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Data Flow Task\Script Component"
+          TopLeft="180,81" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Data Flow Task\Multiple Hash"
+          TopLeft="199,209" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Data Flow Task\Trash Destination"
+          TopLeft="200,355" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Output 0]"
+          TopLeft="261.5,123">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.5,86"
+              Start="0,0"
+              End="8.5,78.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39"
+                    Point2="0,43"
+                    Point3="4,43" />
+                  <mssgle:LineSegment
+                    End="4.5,43" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.5,43"
+                    Point2="8.5,43"
+                    Point3="8.5,47" />
+                  <mssgle:LineSegment
+                    End="8.5,78.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[HashedOutput]"
+          TopLeft="270,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11,104"
+              Start="0,0"
+              End="11,96.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48"
+                    Point2="0,52"
+                    Point3="4,52" />
+                  <mssgle:LineSegment
+                    End="7,52" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7,52"
+                    Point2="11,52"
+                    Point3="11,56" />
+                  <mssgle:LineSegment
+                    End="11,96.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{64EAAC81-91A2-499B-AAC2-2EAA170394A0}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,42 +30,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2016", "MultipleHash2016\MultipleHash2016.csproj", "{A68C0A66-357A-4650-B2BB-F52C50E0F743}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs07
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = MultipleHash2005\\MultipleHash2005.csproj
-		SccProjectName1 = MultipleHash2005
-		SccLocalPath1 = MultipleHash2005
-		SccProjectUniqueName2 = MultipleHash2008\\MultipleHash2008.csproj
-		SccProjectName2 = MultipleHash2008
-		SccLocalPath2 = MultipleHash2008
-		SccProjectUniqueName3 = MultipleHash2008Test\\MultipleHash2008Test.csproj
-		SccProjectName3 = MultipleHash2008Test
-		SccLocalPath3 = MultipleHash2008Test
-		SccProjectUniqueName4 = MultipleHash2012\\MultipleHash2012.csproj
-		SccProjectName4 = MultipleHash2012
-		SccLocalPath4 = MultipleHash2012
-		SccProjectUniqueName5 = SSIS2012TestMultipleHash\\SSIS2012TestMultipleHash.dtproj
-		SccProjectName5 = SSIS2012TestMultipleHash
-		SccLocalPath5 = SSIS2012TestMultipleHash
-		SccProjectUniqueName6 = MultipleHashInstallerx64\\MultipleHashInstallerx64.wixproj
-		SccProjectName6 = MultipleHashInstallerx64
-		SccLocalPath6 = MultipleHashInstallerx64
-		SccProjectUniqueName7 = MultipleHashInstallerx32\\MultipleHashInstallerx32.wixproj
-		SccProjectName7 = MultipleHashInstallerx32
-		SccLocalPath7 = MultipleHashInstallerx32
-		SccProjectUniqueName8 = MultipleHash2012Test\\MultipleHash2012Test.csproj
-		SccProjectName8 = MultipleHash2012Test
-		SccLocalPath8 = MultipleHash2012Test
-		SccProjectUniqueName9 = MultipleHash2014\\MultipleHash2014.csproj
-		SccProjectName9 = MultipleHash2014
-		SccLocalPath9 = MultipleHash2014
-		SccProjectUniqueName10 = MultipleHash2016\\MultipleHash2016.csproj
-		SccProjectName10 = MultipleHash2016
-		SccLocalPath10 = MultipleHash2016
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -266,6 +230,42 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs07
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MultipleHash2005\\MultipleHash2005.csproj
+		SccProjectName1 = MultipleHash2005
+		SccLocalPath1 = MultipleHash2005
+		SccProjectUniqueName2 = MultipleHash2008\\MultipleHash2008.csproj
+		SccProjectName2 = MultipleHash2008
+		SccLocalPath2 = MultipleHash2008
+		SccProjectUniqueName3 = MultipleHash2008Test\\MultipleHash2008Test.csproj
+		SccProjectName3 = MultipleHash2008Test
+		SccLocalPath3 = MultipleHash2008Test
+		SccProjectUniqueName4 = MultipleHash2012\\MultipleHash2012.csproj
+		SccProjectName4 = MultipleHash2012
+		SccLocalPath4 = MultipleHash2012
+		SccProjectUniqueName5 = SSIS2012TestMultipleHash\\SSIS2012TestMultipleHash.dtproj
+		SccProjectName5 = SSIS2012TestMultipleHash
+		SccLocalPath5 = SSIS2012TestMultipleHash
+		SccProjectUniqueName6 = MultipleHashInstallerx64\\MultipleHashInstallerx64.wixproj
+		SccProjectName6 = MultipleHashInstallerx64
+		SccLocalPath6 = MultipleHashInstallerx64
+		SccProjectUniqueName7 = MultipleHashInstallerx32\\MultipleHashInstallerx32.wixproj
+		SccProjectName7 = MultipleHashInstallerx32
+		SccLocalPath7 = MultipleHashInstallerx32
+		SccProjectUniqueName8 = MultipleHash2012Test\\MultipleHash2012Test.csproj
+		SccProjectName8 = MultipleHash2012Test
+		SccLocalPath8 = MultipleHash2012Test
+		SccProjectUniqueName9 = MultipleHash2014\\MultipleHash2014.csproj
+		SccProjectName9 = MultipleHash2014
+		SccLocalPath9 = MultipleHash2014
+		SccProjectUniqueName10 = MultipleHash2016\\MultipleHash2016.csproj
+		SccProjectName10 = MultipleHash2016
+		SccLocalPath10 = MultipleHash2016
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MultipleHash.vsmdi
