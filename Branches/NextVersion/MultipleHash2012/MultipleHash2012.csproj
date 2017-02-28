@@ -217,10 +217,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 12.0\Team Tools\Performance Tools\vsinstr" -coverage "$(TargetDir)$(TargetName).dll"
-REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+    <PostBuildEvent>REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\vsinstr" "$(TargetDir)$(TargetName).dll" -coverage -verbose
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
 if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GACUtil.exe" -u $(TargetName)
 if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\PipelineComponents\" /Y
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\110\DTS\PipelineComponents\" /Y
 if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\PipelineComponents\$(TargetName).DLL"
 if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\UpgradeMappings" /Y</PostBuildEvent>
   </PropertyGroup>
