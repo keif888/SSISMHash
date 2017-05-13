@@ -1,0 +1,20 @@
+# Input Columns Tab
+
+This tab allows you to select which columns you want to be available to generate hash values.
+
+![Input Columns Tab](ConfigInputTab_MultipleHashInputColumns.PNG)
+
+Usage is as simple as ticking which columns you wish to use.
+
+New in 1.4.1 is the ability to highlight a number of rows in the list, and select/deselect them as a group. Just ensure that you have the shift key pressed when you click in the checkbox at the bottom of your group selection.
+You can also sort this list (before selecting your rows), by clicking on the header row.
+
+The Safe Null Handling should be ticked...
+This will ensure that the component will detect when a null and valued column next to each other swap data.
+The Enable Multiple Threading drop down has three values:
+
+||Value||Meaning||
+|None|Use a single thread to calculate all outputs|
+|Auto|If more than 2 Cores, and more than 5 outputs, assign each output to a different thread|
+|On|Assign each output to a different thread|
+
