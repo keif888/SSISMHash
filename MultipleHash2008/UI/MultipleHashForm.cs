@@ -1107,7 +1107,7 @@ namespace Martin.SQLServer.Dts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
         private void llCodeplex_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://ssismhash.codeplex.com/");
+            System.Diagnostics.Process.Start("https://github.com/keif888/SSISMHash/");
         }
 
         /// <summary>

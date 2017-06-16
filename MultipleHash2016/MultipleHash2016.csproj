@@ -43,26 +43,19 @@
     <AssemblyOriginatorKeyFile>MultipleHash.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.DTSPipelineWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.PipelineHost.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -155,7 +148,9 @@
     <None Include="MultipleHash.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SSISMHash.extensions.xml" />
+    <Content Include="SSISMHash.extensions.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SSISMHash.xml">
       <SubType>Designer</SubType>
     </Content>

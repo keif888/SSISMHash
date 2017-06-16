@@ -430,7 +430,7 @@ namespace Martin.SQLServer.Dts
             base.ProvideComponentProperties();
 
             // Add Contact information etc.
-            ComponentMetaData.ContactInfo = "http://ssismhash.codeplex.com/";
+            ComponentMetaData.ContactInfo = "https://github.com/keif888/SSISMHash/";
 
             // Add the Multiple Thread property (as None)...
             MultipleHash.AddMultipleThreadProperty(this.ComponentMetaData);
