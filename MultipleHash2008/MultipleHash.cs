@@ -136,7 +136,7 @@ namespace Martin.SQLServer.Dts
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
-        CurrentVersion = 6)]
+        CurrentVersion = 7)]
     public class MultipleHash : PipelineComponent
     {
         #region Members
@@ -241,7 +241,17 @@ namespace Martin.SQLServer.Dts
             /// <summary>
             /// Creates a 64 bit FNV1a hash
             /// </summary>
-            FNV1a64
+            FNV1a64,
+
+            /// <summary>
+            /// Creates a Murmur Hash using the 3a version
+            /// </summary>
+            MurmurHash3a,
+
+            /// <summary>
+            /// Creates an xxHash hash
+            /// </summary>
+            xxHash
         }
 
         /// <summary>
@@ -293,6 +303,22 @@ namespace Martin.SQLServer.Dts
 
         }
 
+        public enum OutputTypeEnumerator
+        {
+            /// <summary>
+            /// Version 1.6 and earlier output default as Binary Type
+            /// </summary>
+            Binary,
+            /// <summary>
+            /// Base64 encoded output as string
+            /// </summary>
+            Base64String,
+            /// <summary>
+            /// Hex encoded output as string eg. (0x1234567890abcdef)
+            /// </summary>
+            HexString
+        }
+
         #endregion
         #region Design Time
 
@@ -321,6 +347,7 @@ namespace Martin.SQLServer.Dts
                 bool blnFoundThreadProperty = false;
                 bool blnFoundHandleNullsProperty = false;
                 bool blnFoundMillisecondProperty = false;
+                bool blnFoundOutputTypeProperty = false;
 
                 foreach (IDTSCustomProperty customProperty in this.ComponentMetaData.CustomPropertyCollection)
                 {
@@ -362,6 +389,7 @@ namespace Martin.SQLServer.Dts
 
                 foreach (IDTSOutputColumn outputColumn in this.ComponentMetaData.OutputCollection[0].OutputColumnCollection)
                 {
+                    blnFoundOutputTypeProperty = false;
                     foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
                     {
                         if (customProperty.Name == Utility.InputColumnLineagePropName)
@@ -402,8 +430,16 @@ namespace Martin.SQLServer.Dts
                             {
                                 customProperty.Value = newValue;
                             }
-                            break;
                         }
+                        if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                        {
+                            blnFoundOutputTypeProperty = true;
+                        }
+                    }
+                    if (!blnFoundOutputTypeProperty)
+                    {
+                        // Add the missing property defaulted to Binary (as per previous versions).
+                        AddOutputTypeProperty(outputColumn);
                     }
                 }
 
@@ -554,122 +590,70 @@ namespace Martin.SQLServer.Dts
 #endif
 
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
+            bool blnHashTypeProp = false;
+            bool blnLineageProp = false;
+            bool blnOutputTypeProp = false;
+            HashTypeEnumerator hashTypeProp = HashTypeEnumerator.None;
+            String lineageProp = String.Empty;
+            OutputTypeEnumerator outputTypeProp = OutputTypeEnumerator.Binary;
 
             foreach (IDTSOutputColumn outputColumn in output.OutputColumnCollection)
             {
-                if (outputColumn.DataType != DataType.DT_BYTES)
+                blnHashTypeProp = false;
+                blnLineageProp = false;
+                blnOutputTypeProp = false;
+
+                // Loop through and check the properties.
+                foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
                 {
-                    this.InternalFireError(Properties.Resources.OutputDatatypeInvalid);
+                    // Assume that SSIS will PREVENT duplicate names properties.
+                    if (customProperty.Name == Utility.HashTypePropName)
+                    {
+                        blnHashTypeProp = true;
+                        hashTypeProp = (HashTypeEnumerator)customProperty.Value;
+                    }
+                    if (customProperty.Name == Utility.InputColumnLineagePropName)
+                    {
+                        blnLineageProp = true;
+                        lineageProp = (String)customProperty.Value;
+                    }
+                    if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                    {
+                        blnOutputTypeProp = true;
+                        outputTypeProp = (OutputTypeEnumerator)customProperty.Value;
+                    }
+                }
+
+                if (!blnHashTypeProp)
+                {
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.HashTypePropName, outputColumn.Name));
                     return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                 }
-                else
+
+                if (!blnLineageProp)
                 {
-                    // Check that the custom properties are correct.
-                    switch (outputColumn.CustomPropertyCollection.Count)
-                    {
-                        case 1:
-                            if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name == Utility.InputColumnLineagePropName))
-                            {
-                                this.InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
-                                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                            }
-                            else
-                            {
-                                if ((outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName))
-                                {
-                                    this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                                else
-                                {
-                                    this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                            }
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.InputColumnLineagePropName, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
 
-                        case 2:
-                            // Validate that the correct Customer Properties are there, and have valid values.
-                            if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName)
-                             && (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName))
-                            {
-                                this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
-                                this.InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
-                                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                            }
+                if (!blnOutputTypeProp)
+                {
+                    this.InternalFireError(String.Format(Properties.Resources.PropertyRemoved, Utility.OutputColumnOutputTypePropName, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
 
-                            // Check first property
-                            if (outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName)
-                            {
-                                if (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName)
-                                {
-                                    if (outputColumn.CustomPropertyCollection[1].Name == Utility.HashTypePropName)
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
-                                    }
-                                    else
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
-                                    }
+                // Check that the Lineage String is correct
+                if (!this.ValidateColumnList(lineageProp, input.InputColumnCollection))
+                {
+                    this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsInvalid.Replace("%s", outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+                }
 
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                                else
-                                {
-                                    if (!this.ValidateColumnList(outputColumn.CustomPropertyCollection[0].Value.ToString(), input.InputColumnCollection))
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsInvalid.Replace("%s", outputColumn.Name));
-                                        return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!MultipleHash.ValidateDataType(outputColumn, 0))
-                                {
-                                    InternalFireError(Properties.Resources.OutputDatatypeInvalid);
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                            }
-
-                            // Check second property
-                            if (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName)
-                            {
-                                if (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName)
-                                {
-                                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsMissing.Replace("%s", outputColumn.Name));
-                                    }
-                                    else
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyHashTypeMissing.Replace("%s", outputColumn.Name));
-                                    }
-
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                                else
-                                {
-                                    if (!this.ValidateColumnList(outputColumn.CustomPropertyCollection[1].Value.ToString(), input.InputColumnCollection))
-                                    {
-                                        this.InternalFireError(Properties.Resources.PropertyInputColumnLineageIDsInvalid.Replace("%s", outputColumn.Name));
-                                        return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!MultipleHash.ValidateDataType(outputColumn, 1))
-                                {
-                                    InternalFireError(Properties.Resources.OutputDatatypeInvalid);
-                                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                                }
-                            }
-
-                            break;
-                        default:
-                            this.InternalFireError(Properties.Resources.PropertyRemoved.Replace("%s", outputColumn.Name));
-                            return DTSValidationStatus.VS_NEEDSNEWMETADATA;
-                    }
+                // Check that the Data Type is correct
+                if (!MultipleHash.ValidateDataType(outputColumn, hashTypeProp, outputTypeProp))
+                {
+                    InternalFireError(String.Format(Properties.Resources.OutputDatatypeInvalid, outputColumn.Name));
+                    return DTSValidationStatus.VS_NEEDSNEWMETADATA;
                 }
             }
 
@@ -865,122 +849,90 @@ namespace Martin.SQLServer.Dts
                 MultipleHash.AddMillisecondHandleProperty(ComponentMetaData);
             }
 
+            bool blnHashTypeProp = false;
+            bool blnLineageProp = false;
+            bool blnOutputTypeProp = false;
+            HashTypeEnumerator hashTypeProp = HashTypeEnumerator.None;
+            String lineageProp = String.Empty;
+            OutputTypeEnumerator outputTypeProp = OutputTypeEnumerator.Binary;
+            int lineagePropID;
             // Go through all the output columns now.
             foreach (IDTSOutputColumn outputColumn in output.OutputColumnCollection)
             {
-                if (outputColumn.DataType != DataType.DT_BYTES)
+                blnHashTypeProp = false;
+                blnLineageProp = false;
+                blnOutputTypeProp = false;
+                hashTypeProp = HashTypeEnumerator.None;
+                lineageProp = String.Empty;
+                outputTypeProp = OutputTypeEnumerator.Binary;
+                List<string> customToRemove = new List<string>();
+                lineagePropID = 0;
+
+                // Loop through and check the properties.
+                foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
                 {
-                    Utility.SetOutputColumnDataType(HashTypeEnumerator.None, outputColumn);
-                }
-                else
-                {
-                    // Check that the custom properties are correct.
-                    switch (outputColumn.CustomPropertyCollection.Count)
+                    // Assume that SSIS will PREVENT duplicate names properties.
+                    if (customProperty.Name == Utility.HashTypePropName)
                     {
-                        case 1:
-                            // Check which one is missing, and add.  If neither are there, then remove what is, and add the correct ones.
-                            if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name == Utility.InputColumnLineagePropName))
-                            {
-                                MultipleHash.AddHashTypeProperty(outputColumn);
-                            }
-                            else
-                            {
-                                if ((outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName))
-                                {
-                                    MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                                }
-                                else
-                                {
-                                    outputColumn.CustomPropertyCollection.RemoveAll();
-                                    AddHashTypeProperty(outputColumn);
-                                    MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                                }
-                            }
-
-                            break;
-                        case 2:
-                            // Validate that the correct Customer Properties are there, and have valid values.
-                            if ((outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName)
-                             && (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName) && (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName))
-                            {
-                                outputColumn.CustomPropertyCollection.RemoveAll();
-                                MultipleHash.AddHashTypeProperty(outputColumn);
-                                MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                            }
-
-                            // Check first property
-                            if (outputColumn.CustomPropertyCollection[0].Name != Utility.HashTypePropName)
-                            {
-                                if (outputColumn.CustomPropertyCollection[0].Name != Utility.InputColumnLineagePropName)
-                                {
-                                    int colID = outputColumn.CustomPropertyCollection[0].ID;
-                                    if (outputColumn.CustomPropertyCollection[1].Name == Utility.HashTypePropName)
-                                    {
-                                        MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                                    }
-                                    else
-                                    {
-                                        MultipleHash.AddHashTypeProperty(outputColumn);
-                                    }
-
-                                    outputColumn.CustomPropertyCollection.RemoveObjectByID(colID);
-                                }
-                                else
-                                {
-                                    if (!this.ValidateColumnList(outputColumn.CustomPropertyCollection[0].Value.ToString(), input.InputColumnCollection))
-                                    {
-                                        outputColumn.CustomPropertyCollection[0].Value = this.FixColumnList(outputColumn.CustomPropertyCollection[0].Value.ToString(), input.InputColumnCollection);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!MultipleHash.ValidateDataType(outputColumn, 0))
-                                {
-                                    Utility.SetOutputColumnDataType((HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value, outputColumn);
-                                }
-                            }
-
-                            // Check second property
-                            if (outputColumn.CustomPropertyCollection[1].Name != Utility.HashTypePropName)
-                            {
-                                if (outputColumn.CustomPropertyCollection[1].Name != Utility.InputColumnLineagePropName)
-                                {
-                                    int colID = outputColumn.CustomPropertyCollection[1].ID;
-                                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                                    {
-                                        MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                                    }
-                                    else
-                                    {
-                                        MultipleHash.AddHashTypeProperty(outputColumn);
-                                    }
-
-                                    outputColumn.CustomPropertyCollection.RemoveObjectByID(colID);
-                                }
-                                else
-                                {
-                                    if (!this.ValidateColumnList(outputColumn.CustomPropertyCollection[1].Value.ToString(), input.InputColumnCollection))
-                                    {
-                                        outputColumn.CustomPropertyCollection[1].Value = this.FixColumnList(outputColumn.CustomPropertyCollection[1].Value.ToString(), input.InputColumnCollection);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!MultipleHash.ValidateDataType(outputColumn, 1))
-                                {
-                                    Utility.SetOutputColumnDataType((HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value, outputColumn);
-                                }
-                            }
-
-                            break;
-                        default:
-                            outputColumn.CustomPropertyCollection.RemoveAll();
-                            MultipleHash.AddHashTypeProperty(outputColumn);
-                            MultipleHash.AddInputLineageIDsProperty(outputColumn);
-                            break;
+                        blnHashTypeProp = true;
+                        hashTypeProp = (HashTypeEnumerator)customProperty.Value;
                     }
+                    else if (customProperty.Name == Utility.InputColumnLineagePropName)
+                    {
+                        blnLineageProp = true;
+                        lineageProp = (String)customProperty.Value;
+                        lineagePropID = customProperty.ID;
+                    } 
+                    else if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                    {
+                        blnOutputTypeProp = true;
+                        outputTypeProp = (OutputTypeEnumerator)customProperty.Value;
+                    }
+                    else
+                    {
+                        customToRemove.Add(customProperty.Name);
+                    }
+                }
+
+                // Remove the extra properties.
+                foreach (string propertyName in customToRemove)
+                {
+                    for (int i=0; i<outputColumn.CustomPropertyCollection.Count; i++)
+                    {
+                        if (outputColumn.CustomPropertyCollection[i].Name == propertyName)
+                        {
+                            outputColumn.CustomPropertyCollection.RemoveObjectByIndex(i);
+                            break;
+                        }
+                    }
+                }
+
+                // Add the missing properties
+                if (!blnHashTypeProp)
+                {
+                    MultipleHash.AddHashTypeProperty(outputColumn);
+                }
+
+                if (!blnLineageProp)
+                {
+                    MultipleHash.AddInputLineageIDsProperty(outputColumn);
+                }
+
+                if (!blnOutputTypeProp)
+                {
+                    MultipleHash.AddOutputTypeProperty(outputColumn);
+                }
+
+                // Check that the Lineage String is correct, and repair if required.
+                if (!this.ValidateColumnList(lineageProp, input.InputColumnCollection))
+                {
+                    outputColumn.CustomPropertyCollection.GetObjectByID(lineagePropID).Value = this.FixColumnList(lineageProp, input.InputColumnCollection);
+                }
+
+                // Check that the Data Type is correct, and correct if required.
+                if (!MultipleHash.ValidateDataType(outputColumn, hashTypeProp, outputTypeProp))
+                {
+                    Utility.SetOutputColumnDataType(hashTypeProp, outputTypeProp ,outputColumn);
                 }
             }
         }
@@ -1052,8 +1004,11 @@ namespace Martin.SQLServer.Dts
             // Add the InputColumnLineageIDs property.
             MultipleHash.AddInputLineageIDsProperty(outputColumn);
 
+            // Add the Output Type property.
+            MultipleHash.AddOutputTypeProperty(outputColumn);
+
             // Set the data type based on the MD5 default.
-            Utility.SetOutputColumnDataType(HashTypeEnumerator.MD5, outputColumn);
+            Utility.SetOutputColumnDataType(HashTypeEnumerator.MD5, OutputTypeEnumerator.Binary, outputColumn);
 
             outputColumn.Name = name;
             outputColumn.Description = description;
@@ -1080,13 +1035,38 @@ namespace Martin.SQLServer.Dts
                 // Update the output type to match the HashType...
                 IDTSOutput output = ComponentMetaData.OutputCollection[0];
                 IDTSOutputColumn outputColumn = output.OutputColumnCollection.FindObjectByID(outputColumnID);
-                Utility.SetOutputColumnDataType((HashTypeEnumerator)propertyValue, outputColumn);
+                OutputTypeEnumerator outputType = OutputTypeEnumerator.Binary;
+                foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.OutputColumnOutputTypePropName)
+                    {
+                        outputType = (OutputTypeEnumerator)customProperty.Value;
+                        break;
+                    }
+                }
+                Utility.SetOutputColumnDataType((HashTypeEnumerator)propertyValue, outputType, outputColumn);
                 return base.SetOutputColumnProperty(outputID, outputColumnID, propertyName, propertyValue);
             }
-
-            if (propertyName == Utility.InputColumnLineagePropName || propertyName == "Description" || propertyName == "Name")
+            else if (propertyName == Utility.InputColumnLineagePropName || propertyName == "Description" || propertyName == "Name")
             {
                     return base.SetOutputColumnProperty(outputID, outputColumnID, propertyName, propertyValue);
+            }
+            else if (propertyName == Utility.OutputColumnOutputTypePropName)
+            {
+                // Update the output type to match the HashType...
+                IDTSOutput output = ComponentMetaData.OutputCollection[0];
+                IDTSOutputColumn outputColumn = output.OutputColumnCollection.FindObjectByID(outputColumnID);
+                HashTypeEnumerator hashType = HashTypeEnumerator.None;
+                foreach (IDTSCustomProperty customProperty in outputColumn.CustomPropertyCollection)
+                {
+                    if (customProperty.Name == Utility.HashTypePropName)
+                    {
+                        hashType = (HashTypeEnumerator)customProperty.Value;
+                        break;
+                    }
+                }
+                Utility.SetOutputColumnDataType(hashType, (OutputTypeEnumerator)propertyValue, outputColumn);
+                return base.SetOutputColumnProperty(outputID, outputColumnID, propertyName, propertyValue);
             }
 
             throw new Exception(Properties.Resources.OutputPropertyCannotBeChanged);
@@ -1399,63 +1379,167 @@ namespace Martin.SQLServer.Dts
         /// Validates that the length of the output column is correct.
         /// </summary>
         /// <param name="outputColumn">The output column to validate.</param>
-        /// <param name="customPropertyIndex">The output column's Custom Property to use for the HashTypeEnum to validate.</param>
+        /// <param name="hashType">The output column's HashTypeEnumerator value to use for the HashTypeEnumerator to validate.</param>
+        /// <param name="outputType">The output column's OutputTypeEnumerator value to use for the OutputTypeEnumerator to validate.</param>
         /// <returns>returns true when validated ok</returns>
-        static private bool ValidateDataType(IDTSOutputColumn outputColumn, int customPropertyIndex)
+        static private bool ValidateDataType(IDTSOutputColumn outputColumn, HashTypeEnumerator hashType, OutputTypeEnumerator outputType)
         {
-            switch ((HashTypeEnumerator)outputColumn.CustomPropertyCollection[customPropertyIndex].Value)
+            switch (outputType)
+            {
+                case OutputTypeEnumerator.Binary:
+                    if (outputColumn.DataType != DataType.DT_BYTES)
+                        return false;
+                    break;
+                case OutputTypeEnumerator.HexString:
+                case OutputTypeEnumerator.Base64String:
+                    if (outputColumn.DataType != DataType.DT_STR)
+                        return false;
+                    break;
+                default:
+                    return false;
+            } 
+            switch (hashType)
             {
                 case HashTypeEnumerator.None:
                     break;
                 case HashTypeEnumerator.CRC32:
                 case HashTypeEnumerator.CRC32C:
                 case HashTypeEnumerator.FNV1a32:
-                    if (outputColumn.Length != 4)
-                    {
-                        return false;
-                    }
+                    switch (outputType)
+	                    {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.Length != 4)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.Length != 8)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.Length != 10)
+                                    return false;
+                                break;
+                            default:
+                                return false;
+	                    }
                     break;
                 case HashTypeEnumerator.FNV1a64:
-                    if (outputColumn.Length != 8)
-                    {
-                        return false;
-                    }
+                case HashTypeEnumerator.xxHash:
+                    switch (outputType)
+	                    {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.Length != 8)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.Length != 12)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.Length != 18)
+                                    return false;
+                                break;
+                            default:
+                                return false;
+	                    }
                     break;
                 case HashTypeEnumerator.MD5:
-                    if (outputColumn.Length != 16)
+                case HashTypeEnumerator.MurmurHash3a:
+                    switch (outputType)
                     {
-                        return false;
+                        case OutputTypeEnumerator.Binary:
+                            if (outputColumn.Length != 16)
+                                return false;
+                            break;
+                        case OutputTypeEnumerator.Base64String:
+                            if (outputColumn.Length != 24)
+                                return false;
+                            break;
+                        case OutputTypeEnumerator.HexString:
+                            if (outputColumn.Length != 34)
+                                return false;
+                            break;
+                        default:
+                            return false;
                     }
-
                     break;
                 case HashTypeEnumerator.RipeMD160:
                 case HashTypeEnumerator.SHA1:
-                    if (outputColumn.Length != 20)
-                    {
-                        return false;
-                    }
-
+                    switch (outputType)
+	                    {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.Length != 20)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.Length != 28)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.Length != 42)
+                                    return false;
+                                break;
+                            default:
+                                return false;
+	                    }
                     break;
                 case HashTypeEnumerator.SHA256:
-                    if (outputColumn.Length != 32)
-                    {
-                        return false;
-                    }
-
+                    switch (outputType)
+	                    {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.Length != 32)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.Length != 44)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.Length != 66)
+                                    return false;
+                                break;
+                            default:
+                                return false;
+	                    }
                     break;
                 case HashTypeEnumerator.SHA384:
-                    if (outputColumn.Length != 48)
+                    switch (outputType)
                     {
-                        return false;
+                        case OutputTypeEnumerator.Binary:
+                            if (outputColumn.Length != 48)
+                                return false;
+                            break;
+                        case OutputTypeEnumerator.Base64String:
+                            if (outputColumn.Length != 64)
+                                return false;
+                            break;
+                        case OutputTypeEnumerator.HexString:
+                            if (outputColumn.Length != 98)
+                                return false;
+                            break;
+                        default:
+                            return false;
                     }
 
                     break;
                 case HashTypeEnumerator.SHA512:
-                    if (outputColumn.Length != 64)
-                    {
-                        return false;
-                    }
-
+                    switch (outputType)
+	                    {
+                            case OutputTypeEnumerator.Binary:
+                                if (outputColumn.Length != 64)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.Base64String:
+                                if (outputColumn.Length != 88)
+                                    return false;
+                                break;
+                            case OutputTypeEnumerator.HexString:
+                                if (outputColumn.Length != 130)
+                                    return false;
+                                break;
+                            default:
+                                return false;
+	                    }
                     break;
                 default:
                     return false;
@@ -1560,6 +1644,25 @@ namespace Martin.SQLServer.Dts
             inputColumnLineageIDs.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
             inputColumnLineageIDs.Value = string.Empty;
         } 
+        #endregion
+
+        #region AddOutputTypeProperty
+        /// <summary>
+        /// Creates the new custom property to hold the output type.  It defaults to Binary...
+        /// </summary>
+        /// <param name="outputColumn">The output column to add the property to.</param>
+        static private void AddOutputTypeProperty(IDTSOutputColumn outputColumn)
+        {
+            // Add the Output Type property
+            IDTSCustomProperty outputTypeProperty = outputColumn.CustomPropertyCollection.New();
+            outputTypeProperty.Description = "Stores the type of the output column";
+            outputTypeProperty.Name = Utility.OutputColumnOutputTypePropName;
+            outputTypeProperty.ContainsID = false;
+            outputTypeProperty.EncryptionRequired = false;
+            outputTypeProperty.ExpressionType = DTSCustomPropertyExpressionType.CPET_NONE;
+            outputTypeProperty.TypeConverter = typeof(OutputTypeEnumerator).AssemblyQualifiedName;
+            outputTypeProperty.Value = OutputTypeEnumerator.Binary;
+        }
         #endregion
 
         #region InternalFireError

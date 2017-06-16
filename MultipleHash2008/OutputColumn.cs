@@ -99,6 +99,11 @@ namespace Martin.SQLServer.Dts
         private MultipleHash.HashTypeEnumerator outputHashType;
 
         /// <summary>
+        /// Stores the output data type and style (Binary, HexString, Base64String)
+        /// </summary>
+        private MultipleHash.OutputTypeEnumerator outputDataType;
+
+        /// <summary>
         /// Stores the column id for the SSIS component
         /// </summary>
         private int outputColumnID;
@@ -153,6 +158,17 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         private FNV1a64 hashFNV1a64;
 
+        //ToDo: Add the Murmur and xxHash privates
+        /// <summary>
+        /// Stores the generator for the Murmur3a hash
+        /// </summary>
+        private Murmur3a hashMurmur3a;
+
+        /// <summary>
+        /// Stores the generator for the xxHash hash
+        /// </summary>
+        private xxHash hashxxHash;
+
         #endregion
 
         #region Creator
@@ -194,44 +210,60 @@ namespace Martin.SQLServer.Dts
         } 
     #endregion
 
-    #region HashObject
-        /// <summary>
-        /// Gets the Hash Object to enable the creation of hash's.
-        /// </summary>
-        public HashAlgorithm HashObject
+        #region OutputHashDataType
+
+        public MultipleHash.OutputTypeEnumerator OutputHashDataType
         {
             get
             {
-                switch (this.outputHashType)
-                {
-                    case MultipleHash.HashTypeEnumerator.None:
-                        return null;
-                    case MultipleHash.HashTypeEnumerator.MD5:
-                        return this.hashMD5;
-                    case MultipleHash.HashTypeEnumerator.RipeMD160:
-                        return this.hashRipeMD160;
-                    case MultipleHash.HashTypeEnumerator.SHA1:
-                        return this.hashSHA1;
-                    case MultipleHash.HashTypeEnumerator.SHA256:
-                        return this.hashSHA256;
-                    case MultipleHash.HashTypeEnumerator.SHA384:
-                        return this.hashSHA384;
-                    case MultipleHash.HashTypeEnumerator.SHA512:
-                        return this.hashSHA512;
-                    case MultipleHash.HashTypeEnumerator.CRC32:
-                        return this.hashCRC32;
-                    case MultipleHash.HashTypeEnumerator.CRC32C:
-                        return this.hashCRC32C;
-                    case MultipleHash.HashTypeEnumerator.FNV1a32:
-                        return this.hashFNV1a32;
-                    case MultipleHash.HashTypeEnumerator.FNV1a64:
-                        return this.hashFNV1a64;
-                    default:
-                        return null;
-                }
+                return this.outputDataType;
             }
-        } 
+        }
     #endregion
+
+
+    #region HashObject
+    /// <summary>
+    /// Gets the Hash Object to enable the creation of hash's.
+    /// </summary>
+    public HashAlgorithm HashObject
+    {
+        get
+        {
+            switch (this.outputHashType)
+            {
+                case MultipleHash.HashTypeEnumerator.None:
+                    return null;
+                case MultipleHash.HashTypeEnumerator.MD5:
+                    return this.hashMD5;
+                case MultipleHash.HashTypeEnumerator.RipeMD160:
+                    return this.hashRipeMD160;
+                case MultipleHash.HashTypeEnumerator.SHA1:
+                    return this.hashSHA1;
+                case MultipleHash.HashTypeEnumerator.SHA256:
+                    return this.hashSHA256;
+                case MultipleHash.HashTypeEnumerator.SHA384:
+                    return this.hashSHA384;
+                case MultipleHash.HashTypeEnumerator.SHA512:
+                    return this.hashSHA512;
+                case MultipleHash.HashTypeEnumerator.CRC32:
+                    return this.hashCRC32;
+                case MultipleHash.HashTypeEnumerator.CRC32C:
+                    return this.hashCRC32C;
+                case MultipleHash.HashTypeEnumerator.FNV1a32:
+                    return this.hashFNV1a32;
+                case MultipleHash.HashTypeEnumerator.FNV1a64:
+                    return this.hashFNV1a64;
+                case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                    return this.hashMurmur3a;
+                case MultipleHash.HashTypeEnumerator.xxHash:
+                    return this.hashxxHash;
+                default:
+                    return null;
+            }
+        }
+    } 
+#endregion
 
     #region OutputColumnId
         /// <summary>
@@ -308,16 +340,9 @@ namespace Martin.SQLServer.Dts
 
             IDTSOutputColumn outputColumn = output.OutputColumnCollection[outputColumnIndex];
             string[] inputLineageIDList;
-            if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-            {
-                inputLineageIDList = outputColumn.CustomPropertyCollection[1].Value.ToString().Split(',');
-                this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
-            }
-            else
-            {
-                inputLineageIDList = outputColumn.CustomPropertyCollection[0].Value.ToString().Split(',');
-                this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
-            }
+            inputLineageIDList = outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value.ToString().Split(',');
+            this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value;
+            this.outputDataType = (MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value;
 
             switch (this.outputHashType)
             {
@@ -352,6 +377,14 @@ namespace Martin.SQLServer.Dts
                     break;
                 case MultipleHash.HashTypeEnumerator.FNV1a64:
                     this.hashFNV1a64 = FNV1a64.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                    //ToDo: Call the MurmurHash
+                    this.hashMurmur3a = Murmur3a.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.xxHash:
+                    // todo: call the xxHash
+                    this.hashxxHash = xxHash.Create();
                     break;
                 default:
                     break;

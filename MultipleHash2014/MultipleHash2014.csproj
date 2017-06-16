@@ -82,8 +82,14 @@
     <Reference Include="Microsoft.SqlServer.PipelineHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MultipleHash2008\IntHelpers.cs">
+      <Link>IntHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\MultipleHash2008\MultipleHash.cs">
       <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Murmur3a.cs">
+      <Link>Murmur3a.cs</Link>
     </Compile>
     <Compile Include="..\MultipleHash2008\OutputColumn.cs">
       <Link>OutputColumn.cs</Link>
@@ -137,6 +143,9 @@
     </Compile>
     <Compile Include="..\MultipleHash2008\FNV1a64.cs">
       <Link>FNV1a64.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\xxHash.cs">
+      <Link>xxHash.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

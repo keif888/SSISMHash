@@ -44,18 +44,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.DTSPipelineWrap.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.PipelineHost.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -87,8 +94,14 @@
     <Compile Include="..\MultipleHash2008\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
     </Compile>
+    <Compile Include="..\MultipleHash2008\IntHelpers.cs">
+      <Link>IntHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\MultipleHash2008\MultipleHash.cs">
       <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Murmur3a.cs">
+      <Link>Murmur3a.cs</Link>
     </Compile>
     <Compile Include="..\MultipleHash2008\OutputColumn.cs">
       <Link>OutputColumn.cs</Link>
@@ -127,6 +140,9 @@
     </Compile>
     <Compile Include="..\MultipleHash2008\Utility.cs">
       <Link>Utility.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\xxHash.cs">
+      <Link>xxHash.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

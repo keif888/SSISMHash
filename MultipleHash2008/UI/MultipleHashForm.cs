@@ -125,6 +125,7 @@ namespace Martin.SQLServer.Dts
     internal struct OutputColumnElement
     {
         public MultipleHash.HashTypeEnumerator Hash;
+        public MultipleHash.OutputTypeEnumerator dataType;
         public DataFlowElement OutputColumn;
         public InputColumnElement[] InputColumns;
     }
@@ -135,6 +136,12 @@ namespace Martin.SQLServer.Dts
     /// </summary>
     public partial class MultipleHashForm : Form
     {
+
+        private CheckBox dgvAvailableColumnsSelectAll;
+        private CheckBox dgvInputColumnsSelectAll;
+        private bool indgvAvailableColumnsSelectAllChecked;
+        private bool indgvInputColumnsSelectAllChecked;
+
         /// <summary>
         /// This flag is set to true while loading the state from the component, to disable
         /// the grid events during that time.
@@ -253,6 +260,27 @@ namespace Martin.SQLServer.Dts
             this.isLoading = true;
             try
             {
+                // Add SelectAll check boxes.
+                dgvAvailableColumnsSelectAll = new CheckBox();
+                dgvAvailableColumnsSelectAll.Name = "dgvAvailableColumnsSelectAll";
+                dgvAvailableColumnsSelectAll.Size = new System.Drawing.Size(14, 14);
+                // Get a rectangle that represents the header column
+                System.Drawing.Rectangle rect = this.dgvAvailableColumns.GetCellDisplayRectangle(0, -1, false);
+                dgvAvailableColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvAvailableColumnsSelectAll.Width)/2), rect.Location.Y + ((rect.Height - dgvAvailableColumnsSelectAll.Height)/2));
+                dgvAvailableColumnsSelectAll.BackColor = System.Drawing.Color.White;
+                dgvAvailableColumns.Controls.Add(dgvAvailableColumnsSelectAll);
+                dgvAvailableColumnsSelectAll.Click += dgvAvailableColumnsSelectAll_Click;
+
+                dgvInputColumnsSelectAll = new CheckBox();
+                dgvInputColumnsSelectAll.Name = "dgvInputColumnsSelectAll";
+                dgvInputColumnsSelectAll.Size = new System.Drawing.Size(14, 14);
+                // Get a rectangle that represents the header column
+                rect = this.dgvInputColumns.GetCellDisplayRectangle(0, -1, false);
+                dgvInputColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvInputColumnsSelectAll.Width) / 2), rect.Location.Y + ((rect.Height - dgvInputColumnsSelectAll.Height) / 2));
+                dgvInputColumnsSelectAll.BackColor = System.Drawing.Color.White;
+                dgvInputColumns.Controls.Add(dgvInputColumnsSelectAll);
+                dgvInputColumnsSelectAll.Click += dgvInputColumnsSelectAll_Click;
+
                 // Loading available and previously selected columns.
                 this.LoadAvailableColumns();
                 ThreadingArgs args = new ThreadingArgs();
@@ -277,6 +305,8 @@ namespace Martin.SQLServer.Dts
                 res = this.GetMillisecondHandlingDetail.BeginInvoke(this, millisecondArgs, null, null);
                 this.GetMillisecondHandlingDetail.EndInvoke(res);
                 cbMilliseconds.Checked = MultipleHashForm.GetMillisecondValue(millisecondArgs.millisecondHandlingDetail);
+
+                
             }
             catch (Exception ex)
             {
@@ -287,6 +317,54 @@ namespace Martin.SQLServer.Dts
             {
                 this.isLoading = false;
             }
+        }
+
+
+        /// <summary>
+        /// What to do when the user selects the select all check box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void dgvAvailableColumnsSelectAll_Click(object sender, EventArgs e)
+        {
+            this.indgvAvailableColumnsSelectAllChecked = true;
+            CheckBox wrkCheckBox = (sender as CheckBox);
+            DataGridView wrkDataGridView = (DataGridView)wrkCheckBox.Parent;
+            int rowIndex = 0;
+            foreach(DataGridViewRow row in wrkDataGridView.Rows)
+            {
+                if ((bool)row.Cells[0].Value != wrkCheckBox.Checked)
+                {
+                    row.Cells[0].Value = wrkCheckBox.Checked;
+                }
+                rowIndex++;
+            }
+            wrkDataGridView.EndEdit();
+            this.indgvAvailableColumnsSelectAllChecked = false;
+        }
+
+
+        /// <summary>
+        /// What to do when the user selects the select all check box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void dgvInputColumnsSelectAll_Click(object sender, EventArgs e)
+        {
+            this.indgvInputColumnsSelectAllChecked = true;
+            CheckBox wrkCheckBox = (sender as CheckBox);
+            DataGridView wrkDataGridView = (DataGridView)wrkCheckBox.Parent;
+            int rowIndex = 0;
+            foreach (DataGridViewRow row in wrkDataGridView.Rows)
+            {
+                if ((bool)row.Cells[0].Value != wrkCheckBox.Checked)
+                {
+                    row.Cells[0].Value = wrkCheckBox.Checked;
+                }
+                rowIndex++;
+            }
+            wrkDataGridView.EndEdit();
+            this.indgvInputColumnsSelectAllChecked = false;
         }
 
         #endregion
@@ -355,6 +433,7 @@ namespace Martin.SQLServer.Dts
                     if (args.InputColumns != null && args.InputColumns.Length > 0)
                     {
                         // Push them all onto the dgvAvailableColumns Grid
+                        bool isChecked = true;
                         this.dgvAvailableColumns.Rows.Add(args.InputColumns.Length);
                         for (int i = 0; i < args.InputColumns.Length; i++)
                         {
@@ -363,7 +442,12 @@ namespace Martin.SQLServer.Dts
                             // Filling the cells.
                             this.dgvAvailableColumns.Rows[i].Cells[this.gridColumnCheckbox.Index].Value = availableColumnRow.Selected;
                             SetGridCellData(this.dgvAvailableColumns.Rows[i].Cells[this.gridColumnAvailableColumns.Index], availableColumnRow.InputColumn);
+                            if (!availableColumnRow.Selected)
+                            {
+                                isChecked = false;
+                            }
                         }
+                        dgvAvailableColumnsSelectAll.Checked = isChecked;
                     }
 
                     this.dgvAvailableColumns.ResumeLayout();
@@ -410,6 +494,7 @@ namespace Martin.SQLServer.Dts
                             // Filling the cells.
                             SetGridCellData(this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsColumnName.Index], outputColumnRow);
                             this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsHashType.Index].Value = MultipleHashForm.GetHashName(outputColumnRow.Hash);
+                            this.dgvOutputColumns.Rows[i].Cells[this.dgvOutputColumnsDataType.Index].Value = MultipleHashForm.GetDataTypeName(outputColumnRow.dataType);
                         }
                     }
 
@@ -486,6 +571,7 @@ namespace Martin.SQLServer.Dts
             bool blnCurrentisLoading = this.isLoading;
             try
             {
+                bool isChecked = true;
                 // Load the data into the dgvHashColumns grid.
                 this.isLoading = true;
                 this.dgvInputColumns.SuspendLayout();
@@ -510,9 +596,14 @@ namespace Martin.SQLServer.Dts
                             int rowIndex = this.dgvInputColumns.Rows.Add();
                             SetGridCellData(this.dgvInputColumns.Rows[rowIndex].Cells[this.dgvInputColumnsColumnName.Index], inputColumnDetails.InputColumn.Name, inputColumnDetails.LineageID, inputColumnDetails.InputColumn.ToolTip);
                             this.dgvInputColumns.Rows[rowIndex].Cells[this.dgvInputColumnsSelected.Index].Value = inputColumnDetails.Selected;
+                            if (!inputColumnDetails.Selected)
+                            {
+                                isChecked = false;
+                            }
                         }
                     }
                 }
+                this.dgvInputColumnsSelectAll.Checked = isChecked;
                 this.dgvInputColumns.ResumeLayout();
             }
             catch (Exception ex)
@@ -615,64 +706,106 @@ namespace Martin.SQLServer.Dts
         #region dgvAvailableColumns Handlers
 
         /// <summary>
-        /// Check/Uncheck all tick boxes that have been selected
+        /// If a checkbox is ticked, check all the check boxes, and change the Select All box appropriately.
         /// </summary>
-        /// <param name="sender">Where the message came from</param>
-        /// <param name="e">The arguments from the caller</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvAvailableColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvAvailableColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            if (!isLoading)  // Don't run whilst the data is being setup
             {
-                if (e.ColumnIndex == 0)
+                if (!indgvAvailableColumnsSelectAllChecked)  // Don't run whilst the select all button is changing the state.
                 {
-                    Boolean clickedCellValue = !(Boolean)dgvAvailableColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
-
-                    for (int i = 0; i < dgvAvailableColumns.RowCount; i++)
+                    DataGridView wkgDataGridView = (sender as DataGridView);
+                    if (wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewCheckBoxCell)
                     {
-                        foreach (DataGridViewCell dgvCell in dgvAvailableColumns.Rows[i].Cells)
+                        if (((bool)wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) == false)
                         {
-                            if ((dgvCell.ColumnIndex == 0) && dgvCell.Selected)
+                            this.dgvAvailableColumnsSelectAll.Checked = false;
+                        }
+                        else
+                        {
+                            bool areAllChecked = true;
+                            foreach (DataGridViewRow row in wkgDataGridView.Rows)
                             {
-                                dgvCell.Value = clickedCellValue;
-                                try
+                                if (((bool)row.Cells[0].Value) == false)
                                 {
-                                    // Get the check box
-                                    DataGridViewCheckBoxCell checkBoxCell = dgvCell as DataGridViewCheckBoxCell;
-
-                                    // Get the Cell which contains the columns name
-                                    DataGridViewCell columnCell = this.dgvAvailableColumns.Rows[i].Cells[this.gridColumnAvailableColumns.Index];
-
-                                    SetInputColumnArgs args = new SetInputColumnArgs();
-                                    args.VirtualColumn = new DataFlowElement(columnCell.Value.ToString(), columnCell.Tag);
-
-                                    if ((bool)checkBoxCell.Value)
-                                    {
-                                        // Set used columns if the checkbox is selected.
-                                        this.SetColumns(args);
-                                    }
-                                    else
-                                    {
-                                        // Delete columns if the checkbox is unselected.
-                                        this.DeleteColumns(args);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                                    this.CallErrorHandler.EndInvoke(res);
+                                    areAllChecked = false;
+                                    break;
                                 }
                             }
+                            this.dgvAvailableColumnsSelectAll.Checked = areAllChecked;
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
+
+                try
+                {
+                    if (e.ColumnIndex == 0)
+                    {
+                        try
+                        {
+                            // Get the check box
+                            DataGridViewCheckBoxCell checkBoxCell = dgvAvailableColumns.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
+
+                            // Get the Cell which contains the columns name
+                            DataGridViewCell columnCell = this.dgvAvailableColumns.Rows[e.RowIndex].Cells[this.gridColumnAvailableColumns.Index];
+
+                            SetInputColumnArgs args = new SetInputColumnArgs();
+                            args.VirtualColumn = new DataFlowElement(columnCell.Value.ToString(), columnCell.Tag);
+
+                            if ((bool)checkBoxCell.Value)
+                            {
+                                // Set used columns if the checkbox is selected.
+                                this.SetColumns(args);
+                            }
+                            else
+                            {
+                                // Delete columns if the checkbox is unselected.
+                                this.DeleteColumns(args);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                            this.CallErrorHandler.EndInvoke(res);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                    this.CallErrorHandler.EndInvoke(res);
+                }
             }
         }
+
+        /// <summary>
+        /// Ensure that the check box columns are always committed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvAvailableColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (!isLoading)
+            {
+                DataGridView dgvWorking = (sender as DataGridView);
+                if (dgvWorking.CurrentCell is DataGridViewCheckBoxCell)
+                {
+                    dgvWorking.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                }
+            }
+        }
+
+        private void dgvAvailableColumns_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (!isLoading)
+            {
+                System.Drawing.Rectangle rect = this.dgvAvailableColumns.GetCellDisplayRectangle(0, -1, false);
+                dgvAvailableColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvAvailableColumnsSelectAll.Width) / 2), rect.Location.Y + ((rect.Height - dgvAvailableColumnsSelectAll.Height) / 2));
+            }
+        }
+
         #endregion
 
         #region Change Order Events
@@ -793,101 +926,155 @@ namespace Martin.SQLServer.Dts
         #region dgvInputColumns Handlers
 
         /// <summary>
-        /// Check/Uncheck all tick boxes that have been selected
+        /// If the tick box is checked/unchecked then push the values across
         /// </summary>
-        /// <param name="sender">Where the message came from</param>
-        /// <param name="e">The arguments from the caller</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "form Generated Code")]
-        private void dgvInputColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInputColumns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            int sortPosition = 0;
-            try
+            if (!isLoading)
             {
-                if (e.ColumnIndex == 0)
+                if (!indgvInputColumnsSelectAllChecked)  // Don't run whilst the select all button is changing the state.
                 {
-                    Boolean clickedCellValue = !(Boolean)dgvInputColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
-
-                    // Set IsLoading to force order of execution and addition of columns to other lists.
-                    //this.isLoading = true;
-
-                    // Grab the tag that holds the list of selected columns.
-                    InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
-
-                    for (int i = 0; i < dgvInputColumns.RowCount; i++)
+                    DataGridView wkgDataGridView = (sender as DataGridView);
+                    if (wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewCheckBoxCell)
                     {
-                        foreach (DataGridViewCell dgvCell in dgvInputColumns.Rows[i].Cells)
+                        if (((bool)wkgDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) == false)
                         {
-                            if ((dgvCell.ColumnIndex == 0) && dgvCell.Selected)
+                            this.dgvInputColumnsSelectAll.Checked = false;
+                        }
+                        else
+                        {
+                            bool areAllChecked = true;
+                            foreach (DataGridViewRow row in wkgDataGridView.Rows)
                             {
-                                if ((bool)dgvCell.Value == clickedCellValue)  // Bug Fix: If multi selected, and this is already set to the target value, then skip.
+                                if (((bool)row.Cells[0].Value) == false)
                                 {
+                                    areAllChecked = false;
                                     break;
                                 }
-                                dgvCell.Value = clickedCellValue;
-                                if (e.ColumnIndex == dgvInputColumnsSelected.Index)
-                                {
-                                    // Iterate through that list, to apply the change
-                                    for (int j = 0; j < inputColumns.Length; j++)
-                                    {
-                                        // Find the column that has been changed
-                                        if (inputColumns[j].LineageID == (int)dgvInputColumns.Rows[i].Cells[dgvInputColumnsColumnName.Index].Tag)
-                                        {
-                                            sortPosition = inputColumns[j].SortPosition;
-                                            if (inputColumns[j].Selected)
-                                            {
-                                                // I have unselected this one!
-                                                for (int k = 0; k < inputColumns.Length; k++)
-                                                {
-                                                    if (inputColumns[k].SortPosition < 999999 && inputColumns[k].SortPosition > sortPosition)
-                                                    {
-                                                        inputColumns[k].SortPosition--;
-                                                    }
-                                                }
+                            }
+                            this.dgvInputColumnsSelectAll.Checked = areAllChecked;
+                        }
+                    }
+                }
+                int sortPosition = 0;
+                try
+                {
+                    if (e.ColumnIndex == 0)
+                    {
+                        Boolean clickedCellValue = (Boolean)dgvInputColumns.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue;
 
-                                                inputColumns[j].SortPosition = 999999;
-                                            }
-                                            else
+                        // Grab the tag that holds the list of selected columns.
+                        InputColumnElement[] inputColumns = ((OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag).InputColumns;
+                        if (e.ColumnIndex == dgvInputColumnsSelected.Index)
+                        {
+                            // Iterate through that list, to apply the change
+                            for (int j = 0; j < inputColumns.Length; j++)
+                            {
+                                // Find the column that has been changed
+                                if (inputColumns[j].LineageID == (int)dgvInputColumns.Rows[e.RowIndex].Cells[dgvInputColumnsColumnName.Index].Tag)
+                                {
+                                    sortPosition = inputColumns[j].SortPosition;
+                                    if (inputColumns[j].Selected)
+                                    {
+                                        // I have unselected this one!
+                                        for (int k = 0; k < inputColumns.Length; k++)
+                                        {
+                                            if (inputColumns[k].SortPosition < 999999 && inputColumns[k].SortPosition > sortPosition)
                                             {
-                                                sortPosition = -1;
-                                                Boolean noneFound = true;
-                                                for (int k = 0; k < inputColumns.Length; k++)
-                                                {
-                                                    if (inputColumns[k].SortPosition > sortPosition && inputColumns[k].SortPosition < 999999)
-                                                    {
-                                                        sortPosition = inputColumns[k].SortPosition;
-                                                        noneFound = false;
-                                                    }
-                                                }
-                                                inputColumns[j].SortPosition = (noneFound ? 0 : sortPosition + 1);
+                                                inputColumns[k].SortPosition--;
                                             }
-                                            inputColumns[j].Selected = (bool)dgvInputColumns.Rows[i].Cells[dgvInputColumnsSelected.Index].Value;
-                                            break;
                                         }
+
+                                        inputColumns[j].SortPosition = 999999;
                                     }
+                                    else
+                                    {
+                                        sortPosition = -1;
+                                        Boolean noneFound = true;
+                                        for (int k = 0; k < inputColumns.Length; k++)
+                                        {
+                                            if (inputColumns[k].SortPosition > sortPosition && inputColumns[k].SortPosition < 999999)
+                                            {
+                                                sortPosition = inputColumns[k].SortPosition;
+                                                noneFound = false;
+                                            }
+                                        }
+                                        inputColumns[j].SortPosition = (noneFound ? 0 : sortPosition + 1);
+                                    }
+                                    inputColumns[j].Selected = (bool)dgvInputColumns.Rows[e.RowIndex].Cells[dgvInputColumnsSelected.Index].Value;
+                                    break;
                                 }
                             }
                         }
+
+                        this.RefreshdgvHashColumns();
+
+                        AlterOutputColumnArgs args = new AlterOutputColumnArgs();
+                        args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
+
+                        // Call the AddOutputColumn event...
+                        IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
+                        this.AlterOutputColumn.EndInvoke(res);
+
+                        //this.isLoading = false;
                     }
-                    this.RefreshdgvHashColumns();
-
-                    AlterOutputColumnArgs args = new AlterOutputColumnArgs();
-                    args.OutputColumnDetail = (OutputColumnElement)dgvOutputColumns.SelectedRows[0].Cells[this.dgvOutputColumnsColumnName.Index].Tag;
-
-                    // Call the AddOutputColumn event...
-                    IAsyncResult res = this.AlterOutputColumn.BeginInvoke(this, args, null, null);
-                    this.AlterOutputColumn.EndInvoke(res);
-
+                }
+                catch (Exception ex)
+                {
+                    IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
+                    this.CallErrorHandler.EndInvoke(res);
+                }
+                finally
+                {
                     //this.isLoading = false;
                 }
             }
-            catch (Exception ex)
+        }
+
+        /// <summary>
+        /// Commit the check box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInputColumns_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (!isLoading)
             {
-                IAsyncResult res = this.CallErrorHandler.BeginInvoke(this, ex, null, null);
-                this.CallErrorHandler.EndInvoke(res);
+                DataGridView dgvWorking = (sender as DataGridView);
+                if (dgvWorking.CurrentCell is DataGridViewCheckBoxCell)
+                {
+                    dgvWorking.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                }
             }
-            finally
+        }
+
+        /// <summary>
+        /// Make sure that the check box is in the centre of the column header
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInputColumns_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (!isLoading)
             {
-                //this.isLoading = false;
+                System.Drawing.Rectangle rect = this.dgvInputColumns.GetCellDisplayRectangle(0, -1, false);
+                dgvInputColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvInputColumnsSelectAll.Width) / 2), rect.Location.Y + ((rect.Height - dgvInputColumnsSelectAll.Height) / 2));
+            }
+        }
+
+        /// <summary>
+        /// Ensure that when the column header becomes visible that the check box is in the right place.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInputColumns_VisibleChanged(object sender, EventArgs e)
+        {
+            System.Drawing.Rectangle rect = this.dgvInputColumns.GetCellDisplayRectangle(0, -1, false);
+            if (rect.X != 0)
+            {
+                dgvInputColumnsSelectAll.Location = new System.Drawing.Point(rect.Location.X + ((rect.Width - dgvInputColumnsSelectAll.Width) / 2), rect.Location.Y + ((rect.Height - dgvInputColumnsSelectAll.Height) / 2));
             }
         }
 
@@ -985,6 +1172,7 @@ namespace Martin.SQLServer.Dts
                     // Get the text box and Hash Type
                     DataGridViewTextBoxCell textBoxCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsColumnName.Index] as DataGridViewTextBoxCell;
                     DataGridViewComboBoxCell comboCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsHashType.Index] as DataGridViewComboBoxCell;
+                    DataGridViewComboBoxCell dataTypeCell = this.dgvOutputColumns.Rows[e.RowIndex].Cells[this.dgvOutputColumnsDataType.Index] as DataGridViewComboBoxCell;
 
                     // Default the text box data, if there isn't anything.
                     if (textBoxCell.Value == null)
@@ -1016,6 +1204,16 @@ namespace Martin.SQLServer.Dts
                             comboCell.Value = MultipleHashForm.GetHashName(MultipleHash.HashTypeEnumerator.None);
                         }
 
+                        if (dataTypeCell.Value != null)
+                        {
+                            outputColumnRow.dataType = MultipleHashForm.GetDataTypeEnum(dataTypeCell.Value.ToString());
+                        }
+                        else
+                        {
+                            outputColumnRow.dataType = MultipleHash.OutputTypeEnumerator.Binary;
+                            dataTypeCell.Value = MultipleHashForm.GetDataTypeName(MultipleHash.OutputTypeEnumerator.Binary);
+                        }
+
                         // Filling the cells.
                         AlterOutputColumnArgs aocArgs = new AlterOutputColumnArgs();
                         aocArgs.OutputColumnDetail = outputColumnRow;
@@ -1045,6 +1243,12 @@ namespace Martin.SQLServer.Dts
                         {
                             // Push the change into the Tag...
                             outputColumnRow.Hash = MultipleHashForm.GetHashEnum(comboCell.Value.ToString());
+                        }
+
+                        // If the changed column is the DataType column...
+                        if (e.ColumnIndex == this.dgvOutputColumnsDataType.Index)
+                        {
+                            outputColumnRow.dataType = MultipleHashForm.GetDataTypeEnum(dataTypeCell.Value.ToString());
                         }
 
                         AlterOutputColumnArgs args = new AlterOutputColumnArgs();
@@ -1205,6 +1409,10 @@ namespace Martin.SQLServer.Dts
                     return "FNV1a32";
                 case MultipleHash.HashTypeEnumerator.FNV1a64:
                     return "FNV1a64";
+                case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                    return "MurmurHash3a";
+                case MultipleHash.HashTypeEnumerator.xxHash:
+                    return "xxHash";
                 case MultipleHash.HashTypeEnumerator.None:
                 default:
                     return "None";
@@ -1240,9 +1448,54 @@ namespace Martin.SQLServer.Dts
                     return MultipleHash.HashTypeEnumerator.FNV1a32;
                 case "FNV1a64":
                     return MultipleHash.HashTypeEnumerator.FNV1a64;
+                case "MurmurHash3a":
+                    return MultipleHash.HashTypeEnumerator.MurmurHash3a;
+                case "xxHash":
+                    return MultipleHash.HashTypeEnumerator.xxHash;
                 case "None":
                 default:
                     return MultipleHash.HashTypeEnumerator.None;
+            }
+        }
+        #endregion
+
+        #region dataType Value Helper Functions
+
+        /// <summary>
+        /// Returns the string value from the outputValue enum.
+        /// </summary>
+        /// <param name="outputValue">The OutputTypeEnumerator value to return a string for</param>
+        /// <returns>The string value for the OutputTypeEnumerator</returns>
+        static private string GetDataTypeName(MultipleHash.OutputTypeEnumerator outputValue)
+        {
+            switch(outputValue)
+            {
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    return "Base64String";
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    return "HexString";
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                default:
+                    return "Binary";
+            }
+        }
+
+        /// <summary>
+        /// Returns the OutputTypeEnumerator value for the passed in string outputValue
+        /// </summary>
+        /// <param name="hashValue">The string value for the OutputTypeEnumerator</param>
+        /// <returns>The OutputTypeEnumerator value for the passed in string.</returns>
+        static private MultipleHash.OutputTypeEnumerator GetDataTypeEnum(string outputValue)
+        {
+            switch (outputValue)
+            {
+                case "Base64String":
+                    return MultipleHash.OutputTypeEnumerator.Base64String;
+                case "HexString":
+                    return MultipleHash.OutputTypeEnumerator.HexString;
+                case "Binary":
+                default:
+                    return MultipleHash.OutputTypeEnumerator.Binary;
             }
         }
         #endregion
@@ -1326,6 +1579,46 @@ namespace Martin.SQLServer.Dts
 
         #endregion
 
+        #region Output Type Enum Helper Functions
+
+        /// <summary>
+        /// Returns the string value from the OutputTypeEnumerator enum.
+        /// </summary>
+        /// <param name="outputTypeValue">The OutputTypeEnumerator value to return a string for</param>
+        /// <returns>The string value for the OutputTypeEnumerator</returns>
+        static private string GetOutputTypeName(MultipleHash.OutputTypeEnumerator outputTypeValue)
+        {
+            switch(outputTypeValue)
+            {
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    return "Base64";
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    return "HexString";
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                default:
+                    return "Binary";
+            }
+        }
+
+        /// <summary>
+        /// Returns the OutputTypeEnumerator value for the passed in string hashValue
+        /// </summary>
+        /// <param name="outputTypeValue">The string value for the OutputTypeEnumerator</param>
+        /// <returns>The OutputTypeEnumerator value for the passed in string.</returns>
+        static private MultipleHash.OutputTypeEnumerator GetOutputTypeEnum(string outputTypeValue)
+        {
+            switch (outputTypeValue)
+            {
+                case "Base64":
+                    return MultipleHash.OutputTypeEnumerator.Base64String;
+                case "HexString":
+                    return MultipleHash.OutputTypeEnumerator.HexString;
+                case "Binary":
+                default:
+                    return MultipleHash.OutputTypeEnumerator.Binary;
+            }
+        }
+        #endregion
 
         #region GetSafeMillisecondEnum
         /// <summary>
@@ -1363,10 +1656,6 @@ namespace Martin.SQLServer.Dts
         }
         #endregion
 
-        private void tpAbout_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
     /// <summary>

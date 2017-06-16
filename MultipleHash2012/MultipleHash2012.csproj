@@ -71,15 +71,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -91,8 +97,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MultipleHash2008\IntHelpers.cs">
+      <Link>IntHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\MultipleHash2008\MultipleHash.cs">
       <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Murmur3a.cs">
+      <Link>Murmur3a.cs</Link>
     </Compile>
     <Compile Include="..\MultipleHash2008\OutputColumn.cs">
       <Link>OutputColumn.cs</Link>
@@ -146,6 +158,9 @@
     </Compile>
     <Compile Include="..\MultipleHash2008\FNV1a64.cs">
       <Link>FNV1a64.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\xxHash.cs">
+      <Link>xxHash.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -202,8 +217,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GACUtil.exe" -u $(TargetName)
+    <PostBuildEvent>REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\vsinstr" "$(TargetDir)$(TargetName).dll" -coverage -verbose
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GACUtil.exe" -u $(TargetName)
 if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\PipelineComponents\" /Y
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\110\DTS\PipelineComponents\" /Y
 if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\PipelineComponents\$(TargetName).DLL"
 if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\110\DTS\UpgradeMappings" /Y</PostBuildEvent>
   </PropertyGroup>
