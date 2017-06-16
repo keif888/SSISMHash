@@ -468,7 +468,7 @@ namespace Martin.SQLServer.Dts
             this.label8.Size = new System.Drawing.Size(415, 26);
             this.label8.TabIndex = 6;
             this.label8.Text = "This component was last updated by Keith Martin in June 2017.  This is version 1." +
-    "6.7.4\r\nTo download the latest version or get help go to:";
+    "7.0.0\r\nTo download the latest version or get help go to:";
             // 
             // panel1
             // 
