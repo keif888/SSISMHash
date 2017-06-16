@@ -4,7 +4,7 @@
 !define PRODUCT_NAME "Multiple Hash 2008"
 !define PRODUCT_VERSION "V1.6.1"
 !define PRODUCT_PUBLISHER "Keith Martin"
-!define PRODUCT_WEB_SITE "http://ssismhash.codeplex.com/"
+!define PRODUCT_WEB_SITE "https://github.com/keif888/SSISMHash/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 

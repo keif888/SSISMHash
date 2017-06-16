@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.6.4"?>
+  <?define ProductVersion = "1.6.7.4"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -14,14 +14,14 @@
 
     <Package Id="$(var.PackageCode)"
              Description="Multiple Hash SSIS Transformation Component"
-             Comments="Installs the dll's required for this component to work."
+             Comments="Installs version $(var.ProductVersion) of the dll's required for this component to work."
              InstallerVersion="300"
              Manufacturer="$(var.Manufacturer)"
              Compressed="yes"
              InstallScope="perMachine"
              Platform="x86"/>
     
-    <Property Id="ARPHELPLINK" Value="http://ssismhash.codeplex.com/" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/keif888/SSISMHash/" />
     
     <Media Id="1" Cabinet="HultipleHash.cab" EmbedCab="yes" />
 

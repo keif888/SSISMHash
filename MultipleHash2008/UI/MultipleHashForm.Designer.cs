@@ -70,10 +70,12 @@ namespace Martin.SQLServer.Dts
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailableColumns)).BeginInit();
             this.panel2.SuspendLayout();
             this.tbOutput.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutputColumns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputHashContainer)).BeginInit();
             this.outputHashContainer.Panel1.SuspendLayout();
             this.outputHashContainer.Panel2.SuspendLayout();
             this.outputHashContainer.SuspendLayout();
@@ -426,10 +428,10 @@ namespace Martin.SQLServer.Dts
             this.llCodeplex.AutoSize = true;
             this.llCodeplex.Location = new System.Drawing.Point(6, 47);
             this.llCodeplex.Name = "llCodeplex";
-            this.llCodeplex.Size = new System.Drawing.Size(160, 13);
+            this.llCodeplex.Size = new System.Drawing.Size(203, 13);
             this.llCodeplex.TabIndex = 8;
             this.llCodeplex.TabStop = true;
-            this.llCodeplex.Text = "http://ssismhash.codeplex.com/";
+            this.llCodeplex.Text = "https://github.com/keif888/SSISMHash/";
             this.llCodeplex.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCodeplex_LinkClicked);
             // 
             // label1
@@ -446,10 +448,10 @@ namespace Martin.SQLServer.Dts
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(422, 26);
+            this.label8.Size = new System.Drawing.Size(415, 26);
             this.label8.TabIndex = 6;
-            this.label8.Text = "This component was last updated by Keith Martin in March 2016.  This is version 1" +
-    ".6.5.4\r\nTo download the latest version or get help go to:";
+            this.label8.Text = "This component was last updated by Keith Martin in June 2017.  This is version 1." +
+    "6.7.4\r\nTo download the latest version or get help go to:";
             // 
             // panel1
             // 
@@ -482,10 +484,12 @@ namespace Martin.SQLServer.Dts
             this.tbOutput.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutputColumns)).EndInit();
             this.outputHashContainer.Panel1.ResumeLayout(false);
             this.outputHashContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.outputHashContainer)).EndInit();
             this.outputHashContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputColumns)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHashColumns)).EndInit();
