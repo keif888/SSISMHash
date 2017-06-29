@@ -353,7 +353,7 @@ namespace Martin.SQLServer.Dts.Tests
         [TestMethod()]
         public void GetNumberOfProcessorCoresTest()
         {
-            int expected = 8; // This has to be changed for every machine the test is run on!
+            int expected = 16; // This has to be changed for every machine the test is run on!
             int actual;
             actual = Utility.GetNumberOfProcessorCores();
             Assert.AreEqual(expected, actual);
