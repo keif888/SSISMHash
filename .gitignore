@@ -20,3 +20,15 @@
 /MultipleHashInstallerx32/obj
 /MultipleHashInstallerx64/bin
 /MultipleHashInstallerx64/obj
+/TestResults
+/UpgradeLog6.htm
+/UpgradeLog5.htm
+/UpgradeLog4.htm
+/UpgradeLog3.htm
+/UpgradeLog2.htm
+/UpgradeLog.htm
+/TestResults
+*.coverage
+*.dll
+*.pdb
+/TestResults/Deploy_keith 2017-06-28 20_13_41/Out
