@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Martin.SQLServer.Dts.Tests
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class ComponentEventHandler : IDTSComponentEvents
     {
         public List<string> errorMessages;

@@ -7,6 +7,7 @@ using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
 namespace MultipleHash2012Test.SSISImplementations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class ComponentMetaDataTestImpl : IDTSComponentMetaData100
     {
         #region IDTSComponentMetaData100 Members

@@ -6,6 +6,7 @@ using System.Text;
 
 namespace MultipleHash2012Test.SSISImplementations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class InputTestImpl : IDTSInput100
     {
         #region IDTSInput100 Members

@@ -51,25 +51,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.DTSPipelineWrap, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Microsoft.SQLServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.PipelineHost, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.SQLServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.PipelineHost.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.SqlCEDest, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
