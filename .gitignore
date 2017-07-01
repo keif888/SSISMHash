@@ -32,3 +32,4 @@
 *.dll
 *.pdb
 /TestResults/Deploy_keith 2017-06-28 20_13_41/Out
+*.htm
