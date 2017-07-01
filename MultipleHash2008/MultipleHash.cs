@@ -96,17 +96,6 @@ namespace Martin.SQLServer.Dts
     using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection100;
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
 #endif
-#if SQL2005
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
-    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty90;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
-    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
-    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
-    using IDTSVirtualInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInput90;
-    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection90;
-    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData90;
-#endif
     #endregion
 
     /// <summary>
@@ -131,9 +120,6 @@ namespace Martin.SQLServer.Dts
 #endif
 #if SQL2008
         UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
-#endif
-#if SQL2005
-        UITypeName = "Martin.SQLServer.Dts.MultipleHashUI, MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44",
 #endif
  ComponentType = ComponentType.Transform,
         CurrentVersion = 7)]
@@ -567,27 +553,6 @@ namespace Martin.SQLServer.Dts
             }
 
             IDTSInput input = ComponentMetaData.InputCollection[0];
-#if SQL2005
-            foreach (IDTSInputColumn inputColumn in input.InputColumnCollection)
-            {
-                // No support for DT_DBTIME image columns.
-                if (inputColumn.DataType == DataType.DT_DBTIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBTimeDataTypeNotSupported));
-                }
-
-                // No support for DT_DBDATE image columns.
-                if (inputColumn.DataType == DataType.DT_DBDATE)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBDateDataTypeNotSupported));
-                }
-
-                if (inputColumn.DataType == DataType.DT_FILETIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBFileTimeDataTypeNotSupported));
-                }
-            }
-#endif
 
             IDTSOutput output = ComponentMetaData.OutputCollection[0];
             bool blnHashTypeProp = false;
@@ -944,12 +909,13 @@ namespace Martin.SQLServer.Dts
         /// Clear the columns from the output collections.
         /// </summary>
         /// <param name="inputID">The id for the input.  Passed by SSIS.</param>
-        public override void OnInputPathDetached(int inputID)
-        {
-            base.OnInputPathDetached(inputID);
+        //public override void OnInputPathDetached(int inputID)
+        //{
+        //    base.OnInputPathDetached(inputID);
 
-            ComponentMetaData.OutputCollection[0].OutputColumnCollection.RemoveAll();
-        }
+        //    // Don't do this as it removes all the outputs, which means that when you reconnect, you have to setup everything again.
+        //    //ComponentMetaData.OutputCollection[0].OutputColumnCollection.RemoveAll();
+        //}
         #endregion
 
         #region InsertInput

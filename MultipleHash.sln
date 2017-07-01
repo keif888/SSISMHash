@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MultipleHash.vsmdi = MultipleHash.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2005", "MultipleHash2005\MultipleHash2005.csproj", "{A743A0A8-198F-4371-B194-642B98FEB081}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008", "MultipleHash2008\MultipleHash2008.csproj", "{91357D4A-5718-44B2-B558-5EB7BA1209D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2008Test", "MultipleHash2008Test\MultipleHash2008Test.csproj", "{BA117407-08B1-494E-928D-15D4C826D44A}"
@@ -23,7 +21,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MultipleHashInstallerx64", 
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MultipleHashInstallerx32", "MultipleHashInstallerx32\MultipleHashInstallerx32.wixproj", "{E267DF72-54B3-45B0-AF08-00DBB749C5E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2012Test", "MultipleHash2012Test\MultipleHash2012Test.csproj", "{07AF96F5-2C35-40AA-AC63-1295756DC3AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHashUnitTest", "MultipleHash2012Test\MultipleHashUnitTest.csproj", "{07AF96F5-2C35-40AA-AC63-1295756DC3AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2014", "MultipleHash2014\MultipleHash2014.csproj", "{718F92DF-9DB3-4D2F-AF88-7F7579F0A82D}"
 EndProject
@@ -45,24 +43,6 @@ Global
 		UnitTest|x86 = UnitTest|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Any CPU.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Any CPU.Build.0 = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Development|x86.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.Release|x86.ActiveCfg = Release|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.UnitTest|Any CPU.ActiveCfg = UnitTest|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.UnitTest|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A743A0A8-198F-4371-B194-642B98FEB081}.UnitTest|x86.ActiveCfg = UnitTest|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91357D4A-5718-44B2-B558-5EB7BA1209D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

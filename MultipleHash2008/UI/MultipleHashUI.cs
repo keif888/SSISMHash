@@ -93,18 +93,6 @@ namespace Martin.SQLServer.Dts
     using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection100;
     using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection100;
 #endif
-#if SQL2005
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
-    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty90;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
-    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
-    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
-    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection90;
-    using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection90;
-    using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection90;
-    using Microsoft.SqlServer.Dts.Runtime.Wrapper;
-#endif
     #endregion
 
     /// <summary>
@@ -237,24 +225,6 @@ namespace Martin.SQLServer.Dts
 
                 IDTSInputColumn inputColumn = this.DesigntimeComponent.SetUsageType(input.ID, this.VirtualInput, lineageId, DTSUsageType.UT_READONLY);
 
-#if SQL2005
-                // No support for DT_DBTIME image columns.
-                if (inputColumn.DataType == DataType.DT_DBTIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBTimeDataTypeNotSupported));
-                }
-
-                // No support for DT_DBDATE image columns.
-                if (inputColumn.DataType == DataType.DT_DBDATE)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBDateDataTypeNotSupported));
-                }
-
-                if (inputColumn.DataType == DataType.DT_FILETIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBFileTimeDataTypeNotSupported));
-                }
-#endif
                 // return the new column back to the GUI to stick into a Tag...
                 args.GeneratedColumns.InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
             }

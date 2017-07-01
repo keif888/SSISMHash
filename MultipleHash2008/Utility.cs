@@ -61,9 +61,6 @@ namespace Martin.SQLServer.Dts
 #if SQL2008
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
 #endif
-#if SQL2005
-     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-#endif
     #endregion
     /// <summary>
     /// The purpose of the Utility class is to provide a single location for routines that are
@@ -880,31 +877,22 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_NUMERIC:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDecimal(columnToProcessID));
                             break;
-#if SQL2005
-#else
                         case DataType.DT_DBTIMESTAMPOFFSET:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTimeOffset(columnToProcessID), millisecondHandling);
                             break;
                         case DataType.DT_DBDATE:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID), millisecondHandling);
                             break;
-#endif
                         case DataType.DT_DATE:
                         case DataType.DT_DBTIMESTAMP:
-#if SQL2005
-#else
                         case DataType.DT_DBTIMESTAMP2:
                         case DataType.DT_FILETIME:
-#endif
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID), millisecondHandling);
                             break;
-#if SQL2005
-#else
                         case DataType.DT_DBTIME:
                         case DataType.DT_DBTIME2:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetTime(columnToProcessID));
                             break;
-#endif
                         case DataType.DT_GUID:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetGuid(columnToProcessID));
                             break;

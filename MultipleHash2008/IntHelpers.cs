@@ -1,18 +1,5 @@
 ﻿using System;
 
-#if SQL2005
-
-namespace System.Runtime.CompilerServices
-{
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class ExtensionAttribute : Attribute
-    {
-        public ExtensionAttribute() { }
-    }
-}
-
-#endif
-
 namespace Martin.SQLServer.Dts
 {
     public static class IntHelpers

@@ -28,10 +28,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MultipleHash2008")]
 [assembly: AssemblyProduct("MultipleHash2008")]
 #endif
-#if SQL2005
-[assembly: AssemblyTitle("MultipleHash2005")]
-[assembly: AssemblyProduct("MultipleHash2005")]
-#endif
 [assembly: AssemblyDescription("SSIS Component to generate Hash(s) from input columns")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("None")]
