@@ -1,20 +1,20 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/13/2010 8:41:08 PM"
-  DTS:CreationName="Microsoft.Package"
+  DTS:CreationName="SSIS.Package.3"
   DTS:CreatorComputerName="VISUALSTUDIO"
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{F9F83F7A-94F3-4507-8B78-9BCA497C0F90}"
-  DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2344.23"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="3081"
   DTS:ObjectName="DemonstrateDuplicateHash"
   DTS:PackageType="5"
   DTS:VersionBuild="8"
-  DTS:VersionGUID="{C687FF56-3200-4CA6-9980-884C647D946D}">
+  DTS:VersionGUID="{539FABBE-A0AA-4E84-8824-456001430D44}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">8</DTS:Property>
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Source Flat File]"
@@ -68,10 +68,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Demonstrate Hash Detection Failure"
-      DTS:CreationName="Microsoft.Pipeline"
+      DTS:CreationName="SSIS.Pipeline.3"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{174C5861-9B1A-4D41-962C-71ABA5F8EEFC}"
-      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:ExecutableType="SSIS.Pipeline.3"
       DTS:LocaleID="-1"
       DTS:ObjectName="Demonstrate Hash Detection Failure"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -84,7 +84,7 @@
           <components>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Create Test Data"
-              componentClassID="Microsoft.DerivedColumn"
+              componentClassID="DTSTransform.DerivedColumn.3"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Updates column values using expressions"
               name="Create Test Data"
@@ -227,7 +227,7 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Flat File Source"
-              componentClassID="Microsoft.FlatFileSource"
+              componentClassID="DTSAdapter.FlatFileSource.3"
               contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Flat File Source"
               localeId="3081"
@@ -320,7 +320,7 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Multiple Hash"
-              componentClassID="Microsoft.ManagedComponentHost"
+              componentClassID="DTS.ManagedComponentWrapper.3"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
               version="6">
@@ -329,20 +329,20 @@
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">MultipleHash</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling">0</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
                   name="IncludeMillsecond"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling">0</property>
               </properties>
               <inputs>
                 <input
@@ -461,7 +461,7 @@
             </component>
             <component
               refId="Package\Demonstrate Hash Detection Failure\Recordset Destination"
-              componentClassID="Microsoft.RecordsetDestination"
+              componentClassID="DTSAdapter.RecordsetDestination.3"
               contactInfo="Recordset Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates and populates an in-memory ADO recordset that is available outside of the data flow. Scripts and other package elements can use the recordset. For example, use a recordset to store the names of files that will be loaded into the data warehouse."
               name="Recordset Destination">
@@ -527,7 +527,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql12">
+  Version="sql11">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="2/27/2017 10:23:27 PM"
@@ -7,12 +7,12 @@
   DTS:CreatorName="LUG\keith_000"
   DTS:DTSID="{8A451EB6-4535-4ED7-8705-FDA0A421321F}"
   DTS:ExecutableType="SSIS.Package.3"
-  DTS:LastModifiedProductVersion="13.0.1601.5"
+  DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="3081"
   DTS:ObjectName="FlatFileSource"
   DTS:PackageType="5"
   DTS:VersionBuild="2"
-  DTS:VersionGUID="{CE491E74-EFF0-408F-B88B-7A20CDA9B29E}">
+  DTS:VersionGUID="{84CBFB43-861B-4113-823B-B0D77E7C2F25}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">6</DTS:Property>
   <DTS:ConnectionManagers>
