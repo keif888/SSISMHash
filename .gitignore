@@ -33,3 +33,9 @@
 *.pdb
 /TestResults/Deploy_keith 2017-06-28 20_13_41/Out
 *.htm
+/MultipleHash2012Test/TestResults
+/SSIS2012TestMultipleHash/bin/Development
+*.psess
+*.vspx
+*.vsp
+*.user

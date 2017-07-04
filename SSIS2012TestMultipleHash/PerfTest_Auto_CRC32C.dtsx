@@ -2,19 +2,19 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="2/28/2017 6:10:32 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="LUG"
   DTS:CreatorName="LUG\keith_000"
   DTS:DTSID="{4D36CCF0-1650-4CBC-BFD4-652990799F4E}"
-  DTS:ExecutableType="SSIS.Package.3"
+  DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="2057"
   DTS:ObjectName="PerfTest_Auto_CRC32C"
   DTS:PackageType="5"
   DTS:VersionBuild="20"
-  DTS:VersionGUID="{38733A00-DD8B-4C51-B839-521982E5B030}">
+  DTS:VersionGUID="{1F3130DE-C9F7-46EA-AB6E-4817E4E5ECD5}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -38,10 +38,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Data Flow Task"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{1457DB11-5959-484D-A12F-8F0C21FB689D}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -52,7 +52,7 @@
           <components>
             <component
               refId="Package\Data Flow Task\Multiple Hash"
-              componentClassID="DTS.ManagedComponentWrapper.3"
+              componentClassID="Microsoft.ManagedComponentHost"
               contactInfo="http://ssismhash.codeplex.com/"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
@@ -75,7 +75,7 @@
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling">1</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">MultipleHash</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
               </properties>
               <inputs>
                 <input
@@ -432,11 +432,11 @@
             </component>
             <component
               refId="Package\Data Flow Task\Script Component"
-              componentClassID="DTS.ManagedComponentWrapper.3"
+              componentClassID="Microsoft.ManagedComponentHost"
               contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;8"
               description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
               name="Script Component"
-              version="6">
+              version="8">
               <properties>
                 <property
                   dataType="System.String"
@@ -445,111 +445,45 @@
                   name="SourceCode"
                   state="cdata">
                   <arrayElements
-                    arrayElementCount="20">
+                    arrayElementCount="30">
                     <arrayElement
-                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
                     <arrayElement
-                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
-*  Microsoft SQL Server Integration Services component wrapper
-*  This module defines the base class for your component
-*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
 
-using System;
-using System.Data;
-using Microsoft.SqlServer.Dts.Pipeline;
-using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
-using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_8d0962137e5c431f86055edb7a29d871")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_8d0962137e5c431f86055edb7a29d871")]
+[assembly: AssemblyCopyright("Copyright @  2017")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
 
-public class UserComponent: ScriptComponent
-{
-    public Connections Connections;
-    public Variables Variables;
-    public UserComponent()
-    {
-        Connections = new Connections(this);
-        Variables = new Variables(this);
-    }
-
-    public Output0Buffer Output0Buffer;
-
-    public virtual void FinishOutputs()
-    {
-    }
-
-    private void MarkOutputsFinished()
-    {
-
-        if (null != Output0Buffer)
-        {
-            Output0Buffer.SetEndOfRowset();
-            Output0Buffer = null;
-        }
-
-    }
-
-    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
-    {
-       for(int Idx = 0; Idx < Outputs; Idx++)
-       {
-            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Output 0"))
-            {
-                Output0Buffer = new Output0Buffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
-            }
-        }
-
-        CreateNewOutputRows();
-
-        FinishOutputs();
-        MarkOutputsFinished();
-
-    }
-
-    public virtual void CreateNewOutputRows()
-    {
-    }
-
-}
-
-public class Connections
-{
-    ScriptComponent ParentComponent;
-
-    public Connections(ScriptComponent Component)
-    {
-        ParentComponent = Component;
-    }
-
-}
-
-public class Variables
-{
-    ScriptComponent ParentComponent;
-
-    public Variables(ScriptComponent Component)
-    {
-        ParentComponent = Component;
-    }
-
-    public Int32 vElapsedSeconds
-    {
-        get
-        {
-            return (Int32)(ParentComponent.ReadOnlyVariables["vElapsedSeconds"].GetValueWithContext(ScriptComponent.EvaluatorContext));
-        }
-    }
-
-    public Int32 vRows
-    {
-        get
-        {
-            return (Int32)(ParentComponent.ReadOnlyVariables["vRows"].GetValueWithContext(ScriptComponent.EvaluatorContext));
-        }
-    }
-
-}
+[assembly: AssemblyVersion("1.0.0.0")]
 ]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <root>
@@ -670,6 +604,8 @@ public class Variables
 </root>]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
 /* The Script Component allows you to perform virtually any operation that can be accomplished in
@@ -853,6 +789,8 @@ public class ScriptMain : UserComponent
 ]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
 *  Microsoft SQL Server Integration Services buffer wrappers
@@ -1450,38 +1388,113 @@ public class Output0Buffer: ScriptBuffer
 }
 ]]></arrayElement>
                     <arrayElement
-                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
                     <arrayElement
-                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
 
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Settings.get_Default():SC_8d0962137e5c431f86055edb7a29d871.Properties.Sett" +
-    "ings")]
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
 
-namespace SC_8d0962137e5c431f86055edb7a29d871.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public Output0Buffer Output0Buffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != Output0Buffer)
+        {
+            Output0Buffer.SetEndOfRowset();
+            Output0Buffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Output 0"))
+            {
+                Output0Buffer = new Output0Buffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
             }
         }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
     }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 vElapsedSeconds
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["vElapsedSeconds"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+    public Int32 vRows
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["vRows"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
 }
 ]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
 // <auto-generated>
@@ -1553,60 +1566,65 @@ namespace SC_8d0962137e5c431f86055edb7a29d871.Properties {
                     <arrayElement
                       dataType="System.String"><![CDATA[Project]]></arrayElement>
                     <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
                       dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
-<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
 	<msb:PropertyGroup>
 		<msb:CodeName>SC_8d0962137e5c431f86055edb7a29d871</msb:CodeName>
 		<msb:Language>msBuild</msb:Language>
 		<msb:DisplayName>SC_8d0962137e5c431f86055edb7a29d871</msb:DisplayName>
-		<msb:ProjectId>{2436BE0C-AE29-4AFA-A595-AEC3267556AE}</msb:ProjectId>
+		<msb:ProjectId>{DE6A42D2-F3B4-4DCC-A992-5404BBC858A0}</msb:ProjectId>
 	</msb:PropertyGroup>
 	<msb:ItemGroup>
 		<msb:Project Include="SC_8d0962137e5c431f86055edb7a29d871.csproj"/>
-		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
 		<msb:File Include="Properties\Settings.settings"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
 		<msb:File Include="Properties\Resources.resx"/>
 		<msb:File Include="Properties\Resources.Designer.cs"/>
-		<msb:File Include="Properties\Settings.Designer.cs"/>
-		<msb:File Include="main.cs"/>
-		<msb:File Include="BufferWrapper.cs"/>
-		<msb:File Include="ComponentWrapper.cs"/>
 	</msb:ItemGroup>
 </c:Project>]]></arrayElement>
                     <arrayElement
-                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
                     <arrayElement
-                      dataType="System.String"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
 
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("SC_8d0962137e5c431f86055edb7a29d871")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SC_8d0962137e5c431f86055edb7a29d871")]
-[assembly: AssemblyCopyright("Copyright @  2017")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_8d0962137e5c431f86055edb7a29d871.Properties.Settings.get_Default():SC_8d0962137e5c431f86055edb7a29d871.Properties.Sett" +
+    "ings")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
+namespace SC_8d0962137e5c431f86055edb7a29d871.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
 ]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
 <SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
@@ -1617,6 +1635,8 @@ using System.Runtime.CompilerServices;
 </SettingsFile>]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[SC_8d0962137e5c431f86055edb7a29d871.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
                     <arrayElement
                       dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -1634,6 +1654,7 @@ using System.Runtime.CompilerServices;
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1659,13 +1680,21 @@ using System.Runtime.CompilerServices;
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.SqlServer.TxScript, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" />
     <Compile Include="main.cs" />
     <Compile Include="BufferWrapper.cs" />
     <Compile Include="ComponentWrapper.cs" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -1698,7 +1727,7 @@ using System.Runtime.CompilerServices;
         <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
         <Host Name="ScriptComponent" IconIndex="0" />
         <ProjectClient>
-          <HostIdentifier>SSIS_SC130</HostIdentifier>
+          <HostIdentifier>SSIS_SC110</HostIdentifier>
         </ProjectClient>
       </FlavorProperties>
     </VisualStudio>
@@ -1719,7 +1748,7 @@ using System.Runtime.CompilerServices;
                     <arrayElement
                       dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
-ZGUuDQ0KJAAAAAAAAABQRQAATAEDAKTsVlkAAAAAAAAAAOAAIiALATAAACoAAAAIAAAAAAAAWkgA
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACkYWlkAAAAAAAAAAOAAIiALATAAACoAAAAIAAAAAAAAWkgA
 AAAgAAAAYAAAAAAAEAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACgAAAAAgAAAAAAAAMAQIUAABAA
 ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAAhIAABPAAAAAGAAAEgEAAAAAAAAAAAAAAAAAAAA
 AAAAAIAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1824,9 +1853,9 @@ ABsAKwABABwALQABAB0ALwABAB4AMQABAB8AMwABACAANQABACEANwABACIAOQABACMAOwABACQA
 PQABACUAPwABACYAQQABACcAQwABACgARQABACkARwABACoASQABACsASwABACwATQABAC0ATwAB
 AC4AUQACAC8AUwACADAAVQABADEAVwABADIAWQABADMAWwABADQAXQABADUAXwABADYAYQACADcA
 YwACADgAZQABADkAZwABADoAaQACAEUAawACAEYAbQACAEgAbwACAEkAcQABAEoAcQACAEsAcwAE
-gAAAAQAAAAAAAAAAAAAAAABTAAAABAAAAAAAAAAAAAAA+AD0AQAAAAANAAAAAAAAAAAAAAABAT8L
-AAAAAA0AAAAAAAAAAAAAAAEBZAsAAAAABAAAAAAAAAAAAAAA+ABWBwAAAAANAAAAAAAAAAAAAAAB
-AUoIAAAAAA0AAAAAAAAAAAAAAAEBJwgAAAAAAAAAAAEAAACvCQAAAAAAAABJRFRTQ29tcG9uZW50
+gAAAAQAAAAAAAAAAAAAAAABTAAAABAAAAAAAAAAAAAAA+AD0AQAAAAALAAAAAAAAAAAAAAABAT8L
+AAAAAAsAAAAAAAAAAAAAAAEBZAsAAAAABAAAAAAAAAAAAAAA+ABWBwAAAAALAAAAAAAAAAAAAAAB
+AUoIAAAAAAsAAAAAAAAAAAAAAAEBJwgAAAAAAAAAAAEAAACvCQAAAAAAAABJRFRTQ29tcG9uZW50
 TWV0YURhdGExMDAASURUU1ZhcmlhYmxlMTAwAElEVFNWYXJpYWJsZXMxMDAASURUU0V2YWx1YXRv
 ckNvbnRleHQxMDAAU0NfOGQwOTYyMTM3ZTVjNDMxZjg2MDU1ZWRiN2EyOWQ4NzEAc2V0X0RUSTEA
 c2V0X0RUVUkxAFVJbnQzMgBUb0ludDMyAHNldF9EVERCVElNRTIAc2V0X0RUSTIAc2V0X0RUVUky
@@ -1889,7 +1918,7 @@ AEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQAaABlACAAYwBvAGwAdQBtAG4A
 IABpAG4AcwB0AGUAYQBkAC4AABFPAHUAdABwAHUAdAAgADAAAB92AEUAbABhAHAAcwBlAGQAUwBl
 AGMAbwBuAGQAcwAAC3YAUgBvAHcAcwAAcVMAQwBfADgAZAAwADkANgAyADEAMwA3AGUANQBjADQA
 MwAxAGYAOAA2ADAANQA1AGUAZABiADcAYQAyADkAZAA4ADcAMQAuAFAAcgBvAHAAZQByAHQAaQBl
-AHMALgBSAGUAcwBvAHUAcgBjAGUAcwAAWbobIlv0TEyGk0NYshvOwQAEIAEBCAMgAAEFIAEBEREE
+AHMALgBSAGUAcwBvAHUAcgBjAGUAcwAAtfh/0sE/z0CsaTcL3p+KNQAEIAEBCAMgAAEFIAEBEREE
 IAEBDgUgAQEReQQAABE9BgcDEkEDCAMgAA0EAAENDQQAAQgNBAABAwgFIAESQQMDIAAOBwcDCBE9
 EUUFAAERVQgEIAARRQQAABFZBQABEVUNBwACEVURVQgEAAARYQgAAhFFET0RPQUgABKAlQUAAg4O
 HAIGDgggBQEIDg4OCAkgAwESTR0IElEFIAIBCBwDBhJNAwYdCAQgARwIBCABAggDIAACAwcBCAYA
@@ -1962,17 +1991,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                   dataType="System.String"
                   description="Specifies the programming language used by the script."
                   name="ScriptLanguage"
-                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages, Microsoft.SqlServer.VSTAScriptingLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">CSharp</property>
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages, Microsoft.SqlServer.VSTAScriptingLib, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">CSharp</property>
                 <property
                   dataType="System.String"
                   description="Specifies a comma-separated list of read-only variables."
                   name="ReadOnlyVariables"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">User::vElapsedSeconds,User::vRows</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">User::vElapsedSeconds,User::vRows</property>
                 <property
                   dataType="System.String"
                   description="Specifies a comma-separated list of read/write variables."
                   name="ReadWriteVariables"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.String"
                   description="List of breakpoints present on the script."
@@ -1994,7 +2023,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                   typeConverter="NOTBROWSABLE">a0b9c5f539039db6e2f81667c2cbe4029e64d203</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Microsoft.SqlServer.Dts.Pipeline.ScriptComponentHost, Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</property>
+                  name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
               </properties>
               <outputs>
                 <output
@@ -2149,7 +2178,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
             </component>
             <component
               refId="Package\Data Flow Task\Trash Destination"
-              componentClassID="DTS.ManagedComponentWrapper.3"
+              componentClassID="Microsoft.ManagedComponentHost"
               contactInfo="Trash Destination; http://www.konesans.com"
               description="Terminate the data flow path"
               name="Trash Destination">
@@ -2379,7 +2408,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">

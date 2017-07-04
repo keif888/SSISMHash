@@ -278,6 +278,8 @@ namespace Martin.SQLServer.Dts
                 {
                     if (millisecondHandling)  // Keep the "old" format prior to 10534 if no milliseconds.  (Date types).
                     {
+                        //writer.Write(String.Format("{0:D4}-{1:D2}-{2:D2} {3:D2}:{4:D2}:{5:D2}.{6:D7}", value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond));  // This isn't faster :-(
+                        // The following call is the slowest in the hashing function.  But the one above is slower.
                         writer.Write(value.ToString("yyyy-MM-dd HH:mm:ss.fffffff"));   // Issue 10534 Fix (Change from u to yyyy-MM-dd HH:mm:ss.fffffff).
                     }
                     else
@@ -848,16 +850,18 @@ namespace Martin.SQLServer.Dts
             string nullHandling = String.Empty;
             uint blobLength = 0;
             Int32 columnToProcessID = 0;
+            DataType columnDataType = DataType.DT_NULL;
 
             // Step through each input column for that output column
             for (int j = 0; j < columnToProcess.Count; j++)
             {
-                columnToProcessID = columnToProcess[j];  // Only call this once, as it appears to be "slow".
+                columnToProcessID = columnToProcess[j].ColumnId;  // Only call this once, as it appears to be "slow".
+                columnDataType = columnToProcess[j].ColumnDataType;
                 // Skip NULL values, as they "don't" exist...
                 if (!buffer.IsNull(columnToProcessID))
                 {
                     nullHandling += "N";
-                    switch (buffer.GetColumnInfo(columnToProcessID).DataType)
+                    switch (columnDataType) //buffer.GetColumnInfo(columnToProcessID).DataType)
                     {
                         case DataType.DT_BOOL:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetBoolean(columnToProcessID));

@@ -91,6 +91,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MHashColumnInformationTest.cs" />
     <Compile Include="ComponentEventHandler.cs" />
     <Compile Include="IntHelpersTests.cs" />
     <Compile Include="Murmur3aTests.cs" />

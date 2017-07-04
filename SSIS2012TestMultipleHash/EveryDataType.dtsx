@@ -2,19 +2,19 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="5/11/2010 7:50:47 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="VISUALSTUDIO"
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{A8CA8A63-2D08-4451-AF50-BA94623FF3B8}"
-  DTS:ExecutableType="SSIS.Package.3"
+  DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="3081"
   DTS:ObjectName="EveryDataType"
   DTS:PackageType="5"
   DTS:VersionBuild="14"
-  DTS:VersionGUID="{9542D53E-6F98-4938-BD86-C92517F1037D}">
+  DTS:VersionGUID="{088FC111-782A-4466-AB42-6F204A6C5691}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[MultipleHash.cs]"
@@ -68,10 +68,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Data Flow Task"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{3AF9501C-963D-4822-A7C0-B4B774EBF12A}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -84,7 +84,7 @@
           <components>
             <component
               refId="Package\Data Flow Task\Derived Column"
-              componentClassID="DTSTransform.DerivedColumn.3"
+              componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Updates column values using expressions"
               name="Derived Column"
@@ -771,7 +771,7 @@
             </component>
             <component
               refId="Package\Data Flow Task\Flat File Source"
-              componentClassID="DTSAdapter.FlatFileSource.3"
+              componentClassID="Microsoft.FlatFileSource"
               contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Flat File Source"
               localeId="3081"
@@ -864,10 +864,10 @@
             </component>
             <component
               refId="Package\Data Flow Task\Multiple Hash"
-              componentClassID="DTS.ManagedComponentWrapper.3"
+              componentClassID="Microsoft.ManagedComponentHost"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="6">
+              version="7">
               <properties>
                 <property
                   dataType="System.Int32"
@@ -876,7 +876,7 @@
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">MultipleHash</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
@@ -1079,6 +1079,11 @@
                           dataType="System.String"
                           description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
                           name="InputColumnLineageIDs">#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 13]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 14]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 15]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 16]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 17]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 18]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 19]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 20]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 21]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 22]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 23]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 24]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 25]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 26]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 27]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 28]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -1088,7 +1093,7 @@
             </component>
             <component
               refId="Package\Data Flow Task\Recordset Destination"
-              componentClassID="DTSAdapter.RecordsetDestination.3"
+              componentClassID="Microsoft.RecordsetDestination"
               contactInfo="Recordset Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates and populates an in-memory ADO recordset."
               name="Recordset Destination">
@@ -1142,7 +1147,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">

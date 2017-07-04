@@ -54,7 +54,7 @@ namespace MultipleHash2012Test.SSISImplementations
 
         public void GetColumnInfo(int hBufferType, int hCol, ref DTP_BUFFCOL pCol)
         {
-            throw new NotImplementedException();
+            pCol.DataType = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BOOL;
         }
 
         public int GetRowWidth(int hBufferType)

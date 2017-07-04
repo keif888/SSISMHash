@@ -2,19 +2,19 @@
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="2/27/2017 10:23:27 PM"
-  DTS:CreationName="SSIS.Package.3"
+  DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="LUG"
   DTS:CreatorName="LUG\keith_000"
   DTS:DTSID="{8A451EB6-4535-4ED7-8705-FDA0A421321F}"
-  DTS:ExecutableType="SSIS.Package.3"
+  DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="3081"
   DTS:ObjectName="FlatFileSource"
   DTS:PackageType="5"
   DTS:VersionBuild="2"
-  DTS:VersionGUID="{84CBFB43-861B-4113-823B-B0D77E7C2F25}">
+  DTS:VersionGUID="{EE2E786F-5678-493A-A45B-D3C97ECCE24F}">
   <DTS:Property
-    DTS:Name="PackageFormatVersion">6</DTS:Property>
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
@@ -86,10 +86,10 @@
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Data Flow Task"
-      DTS:CreationName="SSIS.Pipeline.3"
+      DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{EA6D443C-D08E-482C-B003-C90C27B87A3D}"
-      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -100,7 +100,7 @@
           <components>
             <component
               refId="Package\Data Flow Task\Flat File Source"
-              componentClassID="DTSAdapter.FlatFileSource.3"
+              componentClassID="Microsoft.FlatFileSource"
               contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Flat File Source"
               localeId="3081"
@@ -313,7 +313,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql11">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">

@@ -95,6 +95,9 @@
     <Compile Include="..\MultipleHash2008\IntHelpers.cs">
       <Link>IntHelpers.cs</Link>
     </Compile>
+    <Compile Include="..\MultipleHash2008\MHashColumnInformation.cs">
+      <Link>MHashColumnInformation.cs</Link>
+    </Compile>
     <Compile Include="..\MultipleHash2008\MultipleHash.cs">
       <Link>MultipleHash.cs</Link>
     </Compile>

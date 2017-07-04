@@ -35,12 +35,13 @@ namespace Martin.SQLServer.Dts.Tests
         {
             OutputColumn target = new OutputColumn();
             int index = 0;
-            int expected = 25;
-            int actual;
-            target.Add(0);
-            target[index] = expected;
+            MHashColumnInformation expected = new MHashColumnInformation(25, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BOOL);
+            MHashColumnInformation actual;
+            target.Add(new MHashColumnInformation(25, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BOOL));
+            target[index] = new MHashColumnInformation(25, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_BOOL);
             actual = target[index];
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.ColumnDataType, actual.ColumnDataType);
+            Assert.AreEqual(expected.ColumnId, actual.ColumnId);
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace Martin.SQLServer.Dts.Tests
             int actual;
             actual = target.Count;
             Assert.AreEqual(0, actual);
-            target.Add(12);
+            target.Add(new MHashColumnInformation(12, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I2));
             actual = target.Count;
             Assert.AreEqual(1, actual);
         }
@@ -108,12 +109,12 @@ namespace Martin.SQLServer.Dts.Tests
 
             target.AddColumnInformation(bufferManager, output, input, outputColumnIndex);
             Assert.AreEqual(6, target.Count, "The number of items in the list");
-            Assert.AreEqual(1, target[0], "The first input");
-            Assert.AreEqual(2, target[1], "The second input");
-            Assert.AreEqual(3, target[2], "The third input");
-            Assert.AreEqual(4, target[3], "The forth input");
-            Assert.AreEqual(5, target[4], "The fifth input");
-            Assert.AreEqual(6, target[5], "The sixth input");
+            Assert.AreEqual(1, target[0].ColumnId, "The first input");
+            Assert.AreEqual(2, target[1].ColumnId, "The second input");
+            Assert.AreEqual(3, target[2].ColumnId, "The third input");
+            Assert.AreEqual(4, target[3].ColumnId, "The forth input");
+            Assert.AreEqual(5, target[4].ColumnId, "The fifth input");
+            Assert.AreEqual(6, target[5].ColumnId, "The sixth input");
             Assert.AreEqual(MultipleHash.HashTypeEnumerator.MD5, target.HashType, "Hash");
             Assert.AreEqual(MD5.Create().ToString(), target.HashObject.ToString(), "Hash Object");
         }
@@ -192,12 +193,12 @@ namespace Martin.SQLServer.Dts.Tests
 
             target.AddColumnInformation(bufferManager, output, input, outputColumnIndex);
             Assert.AreEqual(6, target.Count, "The number of items in the list");
-            Assert.AreEqual(1, target[0], "The first input");
-            Assert.AreEqual(2, target[1], "The second input");
-            Assert.AreEqual(3, target[2], "The third input");
-            Assert.AreEqual(4, target[3], "The forth input");
-            Assert.AreEqual(5, target[4], "The fifth input");
-            Assert.AreEqual(6, target[5], "The sixth input");
+            Assert.AreEqual(1, target[0].ColumnId, "The first input");
+            Assert.AreEqual(2, target[1].ColumnId, "The second input");
+            Assert.AreEqual(3, target[2].ColumnId, "The third input");
+            Assert.AreEqual(4, target[3].ColumnId, "The forth input");
+            Assert.AreEqual(5, target[4].ColumnId, "The fifth input");
+            Assert.AreEqual(6, target[5].ColumnId, "The sixth input");
             Assert.AreEqual(MultipleHash.HashTypeEnumerator.RipeMD160, target.HashType, "Hash");
             Assert.AreEqual(RIPEMD160.Create().ToString(), target.HashObject.ToString(), "Hash Object");
         }
@@ -255,13 +256,12 @@ namespace Martin.SQLServer.Dts.Tests
         public void AddTest()
         {
             OutputColumn target = new OutputColumn();
-            int inputColumnId = 10;
-            int expected = 0;
+            MHashColumnInformation expected = new MHashColumnInformation(0, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8);
             int actual;
-            actual = target.Add(inputColumnId);
-            Assert.AreEqual(expected, actual);
-            actual = target.Add(++inputColumnId);
-            Assert.AreEqual(++expected, actual);
+            actual = target.Add(new MHashColumnInformation(0, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8));
+            Assert.AreEqual(0, actual);
+            actual = target.Add(new MHashColumnInformation(0, Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I4));
+            Assert.AreEqual(1, actual);
         }
 
         /// <summary>
