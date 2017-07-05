@@ -54,6 +54,11 @@
           <References />
         </DtsPackage>
         <DtsPackage FormatVersion="8">
+          <Name>PerfTest_Auto_CRC32_V6.dtsx</Name>
+          <FullPath>PerfTest_Auto_CRC32_V6.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
           <Name>PerfTest_Auto_CRC32C.dtsx</Name>
           <FullPath>PerfTest_Auto_CRC32C.dtsx</FullPath>
           <References />
@@ -68,6 +73,16 @@
           <FullPath>PerfTest_Auto_FNV1a64.dtsx</FullPath>
           <References />
         </DtsPackage>
+        <DtsPackage FormatVersion="0">
+          <Name>PerfTest_Auto_SHA512_V6.dtsx</Name>
+          <FullPath>PerfTest_Auto_SHA512_V6.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="0">
+          <Name>PerfTest_Auto_FNV1a64_V6.dtsx</Name>
+          <FullPath>PerfTest_Auto_FNV1a64_V6.dtsx</FullPath>
+          <References />
+        </DtsPackage>
         <DtsPackage FormatVersion="8">
           <Name>PerfTest_Auto_MD160.dtsx</Name>
           <FullPath>PerfTest_Auto_MD160.dtsx</FullPath>
@@ -76,6 +91,11 @@
         <DtsPackage FormatVersion="8">
           <Name>PerfTest_Auto_MD5.dtsx</Name>
           <FullPath>PerfTest_Auto_MD5.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>PerfTest_Auto_MD5_V6.dtsx</Name>
+          <FullPath>PerfTest_Auto_MD5_V6.dtsx</FullPath>
           <References />
         </DtsPackage>
         <DtsPackage FormatVersion="8">
@@ -171,6 +191,16 @@
         <DtsPackage FormatVersion="8">
           <Name>PerfTest_None_xxHash.dtsx</Name>
           <FullPath>PerfTest_None_xxHash.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>PerfTest_On_MD5_v6.dtsx</Name>
+          <FullPath>PerfTest_On_MD5_v6.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>PerfTest_On_MD5_V7.dtsx</Name>
+          <FullPath>PerfTest_On_MD5_V7.dtsx</FullPath>
           <References />
         </DtsPackage>
         <DtsPackage FormatVersion="8">

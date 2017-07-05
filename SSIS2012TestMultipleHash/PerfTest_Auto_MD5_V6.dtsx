@@ -1,0 +1,1179 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/5/2017 9:09:53 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SUGASG11"
+  DTS:CreatorName="SUGASG11\keith"
+  DTS:DTSID="{50D0BFF1-6484-40FD-8F71-26C1D7653B6C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.0600.250"
+  DTS:LocaleID="3081"
+  DTS:ObjectName="PerfTest_Auto_MD5_V6"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{78850473-AD96-44B3-809A-FE8E31C8AA8D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D08182CE-A538-4F1E-8A3C-171B169EFAFB}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Multiple Hash"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="https://github.com/keif888/SSISMHash/"
+              description="Creates Multiple Hash's from selected input columns."
+              name="Multiple Hash">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Select the number of threads to use"
+                  name="MultipleThreads"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
+                  name="SafeNullHandling"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
+                  name="IncludeMillsecond"
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling">1</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">MultipleHash</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Multiple Hash.Inputs[Input]"
+                  name="Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_BOOL]"
+                      cachedDataType="bool"
+                      cachedName="DT_BOOL"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_CY]"
+                      cachedDataType="cy"
+                      cachedName="DT_CY"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBDATE]"
+                      cachedDataType="dbDate"
+                      cachedName="DT_DBDATE"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIME]"
+                      cachedDataType="dbTime"
+                      cachedName="DT_DBTIME"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIME2]"
+                      cachedDataType="dbTime2"
+                      cachedName="DT_DBTIME2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMP]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DT_DBTIMESTAMP"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMP2]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DT_DBTIMESTAMP2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DBTIMESTAMPOFFSET]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="DT_DBTIMESTAMPOFFSET"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DATE]"
+                      cachedDataType="date"
+                      cachedName="DT_DATE"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_DECIMAL]"
+                      cachedDataType="decimal"
+                      cachedName="DT_DECIMAL"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_R8]"
+                      cachedDataType="r8"
+                      cachedName="DT_R8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I8]"
+                      cachedDataType="i8"
+                      cachedName="DT_I8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI8]"
+                      cachedDataType="ui8"
+                      cachedName="DT_UI8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_R4]"
+                      cachedDataType="r4"
+                      cachedName="DT_R4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I4]"
+                      cachedDataType="i4"
+                      cachedName="DT_I4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI4]"
+                      cachedDataType="ui4"
+                      cachedName="DT_UI4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_NUMERIC]"
+                      cachedDataType="numeric"
+                      cachedName="DT_NUMERIC"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I1]"
+                      cachedDataType="i1"
+                      cachedName="DT_I1"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI1]"
+                      cachedDataType="ui1"
+                      cachedName="DT_UI1"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_STR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="256"
+                      cachedName="DT_STR"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_I2]"
+                      cachedDataType="i2"
+                      cachedName="DT_I2"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_UI2]"
+                      cachedDataType="ui2"
+                      cachedName="DT_UI2"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_WSTR]"
+                      cachedDataType="wstr"
+                      cachedLength="256"
+                      cachedName="DT_WSTR"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Inputs[Input].Columns[DT_GUID]"
+                      cachedDataType="guid"
+                      cachedName="DT_GUID"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput]"
+                  description="Hashed rows are directed to this output."
+                  name="HashedOutput"
+                  synchronousInputId="Package\Data Flow Task\Multiple Hash.Inputs[Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 0]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 0]"
+                      name="Output Column 0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 1]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 1]"
+                      name="Output Column 1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 2]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 2]"
+                      name="Output Column 2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 3]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 3]"
+                      name="Output Column 3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 4]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 4]"
+                      name="Output Column 4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 5]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 5]"
+                      name="Output Column 5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 6]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 6]"
+                      name="Output Column 6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 7]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 7]"
+                      name="Output Column 7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 8]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 8]"
+                      name="Output Column 8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 9]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 9]"
+                      name="Output Column 9">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 10]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 10]"
+                      name="Output Column 10">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 11]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 11]"
+                      name="Output Column 11">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 12]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 12]"
+                      name="Output Column 12">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 13]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 13]"
+                      name="Output Column 13">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 14]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 14]"
+                      name="Output Column 14">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 15]"
+                      dataType="bytes"
+                      length="16"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 15]"
+                      name="Output Column 15">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Select the Hash Type that will be used for this output column."
+                          name="HashType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
+                          name="InputColumnLineageIDs">#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]},#{Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Null Destination"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="https://github.com/keif888/NullDestination/"
+              description="Destination that just dumps all the records into a null output."
+              name="Null Destination">
+              <properties>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">NullDestination</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput]"
+                  hasSideEffects="true"
+                  name="TrashInput">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_BOOL]"
+                      cachedDataType="bool"
+                      cachedName="DT_BOOL"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_CY]"
+                      cachedDataType="cy"
+                      cachedName="DT_CY"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBDATE]"
+                      cachedDataType="dbDate"
+                      cachedName="DT_DBDATE"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBTIME]"
+                      cachedDataType="dbTime"
+                      cachedName="DT_DBTIME"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBTIME2]"
+                      cachedDataType="dbTime2"
+                      cachedName="DT_DBTIME2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMP]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DT_DBTIMESTAMP"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMP2]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="DT_DBTIMESTAMP2"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DBTIMESTAMPOFFSET]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="DT_DBTIMESTAMPOFFSET"
+                      cachedScale="7"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DATE]"
+                      cachedDataType="date"
+                      cachedName="DT_DATE"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_DECIMAL]"
+                      cachedDataType="decimal"
+                      cachedName="DT_DECIMAL"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_R8]"
+                      cachedDataType="r8"
+                      cachedName="DT_R8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_I8]"
+                      cachedDataType="i8"
+                      cachedName="DT_I8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_UI8]"
+                      cachedDataType="ui8"
+                      cachedName="DT_UI8"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_R4]"
+                      cachedDataType="r4"
+                      cachedName="DT_R4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_I4]"
+                      cachedDataType="i4"
+                      cachedName="DT_I4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_UI4]"
+                      cachedDataType="ui4"
+                      cachedName="DT_UI4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_NUMERIC]"
+                      cachedDataType="numeric"
+                      cachedName="DT_NUMERIC"
+                      cachedPrecision="18"
+                      cachedScale="4"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_I1]"
+                      cachedDataType="i1"
+                      cachedName="DT_I1"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_UI1]"
+                      cachedDataType="ui1"
+                      cachedName="DT_UI1"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_STR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="256"
+                      cachedName="DT_STR"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_I2]"
+                      cachedDataType="i2"
+                      cachedName="DT_I2"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_UI2]"
+                      cachedDataType="ui2"
+                      cachedName="DT_UI2"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_WSTR]"
+                      cachedDataType="wstr"
+                      cachedLength="256"
+                      cachedName="DT_WSTR"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[DT_GUID]"
+                      cachedDataType="guid"
+                      cachedName="DT_GUID"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 0]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 0"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 0]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 1]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 1"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 2]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 2"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 3]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 3"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 4]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 4"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 4]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 5]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 5"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 5]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 6]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 6"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 6]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 7]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 7"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 7]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 8]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 8"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 8]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 9]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 9"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 9]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 10]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 10"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 10]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 11]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 11"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 11]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 12]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 12"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 12]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 13]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 13"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 13]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 14]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 14"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 14]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Null Destination.Inputs[TrashInput].Columns[Output Column 15]"
+                      cachedDataType="bytes"
+                      cachedLength="16"
+                      cachedName="Output Column 15"
+                      lineageId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput].Columns[Output Column 15]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Raw File Source"
+              componentClassID="Microsoft.RawSource"
+              contactInfo="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers.;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Reads raw data from a flat file that was previously written by the Raw File destination. For example, allow packages to run faster by reading from a local raw file instead of a slow source or manually distribute data for parallel processing on multiple computers."
+              name="Raw File Source"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the file."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Output file name"
+                  name="FileName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Test\PerfTestRawFile.raw</property>
+                <property
+                  dataType="System.Null"
+                  description="Name of the variable that contains the file name"
+                  name="FileNameVariable" />
+              </properties>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output]"
+                  name="Raw File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]"
+                      dataType="bool"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_BOOL]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_BOOL]"
+                      name="DT_BOOL" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]"
+                      dataType="cy"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_CY]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_CY]"
+                      name="DT_CY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]"
+                      dataType="dbDate"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBDATE]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBDATE]"
+                      name="DT_DBDATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]"
+                      dataType="dbTime"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIME]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME]"
+                      name="DT_DBTIME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]"
+                      dataType="dbTime2"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIME2]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIME2]"
+                      name="DT_DBTIME2"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]"
+                      dataType="dbTimeStamp"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMP]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP]"
+                      name="DT_DBTIMESTAMP" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]"
+                      dataType="dbTimeStamp2"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMP2]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMP2]"
+                      name="DT_DBTIMESTAMP2"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]"
+                      dataType="dbTimeStampOffset"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMPOFFSET]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DBTIMESTAMPOFFSET]"
+                      name="DT_DBTIMESTAMPOFFSET"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]"
+                      dataType="date"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DATE]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DATE]"
+                      name="DT_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]"
+                      dataType="decimal"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DECIMAL]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_DECIMAL]"
+                      name="DT_DECIMAL"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]"
+                      dataType="r8"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_R8]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R8]"
+                      name="DT_R8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]"
+                      dataType="i8"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I8]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I8]"
+                      name="DT_I8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]"
+                      dataType="ui8"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI8]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI8]"
+                      name="DT_UI8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]"
+                      dataType="r4"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_R4]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_R4]"
+                      name="DT_R4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I4]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I4]"
+                      name="DT_I4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]"
+                      dataType="ui4"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI4]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI4]"
+                      name="DT_UI4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]"
+                      dataType="numeric"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_NUMERIC]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_NUMERIC]"
+                      name="DT_NUMERIC"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]"
+                      dataType="i1"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I1]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I1]"
+                      name="DT_I1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]"
+                      dataType="ui1"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI1]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI1]"
+                      name="DT_UI1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]"
+                      codePage="1252"
+                      dataType="str"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_STR]"
+                      length="256"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_STR]"
+                      name="DT_STR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]"
+                      dataType="i2"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I2]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_I2]"
+                      name="DT_I2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]"
+                      dataType="ui2"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI2]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_UI2]"
+                      name="DT_UI2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_WSTR]"
+                      length="256"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_WSTR]"
+                      name="DT_WSTR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]"
+                      dataType="guid"
+                      externalMetadataColumnId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_GUID]"
+                      lineageId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].Columns[DT_GUID]"
+                      name="DT_GUID" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_BOOL]"
+                      dataType="bool"
+                      name="DT_BOOL" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_CY]"
+                      dataType="cy"
+                      name="DT_CY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBDATE]"
+                      dataType="dbDate"
+                      name="DT_DBDATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIME]"
+                      dataType="dbTime"
+                      name="DT_DBTIME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIME2]"
+                      dataType="dbTime2"
+                      name="DT_DBTIME2"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMP]"
+                      dataType="dbTimeStamp"
+                      name="DT_DBTIMESTAMP" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMP2]"
+                      dataType="dbTimeStamp2"
+                      name="DT_DBTIMESTAMP2"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DBTIMESTAMPOFFSET]"
+                      dataType="dbTimeStampOffset"
+                      name="DT_DBTIMESTAMPOFFSET"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DATE]"
+                      dataType="date"
+                      name="DT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_DECIMAL]"
+                      dataType="decimal"
+                      name="DT_DECIMAL"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_R8]"
+                      dataType="r8"
+                      name="DT_R8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I8]"
+                      dataType="i8"
+                      name="DT_I8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI8]"
+                      dataType="ui8"
+                      name="DT_UI8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_R4]"
+                      dataType="r4"
+                      name="DT_R4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I4]"
+                      dataType="i4"
+                      name="DT_I4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI4]"
+                      dataType="ui4"
+                      name="DT_UI4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_NUMERIC]"
+                      dataType="numeric"
+                      name="DT_NUMERIC"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I1]"
+                      dataType="i1"
+                      name="DT_I1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI1]"
+                      dataType="ui1"
+                      name="DT_UI1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_STR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="256"
+                      name="DT_STR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_I2]"
+                      dataType="i2"
+                      name="DT_I2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_UI2]"
+                      dataType="ui2"
+                      name="DT_UI2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_WSTR]"
+                      dataType="wstr"
+                      length="256"
+                      name="DT_WSTR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output].ExternalColumns[DT_GUID]"
+                      dataType="guid"
+                      name="DT_GUID" />
+                  </externalMetadataColumns>
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[HashedOutput]"
+              endId="Package\Data Flow Task\Null Destination.Inputs[TrashInput]"
+              name="HashedOutput"
+              startId="Package\Data Flow Task\Multiple Hash.Outputs[HashedOutput]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Raw File Source Output]"
+              endId="Package\Data Flow Task\Multiple Hash.Inputs[Input]"
+              name="Raw File Source Output"
+              startId="Package\Data Flow Task\Raw File Source.Outputs[Raw File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="114,116" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Data Flow Task\Raw File Source"
+          TopLeft="208,74" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Data Flow Task\Multiple Hash"
+          TopLeft="199,232" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Raw File Source Output]"
+          TopLeft="285,116">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15,116"
+              Start="0,0"
+              End="-15,108.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,54"
+                    Point2="0,58"
+                    Point3="-4,58" />
+                  <mssgle:LineSegment
+                    End="-11,58" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11,58"
+                    Point2="-15,58"
+                    Point3="-15,62" />
+                  <mssgle:LineSegment
+                    End="-15,108.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Data Flow Task\Null Destination"
+          TopLeft="171,356" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[HashedOutput]"
+          TopLeft="270,274">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-22.5,82"
+              Start="0,0"
+              End="-22.5,74.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37"
+                    Point2="0,41"
+                    Point3="-4,41" />
+                  <mssgle:LineSegment
+                    End="-18.5,41" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,41"
+                    Point2="-22.5,41"
+                    Point3="-22.5,45" />
+                  <mssgle:LineSegment
+                    End="-22.5,74.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
