@@ -61,9 +61,6 @@ namespace Martin.SQLServer.Dts
 #if SQL2008
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
 #endif
-#if SQL2005
-     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-#endif
     #endregion
     /// <summary>
     /// The purpose of the Utility class is to provide a single location for routines that are
@@ -131,14 +128,19 @@ namespace Martin.SQLServer.Dts
         /// This is the name of the SSIS Propery that holds the Millisecond handling details.
         /// </summary>
         private const string ConstMillsecondPropName = "IncludeMillsecond";
+
+        /// <summary>
+        /// This is the name of the SSIS property that holds the output type details.
+        /// </summary>
+        private const string ConstOutputTypePropName = "HashOutputType";
         #endregion
 
         /// <summary>
         /// Prevents a default instance of the Utility class from being created.
         /// </summary>
-        private Utility()
-        {
-        }
+        //private Utility()
+        //{
+        //}
 
         /// <summary>
         /// Gets the hash property name
@@ -160,6 +162,17 @@ namespace Martin.SQLServer.Dts
             { 
                 return ConstInputColumnLineagePropName; 
             } 
+        }
+
+        /// <summary>
+        /// Gets the output columns output type property name
+        /// </summary>
+        public static string OutputColumnOutputTypePropName
+        {
+            get
+            {
+                return ConstOutputTypePropName;
+            }
         }
 
         /// <summary>
@@ -265,6 +278,8 @@ namespace Martin.SQLServer.Dts
                 {
                     if (millisecondHandling)  // Keep the "old" format prior to 10534 if no milliseconds.  (Date types).
                     {
+                        //writer.Write(String.Format("{0:D4}-{1:D2}-{2:D2} {3:D2}:{4:D2}:{5:D2}.{6:D7}", value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond));  // This isn't faster :-(
+                        // The following call is the slowest in the hashing function.  But the one above is slower.
                         writer.Write(value.ToString("yyyy-MM-dd HH:mm:ss.fffffff"));   // Issue 10534 Fix (Change from u to yyyy-MM-dd HH:mm:ss.fffffff).
                     }
                     else
@@ -697,40 +712,110 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         /// <param name="propertyValue">The type of output that is to be produced</param>
         /// <param name="outputColumn">The column to configure</param>
-        public static void SetOutputColumnDataType(MultipleHash.HashTypeEnumerator propertyValue, IDTSOutputColumn outputColumn)
+        public static void SetOutputColumnDataType(MultipleHash.HashTypeEnumerator propertyValue, MultipleHash.OutputTypeEnumerator dataTypeValue, IDTSOutputColumn outputColumn)
         {
-            switch (propertyValue)
+            switch (dataTypeValue)
             {
-                case MultipleHash.HashTypeEnumerator.None:
-                case MultipleHash.HashTypeEnumerator.MD5:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 16, 0, 0, 0);
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    switch (propertyValue)
+                    {
+                        case MultipleHash.HashTypeEnumerator.None:
+                        case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 34, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.RipeMD160:
+                        case MultipleHash.HashTypeEnumerator.SHA1:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 42, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA256:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 66, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA384:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 98, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA512:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 130, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.CRC32:
+                        case MultipleHash.HashTypeEnumerator.CRC32C:
+                        case MultipleHash.HashTypeEnumerator.FNV1a32:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 10, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 18, 0, 0, 1252);
+                            break;
+                    }
                     break;
-                case MultipleHash.HashTypeEnumerator.RipeMD160:
-                case MultipleHash.HashTypeEnumerator.SHA1:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 20, 0, 0, 0);
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    switch (propertyValue)
+                    {
+                        case MultipleHash.HashTypeEnumerator.None:
+                        case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 24, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.RipeMD160:
+                        case MultipleHash.HashTypeEnumerator.SHA1:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 28, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA256:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 44, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA384:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 64, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA512:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 88, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.CRC32:
+                        case MultipleHash.HashTypeEnumerator.CRC32C:
+                        case MultipleHash.HashTypeEnumerator.FNV1a32:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 8, 0, 0, 1252);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
+                            outputColumn.SetDataTypeProperties(DataType.DT_STR, 12, 0, 0, 1252);
+                            break;
+                    }
                     break;
-                case MultipleHash.HashTypeEnumerator.SHA256:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 32, 0, 0, 0);
-                    break;
-                case MultipleHash.HashTypeEnumerator.SHA384:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 48, 0, 0, 0);
-                    break;
-                case MultipleHash.HashTypeEnumerator.SHA512:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 64, 0, 0, 0);
-                    break;
-                case MultipleHash.HashTypeEnumerator.CRC32:
-                case MultipleHash.HashTypeEnumerator.CRC32C:
-                case MultipleHash.HashTypeEnumerator.FNV1a32:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 4, 0, 0, 0);
-                    break;
-                case MultipleHash.HashTypeEnumerator.FNV1a64:
-                    outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 8, 0, 0, 0);
-                    break;
-
+                case MultipleHash.OutputTypeEnumerator.Binary:
                 default:
+                    switch (propertyValue)
+                    {
+                        case MultipleHash.HashTypeEnumerator.None:
+                        case MultipleHash.HashTypeEnumerator.MD5:
+                        case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 16, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.RipeMD160:
+                        case MultipleHash.HashTypeEnumerator.SHA1:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 20, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA256:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 32, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA384:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 48, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.SHA512:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 64, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.CRC32:
+                        case MultipleHash.HashTypeEnumerator.CRC32C:
+                        case MultipleHash.HashTypeEnumerator.FNV1a32:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 4, 0, 0, 0);
+                            break;
+                        case MultipleHash.HashTypeEnumerator.FNV1a64:
+                        case MultipleHash.HashTypeEnumerator.xxHash:
+                            outputColumn.SetDataTypeProperties(DataType.DT_BYTES, 8, 0, 0, 0);
+                            break;
+                    }
                     break;
             }
         }
+
         #endregion
 
         #region System Information
@@ -765,16 +850,18 @@ namespace Martin.SQLServer.Dts
             string nullHandling = String.Empty;
             uint blobLength = 0;
             Int32 columnToProcessID = 0;
+            DataType columnDataType = DataType.DT_NULL;
 
             // Step through each input column for that output column
             for (int j = 0; j < columnToProcess.Count; j++)
             {
-                columnToProcessID = columnToProcess[j];  // Only call this once, as it appears to be "slow".
+                columnToProcessID = columnToProcess[j].ColumnId;  // Only call this once, as it appears to be "slow".
+                columnDataType = columnToProcess[j].ColumnDataType;
                 // Skip NULL values, as they "don't" exist...
                 if (!buffer.IsNull(columnToProcessID))
                 {
                     nullHandling += "N";
-                    switch (buffer.GetColumnInfo(columnToProcessID).DataType)
+                    switch (columnDataType) //buffer.GetColumnInfo(columnToProcessID).DataType)
                     {
                         case DataType.DT_BOOL:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetBoolean(columnToProcessID));
@@ -794,31 +881,22 @@ namespace Martin.SQLServer.Dts
                         case DataType.DT_NUMERIC:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDecimal(columnToProcessID));
                             break;
-#if SQL2005
-#else
                         case DataType.DT_DBTIMESTAMPOFFSET:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTimeOffset(columnToProcessID), millisecondHandling);
                             break;
                         case DataType.DT_DBDATE:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDate(columnToProcessID), millisecondHandling);
                             break;
-#endif
                         case DataType.DT_DATE:
                         case DataType.DT_DBTIMESTAMP:
-#if SQL2005
-#else
                         case DataType.DT_DBTIMESTAMP2:
                         case DataType.DT_FILETIME:
-#endif
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetDateTime(columnToProcessID), millisecondHandling);
                             break;
-#if SQL2005
-#else
                         case DataType.DT_DBTIME:
                         case DataType.DT_DBTIME2:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetTime(columnToProcessID));
                             break;
-#endif
                         case DataType.DT_GUID:
                             Utility.Append(ref inputByteBuffer, ref bufferUsed, buffer.GetGuid(columnToProcessID));
                             break;
@@ -895,13 +973,63 @@ namespace Martin.SQLServer.Dts
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.CRC32C:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a32:
                 case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.FNV1a64:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                case Martin.SQLServer.Dts.MultipleHash.HashTypeEnumerator.xxHash:
                     hash = columnToProcess.HashObject.ComputeHash(inputByteBuffer, 0, bufferUsed);
                     break;
                 default:
                     hash = new byte[1];
                     break;
             }
-            buffer.SetBytes(columnToProcess.OutputColumnId, hash);
+            switch(columnToProcess.OutputHashDataType)
+            {
+                case MultipleHash.OutputTypeEnumerator.Binary:
+                    buffer.SetBytes(columnToProcess.OutputColumnId, hash);
+                    break;
+                case MultipleHash.OutputTypeEnumerator.Base64String:
+                    buffer.SetString(columnToProcess.OutputColumnId, System.Convert.ToBase64String(hash, 0, hash.Length));
+                    break;
+                case MultipleHash.OutputTypeEnumerator.HexString:
+                    buffer.SetString(columnToProcess.OutputColumnId, String.Format("0x{0}", ByteArrayToHexViaLookup32(hash)));
+                    break;
+            }
+            
+        }
+
+        #endregion
+
+        #region Hex String
+
+        /// <summary>
+        /// This is some stuff that I found via Google, which is supposed to be much faster than the SoapHexBinary implementation.  And speed is king here.
+        /// http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa
+        /// http://stackoverflow.com/a/24343727/48700
+        /// </summary>
+
+        private static readonly uint[] _lookup32 = CreateLookup32();
+
+        private static uint[] CreateLookup32()
+        {
+            var result = new uint[256];
+            for (int i = 0; i < 256; i++)
+            {
+                string s = i.ToString("X2");
+                result[i] = ((uint)s[0]) + ((uint)s[1] << 16);
+            }
+            return result;
+        }
+
+        private static string ByteArrayToHexViaLookup32(byte[] bytes)
+        {
+            var lookup32 = _lookup32;
+            var result = new char[bytes.Length * 2];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                var val = lookup32[bytes[i]];
+                result[2 * i] = (char)val;
+                result[2 * i + 1] = (char)(val >> 16);
+            }
+            return new string(result);
         }
 
         #endregion

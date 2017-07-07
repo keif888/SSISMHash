@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.6.7.4"?>
+  <?define ProductVersion = "1.7.0.0"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -56,11 +56,6 @@
       <RegistrySearch Type="directory" Id="SSIS32_2008_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
       <DirectorySearch AssignToProperty="yes" Id="SSIS32_2008_PATH_2" Path="[ProgramFilesFolder]\Microsoft SQL Server\100\DTS" />
     </Property>
-    <Property Id="SSIS32_2005_PATH">
-      <!-- Value="C:\Program Files\Microsoft SQL Server\90\DTS"> -->
-      <RegistrySearch Type="directory" Id="SSIS32_2005_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\MSDTS\Setup\DTSPath" Win64="no"/>
-      <DirectorySearch AssignToProperty="yes" Id="SSIS32_2005_PATH_2" Path="[ProgramFilesFolder]\Microsoft SQL Server\90\DTS" />
-    </Property>
 
     <!--
     <SetProperty Id="SSIS32_2014_PATH_2" After="AppSearch" Value="[SSIS32_2014_PATH_3]">
@@ -94,10 +89,6 @@
       <RegistrySearch Type="raw" Id="SSIS32_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="no"/>
       <RegistrySearch Type="raw" Id="SSIS32_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="no"/>
     </Property>
-    <Property Id="SSIS32_2005">
-      <RegistrySearch Type="raw" Id="SSIS32_2005_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\90\DTS\Setup" Name="Edition" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2005_2" Root="HKCR" Key="IntegrationServices.Package.90" Win64="no"/>
-    </Property>
 
     <!-- Try and detect if BIDS is installed. 
     Removed as going for Just Install It...
@@ -110,16 +101,13 @@
     <Property Id="BIDS32_2008">
       <RegistrySearch Type="directory" Id="BIDS32_2008" Root="HKCR" Key="IntegrationServices.Package.100" Win64="no"/>
     </Property>
-    <Property Id="BIDS32_2005">
-      <RegistrySearch Type="directory" Id="BIDS32_2005" Root="HKCR" Key="IntegrationServices.Package.90" Win64="no"/>
-    </Property>
     -->
 
 
-    <!-- We need to find either or both a 32 or 64 bit install of SSIS 2005, 2008 or 2012. 
+    <!-- We need to find either or both a 32 or 64 bit install of SSIS 2008 or 2012. 
     Removed as going for Just Install It...
     <Condition Message="SQL Server Integration Services or BIDS/SSDT is not installed on this computer.  Please install SQL Server Integration Services, BIDS or SSDT before running this installer.">
-      Installed OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008 OR SSIS32_2005 OR BIDS32_2005 OR BIDS32_2008 OR BIDS32_2012 OR BIDS32_2014
+      Installed OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008 OR BIDS32_2008 OR BIDS32_2012 OR BIDS32_2014
     </Condition>
     -->
 
@@ -144,10 +132,6 @@
 
       <Component Id="SQL2008GAC" Guid="C2A15C13-01DE-4BC7-B9D8-7B3AA6F5F367">
         <File Id="SQL2008DLLGAC" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
-
-      <Component Id="SQL2005GAC" Guid="EFC0D970-BF10-4A60-B7B9-83AF85B5AAD4">
-        <File Id="SQL2005DLLGAC" Name="$(var.MultipleHash2005.TargetFileName)" Source="$(var.MultipleHash2005.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
 
       <Directory Id="SSIS32_2016_PATH" Name="SSIS32_2016_PATH">
@@ -208,14 +192,6 @@
           </Component>
         </Directory>
       </Directory>
-
-      <Directory Id="SSIS32_2005_PATH" Name="SSIS32_2005_PATH">
-        <Directory Id="SQL2005x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2005x32DLL" Guid="313D2331-2C1F-4F55-99A3-F4873207C895" Win64="no">
-            <File Id="SQL2005x32DLLFile" Name="$(var.MultipleHash2005.TargetFileName)" Source="$(var.MultipleHash2005.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
     </Directory>
 
 
@@ -258,19 +234,11 @@
         <ComponentRef Id="SQL2008GAC" />
         <Condition Level="1004">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
       </Feature>
-      <Feature Id="SQL2005" Level="1" Title="SQL 2005">
-        <Feature Id="SQL2005x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2005_PATH">
-          <ComponentRef Id="SQL2005x32DLL"/>
-          <Condition Level="1004">NOT SSIS32_2005</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2005GAC" />
-        <Condition Level="1004">NOT (SSIS32_2005 OR SSIS64_2005)</Condition>
-      </Feature>
     </Feature>
     <!-- Display a Warning dialog box IF SSIS isn't detected-->
     <UI>
       <InstallUISequence>
-        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2016 OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008 OR SSIS32_2005)</Show>
+        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2016 OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008)</Show>
       </InstallUISequence>
       <Dialog Id="SSISWarning" Width="200" Height="100">
         <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />

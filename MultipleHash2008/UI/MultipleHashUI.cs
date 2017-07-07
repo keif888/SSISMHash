@@ -93,18 +93,6 @@ namespace Martin.SQLServer.Dts
     using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection100;
     using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection100;
 #endif
-#if SQL2005
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
-    using IDTSCustomProperty = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSCustomProperty90;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
-    using IDTSInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumn90;
-    using IDTSVirtualInputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumn90;
-    using IDTSInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInputColumnCollection90;
-    using IDTSVirtualInputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSVirtualInputColumnCollection90;
-    using IDTSOutputColumnCollection = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumnCollection90;
-    using Microsoft.SqlServer.Dts.Runtime.Wrapper;
-#endif
     #endregion
 
     /// <summary>
@@ -237,24 +225,6 @@ namespace Martin.SQLServer.Dts
 
                 IDTSInputColumn inputColumn = this.DesigntimeComponent.SetUsageType(input.ID, this.VirtualInput, lineageId, DTSUsageType.UT_READONLY);
 
-#if SQL2005
-                // No support for DT_DBTIME image columns.
-                if (inputColumn.DataType == DataType.DT_DBTIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBTimeDataTypeNotSupported));
-                }
-
-                // No support for DT_DBDATE image columns.
-                if (inputColumn.DataType == DataType.DT_DBDATE)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBDateDataTypeNotSupported));
-                }
-
-                if (inputColumn.DataType == DataType.DT_FILETIME)
-                {
-                    throw new Exception(String.Format("Column {0} has issue {1}", inputColumn.Name, Properties.Resources.DBFileTimeDataTypeNotSupported));
-                }
-#endif
                 // return the new column back to the GUI to stick into a Tag...
                 args.GeneratedColumns.InputColumn = new DataFlowElement(inputColumn.Name, inputColumn);
             }
@@ -333,18 +303,24 @@ namespace Martin.SQLServer.Dts
                     string[] inputLineageIDs;
                     string inputLineageList;
                     IDTSOutputColumn outputColumn = outputColumns[i];
-                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                    {
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
-                        inputLineageList = outputColumn.CustomPropertyCollection[1].Value.ToString();
-                        inputLineageIDs = inputLineageList.Split(',');
-                    }
-                    else
-                    {
-                        args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
-                        inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
-                        inputLineageIDs = inputLineageList.Split(',');
-                    }
+
+                    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value;
+                    args.OutputColumns[i].dataType = (MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value;
+                    inputLineageList = outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value.ToString();
+                    inputLineageIDs = inputLineageList.Split(',');
+
+                    //if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
+                    //{
+                    //    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
+                    //    inputLineageList = outputColumn.CustomPropertyCollection[1].Value.ToString();
+                    //    inputLineageIDs = inputLineageList.Split(',');
+                    //}
+                    //else
+                    //{
+                    //    args.OutputColumns[i].Hash = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
+                    //    inputLineageList = outputColumn.CustomPropertyCollection[0].Value.ToString();
+                    //    inputLineageIDs = inputLineageList.Split(',');
+                    //}
 
                     // Assign the array to hold the input columns
                     args.OutputColumns[i].InputColumns = new InputColumnElement[inputColumnsCount];
@@ -395,15 +371,18 @@ namespace Martin.SQLServer.Dts
                         inputLineageList = String.Join(",", inputList.ToArray());
                     }
 
-                    // Push the changed list back to the SSIS Component...
-                    if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-                    {
-                        outputColumn.CustomPropertyCollection[1].Value = inputLineageList;
-                    }
-                    else
-                    {
-                        outputColumn.CustomPropertyCollection[0].Value = inputLineageList;
-                    }
+
+                    outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value = inputLineageList;
+
+                    //// Push the changed list back to the SSIS Component...
+                    //if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
+                    //{
+                    //    outputColumn.CustomPropertyCollection[1].Value = inputLineageList;
+                    //}
+                    //else
+                    //{
+                    //    outputColumn.CustomPropertyCollection[0].Value = inputLineageList;
+                    //}
 
                     args.OutputColumns[i].OutputColumn = new DataFlowElement(outputColumn.Name, outputColumn);
                 }
@@ -490,8 +469,15 @@ namespace Martin.SQLServer.Dts
                 // If the hash value has changed, assign the new value, and correct the output column data type.
                 if ((MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value != args.OutputColumnDetail.Hash)
                 {
-                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, outputColumn);
+                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, args.OutputColumnDetail.dataType, outputColumn);
                     outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value = args.OutputColumnDetail.Hash;
+                }
+
+                // If the output data type has changed, assign the new value, and correct the output column data type.
+                if ((MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value != args.OutputColumnDetail.dataType)
+                {
+                    Utility.SetOutputColumnDataType(args.OutputColumnDetail.Hash, args.OutputColumnDetail.dataType, outputColumn);
+                    outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value = args.OutputColumnDetail.dataType;
                 }
 
                 // define a sorted list to hold the input columns

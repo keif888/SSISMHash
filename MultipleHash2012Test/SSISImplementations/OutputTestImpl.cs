@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultipleHash2012Test.SSISImplementations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class OutputTestImpl : IDTSOutput100
     {
         IDTSOutputColumnCollection100 outputColumns = new OutputColumnCollectionTestImpl();

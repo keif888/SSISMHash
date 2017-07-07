@@ -6,6 +6,7 @@ using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
 namespace MultipleHash2012Test.SSISImplementations
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class CustomPropertyTestImpl : IDTSCustomProperty100
     {
         int id = 0;

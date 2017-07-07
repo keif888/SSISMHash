@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="5/11/2010 7:50:47 PM"
@@ -7,12 +7,12 @@
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{A8CA8A63-2D08-4451-AF50-BA94623FF3B8}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2344.23"
+  DTS:LastModifiedProductVersion="14.0.0600.250"
   DTS:LocaleID="3081"
   DTS:ObjectName="EveryDataType"
   DTS:PackageType="5"
   DTS:VersionBuild="14"
-  DTS:VersionGUID="{F2659032-FA30-47F8-8104-11227A97B8F6}">
+  DTS:VersionGUID="{088FC111-782A-4466-AB42-6F204A6C5691}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -867,26 +867,26 @@
               componentClassID="Microsoft.ManagedComponentHost"
               description="Creates Multiple Hash's from selected input columns."
               name="Multiple Hash"
-              version="6">
+              version="7">
               <properties>
                 <property
                   dataType="System.Int32"
                   description="Select the number of threads to use"
                   name="MultipleThreads"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
                   name="SafeNullHandling"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">1</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+SafeNullHandling">1</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to enable hashing of Milliseconds, False for earlier version compatability."
                   name="IncludeMillsecond"
-                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
+                  typeConverter="Martin.SQLServer.Dts.MultipleHash+MillisecondHandling">0</property>
               </properties>
               <inputs>
                 <input
@@ -1079,6 +1079,11 @@
                           dataType="System.String"
                           description="Enter the Lineage ID's that will be used to calculate the hash for this output column."
                           name="InputColumnLineageIDs">#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 13]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 14]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 15]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 16]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 17]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 18]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 19]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 20]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 21]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 22]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 23]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 24]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 25]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 26]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 27]},#{Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 28]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Stores the type of the output column"
+                          name="HashOutputType"
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+OutputTypeEnumerator, MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">0</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -1142,7 +1147,7 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql12">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">

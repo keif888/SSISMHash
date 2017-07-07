@@ -73,12 +73,6 @@ namespace Martin.SQLServer.Dts
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
     using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
 #endif
-#if SQL2005
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput90;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn90;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput90;
-    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager90;
-#endif
     #endregion
 
     #region OutputColumn
@@ -91,12 +85,17 @@ namespace Martin.SQLServer.Dts
         /// <summary>
         /// Stores the list of input columns from SSIS.
         /// </summary>
-        private List<int> inputColumnIDs;  // Change from ArrayList to Generic List in the hope that it performs better.  (It should as there is no need to box/unbox)...
+        private List<MHashColumnInformation> inputColumnDetails;  // Change from ArrayList to Generic List in the hope that it performs better.  (It should as there is no need to box/unbox)...
 
         /// <summary>
         /// Stores which hash value to generate
         /// </summary>
         private MultipleHash.HashTypeEnumerator outputHashType;
+
+        /// <summary>
+        /// Stores the output data type and style (Binary, HexString, Base64String)
+        /// </summary>
+        private MultipleHash.OutputTypeEnumerator outputDataType;
 
         /// <summary>
         /// Stores the column id for the SSIS component
@@ -153,6 +152,17 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         private FNV1a64 hashFNV1a64;
 
+        //ToDo: Add the Murmur and xxHash privates
+        /// <summary>
+        /// Stores the generator for the Murmur3a hash
+        /// </summary>
+        private Murmur3a hashMurmur3a;
+
+        /// <summary>
+        /// Stores the generator for the xxHash hash
+        /// </summary>
+        private xxHash hashxxHash;
+
         #endregion
 
         #region Creator
@@ -161,13 +171,13 @@ namespace Martin.SQLServer.Dts
         /// </summary>
         public OutputColumn()
         {
-            this.inputColumnIDs = new List<int>();
+            this.inputColumnDetails = new List<MHashColumnInformation>();
             this.outputHashType = MultipleHash.HashTypeEnumerator.None;
             this.outputColumnID = 0;
-        } 
+        }
         #endregion
 
-    #region Count
+        #region Count
         /// <summary>
         /// Gets the number of items in the array.
         /// </summary>
@@ -175,12 +185,12 @@ namespace Martin.SQLServer.Dts
         {
             get
             {
-                return this.inputColumnIDs.Count;
+                return this.inputColumnDetails.Count;
             }
-        } 
-    #endregion
+        }
+        #endregion
 
-    #region HashType
+        #region HashType
         /// <summary>
         /// Gets the type of Hash that is to be done for this output column.
         /// Set by AddColumnInformation.
@@ -191,10 +201,22 @@ namespace Martin.SQLServer.Dts
             {
                 return this.outputHashType;
             }
-        } 
-    #endregion
+        }
+        #endregion
 
-    #region HashObject
+        #region OutputHashDataType
+
+        public MultipleHash.OutputTypeEnumerator OutputHashDataType
+        {
+            get
+            {
+                return this.outputDataType;
+            }
+        }
+        #endregion
+
+
+        #region HashObject
         /// <summary>
         /// Gets the Hash Object to enable the creation of hash's.
         /// </summary>
@@ -226,14 +248,18 @@ namespace Martin.SQLServer.Dts
                         return this.hashFNV1a32;
                     case MultipleHash.HashTypeEnumerator.FNV1a64:
                         return this.hashFNV1a64;
+                    case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                        return this.hashMurmur3a;
+                    case MultipleHash.HashTypeEnumerator.xxHash:
+                        return this.hashxxHash;
                     default:
                         return null;
                 }
             }
-        } 
-    #endregion
+        }
+        #endregion
 
-    #region OutputColumnId
+        #region OutputColumnId
         /// <summary>
         /// Gets the ID for the OutputColumn that this is associated with.
         /// Set by AddColumnInformation.
@@ -244,44 +270,44 @@ namespace Martin.SQLServer.Dts
             {
                 return this.outputColumnID;
             }
-        } 
-    #endregion
+        }
+        #endregion
 
-    #region BaseIterator
-    /// <summary>
-    /// Gets or Sets an array item with an integer Column Index.
-    /// </summary>
-    /// <param name="index">Index within the array to return</param>
-    /// <returns>Requested input column index</returns>
-    public int this[int index]
-    {
-        get
+        #region BaseIterator
+        /// <summary>
+        /// Gets or Sets an array item with an integer Column Index.
+        /// </summary>
+        /// <param name="index">Index within the array to return</param>
+        /// <returns>Requested input column index</returns>
+        public MHashColumnInformation this[int index]
         {
-            return this.inputColumnIDs[index];
+            get
+            {
+                return this.inputColumnDetails[index];
+            }
+
+            set
+            {
+                this.inputColumnDetails[index] = value;
+            }
         }
 
-        set
+        #endregion
+
+        #region Add
+        /// <summary>
+        /// Adds a new column index into the array
+        /// </summary>
+        /// <param name="inputColumn">The input column id to add</param>
+        /// <returns>The index that the value was added at</returns>
+        public int Add(MHashColumnInformation inputColumn)
         {
-            this.inputColumnIDs[index] = value;
+            this.inputColumnDetails.Add(inputColumn);
+            return this.inputColumnDetails.LastIndexOf(inputColumn);  // Return the position in the list.  Get the last time it's in the list, just in case of duplicates.
         }
-    }
+        #endregion
 
-    #endregion
-
-    #region Add
-    /// <summary>
-    /// Adds a new column index into the array
-    /// </summary>
-    /// <param name="inputColumnId">The input column id to add</param>
-    /// <returns>The index that the value was added at</returns>
-    public int Add(int inputColumnId)
-    {
-        this.inputColumnIDs.Add(inputColumnId);
-        return this.inputColumnIDs.LastIndexOf(inputColumnId);  // Return the position in the list.  Get the last time it's in the list, just in case of duplicates.
-    }
-    #endregion
-
-    #region AddColumnInformation
+        #region AddColumnInformation
         /// <summary>
         /// Populates the OutputColumn class with all the required information to generate Hash's.
         /// </summary>
@@ -308,16 +334,9 @@ namespace Martin.SQLServer.Dts
 
             IDTSOutputColumn outputColumn = output.OutputColumnCollection[outputColumnIndex];
             string[] inputLineageIDList;
-            if (outputColumn.CustomPropertyCollection[0].Name == Utility.HashTypePropName)
-            {
-                inputLineageIDList = outputColumn.CustomPropertyCollection[1].Value.ToString().Split(',');
-                this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[0].Value;
-            }
-            else
-            {
-                inputLineageIDList = outputColumn.CustomPropertyCollection[0].Value.ToString().Split(',');
-                this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[1].Value;
-            }
+            inputLineageIDList = outputColumn.CustomPropertyCollection[Utility.InputColumnLineagePropName].Value.ToString().Split(',');
+            this.outputHashType = (MultipleHash.HashTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.HashTypePropName].Value;
+            this.outputDataType = (MultipleHash.OutputTypeEnumerator)outputColumn.CustomPropertyCollection[Utility.OutputColumnOutputTypePropName].Value;
 
             switch (this.outputHashType)
             {
@@ -353,6 +372,14 @@ namespace Martin.SQLServer.Dts
                 case MultipleHash.HashTypeEnumerator.FNV1a64:
                     this.hashFNV1a64 = FNV1a64.Create();
                     break;
+                case MultipleHash.HashTypeEnumerator.MurmurHash3a:
+                    //ToDo: Call the MurmurHash
+                    this.hashMurmur3a = Murmur3a.Create();
+                    break;
+                case MultipleHash.HashTypeEnumerator.xxHash:
+                    // todo: call the xxHash
+                    this.hashxxHash = xxHash.Create();
+                    break;
                 default:
                     break;
             }
@@ -361,15 +388,20 @@ namespace Martin.SQLServer.Dts
             int inputColumnLineageID;
             foreach (string inputLineageID in inputLineageIDList)
             {
-                inputColumnLineageID = bufferManager.FindColumnByLineageID(input.Buffer, System.Convert.ToInt32(inputLineageID.Substring(1)));  // Strip the # from the ID
-                this.inputColumnIDs.Add(inputColumnLineageID);
+                int columnId = System.Convert.ToInt32(inputLineageID.Substring(1));
+                Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTP_BUFFCOL columnData = new Microsoft.SqlServer.Dts.Pipeline.Wrapper.DTP_BUFFCOL();
+                inputColumnLineageID = bufferManager.FindColumnByLineageID(input.Buffer, columnId);  // Strip the # from the ID
+
+                bufferManager.GetColumnInfo(input.Buffer, inputColumnLineageID, ref columnData);
+                MHashColumnInformation inputColumn = new MHashColumnInformation(inputColumnLineageID, columnData.DataType);
+                this.inputColumnDetails.Add(inputColumn);
             }
 
             // Store the Column ID for the Output Column
             this.outputColumnID = bufferManager.FindColumnByLineageID(input.Buffer, outputColumn.LineageID);
-        } 
-    #endregion
+        }
+        #endregion
     }
- 
-#endregion
+
+    #endregion
 }
