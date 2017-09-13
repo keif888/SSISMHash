@@ -47,18 +47,7 @@ namespace Martin.SQLServer.Dts
     using System.Threading;
     using Microsoft.SqlServer.Dts.Pipeline;
 
-#if SQL2016
     using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
-#endif
-#if SQL2014
-    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
-#endif
-#if SQL2012
-    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
-#endif
-#if SQL2008
-    using IDTSComponentMetaData = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSComponentMetaData100;
-#endif
     #endregion
     /// <summary>
     /// This is the class that is used to pass data to the threads

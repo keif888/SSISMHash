@@ -49,30 +49,10 @@ namespace Martin.SQLServer.Dts
     using System.Collections.Generic;
     using System.Security.Cryptography;
 
-#if SQL2016
     using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
     using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
     using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
-#endif
-#if SQL2014
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
-    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
-#endif
-#if SQL2012
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
-    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
-#endif
-#if SQL2008
-    using IDTSOutput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutput100;
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-    using IDTSInput = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSInput100;
-    using IDTSBufferManager = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSBufferManager100;
-#endif
     #endregion
 
     #region OutputColumn

@@ -49,18 +49,7 @@ namespace Martin.SQLServer.Dts
     using System.Text;
     using Microsoft.SqlServer.Dts.Runtime.Wrapper;
     using Microsoft.SqlServer.Dts.Pipeline;
-#if SQL2016
     using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-#endif
-#if SQL2014
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-#endif
-#if SQL2012
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-#endif
-#if SQL2008
-    using IDTSOutputColumn = Microsoft.SqlServer.Dts.Pipeline.Wrapper.IDTSOutputColumn100;
-#endif
     #endregion
     /// <summary>
     /// The purpose of the Utility class is to provide a single location for routines that are

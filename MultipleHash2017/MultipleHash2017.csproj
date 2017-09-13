@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7ED8D146-A24B-44D2-A8C6-B566434033DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Martin.SQLServer.Dts</RootNamespace>
+    <AssemblyName>MultipleHash2017</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SQL2017</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SQL2017</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>key.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MultipleHash.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnitTest|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\UnitTest\</OutputPath>
+    <DefineConstants>SQL2017</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\MultipleHash2008\CRC32.cs">
+      <Link>CRC32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\CRC32C.cs">
+      <Link>CRC32C.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\CRCSliceBy8.cs">
+      <Link>CRCSliceBy8.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\FNV1a32.cs">
+      <Link>FNV1a32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\FNV1a64.cs">
+      <Link>FNV1a64.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\IntHelpers.cs">
+      <Link>IntHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\MHashColumnInformation.cs">
+      <Link>MHashColumnInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\MultipleHash.cs">
+      <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Murmur3a.cs">
+      <Link>Murmur3a.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\OutputColumn.cs">
+      <Link>OutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\PassThreadState.cs">
+      <Link>PassThreadState.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\ProcessOutputColumn.cs">
+      <Link>ProcessOutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\DataFlowComponentUI.cs">
+      <Link>UI\DataFlowComponentUI.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\DataFlowElement.cs">
+      <Link>UI\DataFlowElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.cs">
+      <Link>UI\MultipleHashForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.designer.cs">
+      <Link>UI\MultipleHashForm.designer.cs</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\UI\MultipleHashUI.cs">
+      <Link>UI\MultipleHashUI.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\Utility.cs">
+      <Link>Utility.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHash2008\xxHash.cs">
+      <Link>xxHash.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\MultipleHash2008\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MultipleHash2008\UI\MultipleHashForm.resx">
+      <Link>UI\MultipleHashForm.resx</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="key.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="License.rtf" />
+    <None Include="MultipleHash.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SSISMHash.extensions.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SSISMHash.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\vsinstr" "$(TargetDir)$(TargetName).dll" -coverage -verbose
+ECHO [$(ConfigurationName)]
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose  -coverage
+if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GACUtil.exe" -u $(TargetName)
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\140\DTS\PipelineComponents\" /Y
+if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\140\DTS\PipelineComponents\" /Y
+if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\140\DTS\PipelineComponents\$(TargetName).DLL"
+if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\140\DTS\UpgradeMappings" /Y
+if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.extensions.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\140\DTS\UpgradeMappings" /Y</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
