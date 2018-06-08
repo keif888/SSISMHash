@@ -95,6 +95,7 @@
 
     <Property Id="SSIS64_2017" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS64_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="yes"/>
+      <RegistrySearch Type="directory" Id="SSIS64_2017_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
       <!--<RegistrySearch Type="raw" Id="SSIS64_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="yes"/> -->
     </Property>
 
