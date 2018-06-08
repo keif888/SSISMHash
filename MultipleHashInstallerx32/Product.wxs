@@ -80,6 +80,7 @@
     <Property Id="SSIS32_2017" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS32_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="no"/>
       <RegistrySearch Type="raw" Id="SSIS32_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="no"/>
+      <RegistrySearch Type="directory" Id="SSIS32_2017_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
     </Property>
     <Property Id="SSIS32_2016" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS32_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="no"/>

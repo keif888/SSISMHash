@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.7.2.0"?>
+  <?define ProductVersion = "1.7.3.0"?>
   <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -101,6 +101,7 @@
     <Property Id="SSIS32_2017" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS32_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="no"/>
       <RegistrySearch Type="raw" Id="SSIS32_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="no"/>
+      <RegistrySearch Type="directory" Id="SSIS32_2017_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
     </Property>
 
     <Property Id="SSIS64_2016" Secure="yes">
