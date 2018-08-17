@@ -32,12 +32,21 @@
     <UIRef Id="WixUI_Mondo"/>
     <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
-    <Property Id="SSIS64_2017_PATH" Secure="yes">
-      <!-- Value="C:\Program Files\Microsoft SQL Server\140\DTS"> -->
-      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
-      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="yes"/>
-      <DirectorySearch AssignToProperty="yes" Id="SSIS64_2017_PATH_3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\140\DTS" />
+    <Property Id="SSIS64_2017_PATH_1" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
     </Property>
+    <Property Id="SSIS64_2017_PATH_2" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="yes"/>
+    </Property>
+    <Property Id="SSIS64_2017_PATH_3" Secure="yes">
+      <DirectorySearch AssignToProperty="yes" Id="SSIS64_2017_PATH_p3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\140\DTS" />
+    </Property>
+    <Property Id="SSIS64_2017_PATH" Secure="yes" />
+    <SetProperty Action="SSIS64_2017_PATH_a" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value=""/>
+      <!-- Value="C:\Program Files\Microsoft SQL Server\140\DTS"> -->
+    <SetProperty Action="SSIS64_2017_PATH_a1" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_1]">SSIS64_2017_PATH=""</SetProperty>
+    <SetProperty Action="SSIS64_2017_PATH_a2" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_2]">SSIS64_2017_PATH=""</SetProperty>
+    <SetProperty Action="SSIS64_2017_PATH_a3" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_3]">SSIS64_2017_PATH=""</SetProperty>
     <Property Id="SSIS32_2017_PATH" Secure="yes">
       <!-- Value="C:\Program Files (x86)\Microsoft SQL Server\140\DTS"> -->
       <RegistrySearch Type="directory" Id="SSIS32_2017_PATH_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
