@@ -12,6 +12,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+#if SQL2019
+[assembly: AssemblyTitle("MultipleHash2019")]
+[assembly: AssemblyProduct("MultipleHash2019")]
+#endif
 #if SQL2017
 [assembly: AssemblyTitle("MultipleHash2017")]
 [assembly: AssemblyProduct("MultipleHash2017")]
@@ -35,7 +39,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("SSIS Component to generate Hash(s) from input columns")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("None")]
-[assembly: AssemblyCopyright("Copyright © Keith Martin 2016")]
+[assembly: AssemblyCopyright("Copyright © Keith Martin 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mappings xmlns="http://www.microsoft.com/SqlServer/Dts/UpgradeMapping.xsd">
+
+  <!--  
+		SSIS Multple Hash Upgrade Mappings
+		Copyright © 2016 Keith Martin 
+		%ProgramFiles%\Microsoft SQL Server\120\DTS\UpgradeMappings\
+		Upgrade mapping to SQL Server 2016.
+	-->
+
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2005"
+		oldAssemblyStrongName="MultipleHash2005, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2008"
+		oldAssemblyStrongName="MultipleHash2008, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash Denali"
+		oldAssemblyStrongName="MultipleHashDenali, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2012"
+		oldAssemblyStrongName="MultipleHash2012, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2014"
+		oldAssemblyStrongName="MultipleHash2014, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2016"
+		oldAssemblyStrongName="MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+  <ExtensionMapping
+		tag="SSIS Multiple Hash 2017"
+		oldAssemblyStrongName="MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		newAssemblyStrongName="MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44"
+		/>
+</Mappings>

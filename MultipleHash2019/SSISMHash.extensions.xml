@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extensions xmlns="http://www.microsoft.com/SqlServer/Dts/Extensions.xsd">
+  <PipelineComponents>
+    <PipelineComponent Identifier="MultipleHash" Model=".NET">
+      <CreationName>Martin.SQLServer.Dts.MultipleHash, MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</CreationName>
+      <TypeConverter name="MultipleThreads">Martin.SQLServer.Dts.MultipleHash+MultipleThread, MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</TypeConverter>
+      <TypeConverter name="SafeNullHandling">Martin.SQLServer.Dts.MultipleHash+SafeNullHandling, MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</TypeConverter>
+      <TypeConverter name="IncludeMillsecond">Martin.SQLServer.Dts.MultipleHash+MillisecondHandling, MultipleHash2019, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</TypeConverter>
+    </PipelineComponent>
+  </PipelineComponents>
+</Extensions>
