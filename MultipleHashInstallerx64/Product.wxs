@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.7.4.0"?>
+  <?define ProductVersion = "1.7.5.0"?>
   <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -40,7 +40,39 @@
           
           This prevents the filesystem detection overriding the registry locations for where SQL Server SSIS is installed.
     -->
-    
+    <!-- Detect folder for SQL 2019 x64 installation -->
+
+    <Property Id="SSIS64_2019_PATH_1" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
+    </Property>
+    <Property Id="SSIS64_2019_PATH_2" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="yes"/>
+    </Property>
+    <!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
+    <Property Id="SSIS64_2019_PATH_3" Secure="yes">
+      <DirectorySearch AssignToProperty="yes" Id="SSIS64_2019_PATH_p3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\150\DTS" />
+    </Property>
+    -->
+    <Property Id="SSIS64_2019_PATH" Secure="yes" />
+    <SetProperty Action="SSIS64_2019_PATH_a" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
+    <SetProperty Action="SSIS64_2019_PATH_a1" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_1]">SSIS64_2019_PATH=""</SetProperty>
+    <SetProperty Action="SSIS64_2019_PATH_a2" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_2]">SSIS64_2019_PATH=""</SetProperty>
+    <SetProperty Action="SSIS64_2019_PATH_a3" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\150\DTS">SSIS64_2019_PATH=""</SetProperty>
+
+    <!-- Detect folder for SQL 2019 x86 installation -->
+
+    <Property Id="SSIS32_2019_PATH_1" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
+    </Property>
+    <Property Id="SSIS32_2019_PATH_2" Secure="yes">
+      <RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="no"/>
+    </Property>
+    <Property Id="SSIS32_2019_PATH" Secure="yes" />
+    <SetProperty Action="SSIS32_2019_PATH_a" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
+    <SetProperty Action="SSIS32_2019_PATH_a1" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_1]">SSIS32_2019_PATH=""</SetProperty>
+    <SetProperty Action="SSIS32_2019_PATH_a2" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_2]">SSIS32_2019_PATH=""</SetProperty>
+    <SetProperty Action="SSIS32_2019_PATH_a3" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\150\DTS">SSIS32_2019_PATH=""</SetProperty>
+
     <!-- Detect folder for SQL 2017 x64 installation -->
       
     <Property Id="SSIS64_2017_PATH_1" Secure="yes">
@@ -190,7 +222,19 @@
     <!-- At this point we have discovered the SQL Server SSIS path locations -->
     
     <!-- The following attempts to detect if SSIS or SSDT's is installed -->
-    
+
+    <Property Id="SSIS64_2019" Secure="yes">
+      <RegistrySearch Type="raw" Id="SSIS64_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="yes"/>
+      <RegistrySearch Type="directory" Id="SSIS64_2019_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
+      <!--<RegistrySearch Type="raw" Id="SSIS64_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="yes"/> -->
+    </Property>
+
+    <Property Id="SSIS32_2019" Secure="yes">
+      <RegistrySearch Type="raw" Id="SSIS32_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="no"/>
+      <RegistrySearch Type="raw" Id="SSIS32_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="no"/>
+      <RegistrySearch Type="directory" Id="SSIS32_2019_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
+    </Property>
+
     <Property Id="SSIS64_2017" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS64_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="yes"/>
       <RegistrySearch Type="directory" Id="SSIS64_2017_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
@@ -257,7 +301,11 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
 
       <!-- The following setup the Global Assembley Cache file drop components. -->
-        
+
+      <Component Id="SQL2019GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2019">
+        <File Id="SQL2019DLLGAC" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+      </Component>
+
       <Component Id="SQL2017GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0FC590">
         <File Id="SQL2017DLLGAC" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -280,7 +328,39 @@
 
 
       <!-- The following defines the components to install the DLL's and the upgrade and extension xml files. -->
-        
+
+      <Directory Id="SSIS64_2019_PATH" Name="SSIS64_2019_PATH">
+        <Directory Id="SQL2019x64Pipeline" Name="PipelineComponents">
+          <Component Id="SQL2019x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB642019" Win64="yes">
+            <File Id="SQL2019x64DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
+          </Component>
+        </Directory>
+        <Directory Id="SQL2019x64Upgrade" Name="UpgradeMappings">
+          <Component Id="SQL2019x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D42019" Win64="yes">
+            <File Id="SQL2019x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+          </Component>
+          <Component Id="SQL2019x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA2019" Win64="yes">
+            <File Id="SQL2019x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+
+      <Directory Id="SSIS32_2019_PATH" Name="SSIS32_2019_PATH">
+        <Directory Id="SQL2019x32Pipeline" Name="PipelineComponents">
+          <Component Id="SQL2019x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12019" Win64="no">
+            <File Id="SQL2019x32DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
+          </Component>
+        </Directory>
+        <Directory Id="SQL2019x32Upgrade" Name="UpgradeMappings">
+          <Component Id="SQL2019x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB2019" Win64="no">
+            <File Id="SQL2019x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+          </Component>
+          <Component Id="SQL2019x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E2019" Win64="no">
+            <File Id="SQL2019x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+
       <Directory Id="SSIS64_2017_PATH" Name="SSIS64_2017_PATH">
         <Directory Id="SQL2017x64Pipeline" Name="PipelineComponents">
           <Component Id="SQL2017x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB64F36C" Win64="yes">
@@ -434,6 +514,22 @@
     <!-- The following defines the actual installer, using all the definitions above. -->
       
     <Feature Id="Complete" Level="1" Title="Multiple Hash Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
+      <Feature Id="SQL2019" Level="1" Title="SQL 2019">
+        <Feature Id="SQL2019x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2019_PATH">
+          <ComponentRef Id="SQL2019x64DLL"/>
+          <ComponentRef Id="SQL2019x64UpgradeMapping"/>
+          <ComponentRef Id="SQL2019x64UpgradeMappingExtension"/>
+          <Condition Level="1004">NOT SSIS64_2019</Condition>
+        </Feature>
+        <Feature Id="SQL2019x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2019_PATH">
+          <ComponentRef Id="SQL2019x32DLL"/>
+          <ComponentRef Id="SQL2019x32UpgradeMapping"/>
+          <ComponentRef Id="SQL2019x32UpgradeMappingExtension"/>
+          <Condition Level="1004">NOT SSIS32_2019</Condition>
+        </Feature>
+        <ComponentRef Id="SQL2019GAC" />
+        <Condition Level="1004">NOT (SSIS32_2019 OR SSIS64_2019)</Condition>
+      </Feature>
       <Feature Id="SQL2017" Level="1" Title="SQL 2017">
         <Feature Id="SQL2017x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2017_PATH">
           <ComponentRef Id="SQL2017x64DLL"/>
@@ -515,7 +611,7 @@
     <!-- Display a Warning dialog box IF SSIS isn't detected.  And don't forget to update the or statement below to include newer versions of SQL Server SSIS when added above. -->
     <UI>
       <InstallUISequence>
-        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2017 OR SSIS64_2017 OR SSIS64_2016 OR SSIS32_2016 OR SSIS64_2014 OR SSIS32_2014 OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008)</Show>
+        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2019 OR SSIS64_2019 OR SSIS32_2017 OR SSIS64_2017 OR SSIS64_2016 OR SSIS32_2016 OR SSIS64_2014 OR SSIS32_2014 OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008)</Show>
       </InstallUISequence>
       <Dialog Id="SSISWarning" Width="200" Height="100">
         <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />
