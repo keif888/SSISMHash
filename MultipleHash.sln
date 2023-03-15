@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{64EAAC81-91A2-499B-AAC2-2EAA170394A0}"
 	ProjectSection(SolutionItems) = preProject
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2017", "MultipleHash2017\MultipleHash2017.csproj", "{7ED8D146-A24B-44D2-A8C6-B566434033DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2019", "MultipleHash2019\MultipleHash2019.csproj", "{78B71A48-B996-4111-9D9A-72F370832B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHash2022", "MultipleHash2022\MultipleHash2022.csproj", "{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -239,12 +241,48 @@ Global
 		{78B71A48-B996-4111-9D9A-72F370832B7C}.UnitTest|Mixed Platforms.Build.0 = Debug|Any CPU
 		{78B71A48-B996-4111-9D9A-72F370832B7C}.UnitTest|x86.ActiveCfg = Debug|Any CPU
 		{78B71A48-B996-4111-9D9A-72F370832B7C}.UnitTest|x86.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|x86.ActiveCfg = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Development|x86.Build.0 = Debug|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.Release|x86.Build.0 = Release|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|Any CPU.ActiveCfg = UnitTest|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|Any CPU.Build.0 = UnitTest|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|Mixed Platforms.ActiveCfg = UnitTest|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|Mixed Platforms.Build.0 = UnitTest|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|x86.ActiveCfg = UnitTest|Any CPU
+		{F7695D80-56E7-4719-B27D-2DF8EBE58BDE}.UnitTest|x86.Build.0 = UnitTest|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60CDBEC4-228D-4247-9D1A-B2BB7C7C2AD1}
+	EndGlobalSection
+	GlobalSection(AutomaticVersions) = postSolution
+		UpdateAssemblyVersion = True
+		UpdateAssemblyFileVersion = True
+		UpdateAssemblyInfoVersion = True
+		AdvancedSettingsExpanded = True
+		AssemblyVersionSettings = None.None.None.None
+		AssemblyFileVersionSettings = None.None.None.None
+		AssemblyInfoVersionSettings = None.None.None.None
+		UpdatePackageVersion = False
+		AssemblyInfoVersionType = SettingsVersion
+		InheritWinAppVersionFrom = None
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

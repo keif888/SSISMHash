@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.7.5.0"?>
+  <?define ProductVersion = "1.7.6.0"?>
   <?define UpgradeCode = "BFC7691B-A537-410A-AAB9-B9CCBC7958C7"?>
   <?define Manufacturer = "Keith Martin"?>
   <?define PackageCode = "*"?>
@@ -32,7 +32,19 @@
     <UIRef Id="WixUI_Mondo"/>
     <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
-    <!-- Find the path for SSIS' installation files. -->
+	  <!-- Override the Wix default actions.xml values as there is not enough space between AppSearch and LaunchConditions -->
+	  <InstallExecuteSequence>
+		  <AppSearch Sequence="50"></AppSearch>
+		  <LaunchConditions Sequence="200"></LaunchConditions> <!-- Original Value = 100, next sequence is 500 -->
+	  </InstallExecuteSequence>
+
+	  <InstallUISequence>
+		  <AppSearch Sequence="50"></AppSearch>
+		  <LaunchConditions Sequence="200"></LaunchConditions> <!-- Original Value = 100, next sequence is 500 -->
+	  </InstallUISequence>
+
+
+	  <!-- Find the path for SSIS' installation files. -->
 
     <!-- 
           The following works by creating 2 properties which may contain directory paths (where found in the reigstry).
@@ -43,7 +55,21 @@
           This prevents the filesystem detection overriding the registry locations for where SQL Server SSIS is installed.
     -->
 
-    <!-- Detect folder for SQL 2019 x86 installation -->
+	  <!-- Detect folder for SQL 2022 x86 installation -->
+
+	  <Property Id="SSIS32_2022_PATH_1" Secure="yes">
+		  <RegistrySearch Type="directory" Id="SSIS32_2022_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="no"/>
+	  </Property>
+	  <Property Id="SSIS32_2022_PATH_2" Secure="yes">
+		  <RegistrySearch Type="directory" Id="SSIS32_2022_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="SQLPath" Win64="no"/>
+	  </Property>
+	  <Property Id="SSIS32_2022_PATH" Secure="yes" />
+	  <SetProperty Action="SSIS32_2022_PATH_a" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value=""/>
+	  <SetProperty Action="SSIS32_2022_PATH_a1" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2022_PATH_1]">SSIS32_2022_PATH=""</SetProperty>
+	  <SetProperty Action="SSIS32_2022_PATH_a2" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2022_PATH_2]">SSIS32_2022_PATH=""</SetProperty>
+	  <SetProperty Action="SSIS32_2022_PATH_a3" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\160\DTS">SSIS32_2022_PATH=""</SetProperty>
+
+	  <!-- Detect folder for SQL 2019 x86 installation -->
 
     <Property Id="SSIS32_2019_PATH_1" Secure="yes">
       <RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
@@ -130,7 +156,12 @@
     <!-- At this point we have discovered the SQL Server SSIS path locations -->
 
     <!-- Try and detect if SSIS is installed.  This doesn't work for BIDS/SSDTBI install's. -->
-    <Property Id="SSIS32_2019" Secure="yes">
+	  <Property Id="SSIS32_2022" Secure="yes">
+		  <RegistrySearch Type="raw" Id="SSIS32_2022_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="Edition" Win64="no"/>
+		  <RegistrySearch Type="raw" Id="SSIS32_2022_2" Root="HKCR" Key="IntegrationServices.Package.160" Win64="no"/>
+		  <RegistrySearch Type="raw" Id="SSIS32_2022_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="no"/>
+	  </Property>
+	  <Property Id="SSIS32_2019" Secure="yes">
       <RegistrySearch Type="raw" Id="SSIS32_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="no"/>
       <RegistrySearch Type="raw" Id="SSIS32_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="no"/>
       <RegistrySearch Type="raw" Id="SSIS32_2019_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
@@ -187,7 +218,11 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
 
-      <Component Id="SQL2019GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2019">
+		<Component Id="SQL2022GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2022">
+			<File Id="SQL2022DLLGAC" Name="$(var.MultipleHash2022.TargetFileName)" Source="$(var.MultipleHash2022.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+		</Component>
+
+		<Component Id="SQL2019GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2019">
         <File Id="SQL2019DLLGAC" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
 
@@ -211,7 +246,23 @@
         <File Id="SQL2008DLLGAC" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
       </Component>
 
-      <Directory Id="SSIS32_2019_PATH" Name="SSIS32_2019_PATH">
+		<Directory Id="SSIS32_2022_PATH" Name="SSIS32_2022_PATH">
+			<Directory Id="SQL2022x32Pipeline" Name="PipelineComponents">
+				<Component Id="SQL2022x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12022" Win64="no">
+					<File Id="SQL2022x32DLLFile" Name="$(var.MultipleHash2022.TargetFileName)" Source="$(var.MultipleHash2022.TargetPath)"  Checksum="yes"/>
+				</Component>
+			</Directory>
+			<Directory Id="SQL2022x32Upgrade" Name="UpgradeMappings">
+				<Component Id="SQL2022x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB2022" Win64="no">
+					<File Id="SQL2022x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+				</Component>
+				<Component Id="SQL2022x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E2022" Win64="no">
+					<File Id="SQL2022x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+				</Component>
+			</Directory>
+		</Directory>
+
+		<Directory Id="SSIS32_2019_PATH" Name="SSIS32_2019_PATH">
         <Directory Id="SQL2019x32Pipeline" Name="PipelineComponents">
           <Component Id="SQL2019x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12019" Win64="no">
             <File Id="SQL2019x32DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
@@ -305,7 +356,17 @@
 
 
     <Feature Id="Complete" Level="1" Title="Multiple Hash Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
-      <Feature Id="SQL2019" Level="1" Title="SQL 2019">
+		<Feature Id="SQL2022" Level="1" Title="SQL 2022">
+			<Feature Id="SQL2022x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2022_PATH">
+				<ComponentRef Id="SQL2022x32DLL"/>
+				<ComponentRef Id="SQL2022x32UpgradeMapping"/>
+				<ComponentRef Id="SQL2022x32UpgradeMappingExtension"/>
+				<Condition Level="1004">NOT SSIS32_2022</Condition>
+			</Feature>
+			<ComponentRef Id="SQL2022GAC" />
+			<Condition Level="1004">NOT (SSIS32_2022 OR SSIS64_2022)</Condition>
+		</Feature>
+		<Feature Id="SQL2019" Level="1" Title="SQL 2019">
         <Feature Id="SQL2019x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2019_PATH">
           <ComponentRef Id="SQL2019x32DLL"/>
           <ComponentRef Id="SQL2019x32UpgradeMapping"/>
@@ -367,7 +428,7 @@
     <!-- Display a Warning dialog box IF SSIS isn't detected-->
     <UI>
       <InstallUISequence>
-        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2019 OR SSIS32_2017 OR SSIS32_2016 OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008)</Show>
+        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2022 OR SSIS32_2019 OR SSIS32_2017 OR SSIS32_2016 OR SSIS32_2014 OR SSIS32_2012 OR SSIS32_2008)</Show>
       </InstallUISequence>
       <Dialog Id="SSISWarning" Width="200" Height="100">
         <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />

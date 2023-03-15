@@ -12,6 +12,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+#if SQL2022
+[assembly: AssemblyTitle("MultipleHash2022")]
+[assembly: AssemblyProduct("MultipleHash2022")]
+#endif
 #if SQL2019
 [assembly: AssemblyTitle("MultipleHash2019")]
 [assembly: AssemblyProduct("MultipleHash2019")]

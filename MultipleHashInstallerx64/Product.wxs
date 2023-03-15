@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define ProductVersion = "1.7.5.0"?>
-  <?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
-  <?define Manufacturer = "Keith Martin"?>
-  <?define PackageCode = "*"?>
+	<?define ProductVersion = "1.7.6.0"?>
+	<?define UpgradeCode = "8E49EA91-5400-4782-B9C2-DBA091F563D4"?>
+	<?define Manufacturer = "Keith Martin"?>
+	<?define PackageCode = "*"?>
 
-  <Product Id="*" 
-           Name="Multiple Hash x64" 
-           Language="1033" 
-           Version="$(var.ProductVersion)" 
-           Manufacturer="$(var.Manufacturer)" 
-           UpgradeCode="$(var.UpgradeCode)">
+	<Product Id="*"
+			 Name="Multiple Hash x64"
+			 Language="1033"
+			 Version="$(var.ProductVersion)"
+			 Manufacturer="$(var.Manufacturer)"
+			 UpgradeCode="$(var.UpgradeCode)">
 
-    <Package Id="$(var.PackageCode)"
-             Description="Multiple Hash SSIS Transformation Component"
-             Comments="Installs version $(var.ProductVersion) of the dll's required for this component to work."
-             InstallerVersion="300" 
-             Manufacturer="$(var.Manufacturer)" 
-             Compressed="yes" 
-             InstallScope="perMachine" 
-             Platform="x64"/>
+		<Package Id="$(var.PackageCode)"
+				 Description="Multiple Hash SSIS Transformation Component"
+				 Comments="Installs version $(var.ProductVersion) of the dll's required for this component to work."
+				 InstallerVersion="300"
+				 Manufacturer="$(var.Manufacturer)"
+				 Compressed="yes"
+				 InstallScope="perMachine"
+				 Platform="x64"/>
 
-    <Property Id="ARPHELPLINK" Value="https://github.com/keif888/SSISMHash/" />
+		<Property Id="ARPHELPLINK" Value="https://github.com/keif888/SSISMHash/" />
 
-    <Media Id="1" Cabinet="HultipleHash.cab" EmbedCab="yes" />
+		<Media Id="1" Cabinet="HultipleHash.cab" EmbedCab="yes" />
 
-    <MajorUpgrade
-      Schedule="afterInstallInitialize"
-      DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
+		<MajorUpgrade
+		  Schedule="afterInstallInitialize"
+		  DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
 
-    <UIRef Id="WixUI_Mondo"/>
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
+		<UIRef Id="WixUI_Mondo"/>
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.MultipleHash2008.ProjectDir)\License.rtf" />
 
-    <!-- 
+		<!-- Override the Wix default actions.xml values as there is not enough space between AppSearch and LaunchConditions -->
+		<InstallExecuteSequence>
+			<AppSearch Sequence="50"></AppSearch>
+			<LaunchConditions Sequence="200"></LaunchConditions> <!-- Original Value = 100, next sequence is 500 -->
+		</InstallExecuteSequence>
+
+		<InstallUISequence>
+			<AppSearch Sequence="50"></AppSearch>
+			<LaunchConditions Sequence="200"></LaunchConditions> <!-- Original Value = 100, next sequence is 500 -->
+		</InstallUISequence>
+		
+		<!-- 
           The following works by creating 2 properties which may contain directory paths (where found in the reigstry).
           These properties are looked at progressively setting the SSIS____PATH, until one sets the path.
           Once the path is set, all subsequent ones are excluded by the condition.
@@ -40,587 +51,683 @@
           
           This prevents the filesystem detection overriding the registry locations for where SQL Server SSIS is installed.
     -->
-    <!-- Detect folder for SQL 2019 x64 installation -->
+		<!-- Detect folder for SQL 2022 x64 installation -->
 
-    <Property Id="SSIS64_2019_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
+		<Property Id="SSIS64_2022_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2022_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2022_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2022_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
+    <Property Id="SSIS64_2022_PATH_3" Secure="yes">
+      <DirectorySearch AssignToProperty="yes" Id="SSIS64_2022_PATH_p3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\160\DTS" />
     </Property>
-    <Property Id="SSIS64_2019_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
+    -->
+		<Property Id="SSIS64_2022_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2022_PATH_a" Id="SSIS64_2022_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2022_PATH_a1" Id="SSIS64_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2022_PATH_1]">SSIS64_2022_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2022_PATH_a2" Id="SSIS64_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2022_PATH_2]">SSIS64_2022_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2022_PATH_a3" Id="SSIS64_2022_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\160\DTS">SSIS64_2022_PATH=""</SetProperty>
+		<!-- Detect folder for SQL 2022 x86 installation -->
+
+		<Property Id="SSIS32_2022_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2022_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2022_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2022_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2022_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2022_PATH_a" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2022_PATH_a1" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2022_PATH_1]">SSIS32_2022_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2022_PATH_a2" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2022_PATH_2]">SSIS32_2022_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2022_PATH_a3" Id="SSIS32_2022_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\160\DTS">SSIS32_2022_PATH=""</SetProperty>
+
+		<!-- Detect folder for SQL 2019 x64 installation -->
+
+		<Property Id="SSIS64_2019_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2019_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
     <Property Id="SSIS64_2019_PATH_3" Secure="yes">
       <DirectorySearch AssignToProperty="yes" Id="SSIS64_2019_PATH_p3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\150\DTS" />
     </Property>
     -->
-    <Property Id="SSIS64_2019_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2019_PATH_a" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2019_PATH_a1" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_1]">SSIS64_2019_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2019_PATH_a2" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_2]">SSIS64_2019_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2019_PATH_a3" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\150\DTS">SSIS64_2019_PATH=""</SetProperty>
+		<Property Id="SSIS64_2019_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2019_PATH_a" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2019_PATH_a1" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_1]">SSIS64_2019_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2019_PATH_a2" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2019_PATH_2]">SSIS64_2019_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2019_PATH_a3" Id="SSIS64_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\150\DTS">SSIS64_2019_PATH=""</SetProperty>
 
-    <!-- Detect folder for SQL 2019 x86 installation -->
+		<!-- Detect folder for SQL 2019 x86 installation -->
 
-    <Property Id="SSIS32_2019_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2019_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2019_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2019_PATH_a" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2019_PATH_a1" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_1]">SSIS32_2019_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2019_PATH_a2" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_2]">SSIS32_2019_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2019_PATH_a3" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\150\DTS">SSIS32_2019_PATH=""</SetProperty>
+		<Property Id="SSIS32_2019_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2019_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2019_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2019_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2019_PATH_a" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2019_PATH_a1" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_1]">SSIS32_2019_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2019_PATH_a2" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2019_PATH_2]">SSIS32_2019_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2019_PATH_a3" Id="SSIS32_2019_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\150\DTS">SSIS32_2019_PATH=""</SetProperty>
 
-    <!-- Detect folder for SQL 2017 x64 installation -->
-      
-    <Property Id="SSIS64_2017_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2017_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
+		<!-- Detect folder for SQL 2017 x64 installation -->
+
+		<Property Id="SSIS64_2017_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2017_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2017_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<!--  Removed as we will default to this location, so a custom install will put the files somewhere reasonable.
     <Property Id="SSIS64_2017_PATH_3" Secure="yes">
       <DirectorySearch AssignToProperty="yes" Id="SSIS64_2017_PATH_p3" Path="[ProgramFiles64Folder]\Microsoft SQL Server\140\DTS" />
     </Property>
     -->
-    <Property Id="SSIS64_2017_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2017_PATH_a" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2017_PATH_a1" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_1]">SSIS64_2017_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2017_PATH_a2" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_2]">SSIS64_2017_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2017_PATH_a3" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\140\DTS">SSIS64_2017_PATH=""</SetProperty>
+		<Property Id="SSIS64_2017_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2017_PATH_a" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2017_PATH_a1" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_1]">SSIS64_2017_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2017_PATH_a2" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2017_PATH_2]">SSIS64_2017_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2017_PATH_a3" Id="SSIS64_2017_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\140\DTS">SSIS64_2017_PATH=""</SetProperty>
 
-    <!-- Detect folder for SQL 2017 x86 installation -->
-  
-    <Property Id="SSIS32_2017_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2017_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2017_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2017_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2017_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2017_PATH_a" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2017_PATH_a1" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2017_PATH_1]">SSIS32_2017_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2017_PATH_a2" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2017_PATH_2]">SSIS32_2017_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2017_PATH_a3" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\140\DTS">SSIS32_2017_PATH=""</SetProperty>
-    
-    <!-- Detect folder for SQL 2016 x64 installation -->
-      
-    <Property Id="SSIS64_2016_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2016_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\SSIS\Setup\DTSPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2016_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2016_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2016_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2016_PATH_a" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2016_PATH_a1" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2016_PATH_1]">SSIS64_2016_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2016_PATH_a2" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2016_PATH_2]">SSIS64_2016_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2016_PATH_a3" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\130\DTS">SSIS64_2016_PATH=""</SetProperty>
+		<!-- Detect folder for SQL 2017 x86 installation -->
 
-    <!-- Detect folder for SQL 2016 x86 installation -->
-  
-    <Property Id="SSIS32_2016_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2016_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2016_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2016_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2016_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2016_PATH_a" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2016_PATH_a1" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2016_PATH_1]">SSIS32_2016_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2016_PATH_a2" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2016_PATH_2]">SSIS32_2016_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2016_PATH_a3" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\130\DTS">SSIS32_2016_PATH=""</SetProperty>
-      
-    <!-- Detect folder for SQL 2014 x64 installation -->
-      
-    <Property Id="SSIS64_2014_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2014_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2014_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2014_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2014_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2014_PATH_a" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2014_PATH_a1" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2014_PATH_1]">SSIS64_2014_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2014_PATH_a2" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2014_PATH_2]">SSIS64_2014_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2014_PATH_a3" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\120\DTS">SSIS64_2014_PATH=""</SetProperty>
+		<Property Id="SSIS32_2017_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2017_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2017_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2017_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2017_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2017_PATH_a" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2017_PATH_a1" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2017_PATH_1]">SSIS32_2017_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2017_PATH_a2" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2017_PATH_2]">SSIS32_2017_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2017_PATH_a3" Id="SSIS32_2017_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\140\DTS">SSIS32_2017_PATH=""</SetProperty>
 
-    <!-- Detect folder for SQL 2014 x86 installation -->
-  
-    <Property Id="SSIS32_2014_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2014_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2014_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2014_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2014_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2014_PATH_a" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2014_PATH_a1" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2014_PATH_1]">SSIS32_2014_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2014_PATH_a2" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2014_PATH_2]">SSIS32_2014_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2014_PATH_a3" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\120\DTS">SSIS32_2014_PATH=""</SetProperty>
+		<!-- Detect folder for SQL 2016 x64 installation -->
 
-    <!-- Detect folder for SQL 2012 x64 installation -->
-      
-    <Property Id="SSIS64_2012_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2012_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2012_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2012_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2012_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2012_PATH_a" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2012_PATH_a1" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2012_PATH_1]">SSIS64_2012_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2012_PATH_a2" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2012_PATH_2]">SSIS64_2012_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2012_PATH_a3" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\110\DTS">SSIS64_2012_PATH=""</SetProperty>
+		<Property Id="SSIS64_2016_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2016_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2016_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2016_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2016_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2016_PATH_a" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2016_PATH_a1" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2016_PATH_1]">SSIS64_2016_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2016_PATH_a2" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2016_PATH_2]">SSIS64_2016_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2016_PATH_a3" Id="SSIS64_2016_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\130\DTS">SSIS64_2016_PATH=""</SetProperty>
 
-    <!-- Detect folder for SQL 2012 x86 installation -->
-  
-    <Property Id="SSIS32_2012_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2012_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2012_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2012_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2012_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2012_PATH_a" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2012_PATH_a1" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2012_PATH_1]">SSIS32_2012_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2012_PATH_a2" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2012_PATH_2]">SSIS32_2012_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2012_PATH_a3" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\110\DTS">SSIS32_2012_PATH=""</SetProperty>
+		<!-- Detect folder for SQL 2016 x86 installation -->
+
+		<Property Id="SSIS32_2016_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2016_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2016_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2016_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2016_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2016_PATH_a" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2016_PATH_a1" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2016_PATH_1]">SSIS32_2016_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2016_PATH_a2" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2016_PATH_2]">SSIS32_2016_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2016_PATH_a3" Id="SSIS32_2016_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\130\DTS">SSIS32_2016_PATH=""</SetProperty>
+
+		<!-- Detect folder for SQL 2014 x64 installation -->
+
+		<Property Id="SSIS64_2014_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2014_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2014_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2014_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2014_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2014_PATH_a" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2014_PATH_a1" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2014_PATH_1]">SSIS64_2014_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2014_PATH_a2" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2014_PATH_2]">SSIS64_2014_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2014_PATH_a3" Id="SSIS64_2014_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\120\DTS">SSIS64_2014_PATH=""</SetProperty>
+
+		<!-- Detect folder for SQL 2014 x86 installation -->
+
+		<Property Id="SSIS32_2014_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2014_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2014_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2014_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2014_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2014_PATH_a" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2014_PATH_a1" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2014_PATH_1]">SSIS32_2014_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2014_PATH_a2" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2014_PATH_2]">SSIS32_2014_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2014_PATH_a3" Id="SSIS32_2014_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\120\DTS">SSIS32_2014_PATH=""</SetProperty>
+
+		<!-- Detect folder for SQL 2012 x64 installation -->
+
+		<Property Id="SSIS64_2012_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2012_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2012_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2012_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2012_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2012_PATH_a" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2012_PATH_a1" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2012_PATH_1]">SSIS64_2012_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2012_PATH_a2" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2012_PATH_2]">SSIS64_2012_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2012_PATH_a3" Id="SSIS64_2012_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\110\DTS">SSIS64_2012_PATH=""</SetProperty>
+
+		<!-- Detect folder for SQL 2012 x86 installation -->
+
+		<Property Id="SSIS32_2012_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2012_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2012_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2012_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2012_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2012_PATH_a" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2012_PATH_a1" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2012_PATH_1]">SSIS32_2012_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2012_PATH_a2" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2012_PATH_2]">SSIS32_2012_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2012_PATH_a3" Id="SSIS32_2012_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\110\DTS">SSIS32_2012_PATH=""</SetProperty>
 
 
-    <!-- Detect folder for SQL 2008 x64 installation -->
-      
-    <Property Id="SSIS64_2008_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2008_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2008_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS64_2008_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="SQLPath" Win64="yes"/>
-    </Property>
-    <Property Id="SSIS64_2008_PATH" Secure="yes" />
-    <SetProperty Action="SSIS64_2008_PATH_a" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS64_2008_PATH_a1" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2008_PATH_1]">SSIS64_2008_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2008_PATH_a2" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2008_PATH_2]">SSIS64_2008_PATH=""</SetProperty>
-    <SetProperty Action="SSIS64_2008_PATH_a3" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\100\DTS">SSIS64_2008_PATH=""</SetProperty>
+		<!-- Detect folder for SQL 2008 x64 installation -->
 
-    <!-- Detect folder for SQL 2008 x86 installation -->
-  
-    <Property Id="SSIS32_2008_PATH_1" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2008_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2008_PATH_2" Secure="yes">
-      <RegistrySearch Type="directory" Id="SSIS32_2008_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="SQLPath" Win64="no"/>
-    </Property>
-    <Property Id="SSIS32_2008_PATH" Secure="yes" />
-    <SetProperty Action="SSIS32_2008_PATH_a" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value=""/>
-    <SetProperty Action="SSIS32_2008_PATH_a1" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2008_PATH_1]">SSIS32_2008_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2008_PATH_a2" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2008_PATH_2]">SSIS32_2008_PATH=""</SetProperty>
-    <SetProperty Action="SSIS32_2008_PATH_a3" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\100\DTS">SSIS32_2008_PATH=""</SetProperty>
-    
-    <!-- At this point we have discovered the SQL Server SSIS path locations -->
-    
-    <!-- The following attempts to detect if SSIS or SSDT's is installed -->
+		<Property Id="SSIS64_2008_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2008_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2008_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS64_2008_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="SQLPath" Win64="yes"/>
+		</Property>
+		<Property Id="SSIS64_2008_PATH" Secure="yes" />
+		<SetProperty Action="SSIS64_2008_PATH_a" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS64_2008_PATH_a1" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2008_PATH_1]">SSIS64_2008_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2008_PATH_a2" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS64_2008_PATH_2]">SSIS64_2008_PATH=""</SetProperty>
+		<SetProperty Action="SSIS64_2008_PATH_a3" Id="SSIS64_2008_PATH" Sequence="both" After="AppSearch" Value="[ProgramFiles64Folder]\Microsoft SQL Server\100\DTS">SSIS64_2008_PATH=""</SetProperty>
 
-    <Property Id="SSIS64_2019" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2019_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="yes"/> -->
-    </Property>
+		<!-- Detect folder for SQL 2008 x86 installation -->
 
-    <Property Id="SSIS32_2019" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2019_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
+		<Property Id="SSIS32_2008_PATH_1" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2008_PATH_p1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2008_PATH_2" Secure="yes">
+			<RegistrySearch Type="directory" Id="SSIS32_2008_PATH_p2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="SQLPath" Win64="no"/>
+		</Property>
+		<Property Id="SSIS32_2008_PATH" Secure="yes" />
+		<SetProperty Action="SSIS32_2008_PATH_a" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value=""/>
+		<SetProperty Action="SSIS32_2008_PATH_a1" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2008_PATH_1]">SSIS32_2008_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2008_PATH_a2" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[SSIS32_2008_PATH_2]">SSIS32_2008_PATH=""</SetProperty>
+		<SetProperty Action="SSIS32_2008_PATH_a3" Id="SSIS32_2008_PATH" Sequence="both" After="AppSearch" Value="[ProgramFilesFolder]\Microsoft SQL Server\100\DTS">SSIS32_2008_PATH=""</SetProperty>
 
-    <Property Id="SSIS64_2017" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="yes"/>
-      <RegistrySearch Type="raw" Id="SSIS64_2017_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="yes"/> -->
-    </Property>
+		<!-- At this point we have discovered the SQL Server SSIS path locations -->
 
-    <Property Id="SSIS32_2017" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2017_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
-    </Property>
+		<!-- The following attempts to detect if SSIS or SSDT's is installed -->
 
-    <Property Id="SSIS64_2016" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="yes"/> -->
-    </Property>
+		<Property Id="SSIS64_2022" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2022_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="Edition" Win64="yes"/>
+			<RegistrySearch Type="raw" Id="SSIS64_2022_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2022_2" Root="HKCR" Key="IntegrationServices.Package.160" Win64="yes"/> -->
+		</Property>
 
-    <Property Id="SSIS32_2016" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="no"/>
-    </Property>
+		<Property Id="SSIS32_2022" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2022_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\DTS\Setup" Name="Edition" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2022_2" Root="HKCR" Key="IntegrationServices.Package.160" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2022_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\160\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
 
-    <Property Id="SSIS64_2014" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="yes"/>-->
-    </Property>
+		<Property Id="SSIS64_2019" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="yes"/>
+			<RegistrySearch Type="raw" Id="SSIS64_2019_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="yes"/> -->
+		</Property>
 
-    <Property Id="SSIS32_2014" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="no"/>
-    </Property>
+		<Property Id="SSIS32_2019" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2019_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\DTS\Setup" Name="Edition" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2019_2" Root="HKCR" Key="IntegrationServices.Package.150" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2019_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\150\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
 
-    <Property Id="SSIS64_2012" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="yes"/>-->
-    </Property>
+		<Property Id="SSIS64_2017" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="yes"/>
+			<RegistrySearch Type="raw" Id="SSIS64_2017_2" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="yes"/> -->
+		</Property>
 
-    <Property Id="SSIS32_2012" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="no"/>
-    </Property>
+		<Property Id="SSIS32_2017" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2017_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\DTS\Setup" Name="Edition" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2017_2" Root="HKCR" Key="IntegrationServices.Package.140" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2017_3" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\140\SSIS\Setup\DTSPath" Win64="no"/>
+		</Property>
 
-    <Property Id="SSIS64_2008" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS64_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="yes"/>
-      <!--<RegistrySearch Type="raw" Id="SSIS64_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="yes"/>-->
-    </Property>
+		<Property Id="SSIS64_2016" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="yes"/> -->
+		</Property>
 
-    <Property Id="SSIS32_2008" Secure="yes">
-      <RegistrySearch Type="raw" Id="SSIS32_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="no"/>
-      <RegistrySearch Type="raw" Id="SSIS32_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="no"/>
-    </Property>
+		<Property Id="SSIS32_2016" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2016_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\130\DTS\Setup" Name="Edition" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2016_2" Root="HKCR" Key="IntegrationServices.Package.130" Win64="no"/>
+		</Property>
 
-    <!-- We need to find either or both a 32 or 64 bit install of SSIS 2008 or 2012. 
+		<Property Id="SSIS64_2014" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="yes"/>-->
+		</Property>
+
+		<Property Id="SSIS32_2014" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2014_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\120\DTS\Setup" Name="Edition" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2014_2" Root="HKCR" Key="IntegrationServices.Package.120" Win64="no"/>
+		</Property>
+
+		<Property Id="SSIS64_2012" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="yes"/>-->
+		</Property>
+
+		<Property Id="SSIS32_2012" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2012_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\110\DTS\Setup" Name="ProductID" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2012_2" Root="HKCR" Key="IntegrationServices.Package.110" Win64="no"/>
+		</Property>
+
+		<Property Id="SSIS64_2008" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS64_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="yes"/>
+			<!--<RegistrySearch Type="raw" Id="SSIS64_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="yes"/>-->
+		</Property>
+
+		<Property Id="SSIS32_2008" Secure="yes">
+			<RegistrySearch Type="raw" Id="SSIS32_2008_1" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup" Name="ProductID" Win64="no"/>
+			<RegistrySearch Type="raw" Id="SSIS32_2008_2" Root="HKCR" Key="IntegrationServices.Package.100" Win64="no"/>
+		</Property>
+
+		<!-- We need to find either or both a 32 or 64 bit install of SSIS 2008 or 2012. 
     Replaced with Warning below.
     <Condition Message="SQL Server Integration Services or BIDS/SSDT is not installed on this computer.  Please install SQL Server Integration Services, BIDS or SSDT before running this installer.">
       Installed OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008
     </Condition>
     -->
-    
-    <Condition Message="You need to be an administrator to install this product.">
-      Privileged
-    </Condition>
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
+		<Condition Message="You need to be an administrator to install this product.">
+			Privileged
+		</Condition>
 
-      <!-- The following setup the Global Assembley Cache file drop components. -->
+		<Directory Id="TARGETDIR" Name="SourceDir">
 
-      <Component Id="SQL2019GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2019">
-        <File Id="SQL2019DLLGAC" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<!-- The following setup the Global Assembley Cache file drop components. -->
 
-      <Component Id="SQL2017GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0FC590">
-        <File Id="SQL2017DLLGAC" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<Component Id="SQL2022GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2022">
+				<File Id="SQL2022DLLGAC" Name="$(var.MultipleHash2022.TargetFileName)" Source="$(var.MultipleHash2022.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
 
-      <Component Id="SQL2016GAC" Guid="A17D6056-C38E-411C-9AFF-3C53283F78BD">
-        <File Id="SQL2016DLLGAC" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<Component Id="SQL2019GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0F2019">
+				<File Id="SQL2019DLLGAC" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
 
-      <Component Id="SQL2014GAC" Guid="32BD89BB-7EEA-41ED-8832-C29AD17E2F71">
-        <File Id="SQL2014DLLGAC" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<Component Id="SQL2017GAC" Guid="48CE3186-F22C-4B3F-B2EC-354E7C0FC590">
+				<File Id="SQL2017DLLGAC" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
 
-      <Component Id="SQL2012GAC" Guid="03F16F6D-7013-4EAB-995C-BC3059659DC3">
-        <File Id="SQL2012DLLGAC" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<Component Id="SQL2016GAC" Guid="A17D6056-C38E-411C-9AFF-3C53283F78BD">
+				<File Id="SQL2016DLLGAC" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
 
-      <Component Id="SQL2008GAC" Guid="C2A15C13-01DE-4BC7-B9D8-7B3AA6F5F367">
-        <File Id="SQL2008DLLGAC" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
-      </Component>
+			<Component Id="SQL2014GAC" Guid="32BD89BB-7EEA-41ED-8832-C29AD17E2F71">
+				<File Id="SQL2014DLLGAC" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
+
+			<Component Id="SQL2012GAC" Guid="03F16F6D-7013-4EAB-995C-BC3059659DC3">
+				<File Id="SQL2012DLLGAC" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
+
+			<Component Id="SQL2008GAC" Guid="C2A15C13-01DE-4BC7-B9D8-7B3AA6F5F367">
+				<File Id="SQL2008DLLGAC" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)" Assembly=".net" KeyPath="yes" Checksum="yes"/>
+			</Component>
 
 
-      <!-- The following defines the components to install the DLL's and the upgrade and extension xml files. -->
+			<!-- The following defines the components to install the DLL's and the upgrade and extension xml files. -->
 
-      <Directory Id="SSIS64_2019_PATH" Name="SSIS64_2019_PATH">
-        <Directory Id="SQL2019x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2019x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB642019" Win64="yes">
-            <File Id="SQL2019x64DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2019x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2019x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D42019" Win64="yes">
-            <File Id="SQL2019x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2019x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA2019" Win64="yes">
-            <File Id="SQL2019x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2022_PATH" Name="SSIS64_2022_PATH">
+				<Directory Id="SQL2022x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2022x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB642022" Win64="yes">
+						<File Id="SQL2022x64DLLFile" Name="$(var.MultipleHash2022.TargetFileName)" Source="$(var.MultipleHash2022.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2022x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2022x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D42022" Win64="yes">
+						<File Id="SQL2022x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2022x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA2022" Win64="yes">
+						<File Id="SQL2022x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2019_PATH" Name="SSIS32_2019_PATH">
-        <Directory Id="SQL2019x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2019x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12019" Win64="no">
-            <File Id="SQL2019x32DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2019x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2019x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB2019" Win64="no">
-            <File Id="SQL2019x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2019x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E2019" Win64="no">
-            <File Id="SQL2019x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS32_2022_PATH" Name="SSIS32_2022_PATH">
+				<Directory Id="SQL2022x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2022x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12022" Win64="no">
+						<File Id="SQL2022x32DLLFile" Name="$(var.MultipleHash2022.TargetFileName)" Source="$(var.MultipleHash2022.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2022x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2022x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB2022" Win64="no">
+						<File Id="SQL2022x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2022x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E2022" Win64="no">
+						<File Id="SQL2022x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2022.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS64_2017_PATH" Name="SSIS64_2017_PATH">
-        <Directory Id="SQL2017x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2017x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB64F36C" Win64="yes">
-            <File Id="SQL2017x64DLLFile" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2017x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2017x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D4F405" Win64="yes">
-            <File Id="SQL2017x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2017x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA4C16" Win64="yes">
-            <File Id="SQL2017x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2019_PATH" Name="SSIS64_2019_PATH">
+				<Directory Id="SQL2019x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2019x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB642019" Win64="yes">
+						<File Id="SQL2019x64DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2019x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2019x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D42019" Win64="yes">
+						<File Id="SQL2019x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2019x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA2019" Win64="yes">
+						<File Id="SQL2019x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2017_PATH" Name="SSIS32_2017_PATH">
-        <Directory Id="SQL2017x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2017x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D14024" Win64="no">
-            <File Id="SQL2017x32DLLFile" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2017x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2017x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB6FC5" Win64="no">
-            <File Id="SQL2017x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2017x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E7B8D" Win64="no">
-            <File Id="SQL2017x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS32_2019_PATH" Name="SSIS32_2019_PATH">
+				<Directory Id="SQL2019x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2019x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D12019" Win64="no">
+						<File Id="SQL2019x32DLLFile" Name="$(var.MultipleHash2019.TargetFileName)" Source="$(var.MultipleHash2019.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2019x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2019x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB2019" Win64="no">
+						<File Id="SQL2019x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2019x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E2019" Win64="no">
+						<File Id="SQL2019x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2019.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS64_2016_PATH" Name="SSIS64_2016_PATH">
-        <Directory Id="SQL2016x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2016x64DLL" Guid="2C4C0FFA-D4CC-4E64-9F6C-DF5DA48F4A4B" Win64="yes">
-            <File Id="SQL2016x64DLLFile" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2016x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2016x64UpgradeMapping" Guid="4BD23332-9484-45B5-8441-61160FC3C835" Win64="yes">
-            <File Id="SQL2016x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2016x64UpgradeMappingExtension" Guid="175771A8-B672-4C66-A012-8E5E32BD00FD" Win64="yes">
-            <File Id="SQL2016x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2017_PATH" Name="SSIS64_2017_PATH">
+				<Directory Id="SQL2017x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2017x64DLL" Guid="BDAD0907-6F42-4071-B8E9-E150AB64F36C" Win64="yes">
+						<File Id="SQL2017x64DLLFile" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2017x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2017x64UpgradeMapping" Guid="BBD70133-06D1-448D-A180-3D6BF2D4F405" Win64="yes">
+						<File Id="SQL2017x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2017x64UpgradeMappingExtension" Guid="522058DE-31B0-4AD3-98A4-C8E90EBA4C16" Win64="yes">
+						<File Id="SQL2017x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2016_PATH" Name="SSIS32_2016_PATH">
-        <Directory Id="SQL2016x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2016x32DLL" Guid="53C11247-D90D-43E6-975E-F1972381279C" Win64="no">
-            <File Id="SQL2016x32DLLFile" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2016x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2016x32UpgradeMapping" Guid="B13196E0-1C72-4413-8C1E-20F0FB23C4FD" Win64="no">
-            <File Id="SQL2016x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2016x32UpgradeMappingExtension" Guid="250C57CF-92F7-47D3-9E60-81D79B7F3DA1" Win64="no">
-            <File Id="SQL2016x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS32_2017_PATH" Name="SSIS32_2017_PATH">
+				<Directory Id="SQL2017x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2017x32DLL" Guid="790737AD-F0A9-41B9-8BE4-99F111D14024" Win64="no">
+						<File Id="SQL2017x32DLLFile" Name="$(var.MultipleHash2017.TargetFileName)" Source="$(var.MultipleHash2017.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2017x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2017x32UpgradeMapping" Guid="B50C3E05-69FD-48F1-95DF-C24216EB6FC5" Win64="no">
+						<File Id="SQL2017x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2017x32UpgradeMappingExtension" Guid="2E5A5059-4D9B-4D9A-8449-AC5DE58E7B8D" Win64="no">
+						<File Id="SQL2017x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2017.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS64_2014_PATH" Name="SSIS64_2014_PATH">
-        <Directory Id="SQL2014x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2014x64DLL" Guid="6B2B4A81-1F32-4C80-AD0B-7EAE7438E2AC" Win64="yes">
-            <File Id="SQL2014x64DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2014x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2014x64UpgradeMapping" Guid="976D2EB0-FC43-4F6E-BEEF-7E50079CB70B" Win64="yes">
-            <File Id="SQL2014x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2014x64UpgradeMappingExtension" Guid="3ED9C9D3-4169-44A1-90E6-2FC9741B2D72" Win64="yes">
-            <File Id="SQL2014x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2016_PATH" Name="SSIS64_2016_PATH">
+				<Directory Id="SQL2016x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2016x64DLL" Guid="2C4C0FFA-D4CC-4E64-9F6C-DF5DA48F4A4B" Win64="yes">
+						<File Id="SQL2016x64DLLFile" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2016x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2016x64UpgradeMapping" Guid="4BD23332-9484-45B5-8441-61160FC3C835" Win64="yes">
+						<File Id="SQL2016x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2016x64UpgradeMappingExtension" Guid="175771A8-B672-4C66-A012-8E5E32BD00FD" Win64="yes">
+						<File Id="SQL2016x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2014_PATH" Name="SSIS32_2014_PATH">
-        <Directory Id="SQL2014x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2014x32DLL" Guid="9E115C03-BFED-4E25-96C5-38101001A30E" Win64="no">
-            <File Id="SQL2014x32DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2014x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2014x32UpgradeMapping" Guid="F4AD083A-C079-4042-B465-B6EC3533E7D6" Win64="no">
-            <File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-          <Component Id="SQL2014x32UpgradeMappingExtension" Guid="E5E9503D-BF63-45E9-93F3-D81A3C7AB072" Win64="no">
-            <File Id="SQL2014x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS32_2016_PATH" Name="SSIS32_2016_PATH">
+				<Directory Id="SQL2016x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2016x32DLL" Guid="53C11247-D90D-43E6-975E-F1972381279C" Win64="no">
+						<File Id="SQL2016x32DLLFile" Name="$(var.MultipleHash2016.TargetFileName)" Source="$(var.MultipleHash2016.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2016x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2016x32UpgradeMapping" Guid="B13196E0-1C72-4413-8C1E-20F0FB23C4FD" Win64="no">
+						<File Id="SQL2016x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2016x32UpgradeMappingExtension" Guid="250C57CF-92F7-47D3-9E60-81D79B7F3DA1" Win64="no">
+						<File Id="SQL2016x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2016.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS64_2012_PATH" Name="SSIS64_2012_PATH">
-        <Directory Id="SQL2012x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2012x64DLL" Guid="9F413B6A-6B5B-4384-8155-D9BE2AFADD66" Win64="yes">
-            <File Id="SQL2012x64DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2012x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2012x64UpgradeMapping" Guid="17C57F1E-EABE-42E3-BFF8-F565DE98F5AA" Win64="yes">
-            <File Id="SQL2012x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2014_PATH" Name="SSIS64_2014_PATH">
+				<Directory Id="SQL2014x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2014x64DLL" Guid="6B2B4A81-1F32-4C80-AD0B-7EAE7438E2AC" Win64="yes">
+						<File Id="SQL2014x64DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2014x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2014x64UpgradeMapping" Guid="976D2EB0-FC43-4F6E-BEEF-7E50079CB70B" Win64="yes">
+						<File Id="SQL2014x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2014x64UpgradeMappingExtension" Guid="3ED9C9D3-4169-44A1-90E6-2FC9741B2D72" Win64="yes">
+						<File Id="SQL2014x64UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2012_PATH" Name="SSIS32_2012_PATH">
-        <Directory Id="SQL2012x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2012x32DLL" Guid="11CAEB1C-E1A7-4D7C-BC33-C3E003D1D6F6" Win64="no">
-            <File Id="SQL2012x32DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2012x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2012x32UpgradeMapping" Guid="00B931D6-C589-4C81-8D4F-9B4B38A31B78" Win64="no">
-            <File Id="SQL2012x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS32_2014_PATH" Name="SSIS32_2014_PATH">
+				<Directory Id="SQL2014x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2014x32DLL" Guid="9E115C03-BFED-4E25-96C5-38101001A30E" Win64="no">
+						<File Id="SQL2014x32DLLFile" Name="$(var.MultipleHash2014.TargetFileName)" Source="$(var.MultipleHash2014.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2014x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2014x32UpgradeMapping" Guid="F4AD083A-C079-4042-B465-B6EC3533E7D6" Win64="no">
+						<File Id="SQL2014x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+					<Component Id="SQL2014x32UpgradeMappingExtension" Guid="E5E9503D-BF63-45E9-93F3-D81A3C7AB072" Win64="no">
+						<File Id="SQL2014x32UpgradeFileExtension" Name="SSISMHash.extensions.xml" Source="$(var.MultipleHash2014.ProjectDir)\SSISMHash.extensions.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS64_2008_PATH" Name="SSIS64_2008_PATH">
-        <Directory Id="SQL2008x64Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2008x64DLL" Guid="A95E0ADB-3A10-48E5-98B5-4DCEF04C7E69" Win64="yes">
-            <File Id="SQL2008x64DLLFile" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2008x64Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2008x64UpgradeMapping" Guid="7F7E935F-DDD4-44ED-81FD-0348CADB397E" Win64="yes">
-            <File Id="SQL2008x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2008.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
+			<Directory Id="SSIS64_2012_PATH" Name="SSIS64_2012_PATH">
+				<Directory Id="SQL2012x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2012x64DLL" Guid="9F413B6A-6B5B-4384-8155-D9BE2AFADD66" Win64="yes">
+						<File Id="SQL2012x64DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2012x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2012x64UpgradeMapping" Guid="17C57F1E-EABE-42E3-BFF8-F565DE98F5AA" Win64="yes">
+						<File Id="SQL2012x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-      <Directory Id="SSIS32_2008_PATH" Name="SSIS32_2008_PATH">
-        <Directory Id="SQL2008x32Pipeline" Name="PipelineComponents">
-          <Component Id="SQL2008x32DLL" Guid="2F66CDAC-39E1-49AD-B7DB-E6EDCD4E32CC" Win64="no">
-            <File Id="SQL2008x32DLLFile" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)"  Checksum="yes"/>
-          </Component>
-        </Directory>
-        <Directory Id="SQL2008x32Upgrade" Name="UpgradeMappings">
-          <Component Id="SQL2008x32UpgradeMapping" Guid="A8CC404C-E890-4DE2-908E-CD66E7D1CB7C" Win64="no">
-            <File Id="SQL2008x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2008.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
-          </Component>
-        </Directory>
-      </Directory>
-    </Directory>
+			<Directory Id="SSIS32_2012_PATH" Name="SSIS32_2012_PATH">
+				<Directory Id="SQL2012x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2012x32DLL" Guid="11CAEB1C-E1A7-4D7C-BC33-C3E003D1D6F6" Win64="no">
+						<File Id="SQL2012x32DLLFile" Name="$(var.MultipleHash2012.TargetFileName)" Source="$(var.MultipleHash2012.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2012x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2012x32UpgradeMapping" Guid="00B931D6-C589-4C81-8D4F-9B4B38A31B78" Win64="no">
+						<File Id="SQL2012x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2012.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-    
-    <!-- The following defines the actual installer, using all the definitions above. -->
-      
-    <Feature Id="Complete" Level="1" Title="Multiple Hash Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
-      <Feature Id="SQL2019" Level="1" Title="SQL 2019">
-        <Feature Id="SQL2019x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2019_PATH">
-          <ComponentRef Id="SQL2019x64DLL"/>
-          <ComponentRef Id="SQL2019x64UpgradeMapping"/>
-          <ComponentRef Id="SQL2019x64UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS64_2019</Condition>
-        </Feature>
-        <Feature Id="SQL2019x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2019_PATH">
-          <ComponentRef Id="SQL2019x32DLL"/>
-          <ComponentRef Id="SQL2019x32UpgradeMapping"/>
-          <ComponentRef Id="SQL2019x32UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS32_2019</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2019GAC" />
-        <Condition Level="1004">NOT (SSIS32_2019 OR SSIS64_2019)</Condition>
-      </Feature>
-      <Feature Id="SQL2017" Level="1" Title="SQL 2017">
-        <Feature Id="SQL2017x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2017_PATH">
-          <ComponentRef Id="SQL2017x64DLL"/>
-          <ComponentRef Id="SQL2017x64UpgradeMapping"/>
-          <ComponentRef Id="SQL2017x64UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS64_2017</Condition>
-        </Feature>
-        <Feature Id="SQL2017x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2017_PATH">
-          <ComponentRef Id="SQL2017x32DLL"/>
-          <ComponentRef Id="SQL2017x32UpgradeMapping"/>
-          <ComponentRef Id="SQL2017x32UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS32_2017</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2017GAC" />
-        <Condition Level="1004">NOT (SSIS32_2017 OR SSIS64_2017)</Condition>
-      </Feature>
-      <Feature Id="SQL2016" Level="1" Title="SQL 2016">
-        <Feature Id="SQL2016x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2016_PATH">
-          <ComponentRef Id="SQL2016x64DLL"/>
-          <ComponentRef Id="SQL2016x64UpgradeMapping"/>
-          <ComponentRef Id="SQL2016x64UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS64_2016</Condition>
-        </Feature>
-        <Feature Id="SQL2016x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2016_PATH">
-          <ComponentRef Id="SQL2016x32DLL"/>
-          <ComponentRef Id="SQL2016x32UpgradeMapping"/>
-          <ComponentRef Id="SQL2016x32UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS32_2016</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2016GAC" />
-        <Condition Level="1004">NOT (SSIS32_2016 OR SSIS64_2016)</Condition>
-      </Feature>
-      <Feature Id="SQL2014" Level="1" Title="SQL 2014">
-        <Feature Id="SQL2014x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2014_PATH">
-          <ComponentRef Id="SQL2014x64DLL"/>
-          <ComponentRef Id="SQL2014x64UpgradeMapping"/>
-          <ComponentRef Id="SQL2014x64UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS64_2014</Condition>
-        </Feature>
-        <Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
-          <ComponentRef Id="SQL2014x32DLL"/>
-          <ComponentRef Id="SQL2014x32UpgradeMapping"/>
-          <ComponentRef Id="SQL2014x32UpgradeMappingExtension"/>
-          <Condition Level="1004">NOT SSIS32_2014</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2014GAC" />
-        <Condition Level="1004">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
-      </Feature>
-      <Feature Id="SQL2012" Level="1" Title="SQL 2012">
-        <Feature Id="SQL2012x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2012_PATH">
-          <ComponentRef Id="SQL2012x64DLL"/>
-          <ComponentRef Id="SQL2012x64UpgradeMapping"/>
-          <Condition Level="1004">NOT SSIS64_2012</Condition>
-        </Feature>
-        <Feature Id="SQL2012x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2012_PATH">
-          <ComponentRef Id="SQL2012x32DLL"/>
-          <ComponentRef Id="SQL2012x32UpgradeMapping"/>
-          <Condition Level="1004">NOT SSIS32_2012</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2012GAC" />
-        <Condition Level="1004">NOT (SSIS32_2012 OR SSIS64_2012)</Condition>
-      </Feature>
-      <Feature Id="SQL2008" Level="1" Title="SQL 2008">
-        <Feature Id="SQL2008x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2008_PATH">
-          <ComponentRef Id="SQL2008x64DLL"/>
-          <ComponentRef Id="SQL2008x64UpgradeMapping"/>
-          <Condition Level="1004">NOT SSIS64_2008</Condition>
-        </Feature>
-        <Feature Id="SQL2008x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2008_PATH">
-          <ComponentRef Id="SQL2008x32DLL"/>
-          <ComponentRef Id="SQL2008x32UpgradeMapping"/>
-          <Condition Level="1004">NOT SSIS32_2008</Condition>
-        </Feature>
-        <ComponentRef Id="SQL2008GAC" />
-        <Condition Level="1004">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
-      </Feature>
-    </Feature>
+			<Directory Id="SSIS64_2008_PATH" Name="SSIS64_2008_PATH">
+				<Directory Id="SQL2008x64Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2008x64DLL" Guid="A95E0ADB-3A10-48E5-98B5-4DCEF04C7E69" Win64="yes">
+						<File Id="SQL2008x64DLLFile" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2008x64Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2008x64UpgradeMapping" Guid="7F7E935F-DDD4-44ED-81FD-0348CADB397E" Win64="yes">
+						<File Id="SQL2008x64UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2008.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
 
-    <!-- Display a Warning dialog box IF SSIS isn't detected.  And don't forget to update the or statement below to include newer versions of SQL Server SSIS when added above. -->
-    <UI>
-      <InstallUISequence>
-        <Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2019 OR SSIS64_2019 OR SSIS32_2017 OR SSIS64_2017 OR SSIS64_2016 OR SSIS32_2016 OR SSIS64_2014 OR SSIS32_2014 OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008)</Show>
-      </InstallUISequence>
-      <Dialog Id="SSISWarning" Width="200" Height="100">
-        <Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />
-        <Control Type="Text" Id="text2" Width="151" Height="12" X="4" Y="22" Text="Use Custom Install to install." />
-        <Control Type="PushButton" Id="OK" Width="56" Height="17" X="68" Y="56" Text="OK">
-          <Publish Event="EndDialog" Value="Return">1</Publish>
-        </Control>
-      </Dialog>
-    </UI>
+			<Directory Id="SSIS32_2008_PATH" Name="SSIS32_2008_PATH">
+				<Directory Id="SQL2008x32Pipeline" Name="PipelineComponents">
+					<Component Id="SQL2008x32DLL" Guid="2F66CDAC-39E1-49AD-B7DB-E6EDCD4E32CC" Win64="no">
+						<File Id="SQL2008x32DLLFile" Name="$(var.MultipleHash2008.TargetFileName)" Source="$(var.MultipleHash2008.TargetPath)"  Checksum="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SQL2008x32Upgrade" Name="UpgradeMappings">
+					<Component Id="SQL2008x32UpgradeMapping" Guid="A8CC404C-E890-4DE2-908E-CD66E7D1CB7C" Win64="no">
+						<File Id="SQL2008x32UpgradeFile" Name="SSISMHash.xml" Source="$(var.MultipleHash2008.ProjectDir)\SSISMHash.xml" Checksum="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
+		</Directory>
 
-  </Product>
+
+		<!-- The following defines the actual installer, using all the definitions above. -->
+
+		<Feature Id="Complete" Level="1" Title="Multiple Hash Installer" Description="An SSIS Component to Calculate Hash values in the data flow" Display="expand">
+			<Feature Id="SQL2022" Level="1" Title="SQL 2022">
+				<Feature Id="SQL2022x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2022_PATH">
+					<ComponentRef Id="SQL2022x64DLL"/>
+					<ComponentRef Id="SQL2022x64UpgradeMapping"/>
+					<ComponentRef Id="SQL2022x64UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS64_2022</Condition>
+				</Feature>
+				<Feature Id="SQL2022x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2022_PATH">
+					<ComponentRef Id="SQL2022x32DLL"/>
+					<ComponentRef Id="SQL2022x32UpgradeMapping"/>
+					<ComponentRef Id="SQL2022x32UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS32_2022</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2022GAC" />
+				<Condition Level="1004">NOT (SSIS32_2022 OR SSIS64_2022)</Condition>
+			</Feature>
+			<Feature Id="SQL2019" Level="1" Title="SQL 2019">
+				<Feature Id="SQL2019x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2019_PATH">
+					<ComponentRef Id="SQL2019x64DLL"/>
+					<ComponentRef Id="SQL2019x64UpgradeMapping"/>
+					<ComponentRef Id="SQL2019x64UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS64_2019</Condition>
+				</Feature>
+				<Feature Id="SQL2019x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2019_PATH">
+					<ComponentRef Id="SQL2019x32DLL"/>
+					<ComponentRef Id="SQL2019x32UpgradeMapping"/>
+					<ComponentRef Id="SQL2019x32UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS32_2019</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2019GAC" />
+				<Condition Level="1004">NOT (SSIS32_2019 OR SSIS64_2019)</Condition>
+			</Feature>
+			<Feature Id="SQL2017" Level="1" Title="SQL 2017">
+				<Feature Id="SQL2017x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2017_PATH">
+					<ComponentRef Id="SQL2017x64DLL"/>
+					<ComponentRef Id="SQL2017x64UpgradeMapping"/>
+					<ComponentRef Id="SQL2017x64UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS64_2017</Condition>
+				</Feature>
+				<Feature Id="SQL2017x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2017_PATH">
+					<ComponentRef Id="SQL2017x32DLL"/>
+					<ComponentRef Id="SQL2017x32UpgradeMapping"/>
+					<ComponentRef Id="SQL2017x32UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS32_2017</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2017GAC" />
+				<Condition Level="1004">NOT (SSIS32_2017 OR SSIS64_2017)</Condition>
+			</Feature>
+			<Feature Id="SQL2016" Level="1" Title="SQL 2016">
+				<Feature Id="SQL2016x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2016_PATH">
+					<ComponentRef Id="SQL2016x64DLL"/>
+					<ComponentRef Id="SQL2016x64UpgradeMapping"/>
+					<ComponentRef Id="SQL2016x64UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS64_2016</Condition>
+				</Feature>
+				<Feature Id="SQL2016x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2016_PATH">
+					<ComponentRef Id="SQL2016x32DLL"/>
+					<ComponentRef Id="SQL2016x32UpgradeMapping"/>
+					<ComponentRef Id="SQL2016x32UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS32_2016</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2016GAC" />
+				<Condition Level="1004">NOT (SSIS32_2016 OR SSIS64_2016)</Condition>
+			</Feature>
+			<Feature Id="SQL2014" Level="1" Title="SQL 2014">
+				<Feature Id="SQL2014x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2014_PATH">
+					<ComponentRef Id="SQL2014x64DLL"/>
+					<ComponentRef Id="SQL2014x64UpgradeMapping"/>
+					<ComponentRef Id="SQL2014x64UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS64_2014</Condition>
+				</Feature>
+				<Feature Id="SQL2014x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2014_PATH">
+					<ComponentRef Id="SQL2014x32DLL"/>
+					<ComponentRef Id="SQL2014x32UpgradeMapping"/>
+					<ComponentRef Id="SQL2014x32UpgradeMappingExtension"/>
+					<Condition Level="1004">NOT SSIS32_2014</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2014GAC" />
+				<Condition Level="1004">NOT (SSIS32_2014 OR SSIS64_2014)</Condition>
+			</Feature>
+			<Feature Id="SQL2012" Level="1" Title="SQL 2012">
+				<Feature Id="SQL2012x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2012_PATH">
+					<ComponentRef Id="SQL2012x64DLL"/>
+					<ComponentRef Id="SQL2012x64UpgradeMapping"/>
+					<Condition Level="1004">NOT SSIS64_2012</Condition>
+				</Feature>
+				<Feature Id="SQL2012x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2012_PATH">
+					<ComponentRef Id="SQL2012x32DLL"/>
+					<ComponentRef Id="SQL2012x32UpgradeMapping"/>
+					<Condition Level="1004">NOT SSIS32_2012</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2012GAC" />
+				<Condition Level="1004">NOT (SSIS32_2012 OR SSIS64_2012)</Condition>
+			</Feature>
+			<Feature Id="SQL2008" Level="1" Title="SQL 2008">
+				<Feature Id="SQL2008x64" Level="1" Title="x64" ConfigurableDirectory="SSIS64_2008_PATH">
+					<ComponentRef Id="SQL2008x64DLL"/>
+					<ComponentRef Id="SQL2008x64UpgradeMapping"/>
+					<Condition Level="1004">NOT SSIS64_2008</Condition>
+				</Feature>
+				<Feature Id="SQL2008x32" Level="1" Title="x86" ConfigurableDirectory="SSIS32_2008_PATH">
+					<ComponentRef Id="SQL2008x32DLL"/>
+					<ComponentRef Id="SQL2008x32UpgradeMapping"/>
+					<Condition Level="1004">NOT SSIS32_2008</Condition>
+				</Feature>
+				<ComponentRef Id="SQL2008GAC" />
+				<Condition Level="1004">NOT (SSIS32_2008 OR SSIS64_2008)</Condition>
+			</Feature>
+		</Feature>
+
+		<!-- Display a Warning dialog box IF SSIS isn't detected.  And don't forget to update the or statement below to include newer versions of SQL Server SSIS when added above. -->
+		<UI>
+			<InstallUISequence>
+				<Show Dialog="SSISWarning" Before="ResumeDlg">NOT Installed AND NOT (SSIS32_2022 OR SSIS64_2022 OR SSIS32_2019 OR SSIS64_2019 OR SSIS32_2017 OR SSIS64_2017 OR SSIS64_2016 OR SSIS32_2016 OR SSIS64_2014 OR SSIS32_2014 OR SSIS64_2012 OR SSIS32_2012 OR SSIS64_2008 OR SSIS32_2008)</Show>
+			</InstallUISequence>
+			<Dialog Id="SSISWarning" Width="200" Height="100">
+				<Control Type="Text" Id="text1" Width="194" Height="14" X="4" Y="8" Text="SQL Server Integration Services was not detected" />
+				<Control Type="Text" Id="text2" Width="151" Height="12" X="4" Y="22" Text="Use Custom Install to install." />
+				<Control Type="PushButton" Id="OK" Width="56" Height="17" X="68" Y="56" Text="OK">
+					<Publish Event="EndDialog" Value="Return">1</Publish>
+				</Control>
+			</Dialog>
+		</UI>
+
+	</Product>
 </Wix>
