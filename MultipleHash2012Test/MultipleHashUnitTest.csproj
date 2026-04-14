@@ -6,9 +6,9 @@
     <ProjectGuid>{07AF96F5-2C35-40AA-AC63-1295756DC3AB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultipleHash2012Test</RootNamespace>
-    <AssemblyName>MultipleHash2012Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>MultipleHash2025Test</RootNamespace>
+    <AssemblyName>MultipleHash2025Test</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -50,24 +50,24 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\SQL2025DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.DTSPipelineWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
+    <Reference Include="Microsoft.SQLServer.DTSPipelineWrap, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\SQL2025DLLs\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
-      <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <HintPath>..\..\SQL2025DLLs\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\..\SQL2016DLLs\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\SQL2025DLLs\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SQLServer.PipelineHost, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\..\SQL2016DLLs\Microsoft.SQLServer.PipelineHost.dll</HintPath>
+    <Reference Include="Microsoft.SQLServer.PipelineHost, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\SQL2025DLLs\Microsoft.SQLServer.PipelineHost.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.SqlCEDest, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SqlServer.SqlCEDest, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Microsoft SQL Server\130\DTS\PipelineComponents\Microsoft.SqlServer.SqlCEDest.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft SQL Server\160\DTS\PipelineComponents\Microsoft.SqlServer.SqlCEDest.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -130,9 +130,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MultipleHash2016\MultipleHash2016.csproj">
-      <Project>{a68c0a66-357a-4650-b2bb-f52c50e0f743}</Project>
-      <Name>MultipleHash2016</Name>
+    <ProjectReference Include="..\MultipleHash2022\MultipleHash2022.csproj">
+      <Project>{f7695d80-56e7-4719-b27d-2df8ebe58bde}</Project>
+      <Name>MultipleHash2022</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -9,7 +9,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 
-namespace MultipleHash2012Test
+namespace MultipleHash2022Test
 {
     [TestClass()]
     public class UnitTestCRC32

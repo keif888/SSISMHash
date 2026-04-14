@@ -28,38 +28,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MultipleHash2008\MultipleHash2008.csproj">
-      <Name>MultipleHash2008</Name>
-      <Project>{91357d4a-5718-44b2-b558-5eb7ba1209d0}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\MultipleHash2012\MultipleHash2012.csproj">
-      <Name>MultipleHash2012</Name>
-      <Project>{f6b36d24-db6d-4b97-a626-fd8fb30d8c29}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\MultipleHash2014\MultipleHash2014.csproj">
-      <Name>MultipleHash2014</Name>
-      <Project>{718f92df-9db3-4d2f-af88-7f7579f0a82d}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\MultipleHash2016\MultipleHash2016.csproj">
-      <Name>MultipleHash2016</Name>
-      <Project>{a68c0a66-357a-4650-b2bb-f52c50e0f743}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\MultipleHash2017\MultipleHash2017.csproj">
       <Name>MultipleHash2017</Name>
       <Project>{7ed8d146-a24b-44d2-a8c6-b566434033dc}</Project>
@@ -79,6 +47,14 @@
     <ProjectReference Include="..\MultipleHash2022\MultipleHash2022.csproj">
       <Name>MultipleHash2022</Name>
       <Project>{f7695d80-56e7-4719-b27d-2df8ebe58bde}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\MultipleHash2025\MultipleHash2025.csproj">
+      <Name>MultipleHash2025</Name>
+      <Project>{0ac1f350-e6dc-4a20-bef4-74895f72c800}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

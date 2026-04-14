@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
-namespace MultipleHash2012Test.SSISImplementations
+namespace MultipleHash2022Test.SSISImplementations
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class ComponentMetaDataTestImpl : IDTSComponentMetaData100

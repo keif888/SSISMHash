@@ -13,7 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.SqlServer.Dts.Runtime.Wrapper;
 
-namespace MultipleHash2012Test
+namespace MultipleHash2022Test
 {
     [TestClass()]
     public class UnitTestDataFlowComponentUI

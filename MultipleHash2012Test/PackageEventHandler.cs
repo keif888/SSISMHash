@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultipleHash2012Test
+namespace MultipleHash2022Test
 {
     public class PackageEventHandler : DefaultEvents
     {

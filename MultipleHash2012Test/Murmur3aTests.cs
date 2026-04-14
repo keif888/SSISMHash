@@ -14,7 +14,7 @@ using System.Data;
 using System.Diagnostics;
 using Martin.SQLServer.Dts.Tests;
 using System.IO;
-using MultipleHash2012Test;
+using MultipleHash2022Test;
 
 namespace Martin.SQLServer.Dts.Tests
 {

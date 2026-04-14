@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
-namespace MultipleHash2012Test.SSISImplementations
+namespace MultipleHash2022Test.SSISImplementations
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class CustomPropertyTestImpl : IDTSCustomProperty100
@@ -15,7 +15,7 @@ namespace MultipleHash2012Test.SSISImplementations
         bool containsID = false;
         bool encryptionRequired = false;
         DTSCustomPropertyExpressionType expressionType = DTSCustomPropertyExpressionType.CPET_NONE;
-        DTSPersistState state = DTSPersistState.PS_DEFAULT;
+        DTSPersistState state = DTSPersistState.PS_PERSISTASDEFAULT;
         string typeConverter = string.Empty;
         string uiTypeEditor = string.Empty;
         object value = null;

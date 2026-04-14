@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0AC1F350-E6DC-4A20-BEF4-74895F72C800}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Martin.SQLServer.Dts</RootNamespace>
+    <AssemblyName>MultipleHash2025</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SQL2025</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SQL2025</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>key.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MultipleHash.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnitTest|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\UnitTest\</OutputPath>
+    <DefineConstants>SQL2025</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\keith\Documents\Repos\SQL2025DLLs\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>D:\keith\Documents\Repos\SQL2025DLLs\Microsoft.SqlServer.DTSPipelineWrap.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <HintPath>D:\keith\Documents\Repos\SQL2025DLLs\Microsoft.SqlServer.DTSRuntimeWrap.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>D:\keith\Documents\Repos\SQL2025DLLs\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>D:\keith\Documents\Repos\SQL2025DLLs\Microsoft.SqlServer.PipelineHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\MultipleHashBase\CRC32.cs">
+      <Link>CRC32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\CRC32C.cs">
+      <Link>CRC32C.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\CRCSliceBy8.cs">
+      <Link>CRCSliceBy8.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\FNV1a32.cs">
+      <Link>FNV1a32.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\FNV1a64.cs">
+      <Link>FNV1a64.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\IntHelpers.cs">
+      <Link>IntHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\MHashColumnInformation.cs">
+      <Link>MHashColumnInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\MultipleHash.cs">
+      <Link>MultipleHash.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\Murmur3a.cs">
+      <Link>Murmur3a.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\OutputColumn.cs">
+      <Link>OutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\PassThreadState.cs">
+      <Link>PassThreadState.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\ProcessOutputColumn.cs">
+      <Link>ProcessOutputColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\UI\DataFlowComponentUI.cs">
+      <Link>UI\DataFlowComponentUI.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\UI\DataFlowElement.cs">
+      <Link>UI\DataFlowElement.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashForm.cs">
+      <Link>UI\MultipleHashForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashForm.designer.cs">
+      <Link>UI\MultipleHashForm.designer.cs</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashUI.cs">
+      <Link>UI\MultipleHashUI.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\Utility.cs">
+      <Link>Utility.cs</Link>
+    </Compile>
+    <Compile Include="..\MultipleHashBase\xxHash.cs">
+      <Link>xxHash.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\MultipleHashBase\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MultipleHashBase\UI\MultipleHashForm.resx">
+      <Link>UI\MultipleHashForm.resx</Link>
+      <DependentUpon>MultipleHashForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="key.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="License.rtf" />
+    <None Include="MultipleHash.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SSISMHash.extensions.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SSISMHash.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+      REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\vsinstr" "$(TargetDir)$(TargetName).dll" -coverage -verbose
+      REM ECHO [$(ConfigurationName)]
+REM       if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose  -coverage
+REM       if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+REM       if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GACUtil.exe" -u $(TargetName)
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\170\DTS\PipelineComponents\" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\170\DTS\PipelineComponents\" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\170\DTS\PipelineComponents\$(TargetName).DLL"
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\170\DTS\UpgradeMappings" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.extensions.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\170\DTS\UpgradeMappings" /Y
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

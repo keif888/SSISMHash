@@ -11,7 +11,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultipleHash2012Test
+namespace MultipleHash2022Test
 {
     static public class StaticTestUtilities
     {

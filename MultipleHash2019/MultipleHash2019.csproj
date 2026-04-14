@@ -80,85 +80,85 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\MultipleHash2008\CRC32.cs">
+    <Compile Include="..\MultipleHashBase\CRC32.cs">
       <Link>CRC32.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\CRC32C.cs">
+    <Compile Include="..\MultipleHashBase\CRC32C.cs">
       <Link>CRC32C.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\CRCSliceBy8.cs">
+    <Compile Include="..\MultipleHashBase\CRCSliceBy8.cs">
       <Link>CRCSliceBy8.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\FNV1a32.cs">
+    <Compile Include="..\MultipleHashBase\FNV1a32.cs">
       <Link>FNV1a32.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\FNV1a64.cs">
+    <Compile Include="..\MultipleHashBase\FNV1a64.cs">
       <Link>FNV1a64.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\GlobalSuppressions.cs">
+    <Compile Include="..\MultipleHashBase\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\IntHelpers.cs">
+    <Compile Include="..\MultipleHashBase\IntHelpers.cs">
       <Link>IntHelpers.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\MHashColumnInformation.cs">
+    <Compile Include="..\MultipleHashBase\MHashColumnInformation.cs">
       <Link>MHashColumnInformation.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\MultipleHash.cs">
+    <Compile Include="..\MultipleHashBase\MultipleHash.cs">
       <Link>MultipleHash.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\Murmur3a.cs">
+    <Compile Include="..\MultipleHashBase\Murmur3a.cs">
       <Link>Murmur3a.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\OutputColumn.cs">
+    <Compile Include="..\MultipleHashBase\OutputColumn.cs">
       <Link>OutputColumn.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\PassThreadState.cs">
+    <Compile Include="..\MultipleHashBase\PassThreadState.cs">
       <Link>PassThreadState.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\ProcessOutputColumn.cs">
+    <Compile Include="..\MultipleHashBase\ProcessOutputColumn.cs">
       <Link>ProcessOutputColumn.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\Properties\AssemblyInfo.cs">
+    <Compile Include="..\MultipleHashBase\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\Properties\Resources.Designer.cs">
+    <Compile Include="..\MultipleHashBase\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="..\MultipleHash2008\UI\DataFlowComponentUI.cs">
+    <Compile Include="..\MultipleHashBase\UI\DataFlowComponentUI.cs">
       <Link>UI\DataFlowComponentUI.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\UI\DataFlowElement.cs">
+    <Compile Include="..\MultipleHashBase\UI\DataFlowElement.cs">
       <Link>UI\DataFlowElement.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.cs">
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashForm.cs">
       <Link>UI\MultipleHashForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\MultipleHash2008\UI\MultipleHashForm.designer.cs">
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashForm.designer.cs">
       <Link>UI\MultipleHashForm.designer.cs</Link>
       <DependentUpon>MultipleHashForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\MultipleHash2008\UI\MultipleHashUI.cs">
+    <Compile Include="..\MultipleHashBase\UI\MultipleHashUI.cs">
       <Link>UI\MultipleHashUI.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\Utility.cs">
+    <Compile Include="..\MultipleHashBase\Utility.cs">
       <Link>Utility.cs</Link>
     </Compile>
-    <Compile Include="..\MultipleHash2008\xxHash.cs">
+    <Compile Include="..\MultipleHashBase\xxHash.cs">
       <Link>xxHash.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\MultipleHash2008\Properties\Resources.resx">
+    <EmbeddedResource Include="..\MultipleHashBase\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\MultipleHash2008\UI\MultipleHashForm.resx">
+    <EmbeddedResource Include="..\MultipleHashBase\UI\MultipleHashForm.resx">
       <Link>UI\MultipleHashForm.resx</Link>
       <DependentUpon>MultipleHashForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,16 +182,16 @@
   <PropertyGroup>
     <PostBuildEvent>
       REM if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\vsinstr" "$(TargetDir)$(TargetName).dll" -coverage -verbose
-      ECHO [$(ConfigurationName)]
-      if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose  -coverage
-      if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
-      if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GACUtil.exe" -u $(TargetName)
-      if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\PipelineComponents\" /Y
-      if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\150\DTS\PipelineComponents\" /Y
-      if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\PipelineComponents\$(TargetName).DLL"
-      if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\UpgradeMappings" /Y
-      if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.extensions.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\UpgradeMappings" /Y
-    </PostBuildEvent>
+REM       ECHO [$(ConfigurationName)]
+REM       if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Enterprise\Team Tools\Performance Tools\x64\vsinstr" "$(TargetDir)$(TargetName).dll" -verbose  -coverage
+REM       if [$(ConfigurationName)] == [UnitTest] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn" -Ra "$(TargetDir)$(TargetName).dll" "$(TargetDir)\..\..\MultipleHash.snk"
+REM       if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GACUtil.exe" -u $(TargetName)
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\PipelineComponents\" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(TargetDir)$(TargetName).*" "%25ProgramFiles%25\Microsoft SQL Server\150\DTS\PipelineComponents\" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\GacUtil.exe" -i "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\PipelineComponents\$(TargetName).DLL"
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\UpgradeMappings" /Y
+REM       if NOT [$(ConfigurationName)] == [Release] COPY "$(ProjectDir)SSISMHash.extensions.xml" "%25ProgramFiles(x86)%25\Microsoft SQL Server\150\DTS\UpgradeMappings" /Y
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,7 +12,7 @@ using System.Diagnostics;
 using Martin.SQLServer.Dts.Tests;
 using System.IO;
 
-namespace MultipleHash2012Test
+namespace MultipleHash2022Test
 {
     [TestClass]
     public class xxHashTests

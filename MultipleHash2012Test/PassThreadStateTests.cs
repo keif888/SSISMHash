@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.SqlServer.Dts.Pipeline;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using System.Threading;
-using MultipleHash2012Test.SSISImplementations;
+using MultipleHash2022Test.SSISImplementations;
 
 
 namespace Martin.SQLServer.Dts.Tests

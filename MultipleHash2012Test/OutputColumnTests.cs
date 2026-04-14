@@ -7,8 +7,8 @@ using Martin.SQLServer.Dts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
-using MultipleHash2012Test;
-using MultipleHash2012Test.SSISImplementations;
+using MultipleHash2022Test;
+using MultipleHash2022Test.SSISImplementations;
 
 namespace Martin.SQLServer.Dts.Tests
 {

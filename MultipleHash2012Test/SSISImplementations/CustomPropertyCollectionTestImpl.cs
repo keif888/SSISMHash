@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 
-namespace MultipleHash2012Test.SSISImplementations
+namespace MultipleHash2022Test.SSISImplementations
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class CustomPropertyCollectionTestImpl : IDTSCustomPropertyCollection100

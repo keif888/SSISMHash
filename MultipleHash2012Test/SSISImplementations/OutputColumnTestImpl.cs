@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MultipleHash2012Test.SSISImplementations
+namespace MultipleHash2022Test.SSISImplementations
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     class OutputColumnTestImpl : IDTSOutputColumn100
