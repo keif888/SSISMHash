@@ -214,7 +214,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -233,7 +233,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -252,7 +252,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -271,7 +271,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -290,7 +290,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -309,7 +309,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -328,7 +328,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -347,7 +347,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -366,7 +366,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -385,7 +385,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -404,7 +404,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -423,7 +423,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -442,7 +442,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -461,7 +461,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -480,7 +480,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -499,7 +499,7 @@
                           dataType="System.Int32"
                           description="Select the Hash Type that will be used for this output column."
                           name="HashType"
-                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
+                          typeConverter="Martin.SQLServer.Dts.MultipleHash+HashTypeEnumerator, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44">10</property>
                         <property
                           containsID="true"
                           dataType="System.String"
