@@ -884,7 +884,7 @@
                   dataType="System.String"
                   description="Output file name"
                   name="FileName"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Test\PerfTestRawFile.raw</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">C:\Test\PerfTestRawFile.raw</property>
                 <property
                   dataType="System.Null"
                   description="Name of the variable that contains the file name"

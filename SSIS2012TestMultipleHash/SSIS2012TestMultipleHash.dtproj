@@ -29,21 +29,6 @@
           <References />
         </DtsPackage>
         <DtsPackage FormatVersion="8">
-          <Name>EveryDataType_V1.6.1.dtsx</Name>
-          <FullPath>EveryDataType_V1.6.1.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="8">
-          <Name>EveryDataType_V1.6.2.dtsx</Name>
-          <FullPath>EveryDataType_V1.6.2.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="8">
-          <Name>FlatFileSource.dtsx</Name>
-          <FullPath>FlatFileSource.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="8">
           <Name>PerfTest_Auto_Base.dtsx</Name>
           <FullPath>PerfTest_Auto_Base.dtsx</FullPath>
           <References />

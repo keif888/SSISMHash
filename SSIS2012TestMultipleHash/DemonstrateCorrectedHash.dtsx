@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/13/2010 8:41:08 PM"
@@ -7,12 +7,12 @@
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{7A700254-88BF-434A-8611-D9E5971ED744}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="14.0.0600.250"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
   DTS:LocaleID="3081"
   DTS:ObjectName="DemonstrateCorrectedHash"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{3DC2554E-5CF9-432E-8611-58838E15140C}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{DE79B255-B1EE-4EEE-AE6F-2F8D23ADF020}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,7 +29,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="65001"
-          DTS:ConnectionString="D:\Users\keith_000\Source\Workspaces\ssismhash\MultipleHash2008\License.txt">
+          DTS:ConnectionString="C:\Users\keith\Documents\Repos\SSISMHash\license.md">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="CSharpSource"
-              DTS:DTSID="{8ADB2BDF-ED83-40B4-8AF9-F8501BC65460}"
+              DTS:DTSID="{B1409921-36B4-408D-8B91-CD1346170608}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -332,7 +332,7 @@
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">MultipleHash</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
@@ -575,13 +575,13 @@
           Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
           TopLeft="25.5,209.5" />
         <NodeLayout
-          Size="158,42"
-          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
-          TopLeft="17.5,107.5" />
-        <NodeLayout
           Size="182,42"
           Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
           TopLeft="5.50000000000003,311.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
+          TopLeft="17.5,107.5" />
         <EdgeLayout
           Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
           TopLeft="96.5,251.5">

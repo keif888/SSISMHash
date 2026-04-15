@@ -7,12 +7,12 @@
   DTS:CreatorName="LUG\keith_000"
   DTS:DTSID="{777B0679-89E2-4720-92A7-A7B52E5D325E}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="14.0.0600.250"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
   DTS:LocaleID="2057"
   DTS:ObjectName="PerfTest_Auto_Base"
   DTS:PackageType="5"
-  DTS:VersionBuild="36"
-  DTS:VersionGUID="{FBA70F2B-007C-49D9-9535-F314FB919633}">
+  DTS:VersionBuild="37"
+  DTS:VersionGUID="{EEE2F7ED-B501-4BE2-8FEC-01B0BEAC349B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -884,7 +884,7 @@
                   dataType="System.String"
                   description="Output file name"
                   name="FileName"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">D:\Test\PerfTestRawFile.raw</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.NonValidatingFileNameEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">C:\Test\PerfTestRawFile.raw</property>
                 <property
                   dataType="System.Null"
                   description="Name of the variable that contains the file name"
@@ -1202,13 +1202,17 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="154,42"
-          Id="Package\Data Flow Task\Raw File Source"
-          TopLeft="195,62" />
+          Size="153,42"
+          Id="Package\Data Flow Task\Null Destination"
+          TopLeft="201,331" />
         <NodeLayout
           Size="142,42"
           Id="Package\Data Flow Task\Multiple Hash"
           TopLeft="218,177" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Data Flow Task\Raw File Source"
+          TopLeft="195,62" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[Raw File Source Output]"
           TopLeft="272,104">
@@ -1243,10 +1247,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="153,42"
-          Id="Package\Data Flow Task\Null Destination"
-          TopLeft="201,331" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[HashedOutput]"
           TopLeft="289,219">
