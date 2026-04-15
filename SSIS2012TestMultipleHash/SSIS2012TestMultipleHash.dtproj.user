@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DataTransformationsUserConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<DataTransformationsUserConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Configurations>
     <Configuration>
       <Name>Development</Name>
       <Options>
+        <AssessmentRuleSuppressionSetting />
+        <UseWinAuth>false</UseWinAuth>
+        <WinAuthUserName />
+        <WinAuthDomain />
         <UserIDs />
         <UserPasswords />
         <OfflineMode>false</OfflineMode>
@@ -14,6 +18,10 @@
     <Configuration>
       <Name>UnitTest</Name>
       <Options>
+        <AssessmentRuleSuppressionSetting />
+        <UseWinAuth>false</UseWinAuth>
+        <WinAuthUserName />
+        <WinAuthDomain />
         <UserIDs />
         <UserPasswords />
         <OfflineMode>false</OfflineMode>
