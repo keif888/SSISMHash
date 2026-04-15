@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/13/2010 8:41:08 PM"
@@ -7,12 +7,12 @@
   DTS:CreatorName="VISUALSTUDIO\Installer"
   DTS:DTSID="{F9F83F7A-94F3-4507-8B78-9BCA497C0F90}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="14.0.0600.250"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
   DTS:LocaleID="3081"
   DTS:ObjectName="DemonstrateDuplicateHash"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{4C28F76E-169B-40E0-A136-4A6D6B60B885}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{CA6A7398-1A92-4F50-B09D-8C9C4D9FE924}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,7 +29,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="65001"
-          DTS:ConnectionString="D:\Users\keith_000\Source\Workspaces\ssismhash\MultipleHash2008\License.txt">
+          DTS:ConnectionString="C:\Users\keith\Documents\Repos\SSISMHash\license.md">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -38,7 +38,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="CSharpSource"
-              DTS:DTSID="{4FE3D6E9-6935-4E6C-BBD0-A4250F3CB2E4}"
+              DTS:DTSID="{543578E9-0E86-4650-A6EC-D89B724ECC87}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -332,7 +332,7 @@
                   typeConverter="Martin.SQLServer.Dts.MultipleHash+MultipleThread">0</property>
                 <property
                   dataType="System.String"
-                  name="UserComponentTypeName">Martin.SQLServer.Dts.MultipleHash, MultipleHash2017, Version=1.0.0.0, Culture=neutral, PublicKeyToken=51c551904274ab44</property>
+                  name="UserComponentTypeName">MultipleHash</property>
                 <property
                   dataType="System.Int32"
                   description="Select True to force Nulls and Empty Strings to be detected in Hash, False for earlier version compatability."
@@ -565,7 +565,7 @@
     design-time-name="Package\Demonstrate Hash Detection Failure">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="151,42"
           Id="Package\Demonstrate Hash Detection Failure\Flat File Source"
@@ -575,13 +575,13 @@
           Id="Package\Demonstrate Hash Detection Failure\Multiple Hash"
           TopLeft="25.5,209.5" />
         <NodeLayout
-          Size="158,42"
-          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
-          TopLeft="17.5,107.5" />
-        <NodeLayout
           Size="182,42"
           Id="Package\Demonstrate Hash Detection Failure\Recordset Destination"
           TopLeft="5.50000000000003,311.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Demonstrate Hash Detection Failure\Create Test Data"
+          TopLeft="17.5,107.5" />
         <EdgeLayout
           Id="Package\Demonstrate Hash Detection Failure.Paths[HashedOutput]"
           TopLeft="96.5,251.5">
@@ -601,7 +601,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.25,16,16"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
